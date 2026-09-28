@@ -1,0 +1,19 @@
+{
+  "name": "feedbird-clone",
+  "version": "1.0.0",
+  "description": "Complete end-to-end pixel-perfect offline clone of feedbird.com with all assets, media, fonts, libraries, and subpages",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "validate": "node validate_clone.js"
+  },
+  "keywords": [
+    "feedbird",
+    "clone",
+    "social-media",
+    "agency"
+  ],
+  "author": "",
+  "license": "ISC"
+}
