@@ -71,6 +71,7 @@ An additive effects layer lives in `/fx/` and is injected into every page's `<he
 | Floating 3D social icons (heart, play, chat, star…) over each page hero and the final CTA, with pointer parallax, cursor repulsion and scroll drift | `fx/three/floaters.js` |
 | 3D helix gallery of portfolio work on the homepage — pinned, scroll-driven, drag to spin, click to open `/examples/` | `fx/three/gallery.js` |
 | Tilted 3D card wall with pointer parallax (home + service heroes) | `fx/fx.js` → `bindWall` |
+| Landing page: card groups staged in 3D like the helix gallery — curved arcs that turn with the scroll and can be dragged, a pinned ring for "how it works", a cover-flow review row, a vertical drum of text reviews, and the hero wall bent into a cylinder | `fx/stage.js` |
 | Branded 3D curtain on load and between pages, Lenis smooth scroll, scroll progress bar | `fx/fx.js` |
 | 3D scroll reveals for headings, copy, cards and media; hover tilt + glare on cards; magnetic CTAs; cursor ring; count-up stats; flip-in on tab/filter swaps | `fx/fx.js` |
 

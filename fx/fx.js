@@ -8,6 +8,7 @@
  *   2. Everything degrades: no GSAP → page just shows; reduced motion → static.
  */
 /* global gsap, ScrollTrigger, Lenis */
+import { mountStages } from './stage.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -103,7 +104,14 @@ function init() {
 
   if (page.home) setupGallery(curtain);
 
-  const targets = scanReveals(hero);
+  let targets = scanReveals(hero);
+  // Landing page: card groups become 3D stages (arcs, pinned ring, cover-flow,
+  // drum) that own their cards, so those cards skip the generic reveal/tilt.
+  if (page.home && !reduced) {
+    html.classList.add('fx-landing');
+    const { claimed } = mountStages({ gsap: G, lenis, targets, finePointer, narrow: isNarrow() });
+    targets = targets.filter((t) => !claimed.has(t.el));
+  }
   if (!reduced) setupReveals(targets, intro);
 
   mount3D(hero, intro);
@@ -602,6 +610,7 @@ function setupCursor() {
     const media = t.closest('[data-fx-cursor]');
     if (media) return setMode('media', media.getAttribute('data-fx-cursor'));
     if (t.closest('a, button, [role="button"], label, summary, select, input[type="submit"]')) return setMode('link');
+    if (t.closest('[data-fx-drag]')) return setMode('media', 'Drag');
     setMode('');
   }, { passive: true });
   document.addEventListener('mouseleave', () => html.classList.remove('fx-has-cursor'));
@@ -821,7 +830,8 @@ function watchSwaps(island) {
       const r = n.getBoundingClientRect();
       if (r.width < 90 || r.height < 70 || r.bottom < 0 || r.top > vh) return false;
       const p = n.parentElement;
-      if (!p || p.children.length < 3 || !/(grid|flex)/.test(getComputedStyle(p).display)) return false;
+      if (!p || p.hasAttribute('data-fx-stage')) return false; // stages animate their own swaps
+      if (p.children.length < 3 || !/(grid|flex)/.test(getComputedStyle(p).display)) return false;
       const cs = getComputedStyle(n);
       return cs.position !== 'fixed' && cs.position !== 'absolute';
     }).slice(0, 40);

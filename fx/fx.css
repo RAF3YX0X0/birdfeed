@@ -185,6 +185,24 @@ html.fx-has-cursor .fx-cursor { opacity: 1; }
   transition: transform 0.85s var(--fx-ease);
 }
 
+/* ---- Landing-page 3D stages (fx/stage.js) -------------------------------- */
+[data-fx-drag] { cursor: grab; }
+[data-fx-drag].is-dragging { cursor: grabbing; }
+[data-fx-drag].is-dragging * { pointer-events: none; }
+[data-fx-stage="flow"] { scroll-behavior: auto !important; }
+
+/* Hero card wall bent into a cylinder, like the helix: the outer columns turn
+   away from the viewer. The columns run a CSS marquee on `transform`, so the
+   curve goes on the cards inside them. */
+html.fx-landing .fbf-wall-col { perspective: 1100px; }
+html.fx-landing .fbf-wall-col:nth-of-type(1) .fbf-wall-card { transform: translateZ(-40px) rotateY(20deg); }
+html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: translateZ(-40px) rotateY(-20deg); }
+@media (max-width: 920px) {
+  html.fx-landing .fbf-wall-col:nth-of-type(1) .fbf-wall-card { transform: translateZ(-30px) rotateY(12deg); }
+  html.fx-landing .fbf-wall-col:nth-of-type(2) .fbf-wall-card { transform: translateZ(-30px) rotateY(-12deg); }
+  html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: none; }
+}
+
 /* ---- WebGL layers --------------------------------------------------------- */
 .fx-gl {
   position: absolute;
