@@ -62,6 +62,29 @@ All subpages are fully replicated with complete content, meta tags, and layouts:
 
 ---
 
+## ✨ 3D, Motion & Transitions (FX layer)
+
+An additive effects layer lives in `/fx/` and is injected into every page's `<head>`. It never edits the compiled React islands: effects only write inline transform/opacity (restored when they finish) and `data-fx-*` attributes, and every canvas and overlay is appended to `<body>`.
+
+| What | Where |
+|---|---|
+| Floating 3D social icons (heart, play, chat, star…) over each page hero and the final CTA, with pointer parallax, cursor repulsion and scroll drift | `fx/three/floaters.js` |
+| 3D helix gallery of portfolio work on the homepage — pinned, scroll-driven, drag to spin, click to open `/examples/` | `fx/three/gallery.js` |
+| Tilted 3D card wall with pointer parallax (home + service heroes) | `fx/fx.js` → `bindWall` |
+| Branded 3D curtain on load and between pages, Lenis smooth scroll, scroll progress bar | `fx/fx.js` |
+| 3D scroll reveals for headings, copy, cards and media; hover tilt + glare on cards; magnetic CTAs; cursor ring; count-up stats; flip-in on tab/filter swaps | `fx/fx.js` |
+
+Libraries are vendored in `fx/vendor/` (GSAP 3.15 + ScrollTrigger, Lenis 1.3, Three.js r186), so the site still works offline. Three.js is loaded on demand, after first paint.
+
+```bash
+node scripts/inject-fx.js           # add / refresh the FX tags in all pages (idempotent)
+node scripts/inject-fx.js --remove  # strip the FX layer again
+```
+
+**Accessibility & fallbacks:** with `prefers-reduced-motion` there is no curtain, smooth scroll or reveal animation, and the 3D scenes render as still images. Touch devices get no cursor, tilt or magnetic effects. If a script fails, the page shows as normal after at most 4 seconds.
+
+---
+
 ## 🛠️ Verification Suite
 
 A built-in verification suite validates all local assets and subpage routes:

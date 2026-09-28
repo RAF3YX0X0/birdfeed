@@ -1,0 +1,291 @@
+/* =========================================================================
+   Feedbird FX layer — 3D, motion and transitions on top of the Astro build.
+   Everything here is additive: it never restyles the React islands' own
+   classes, only elements carrying data-fx-* hooks or fx-owned nodes.
+   ========================================================================= */
+
+:root {
+  --fx-blue: #3b5bff;
+  --fx-ink: #0a0b10;
+  --fx-bg: #f3f2f1;
+  --fx-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---- Lenis smooth scroll (from lenis/dist/lenis.css) ---------------------- */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+.lenis.lenis-autoToggle { transition-property: overflow; transition-duration: 1ms; transition-behavior: allow-discrete; }
+
+/* ---- Cover shown from first paint until fx.js takes over ----------------- */
+html.fx-cover body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  background: var(--fx-blue) url("/assets/feedbird-logo.svg") center / 190px auto no-repeat;
+  pointer-events: none;
+}
+/* The logo SVG is black; the inverted copy reads white on the blue panel. */
+html.fx-cover body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483001;
+  background: url("/assets/feedbird-logo.svg") center / 190px auto no-repeat;
+  filter: invert(1);
+  pointer-events: none;
+}
+
+/* ---- Page-transition curtain --------------------------------------------- */
+.fx-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+  perspective: 1400px;
+  visibility: hidden;
+}
+.fx-curtain.is-active { visibility: visible; pointer-events: auto; }
+.fx-curtain__panel {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 0%;
+  will-change: transform;
+}
+.fx-curtain__panel--ink { background: var(--fx-ink); }
+.fx-curtain__panel--blue { background: var(--fx-blue); }
+.fx-curtain__logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 190px;
+  height: 30px;
+  margin: -15px 0 0 -95px;
+  background: url("/assets/feedbird-logo.svg") center / contain no-repeat;
+  filter: invert(1);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+.fx-curtain__bar {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 34px);
+  width: 120px;
+  height: 2px;
+  margin-left: -60px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.22);
+  overflow: hidden;
+}
+.fx-curtain__bar i {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+/* ---- Scroll progress ------------------------------------------------------ */
+.fx-progress {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 3px;
+  z-index: 2147482000;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--fx-blue), #8a9bff 60%, #ff5c8a);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+/* ---- Cursor --------------------------------------------------------------- */
+.fx-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2147482500;
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: 0;
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0 -19px;
+  border: 1.5px solid rgba(59, 91, 255, 0.55);
+  display: grid;
+  place-items: center;
+  transition: opacity 0.3s ease, width 0.35s var(--fx-ease), height 0.35s var(--fx-ease),
+    margin 0.35s var(--fx-ease), background-color 0.35s ease, border-color 0.35s ease;
+}
+.fx-cursor__label {
+  font: 600 11px/1 "Geist", Inter, sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.25s ease, transform 0.35s var(--fx-ease);
+}
+html.fx-has-cursor .fx-cursor { opacity: 1; }
+.fx-cursor.is-link {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  background-color: rgba(59, 91, 255, 0.1);
+  border-color: rgba(59, 91, 255, 0.35);
+}
+.fx-cursor.is-media {
+  width: 84px;
+  height: 84px;
+  margin: -42px 0 0 -42px;
+  background-color: rgba(10, 11, 16, 0.78);
+  border-color: transparent;
+  backdrop-filter: blur(6px);
+}
+.fx-cursor.is-media .fx-cursor__label { opacity: 1; transform: none; }
+.fx-cursor.is-down { width: 30px; height: 30px; margin: -15px 0 0 -15px; }
+
+/* ---- 3D tilt + glare ------------------------------------------------------ */
+/* No will-change here: it would trap position:fixed modals inside the card. */
+[data-fx-tilt="glare"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--fx-glare, 0);
+  background: radial-gradient(
+    420px circle at var(--fx-mx, 50%) var(--fx-my, 50%),
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0) 55%
+  );
+  mix-blend-mode: soft-light;
+  transition: opacity 0.4s ease;
+  z-index: 3;
+}
+
+/* ---- Magnetic CTAs: sheen sweep ------------------------------------------ */
+[data-fx-mag="shine"] { overflow: hidden; }
+[data-fx-mag="shine"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-18deg) translateX(0);
+  transition: transform 0s;
+}
+[data-fx-mag="shine"]:hover::before {
+  transform: skewX(-18deg) translateX(420%);
+  transition: transform 0.85s var(--fx-ease);
+}
+
+/* ---- WebGL layers --------------------------------------------------------- */
+.fx-gl {
+  position: absolute;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 1.2s var(--fx-ease);
+}
+.fx-gl.is-ready { opacity: 1; }
+.fx-gl canvas { display: block; width: 100% !important; height: 100% !important; }
+
+/* ---- 3D gallery section (homepage) --------------------------------------- */
+.fx-gallery {
+  position: relative;
+  height: 100vh;
+  min-height: 620px;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 520px at 50% 58%, rgba(59, 91, 255, 0.28), transparent 70%),
+    radial-gradient(600px 380px at 18% 20%, rgba(255, 92, 138, 0.14), transparent 70%),
+    #0a0b10;
+  color: #fff;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.fx-gallery.is-dragging { cursor: grabbing; }
+.fx-gallery__stage { position: absolute; inset: 0; }
+.fx-gallery__stage canvas { display: block; width: 100%; height: 100%; }
+/* The copy sits on a fade band so cards spiralling past never cross the text. */
+.fx-gallery__copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 2;
+  text-align: center;
+  padding: clamp(56px, 9vh, 96px) 24px 96px;
+  pointer-events: none;
+  background: linear-gradient(180deg, #0a0b10 0%, rgba(10, 11, 16, 0.94) 58%, rgba(10, 11, 16, 0) 100%);
+}
+.fx-gallery::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(0deg, #0a0b10, rgba(10, 11, 16, 0));
+}
+.fx-gallery__eyebrow {
+  font: 500 12px/1 "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 0 18px;
+}
+.fx-gallery__title {
+  font: 600 clamp(34px, 5.2vw, 64px)/1.02 "Geist", Inter, sans-serif;
+  letter-spacing: -0.035em;
+  margin: 0;
+}
+.fx-gallery__title em { font-style: normal; color: #8a9bff; }
+.fx-gallery__row {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.fx-gallery__hint {
+  font: 500 12px/1 "JetBrains Mono", ui-monospace, monospace;
+  color: rgba(255, 255, 255, 0.5);
+}
+.fx-gallery__link {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(10px);
+  font: 600 13.5px/1 "Geist", Inter, sans-serif;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.fx-gallery__link:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.3); }
+.fx-gallery__link:focus-visible { outline: 2px solid #8a9bff; outline-offset: 3px; }
+@media (max-width: 700px) {
+  .fx-gallery { height: 86vh; min-height: 540px; }
+  .fx-gallery__copy { padding-bottom: 64px; }
+}
+
+/* ---- Reduced motion: keep everything static and visible ------------------ */
+html.fx-reduced .fx-progress,
+html.fx-reduced .fx-cursor { display: none; }
+@media (hover: none), (pointer: coarse) {
+  .fx-cursor { display: none; }
+  [data-fx-tilt]::after { display: none; }
+}
