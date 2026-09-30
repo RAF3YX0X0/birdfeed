@@ -39,26 +39,53 @@ export const FUNNEL_STAGES = [
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
-export function setupFunnel({ anchor, gsap, lenis, reduced, narrow }) {
-  const N = FUNNEL_STAGES.length;
+// position:sticky pins to the nearest ancestor that is a scroll container.
+// Page wrappers often use overflow-x:hidden just to stop sideways overflow,
+// which silently makes them scroll containers and breaks the pin. `clip` hides
+// the overflow the same way without being a scroll container. Returns false
+// (so the section stays unpinned) if an ancestor really does scroll.
+function allowSticky(sec) {
+  const fixes = [];
+  for (let n = sec.parentElement; n && n !== document.body; n = n.parentElement) {
+    const cs = getComputedStyle(n);
+    if (!/(hidden|auto|scroll)/.test(cs.overflowX + cs.overflowY)) continue;
+    if (n.scrollHeight > n.clientHeight + 2) return false;
+    fixes.push([n, cs.overflowX === 'visible' ? 'visible' : 'clip', cs.overflowY === 'hidden' ? 'clip' : 'visible']);
+  }
+  fixes.forEach(([n, x, y]) => { n.style.overflowX = x; n.style.overflowY = y; });
+  return true;
+}
+
+export const FUNNEL_COPY = {
+  eyebrow: '// how social media turns into sales',
+  title: 'From scroll <em>to sale.</em>',
+  lede: 'Every post moves people one step closer to buying from you. Here’s the journey, in plain English.',
+  note: 'Illustrative example for a local business; your numbers depend on your industry and budget.',
+  cta: 'See what’s possible for you →',
+};
+
+// stages/copy default to the homepage version; other pages pass their own.
+export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUNNEL_STAGES, copy = FUNNEL_COPY }) {
+  const STAGES = stages;
+  const N = STAGES.length;
   const sec = document.createElement('section');
   sec.className = 'fx-funnel';
   sec.setAttribute('aria-labelledby', 'fx-funnel-title');
   sec.innerHTML = `
     <div class="fx-funnel__pin">
       <div class="fx-funnel__head">
-        <p class="fx-funnel__eyebrow">// how social media turns into sales</p>
-        <h2 class="fx-funnel__title" id="fx-funnel-title">From scroll <em>to sale.</em></h2>
-        <p class="fx-funnel__lede">Every post moves people one step closer to buying from you. Here’s the journey, in plain English.</p>
+        <p class="fx-funnel__eyebrow">${copy.eyebrow}</p>
+        <h2 class="fx-funnel__title" id="fx-funnel-title">${copy.title}</h2>
+        <p class="fx-funnel__lede">${copy.lede}</p>
       </div>
       <div class="fx-funnel__body">
         <div class="fx-funnel__stage3d" aria-hidden="true">
-          <div class="fx-funnel__fallback">${FUNNEL_STAGES.map((s, i) => `<span style="--c:${s.color3d};--w:${100 - i * 15}%"></span>`).join('')}</div>
+          <div class="fx-funnel__fallback">${STAGES.map((s, i) => `<span style="--c:${s.color3d};--w:${100 - i * 15}%"></span>`).join('')}</div>
           <div class="fx-funnel__canvas"></div>
           <div class="fx-funnel__tags"></div>
         </div>
         <ol class="fx-funnel__steps">
-          ${FUNNEL_STAGES.map((s, i) => `
+          ${STAGES.map((s, i) => `
           <li class="fx-funnel__step" style="--c:${s.color}">
             <button type="button" class="fx-funnel__stepbtn" aria-expanded="false" aria-controls="fx-funnel-d${i}">
               <span class="fx-funnel__num">${i + 1}</span>
@@ -72,12 +99,12 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow }) {
           </li>`).join('')}
         </ol>
       </div>
-      <p class="fx-funnel__note">Illustrative example for a local business; your numbers depend on your industry and budget. <a href="/book-demo/">See what’s possible for you →</a></p>
+      <p class="fx-funnel__note">${copy.note} <a href="/book-demo/">${copy.cta}</a></p>
     </div>`;
   anchor.parentNode.insertBefore(sec, anchor);
 
   const steps = [...sec.querySelectorAll('.fx-funnel__step')];
-  const pinned = !reduced && !narrow && window.innerHeight >= 680;
+  const pinned = !reduced && !narrow && window.innerHeight >= 680 && allowSticky(sec);
   sec.classList.toggle('is-pinned', pinned);
   sec.style.setProperty('--fx-funnel-stages', N);
 
@@ -140,15 +167,25 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow }) {
     gsap.set(head, { opacity: 0, y: 36, rotationX: -45, transformPerspective: 900, transformOrigin: '50% 100%' });
     gsap.set(steps, { opacity: 0, x: 40, rotationY: -18, transformPerspective: 900 });
   }
-  const once = new IntersectionObserver(async (list) => { const e = list[list.length - 1]; // latest state wins
-    if (!e.isIntersecting) return;
+  // Entrance when the section comes into view. A timer backs up the observer,
+  // whose callbacks can starve on a busy main thread (content would stay hidden).
+  let shown = false;
+  const show = () => {
+    if (shown) return;
+    shown = true;
     once.disconnect();
+    clearInterval(backup);
     if (!reduced) {
       gsap.to(head, { opacity: 1, y: 0, rotationX: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, clearProps: 'transform' });
       gsap.to(steps, { opacity: 1, x: 0, rotationY: 0, duration: 1, ease: 'expo.out', stagger: 0.07, delay: 0.2, clearProps: 'transform' });
     }
-  }, { threshold: 0.15 });
+  };
+  const once = new IntersectionObserver((list) => { if (list[list.length - 1].isIntersecting) show(); }, { threshold: 0.15 });
   once.observe(sec);
+  const backup = setInterval(() => {
+    const r = sec.getBoundingClientRect();
+    if (r.top < window.innerHeight * 0.85 && r.bottom > 0) show();
+  }, 250);
 
   const lazy = new IntersectionObserver(async (list) => { const e = list[list.length - 1]; // latest state wins
     if (!e.isIntersecting) return;
@@ -159,7 +196,7 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow }) {
       funnel = mod.mountFunnel({
         host: sec.querySelector('.fx-funnel__canvas'),
         tagsHost: sec.querySelector('.fx-funnel__tags'),
-        stages: FUNNEL_STAGES,
+        stages: STAGES,
         gsap,
         reduced,
       });
