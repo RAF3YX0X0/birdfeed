@@ -88,11 +88,6 @@ export function mountStages({ gsap, lenis, targets, finePointer, narrow }) {
     if ((mode === 'arc' && stage.cards.length >= 4) && finePointer) dragSwing(stage);
     guardFixed(stage);
 
-    new IntersectionObserver(([e]) => {
-      stage.visible = e.isIntersecting;
-      if (e.isIntersecting && !stage.entered && e.intersectionRatio > 0) enter(stage);
-    }, { rootMargin: '10% 0px', threshold: [0, 0.12] }).observe(container);
-
     // React swaps cards when tabs/filters change: pick up the new ones.
     new MutationObserver(() => {
       const before = stage.cards.map((c) => c.el);
@@ -348,6 +343,14 @@ export function mountStages({ gsap, lenis, targets, finePointer, narrow }) {
     // Velocity lean, like the helix tilting when flung.
     const v = lenis ? lenis.velocity : 0;
     lean += (clamp(-v * 0.35, -9, 9) - lean) * (1 - Math.pow(0.88, dt * 60));
+    // Visibility from measured position rather than IntersectionObserver:
+    // observer callbacks can starve on a busy main thread (software WebGL).
+    const H = vh();
+    for (const s of stages) {
+      const r = s.container.getBoundingClientRect();
+      s.visible = r.bottom > -H * 0.1 && r.top < H * 1.1;
+      if (!s.entered && r.top < H * 0.88 && r.bottom > H * 0.12) enter(s);
+    }
     const live = stages.filter((s) => (s.visible || s.dragging) && !s.suspended);
     live.forEach(read);
     live.forEach((s) => update(s, dt));

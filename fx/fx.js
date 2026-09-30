@@ -9,6 +9,7 @@
  */
 /* global gsap, ScrollTrigger, Lenis */
 import { mountStages } from './stage.js';
+import { setupFunnel } from './funnel.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -103,6 +104,12 @@ function init() {
   if (!reduced && hero) buildHeroIntro(hero, intro);
 
   if (page.home) setupGallery(curtain);
+  if (page.home) {
+    // The sales funnel goes between the hero island and the main island, so it
+    // sits right after the trust badges without touching React-owned DOM.
+    const anchor = islands.find((n) => n.getAttribute('component-export') === 'FBHomeMain');
+    if (anchor) setupFunnel({ anchor, gsap: G, lenis, reduced, narrow: isNarrow() });
+  }
 
   let targets = scanReveals(hero);
   // Landing page: card groups become 3D stages (arcs, pinned ring, cover-flow,
@@ -401,7 +408,7 @@ function rebindHero() {
 // shape: headings, copy, media, and "card" boxes sitting in grids/flex rows.
 // ---------------------------------------------------------------------------
 const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'TEMPLATE', 'NOSCRIPT', 'SVG', 'svg', 'IFRAME', 'BR', 'HR', 'CANVAS', 'SOURCE', 'PATH']);
-const SKIP_SEL = 'header, .fbf-hero-visual, .svc-hero-visual, .fx-gallery, [data-fx-skip], [aria-hidden="true"]';
+const SKIP_SEL = 'header, .fbf-hero-visual, .svc-hero-visual, .fx-gallery, .fx-funnel, [data-fx-skip], [aria-hidden="true"]';
 
 function isTransparent(c) {
   return !c || c === 'transparent' || c === 'rgba(0, 0, 0, 0)';
@@ -467,7 +474,7 @@ function scanReveals(hero) {
   }
 
   document.querySelectorAll('main section, main footer').forEach((sec) => {
-    if (sec === hero || sec.closest('.fx-gallery')) return;
+    if (sec === hero || sec.closest('.fx-gallery, .fx-funnel')) return;
     if (sec.parentElement && sec.parentElement.closest('section, footer')) return; // nested
     for (const k of sec.children) visit(k);
   });
@@ -551,6 +558,22 @@ function setupReveals(targets, intro) {
     later.forEach((el) => { if (!shown.has(el)) reveal(el, Math.min(i++, 6) * 0.06); });
   };
   window.addEventListener('scroll', flushAtEnd, { passive: true });
+
+  // Backup sweep: IntersectionObserver callbacks are low priority and can
+  // starve when the main thread is saturated (e.g. WebGL on a machine without
+  // a GPU), which would leave content hidden. A cheap timer catches anything
+  // on screen that the observer missed.
+  const sweep = setInterval(() => {
+    const vh = window.innerHeight;
+    let pending = 0, i = 0;
+    for (const el of later) {
+      if (shown.has(el)) continue;
+      pending++;
+      const r = el.getBoundingClientRect();
+      if (r.top < vh * 0.94 && r.bottom > 0) reveal(el, Math.min(i++, 8) * 0.075);
+    }
+    if (!pending) clearInterval(sweep);
+  }, 200);
 }
 
 // Images inside clipped frames drift against the scroll for a sense of depth.
@@ -876,7 +899,7 @@ function mount3D(hero, intro) {
   }
 
   document.querySelectorAll('.fbe-cta-card').forEach((card) => {
-    const io = new IntersectionObserver(([e]) => {
+    const io = new IntersectionObserver((list) => { const e = list[list.length - 1]; // latest state wins
       if (!e.isIntersecting) return;
       io.disconnect();
       ready.then((mod) => {
@@ -1069,7 +1092,7 @@ function setupGallery(curtain) {
     });
   }
 
-  const io = new IntersectionObserver(async ([e]) => {
+  const io = new IntersectionObserver(async (list) => { const e = list[list.length - 1]; // latest state wins
     if (!e.isIntersecting) return;
     io.disconnect();
     try {

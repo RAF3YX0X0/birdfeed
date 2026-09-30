@@ -1,6 +1,6 @@
 // 3D helix gallery: portfolio pieces wrapped around a spiral that turns as the
 // (pinned) section is scrolled, can be dragged/flung, and tracks the pointer.
-import { THREE, createRenderer } from './kit.js';
+import { THREE, createRenderer, onScreen } from './kit.js';
 
 const BG = 0x0a0b10;
 
@@ -132,6 +132,7 @@ export function mountGallery({ section, stage, images, gsap, reduced = false, on
 
   function tick(time, deltaTime) {
     if (st.destroyed) return;
+    if (time && !onScreen(section)) return; // frame-loop call while off-screen
     const dt = Math.min(deltaTime || 16, 50) / 1000;
 
     if (!st.dragging && !reduced) {
@@ -240,7 +241,7 @@ export function mountGallery({ section, stage, images, gsap, reduced = false, on
     section.addEventListener('pointerleave', onLeave);
   }
 
-  const io = new IntersectionObserver(([e]) => {
+  const io = new IntersectionObserver((list) => { const e = list[list.length - 1]; // latest state wins
     st.visible = e.isIntersecting;
     setRunning(st.visible && !document.hidden && !reduced);
     if (st.visible) requestRender();

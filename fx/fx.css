@@ -203,6 +203,199 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
   html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: none; }
 }
 
+/* ---- Sales funnel section (fx/funnel.js) --------------------------------- */
+.fx-funnel {
+  position: relative;
+  background:
+    radial-gradient(620px 460px at 28% 62%, rgba(59, 91, 255, 0.09), transparent 70%),
+    radial-gradient(420px 320px at 30% 90%, rgba(255, 92, 122, 0.06), transparent 70%),
+    #f3f2f1;
+  color: #0a0b10;
+  font-family: "Geist", Inter, system-ui, sans-serif;
+}
+.fx-funnel.is-pinned { height: calc(100vh + var(--fx-funnel-stages, 5) * 60vh); }
+.fx-funnel__pin {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 100px clamp(20px, 5vw, 48px) 90px;
+  box-sizing: border-box;
+}
+.fx-funnel.is-pinned .fx-funnel__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 82px;
+  padding-bottom: 24px;
+}
+.fx-funnel__head { text-align: center; }
+.fx-funnel__eyebrow {
+  font: 400 12px/1 "JetBrains Mono", ui-monospace, monospace;
+  color: #8a8b95;
+  margin: 0 0 14px;
+}
+.fx-funnel__title {
+  font-weight: 600;
+  font-size: clamp(34px, 4.4vw, 52px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+.fx-funnel__title em { font-style: normal; color: #3b5bff; }
+.fx-funnel__lede {
+  font-size: 17px;
+  line-height: 1.55;
+  color: #52525b;
+  max-width: 560px;
+  margin: 14px auto 0;
+}
+.fx-funnel__body {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  margin-top: clamp(18px, 3vh, 36px);
+  min-height: 0;
+}
+.fx-funnel__stage3d {
+  position: relative;
+  height: clamp(360px, calc(100vh - 330px), 560px);
+}
+.fx-funnel__canvas { position: absolute; inset: 0; }
+.fx-funnel__canvas canvas { display: block; width: 100%; height: 100%; }
+.fx-funnel__tags { position: absolute; inset: 0; pointer-events: none; }
+.fx-funnel__tag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 11px 4px 4px;
+  border-radius: 999px;
+  border: 1px solid #e1dfda;
+  background: rgba(251, 250, 248, 0.9);
+  font-size: 12px;
+  font-weight: 600;
+  color: #52525b;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px -10px rgba(16, 24, 40, 0.35);
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+.fx-funnel__tag i {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--c);
+  color: #fff;
+  font-style: normal;
+  font-size: 10.5px;
+}
+.fx-funnel__tag.is-active { background: var(--c); border-color: transparent; color: #fff; }
+.fx-funnel__tag.is-active i { background: #fff; color: var(--c); }
+
+/* Flat funnel shown until (or instead of) the WebGL one. */
+.fx-funnel__fallback {
+  position: absolute;
+  inset: 8% 18% 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.6s ease;
+}
+.fx-funnel__fallback span {
+  flex: 1;
+  width: var(--w);
+  background: var(--c);
+  clip-path: polygon(0 0, 100% 0, 92% 100%, 8% 100%);
+  border-radius: 6px;
+  opacity: 0.85;
+}
+.fx-funnel.is-3d .fx-funnel__fallback { opacity: 0; }
+
+.fx-funnel__steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.fx-funnel__step {
+  border: 1px solid transparent;
+  border-radius: 16px;
+  transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+.fx-funnel__step.is-active {
+  background: #fbfaf8;
+  border-color: #e1dfda;
+  box-shadow: 0 20px 44px -28px rgba(16, 24, 40, 0.5);
+}
+.fx-funnel__stepbtn {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  padding: 12px 18px;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.fx-funnel__stepbtn:focus-visible { outline: 2px solid #3b5bff; outline-offset: 2px; border-radius: 14px; }
+.fx-funnel__num {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--c);
+  color: var(--c);
+  font-size: 13px;
+  font-weight: 700;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+.fx-funnel__step.is-active .fx-funnel__num,
+.fx-funnel__step.is-past .fx-funnel__num { background: var(--c); color: #fff; }
+.fx-funnel__txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.fx-funnel__key {
+  font: 500 10.5px/1 "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c);
+}
+.fx-funnel__name { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: #52525b; transition: color 0.35s ease; }
+.fx-funnel__step.is-active .fx-funnel__name { color: #0a0b10; }
+.fx-funnel__metric { text-align: right; font-size: 11.5px; line-height: 1.3; color: #8a8b95; max-width: 150px; }
+.fx-funnel__metric b { display: block; font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: #0a0b10; }
+.fx-funnel__detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s var(--fx-ease);
+}
+.fx-funnel__detail > div { overflow: hidden; padding: 0 18px 0 64px; }
+.fx-funnel__step.is-active .fx-funnel__detail { grid-template-rows: 1fr; }
+.fx-funnel__step.is-active .fx-funnel__detail > div { padding-bottom: 14px; }
+.fx-funnel__detail p { margin: 0 0 6px; font-size: 14.5px; line-height: 1.55; color: #52525b; }
+.fx-funnel__we span { font-weight: 600; color: var(--c); }
+.fx-funnel__note {
+  text-align: center;
+  font: 400 11.5px/1.5 "JetBrains Mono", ui-monospace, monospace;
+  color: #8a8b95;
+  margin: clamp(12px, 2vh, 22px) 0 0;
+}
+.fx-funnel__note a { color: #3b5bff; text-decoration: none; font-family: "Geist", Inter, sans-serif; font-weight: 600; font-size: 13px; }
+@media (max-width: 920px) {
+  .fx-funnel__pin { padding-top: 72px; padding-bottom: 64px; }
+  .fx-funnel__body { grid-template-columns: 1fr; }
+  .fx-funnel__stage3d { height: 340px; }
+  .fx-funnel__stepbtn { padding: 12px 12px; gap: 10px; }
+  .fx-funnel__detail > div { padding-left: 54px; padding-right: 12px; }
+  .fx-funnel__metric { max-width: 108px; }
+  .fx-funnel__metric b { font-size: 17px; }
+}
+
 /* ---- WebGL layers --------------------------------------------------------- */
 .fx-gl {
   position: absolute;

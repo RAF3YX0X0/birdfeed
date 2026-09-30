@@ -21,9 +21,33 @@ export function webglAvailable() {
   }
 }
 
+// True when WebGL runs on the CPU (no usable GPU: blocked drivers, VMs, some
+// low-end PCs). Scenes then render at 1x with lighter content.
+let software = null;
+export function softwareGL() {
+  if (software !== null) return software;
+  software = false;
+  try {
+    const gl = document.createElement('canvas').getContext('webgl');
+    const ext = gl && gl.getExtension('WEBGL_debug_renderer_info');
+    const name = ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : '';
+    software = /swiftshader|llvmpipe|software|basic render/i.test(name);
+    gl && gl.getExtension('WEBGL_lose_context') && gl.getExtension('WEBGL_lose_context').loseContext();
+  } catch (e) {}
+  return software;
+}
+
+// Cheap per-frame check so a scene never renders off-screen, even if an
+// IntersectionObserver notification arrives late on a busy main thread.
+export function onScreen(el, margin = 80) {
+  const r = el.getBoundingClientRect();
+  return r.bottom > -margin && r.top < window.innerHeight + margin && r.width > 0;
+}
+
 export function createRenderer({ alpha = true, maxDpr = 2 } = {}) {
-  const renderer = new THREE.WebGLRenderer({ alpha, antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
+  const soft = softwareGL();
+  const renderer = new THREE.WebGLRenderer({ alpha, antialias: !soft, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, soft ? 1 : maxDpr));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   // Neutral tone mapping keeps the brand blue close to #3B5BFF.
   renderer.toneMapping = THREE.NeutralToneMapping;

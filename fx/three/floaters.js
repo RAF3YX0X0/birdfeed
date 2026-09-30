@@ -4,7 +4,7 @@
 //
 // The canvas lives in <body> (not inside the React islands) and is kept aligned
 // to the host's box, so it never interferes with hydration or re-renders.
-import { THREE, createRenderer, studioEnvironment, createMaterials, createIcon, disposeObject } from './kit.js';
+import { THREE, createRenderer, studioEnvironment, createMaterials, createIcon, disposeObject, onScreen } from './kit.js';
 
 const FOV = 30;
 const CAM_DIST = 30;
@@ -150,6 +150,7 @@ export function mountFloaters({
   const tmp = new THREE.Vector2();
   function tick(time, deltaTime) {
     if (state.destroyed) return;
+    if (time && !onScreen(host, 200)) return; // frame-loop call while off-screen
     const dt = Math.min(deltaTime || 16, 50) / 1000;
     state.t += reduced ? 0 : dt;
     relayout(false);
@@ -241,7 +242,8 @@ export function mountFloaters({
   }
 
   const io = new IntersectionObserver(
-    ([entry]) => {
+    (list) => {
+      const entry = list[list.length - 1]; // latest state wins
       state.visible = entry.isIntersecting;
       if (reduced) { if (state.visible) tick(0, 16); return; }
       setRunning(state.visible && !document.hidden);
