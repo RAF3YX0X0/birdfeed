@@ -11,6 +11,7 @@
 import { mountStages } from './stage.js';
 import { setupFunnel } from './funnel.js';
 import { funnelFor } from './funnel-data.js';
+import { setupROI } from './roi.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -111,8 +112,11 @@ function init() {
     const anchor = islands.find((n) => n.getAttribute('component-export') === 'FBHomeMain');
     if (anchor) setupFunnel({ anchor, gsap: G, lenis, reduced, narrow: isNarrow() });
   } else {
+    const slug = location.pathname.replace(/^\/+|\/+$/g, '');
     const cfg = funnelFor(location.pathname);
-    if (cfg) placeFunnelInIsland(cfg, lenis);
+    const common = { gsap: G, lenis, reduced, narrow: isNarrow() };
+    if (cfg) placeInIsland([/pricing\s*&\s*plans/i, /real results/i], (anchor) => setupFunnel({ anchor, ...common, stages: cfg.stages, copy: cfg.copy }));
+    if (slug === 'pricing') placeInIsland([/money back|first batch/i], (anchor) => setupROI({ anchor, ...common }));
   }
 
   let targets = scanReveals(hero);
@@ -788,25 +792,28 @@ function setupMagnetic() {
 // ---------------------------------------------------------------------------
 // After each island hydrates: count-ups, animated tab/filter swaps, re-measure.
 // ---------------------------------------------------------------------------
-// On single-island pages the funnel has to go inside React-owned DOM (just
-// before the pricing section). Adding it before React has claimed that part
-// of the page would cause a hydration mismatch and React would throw it away,
-// so wait until the pricing section is hydrated — or until the island reports
-// that it failed to hydrate at all (then React never touches the DOM).
-function placeFunnelInIsland(cfg, lenis) {
+// On single-island pages new sections have to go inside React-owned DOM,
+// just before a section picked by its heading. Adding them before React has
+// claimed that part of the page would cause a hydration mismatch and React
+// would throw them away, so wait until the anchor is hydrated — or until the
+// island reports that it failed to hydrate (then React never touches the DOM).
+function placeInIsland(headingMatchers, build) {
   const island = islands[0];
   if (!island) return;
   const sections = [...island.querySelectorAll('section')];
-  const anchor =
-    sections.find((s) => /pricing\s*&\s*plans/i.test((s.querySelector('h2') || {}).textContent || '')) ||
-    sections.find((s) => /real results/i.test((s.querySelector('h2') || {}).textContent || ''));
+  const heading = (sec) => (sec.querySelector('h2') || {}).textContent || '';
+  let anchor = null;
+  for (const re of headingMatchers) {
+    anchor = sections.find((sec) => re.test(heading(sec)));
+    if (anchor) break;
+  }
   if (!anchor) return;
 
   let placed = false;
   const place = () => {
     if (placed || !anchor.isConnected) return;
     placed = true;
-    setupFunnel({ anchor, gsap: G, lenis, reduced, narrow: isNarrow(), stages: cfg.stages, copy: cfg.copy });
+    build(anchor);
     scheduleRefresh();
   };
   island.addEventListener('astro:hydration-error', place, { once: true });
