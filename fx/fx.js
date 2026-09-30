@@ -12,6 +12,7 @@ import { mountStages } from './stage.js';
 import { setupFunnel } from './funnel.js';
 import { funnelFor } from './funnel-data.js';
 import { setupROI } from './roi.js';
+import { setupTowers } from './towers.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -117,6 +118,7 @@ function init() {
     const common = { gsap: G, lenis, reduced, narrow: isNarrow() };
     if (cfg) placeInIsland([/pricing\s*&\s*plans/i, /real results/i], (anchor) => setupFunnel({ anchor, ...common, stages: cfg.stages, copy: cfg.copy }));
     if (slug === 'pricing') placeInIsland([/money back|first batch/i], (anchor) => setupROI({ anchor, ...common }));
+    if (slug === 'compare') placeInIsland([/why teams switch/i, /real results/i], (anchor) => setupTowers({ anchor, ...common }));
   }
 
   let targets = scanReveals(hero);
