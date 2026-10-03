@@ -21,6 +21,7 @@ import { setupProjects } from './projects.js';
 import { setupHowItWorks } from './hiw.js';
 import { setupPortfolio } from './portfolio.js';
 import { setupHomeBottom } from './bottom.js';
+import { setupTrust } from './trust.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -120,6 +121,8 @@ function init() {
   if (page.home) setupGallery(curtain);
   const projects = document.querySelector('.pj');
   if (projects) setupProjects({ section: projects, gsap: G, reduced });
+  const trust = document.querySelector('.tr');
+  if (trust) setupTrust({ section: trust, gsap: G, reduced, finePointer });
   const hiw = document.querySelector('.hw');
   if (hiw) setupHowItWorks({ section: hiw, gsap: G, lenis, reduced, finePointer });
   const portfolio = document.querySelector('.pf');

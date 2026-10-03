@@ -17,7 +17,7 @@ const remove = process.argv.includes('--remove');
 const HOME = path.join(ROOT, 'index.html');
 const HOME_BLOCKS = [
   { name: 'hero', island: 'FBHomeTop', files: ['home-hero.html', 'home-projects.html'] },
-  { name: 'hiw', island: 'FBHomeMain', files: ['home-hiw.html', 'home-portfolio.html', 'home-pricing-head.html'] },
+  { name: 'hiw', island: 'FBHomeMain', files: ['home-trust.html', 'home-hiw.html', 'home-portfolio.html', 'home-pricing-head.html'] },
   { name: 'bottom', island: 'FBHomeBottom', files: ['home-bottom.html'] },
 ].map((b) => ({ ...b, start: `<!-- fx:${b.name}:start -->`, end: `<!-- fx:${b.name}:end -->` }));
 const partial = (f) => fs.readFileSync(path.join(ROOT, 'fx', 'partials', f), 'utf8').trim();
@@ -31,6 +31,7 @@ function block(home) {
     ...(home ? [
       '<link rel="stylesheet" href="/fx/hero.css">',
       '<link rel="stylesheet" href="/fx/projects.css">',
+      '<link rel="stylesheet" href="/fx/trust.css">',
       '<link rel="stylesheet" href="/fx/hiw.css">',
       '<link rel="stylesheet" href="/fx/portfolio.css">',
       '<link rel="stylesheet" href="/fx/bottom.css">',

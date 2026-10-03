@@ -1,0 +1,109 @@
+/*
+ * Trust strip: platforms marquee + rating cards. Markup:
+ * fx/partials/home-trust.html, motion: fx/trust.js. Replaces the cloned strip,
+ * the last section of the top island (hidden here, so React hydrates as usual).
+ */
+.hx ~ astro-island[component-export="FBHomeTop"] > div > section { display: none !important; }
+
+.tr {
+  position: relative;
+  padding: 72px 0 88px !important;
+  background: var(--hx-bg, #F3F2F1);
+  color: #0A0B10;
+  font-family: Geist, Inter, system-ui, sans-serif;
+  overflow: clip;
+}
+.tr__k { margin: 0 0 22px; text-align: center; }
+.tr__marquee {
+  max-width: 1232px;
+  margin: 0 auto;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%);
+}
+/* Three copies of the pills; moving by one copy loops seamlessly. */
+.tr__row { display: flex; gap: 12px; width: max-content; margin: 0; padding: 6px 0; list-style: none; animation: tr-drift 36s linear infinite; }
+.tr__marquee:hover .tr__row { animation-play-state: paused; }
+@keyframes tr-drift { to { transform: translateX(calc(-100% / 3 - 4px)); } }
+.tr-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px 12px 16px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 10px 24px -18px rgba(20, 30, 70, 0.35);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+}
+.tr-pill svg { width: 20px; height: 20px; }
+.tr-pill:hover { transform: translateY(-3px); color: #3B5BFF; }
+
+.tr__ratings {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  max-width: 1232px;
+  margin: 40px auto 0;
+  padding: 0 24px;
+  perspective: 1400px;
+}
+.tr-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 24px 18px;
+  overflow: hidden;
+  border-radius: 26px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 24px 50px -38px rgba(20, 30, 70, 0.45);
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+.tr-card.is-tilting { transition: transform 0.12s linear, box-shadow 0.4s ease; }
+.tr-card:hover { --lift: -6px; box-shadow: 0 0 0 1px rgba(59, 91, 255, 0.25), 0 34px 60px -36px rgba(20, 30, 70, 0.5); }
+.tr-card:focus-visible { outline: 2px solid #3B5BFF; outline-offset: 3px; }
+.tr-card::before {
+  /* Soft blue glow in the corner, following the pointer. */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(260px circle at var(--gx, 85%) var(--gy, 0%), rgba(59, 91, 255, 0.12), transparent 70%);
+  pointer-events: none;
+}
+.tr-card > * { position: relative; }
+.tr-card__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.tr-card__src { display: inline-flex; align-items: center; gap: 10px; }
+.tr-card__src i { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 10px; background: #E6EBFF; font-style: normal; font-size: 14px; font-weight: 700; color: #3B5BFF; }
+.tr-card__src b { font-size: 16px; font-weight: 600; }
+.tr-card__top em { display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 999px; background: #E3F6EC; font-style: normal; font-size: 12px; font-weight: 600; color: #16A36A; }
+.tr-card__top em svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.tr-card__score { display: flex; align-items: baseline; gap: 8px; margin-top: 18px; }
+.tr-card__score b { font-size: 56px; font-weight: 600; line-height: 1; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+.tr-card__score small { font-size: 13px; color: #8A8B95; }
+.tr-card__stars { position: relative; display: inline-flex; width: max-content; margin-top: 12px; }
+.tr-card__base, .tr-card__fill { display: flex; gap: 3px; }
+.tr-card__base svg, .tr-card__fill svg { flex: none; width: 20px; height: 20px; }
+.tr-card__base svg { fill: #E1DFDA; }
+.tr-card__fill { position: absolute; inset: 0; width: calc(var(--fill, 1) * var(--v) * 100%); overflow: hidden; }
+.tr-card__fill svg { fill: #3B5BFF; }
+.tr-card__foot { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; padding-top: 14px; border-top: 1px solid #F0EEEA; font-size: 13.5px; color: #52525B; }
+.tr-card__foot span { color: #8A8B95; transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease; }
+.tr-card:hover .tr-card__foot span { color: #3B5BFF; transform: translate(3px, -3px); }
+
+@media (max-width: 900px) {
+  .tr { padding: 56px 0 64px !important; }
+  .tr__k .sx-eyebrow { font-size: 10.5px; letter-spacing: 0.04em; }
+  .tr__ratings { grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 28px; padding: 0 12px; }
+  .tr-card__score { margin-top: 12px; }
+  .tr-card__score b { font-size: 44px; }
+}
+
+/* Reduced motion / no FX: the pills sit still, once, wrapped and centred. */
+html.fx-reduced .tr__row, html:not(.fx) .tr__row { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
+html.fx-reduced .tr-pill[aria-hidden], html:not(.fx) .tr-pill[aria-hidden] { display: none; }
+html.fx-reduced .tr__marquee, html:not(.fx) .tr__marquee { -webkit-mask-image: none; mask-image: none; }
