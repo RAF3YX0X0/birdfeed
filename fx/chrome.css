@@ -474,3 +474,34 @@ astro-island .sh-builder-grid > div:last-child > div { top: 96px !important; }
 @media (max-width: 640px) {
   astro-island [style*="grid-template-columns:repeat(3, 1fr)"]:has(> [style*="border"]) { grid-template-columns: minmax(0, 1fr) !important; }
 }
+
+/* Heading accents added by fx/skin.js (last words of a section heading). */
+astro-island h2 em[data-fx-accent] {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.1em;
+  letter-spacing: -0.015em;
+  color: #3B5BFF;
+}
+
+/* FAQ accordions (marked by fx/skin.js): the single bordered card becomes a
+   stack of rounded cards, with the open question ringed in blue. */
+[data-fx-faq] > div > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: visible !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+[data-fx-faq] > div > div:last-child > div {
+  border: 0 !important;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06);
+  transition: box-shadow 0.35s ease;
+}
+[data-fx-faq] > div > div:last-child > div:hover { box-shadow: 0 0 0 1px rgba(59, 91, 255, 0.25), 0 16px 30px -24px rgba(20, 30, 70, 0.4); }
+[data-fx-faq] > div > div:last-child > div:has(> button + div) { box-shadow: 0 0 0 1.5px rgba(59, 91, 255, 0.4), 0 24px 44px -32px rgba(20, 30, 70, 0.45); }
+[data-fx-faq] > div > div:last-child > div:has(> button + div) button span[style*="JetBrains"] { color: #3B5BFF !important; }

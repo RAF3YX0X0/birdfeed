@@ -40,7 +40,9 @@ const SHARED = [
   { cls: 'cx', re: /every other way costs more/i },
   { cls: 'pj', re: /real businesses\.\s*(<br\/?>)?\s*real results/i },
   { cls: 'rv', re: /real results, in their/i },
-  { cls: 'ct', re: /ready to get social media off your plate/i },
+  // Final CTAs: the shared one, the page-specific card variants, and any
+  // section with the "// begin" eyebrow every CTA variant opens with.
+  { cls: 'ct', re: /ready to get social media off your plate|fill your calendar with booked jobs|ccta-card|fbe-cta-card|sbcta|pro-cta-card|rs-cta-card|>\s*\/\/\s*(<!--\s*-->)?\s*begin\s*</i },
 ];
 // Pages whose own subject is one of these sections keep their original.
 const KEEP = { reviews: ['rv'], 'case-studies': ['pj'] };
