@@ -10,19 +10,23 @@ const START = '<!-- fx:start -->';
 const END = '<!-- fx:end -->';
 const remove = process.argv.includes('--remove');
 
-// The homepage also gets its own sections (fx/partials/), each block placed
-// just before one of the React islands. The island sections they replace stay
-// in the DOM (so React hydrates as usual) and are hidden by the matching CSS
-// (hero.css, hiw.css, portfolio.css, bottom.css).
+// Static markup from fx/partials/, placed at fixed points in <main>. Every page
+// gets the pill nav (start of <main>) and the footer (end of <main>); the
+// homepage also gets its own sections, each just before one of its React
+// islands. Whatever they replace stays in the DOM (so React hydrates as usual)
+// and is hidden by CSS (chrome.css, hero.css, hiw.css, portfolio.css,
+// bottom.css).
 const HOME = path.join(ROOT, 'index.html');
-const HOME_BLOCKS = [
-  { name: 'hero', island: 'FBHomeTop', files: ['home-hero.html', 'home-projects.html'] },
-  { name: 'hiw', island: 'FBHomeMain', files: ['home-trust.html', 'home-hiw.html', 'home-portfolio.html', 'home-pricing-head.html'] },
-  { name: 'bottom', island: 'FBHomeBottom', files: ['home-bottom.html'] },
-  // The footer goes after the last island, at the end of <main>.
-  { name: 'footer', island: 'FBHomeBottom', after: true, files: ['home-footer.html'] },
+const BLOCKS = [
+  { name: 'nav', at: 'main-start', files: ['nav.html'] },
+  { name: 'hero', home: true, island: 'FBHomeTop', files: ['home-hero.html', 'home-projects.html'] },
+  { name: 'hiw', home: true, island: 'FBHomeMain', files: ['home-trust.html', 'home-hiw.html', 'home-portfolio.html', 'home-pricing-head.html'] },
+  { name: 'bottom', home: true, island: 'FBHomeBottom', files: ['home-bottom.html'] },
+  { name: 'footer', at: 'main-end', files: ['footer.html'] },
 ].map((b) => ({ ...b, start: `<!-- fx:${b.name}:start -->`, end: `<!-- fx:${b.name}:end -->` }));
 const partial = (f) => fs.readFileSync(path.join(ROOT, 'fx', 'partials', f), 'utf8').trim();
+// Inner pages: the old header sat in the flow, so keep its space under the nav.
+const NAV_SPACE = '<div class="fx-navspace" aria-hidden="true"></div>';
 
 // Three.js is deliberately not preloaded: fx.js imports it on demand while the
 // intro curtain plays, which keeps it off the critical path to DOMContentLoaded.
@@ -30,6 +34,8 @@ function block(home) {
   return [
     START,
     '<link rel="stylesheet" href="/fx/fx.css">',
+    '<link rel="stylesheet" href="/fx/chrome.css">',
+    '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>',
     ...(home ? [
       '<link rel="stylesheet" href="/fx/hero.css">',
       '<link rel="stylesheet" href="/fx/projects.css">',
@@ -37,8 +43,6 @@ function block(home) {
       '<link rel="stylesheet" href="/fx/hiw.css">',
       '<link rel="stylesheet" href="/fx/portfolio.css">',
       '<link rel="stylesheet" href="/fx/bottom.css">',
-      '<link rel="stylesheet" href="/fx/footer.css">',
-      '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>',
     ] : []),
     '<script src="/fx/boot.js"></script>',
     '<script src="/fx/vendor/gsap.min.js" defer></script>',
@@ -67,7 +71,7 @@ for (const file of pages(ROOT)) {
   const b = html.indexOf(END);
   if (a !== -1 && b !== -1) html = html.slice(0, a).replace(/\n$/, '') + html.slice(b + END.length).replace(/^\n/, '');
   const home = file === HOME;
-  for (const blk of HOME_BLOCKS) {
+  for (const blk of BLOCKS) {
     const s = html.indexOf(blk.start);
     const e = html.indexOf(blk.end);
     if (s !== -1 && e !== -1) html = html.slice(0, s) + html.slice(e + blk.end.length);
@@ -76,13 +80,21 @@ for (const file of pages(ROOT)) {
     const i = html.indexOf('</head>');
     if (i === -1) { console.warn('no </head>:', path.relative(ROOT, file)); continue; }
     html = html.slice(0, i) + '\n' + block(home) + '\n' + html.slice(i);
-    if (home) {
-      for (const blk of HOME_BLOCKS) {
+    for (const blk of BLOCKS) {
+      if (blk.home && !home) continue;
+      let k = -1;
+      if (blk.at === 'main-start') {
+        const m = html.indexOf('<main');
+        k = m === -1 ? -1 : html.indexOf('>', m) + 1;
+      } else if (blk.at === 'main-end') {
+        k = html.lastIndexOf('</main>');
+      } else {
         const at = html.indexOf(`component-export="${blk.island}"`);
-        const k = at === -1 ? -1 : blk.after ? html.indexOf('</main>', at) : html.lastIndexOf('<astro-island', at);
-        if (k === -1) { console.warn(`no ${blk.island} island on the homepage`); continue; }
-        html = html.slice(0, k) + blk.start + blk.files.map(partial).join('\n') + blk.end + html.slice(k);
+        k = at === -1 ? -1 : html.lastIndexOf('<astro-island', at);
       }
+      if (k <= 0) { console.warn(`no place for ${blk.name}:`, path.relative(ROOT, file)); continue; }
+      const extra = blk.name === 'nav' && !home ? NAV_SPACE : '';
+      html = html.slice(0, k) + blk.start + blk.files.map(partial).join('\n') + extra + blk.end + html.slice(k);
     }
   }
   if (html !== src) {

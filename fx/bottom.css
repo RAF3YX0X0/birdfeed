@@ -23,13 +23,6 @@
 }
 .prh .sx-head { padding-top: 110px; padding-bottom: 40px; }
 
-/* ---- Pricing builder restyle (React-owned, so CSS only) ------------------------ */
-.prh ~ astro-island .sh-bld { border-radius: 22px !important; background: #fff !important; }
-.prh ~ astro-island .sh-bld:hover { border-color: #3B5BFF !important; box-shadow: 0 0 0 4px rgba(59, 91, 255, 0.1), 0 20px 40px -26px rgba(20, 30, 70, 0.45) !important; }
-.prh ~ astro-island .sh-bld.sh-feat { border-color: #3B5BFF !important; box-shadow: 0 0 0 5px rgba(59, 91, 255, 0.1), 0 30px 60px -36px rgba(20, 30, 70, 0.45); }
-.prh ~ astro-island .sh-bld.sh-feat > span:first-child { background: #3B5BFF !important; padding: 6px 12px !important; letter-spacing: 0.08em !important; }
-.prh ~ astro-island .sh-bld:hover .sh-add { border-color: #3B5BFF !important; }
-.prh ~ astro-island .sh-builder-grid > div:last-child > div { top: 96px !important; }
 
 /* ---- Guarantee + Pro ------------------------------------------------------------- */
 .gx { padding-top: 96px !important; }
@@ -484,3 +477,6 @@ html.fx-reduced .cx-row__bar i, html:not(.fx) .cx-row__bar i, html.fx-reduced .c
 html.fx-reduced .gx-track__bar i, html:not(.fx) .gx-track__bar i { transform: none; }
 html:not(.fx) .rv__track { display: flex; gap: 16px; height: auto; overflow-x: auto; padding: 0 24px; }
 html:not(.fx) .rv-vid { position: relative; left: auto; margin: 0; flex: none; }
+
+/* Homepage: the reseller strip moved into the new footer. */
+.ct ~ astro-island[component-export="FBHomeBottom"] > div > section { display: none !important; }

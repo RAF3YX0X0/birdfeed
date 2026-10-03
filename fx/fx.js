@@ -23,6 +23,7 @@ import { setupPortfolio } from './portfolio.js';
 import { setupHomeBottom } from './bottom.js';
 import { setupTrust } from './trust.js';
 import { setupFooter } from './footer.js';
+import { setupSkin } from './skin.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -174,6 +175,7 @@ function init() {
   }, { timeout: 1500 });
 
   islands.forEach((island) => whenHydrated(island).then(() => afterHydrate(island)));
+  setupSkin(islands);
   if ('ResizeObserver' in window) new ResizeObserver(scheduleRefresh).observe(document.body);
 
   ST.sort();

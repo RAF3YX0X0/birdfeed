@@ -4,142 +4,10 @@
  * Markup: fx/partials/home-hero.html (injected before the FBHomeTop island,
  * whose own header and hero are hidden below). Motion: fx/hero.js.
  */
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url(/fonts/instrument-serif-latin-400-italic.woff2) format('woff2');
-}
-
-:root {
-  --hx-blue: #3B5BFF;
-  --hx-ink: #0A0B10;
-  --hx-muted: #52525B;
-  --hx-bg: #F3F2F1;
-}
 
 /* The cloned header + hero are replaced (left in the DOM so React hydrates as usual). */
 .hx ~ astro-island[component-export="FBHomeTop"] > div > header,
 .hx ~ astro-island[component-export="FBHomeTop"] .fbf-hero { display: none !important; }
-
-/* ---- Pill nav ------------------------------------------------------------- */
-.hx-nav {
-  position: fixed;
-  z-index: 90;
-  top: 16px;
-  left: 50%;
-  width: min(680px, calc(100% - 32px));
-  transform: translateX(-50%);
-  font-family: Geist, Inter, system-ui, sans-serif;
-  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1), top 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.hx-nav__bar {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  height: 62px;
-  padding: 0 9px 0 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.82);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  backdrop-filter: blur(18px) saturate(180%);
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 10px 30px -12px rgba(20, 30, 70, 0.18);
-  transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
-}
-.hx-nav.is-compact { top: 10px; width: min(540px, calc(100% - 24px)); }
-.hx-nav.is-compact .hx-nav__bar { height: 54px; box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.07), 0 14px 34px -12px rgba(20, 30, 70, 0.26); }
-
-.hx-nav__burger {
-  justify-self: start;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 6px;
-  width: 44px;
-  height: 44px;
-  padding: 0 12px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-.hx-nav__burger:hover { background: rgba(10, 11, 16, 0.05); }
-.hx-nav__burger span {
-  display: block;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--hx-ink);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.hx-nav__burger[aria-expanded="true"] span:first-child { transform: translateY(4px) rotate(45deg); }
-.hx-nav__burger[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
-
-.hx-nav__logo { display: flex; align-items: center; }
-.hx-nav__logo img { display: block; width: 112px; height: auto; transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
-.hx-nav.is-compact .hx-nav__logo img { width: 100px; }
-
-.hx-nav__cta {
-  justify-self: end;
-  display: inline-flex;
-  align-items: center;
-  height: 44px;
-  padding: 0 20px;
-  border-radius: 999px;
-  background: var(--hx-blue);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 6px 16px -6px rgba(59, 91, 255, 0.7);
-  transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
-}
-.hx-nav__cta:hover { background: #2f4df0; }
-.hx-nav.is-compact .hx-nav__cta { height: 40px; }
-
-.hx-menu {
-  position: absolute;
-  z-index: 1;
-  top: calc(100% + 8px);
-  left: 0;
-  right: 0;
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(-10px) scale(0.98);
-  transform-origin: 50% 0;
-  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.45s;
-}
-.hx-nav.is-open .hx-menu { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
-.hx-menu__in {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px 20px;
-  padding: 22px 24px 24px;
-  border-radius: 26px;
-  background: rgba(255, 255, 255, 0.94);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 30px 60px -24px rgba(20, 30, 70, 0.3);
-}
-.hx-menu__col { display: flex; flex-direction: column; gap: 2px; }
-.hx-menu__head {
-  margin: 0 0 6px;
-  font: 500 11px/1.4 'JetBrains Mono', ui-monospace, monospace;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #8a8b95;
-}
-.hx-menu a {
-  padding: 6px 0;
-  color: var(--hx-ink);
-  font-size: 14.5px;
-  text-decoration: none;
-  transition: color 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.hx-menu a:hover { color: var(--hx-blue); transform: translateX(3px); }
 
 /* ---- Hero stage ------------------------------------------------------------ */
 .hx {
@@ -263,31 +131,6 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   color: var(--hx-muted);
 }
 .hx__ctas { display: flex; justify-content: center; gap: 12px; margin-top: 30px; }
-.hx-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  padding: 0 26px;
-  border-radius: 999px;
-  font-size: 15px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, background 0.2s ease;
-}
-.hx-btn:hover { transform: translateY(-2px); }
-.hx-btn--blue {
-  background: var(--hx-blue);
-  color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 10px 24px -10px rgba(59, 91, 255, 0.8);
-}
-.hx-btn--blue:hover { background: #2f4df0; }
-.hx-btn--white {
-  background: #fff;
-  color: var(--hx-ink);
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.08), 0 8px 20px -12px rgba(20, 30, 70, 0.3);
-}
-
 /* Phone: positioned by hero.js (translateY from below the buttons to centre). */
 .hx__phone {
   position: absolute;
@@ -382,43 +225,6 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
 .hx-card video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 
-/* ---- Shared section heading (projects, how it works, …) ------------------- */
-.sx-head { max-width: 860px; margin: 0 auto; padding: 120px 24px 56px; text-align: center; }
-.sx-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 6px 18px -10px rgba(20, 30, 70, 0.25);
-  font: 500 12px/1 'JetBrains Mono', ui-monospace, monospace;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #52525B;
-}
-.sx-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: #3B5BFF; box-shadow: 0 0 0 4px rgba(59, 91, 255, 0.15); }
-.sx-title {
-  margin: 20px 0 0;
-  font-size: clamp(36px, 5.2vw, 70px);
-  font-weight: 600;
-  line-height: 1.02;
-  letter-spacing: -0.045em;
-}
-.sx-title em {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 1.1em;
-  letter-spacing: -0.015em;
-  color: #3B5BFF;
-}
-.sx-sub { max-width: 520px; margin: 18px auto 0; font-size: 17px; line-height: 1.55; color: #52525B; }
-@media (max-width: 900px) {
-  .sx-head { padding: 88px 16px 40px; }
-  .sx-sub { font-size: 15.5px; }
-}
-
 /* Short laptop screens: tighter top so the phone still peeks under the arch. */
 @media (min-width: 721px) and (max-height: 760px) {
   .hx__copy { padding-top: 112px; }
@@ -439,19 +245,8 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   .hx__line { display: block; }
   .hx__sub { font-size: 15.5px; margin-top: 16px; }
   .hx__ctas { margin-top: 22px; }
-  .hx-btn { height: 46px; padding: 0 20px; font-size: 14.5px; }
   .hx__arch { width: max(900px, 240vw); }
   .hx-card { border-radius: 16px; }
-  .hx-nav { top: 12px; width: calc(100% - 24px); }
-  .hx-nav.is-compact { top: 8px; width: calc(100% - 40px); }
-  .hx-nav__bar { height: 56px; }
-  .hx-nav.is-compact .hx-nav__bar { height: 50px; }
-  .hx-nav__cta { height: 40px; padding: 0 16px; font-size: 13.5px; }
-  .hx-nav.is-compact .hx-nav__cta { height: 36px; }
-  .hx-nav__logo img, .hx-nav.is-compact .hx-nav__logo img { width: 92px; }
-  .hx-menu__in { grid-template-columns: 1fr 1fr; padding: 18px 20px 20px; }
-  .hx-menu__col--cta { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; gap: 4px 18px; }
-  .hx-menu__col--cta .hx-menu__head { width: 100%; }
 }
 
 /* ---- Reduced motion / no FX: a static stack (copy, phone, strip). ----------- */
@@ -464,4 +259,3 @@ html:not(.fx) .hx__stage { position: relative; height: auto; min-height: 0; padd
 html.fx-reduced .hx__phone,
 html.hx-static .hx__phone,
 html:not(.fx) .hx__phone { position: relative; left: auto; margin: 98px auto 0; transform: none; }
-html.fx-reduced .hx-nav, html.fx-reduced .hx-nav__bar, html.fx-reduced .hx-menu { transition: none; }
