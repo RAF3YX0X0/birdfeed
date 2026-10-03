@@ -20,6 +20,7 @@ import { setupHomeHero } from './hero.js';
 import { setupProjects } from './projects.js';
 import { setupHowItWorks } from './hiw.js';
 import { setupPortfolio } from './portfolio.js';
+import { setupHomeBottom } from './bottom.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -123,6 +124,7 @@ function init() {
   if (hiw) setupHowItWorks({ section: hiw, gsap: G, lenis, reduced, finePointer });
   const portfolio = document.querySelector('.pf');
   if (portfolio) setupPortfolio({ section: portfolio, gsap: G, lenis, reduced, finePointer });
+  if (document.querySelector('.ct')) setupHomeBottom({ gsap: G, lenis, reduced, narrow: isNarrow() });
   if (page.home) {
     // The sales funnel goes between the hero island and the main island, so it
     // sits right after the trust badges without touching React-owned DOM.
