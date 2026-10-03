@@ -468,3 +468,9 @@ astro-island .sh-bld.sh-feat { border-color: #3B5BFF !important; box-shadow: 0 0
 astro-island .sh-bld.sh-feat > span:first-child { background: #3B5BFF !important; padding: 6px 12px !important; letter-spacing: 0.08em !important; }
 astro-island .sh-bld:hover .sh-add { border-color: #3B5BFF !important; }
 astro-island .sh-builder-grid > div:last-child > div { top: 96px !important; }
+
+/* Some cloned pages lay cards out in a fixed three-column grid with no phone
+   layout (e.g. the video demo page); on phones those cards stack instead. */
+@media (max-width: 640px) {
+  astro-island [style*="grid-template-columns:repeat(3, 1fr)"]:has(> [style*="border"]) { grid-template-columns: minmax(0, 1fr) !important; }
+}
