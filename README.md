@@ -77,6 +77,7 @@ An additive effects layer lives in `/fx/` and is injected into every page's `<he
 | Pricing: 3D ROI estimator — pick a business, budget and customer value; bars show reach → customers with an illustrative return | `fx/roi.js`, `fx/three/bars3d.js` |
 | Compare: 3D cost towers for each way of getting social media done | `fx/towers.js`, `fx/three/towers3d.js` |
 | Social media management: "A month of content, handled" — 3D calendar whose days flip to reveal posts as you scroll | `fx/calendar.js`, `fx/three/calendar3d.js` |
+| Page explainers (shared shell `fx/explainer.js`, content in `fx/explainers.js`): SEO "Climb to page one", conversion tracking "Follow the customer", short-form video "Win the first 3 seconds", Instagram "Real followers actually engage", book a demo call ring, reseller white-label layers, About globe, city-page local reach | `fx/three/ex-*.js`, `fx/three/base.js` |
 | Branded 3D curtain on load and between pages, Lenis smooth scroll, scroll progress bar | `fx/fx.js` |
 | 3D scroll reveals for headings, copy, cards and media; hover tilt + glare on cards; magnetic CTAs; cursor ring; count-up stats; flip-in on tab/filter swaps | `fx/fx.js` |
 

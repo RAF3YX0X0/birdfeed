@@ -14,6 +14,8 @@ import { funnelFor } from './funnel-data.js';
 import { setupROI } from './roi.js';
 import { setupTowers } from './towers.js';
 import { setupCalendar } from './calendar.js';
+import { mountExplainer } from './explainer.js';
+import { explainerFor } from './explainers.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -120,6 +122,8 @@ function init() {
     if (cfg) placeInIsland([/pricing\s*&\s*plans/i, /real results/i], (anchor) => setupFunnel({ anchor, ...common, stages: cfg.stages, copy: cfg.copy }));
     if (slug === 'pricing') placeInIsland([/money back|first batch/i], (anchor) => setupROI({ anchor, ...common }));
     if (slug === 'social-media-management') placeInIsland([/everything done for you/i, /real results/i], (anchor) => setupCalendar({ anchor, ...common }));
+    const ex = explainerFor(location.pathname);
+    if (ex) placeInIsland(ex.anchors, (anchor) => mountExplainer({ anchor, position: ex.position, def: ex.def, ...common }));
     if (slug === 'compare') placeInIsland([/why teams switch/i, /real results/i], (anchor) => setupTowers({ anchor, ...common }));
   }
 
@@ -804,7 +808,8 @@ function setupMagnetic() {
 function placeInIsland(headingMatchers, build) {
   const island = islands[0];
   if (!island) return;
-  const heading = (sec) => (sec.querySelector('h2') || {}).textContent || '';
+  // Headings often contain line breaks; match on normalised text, h1 or h2.
+  const heading = (sec) => ((sec.querySelector('h2, h1') || {}).textContent || '').replace(/\s+/g, ' ');
   // Looked up fresh each time: if hydration hits a mismatch, React re-renders
   // the whole island and the section we saw first is replaced.
   const findAnchor = () => {
