@@ -22,28 +22,58 @@ const BLOCKS = [
   { name: 'hero', home: true, island: 'FBHomeTop', files: ['home-hero.html', 'home-projects.html'] },
   { name: 'hiw', home: true, island: 'FBHomeMain', files: ['home-trust.html', 'home-hiw.html', 'home-portfolio.html', 'home-pricing-head.html'] },
   { name: 'bottom', home: true, island: 'FBHomeBottom', files: ['home-bottom.html'] },
+  { name: 'shared', inner: true, at: 'main-end', files: [] },
   { name: 'footer', at: 'main-end', files: ['footer.html'] },
 ].map((b) => ({ ...b, start: `<!-- fx:${b.name}:start -->`, end: `<!-- fx:${b.name}:end -->` }));
 const partial = (f) => fs.readFileSync(path.join(ROOT, 'fx', 'partials', f), 'utf8').trim();
 // Inner pages: the old header sat in the flow, so keep its space under the nav.
 const NAV_SPACE = '<div class="fx-navspace" aria-hidden="true"></div>';
 
+// Inner pages repeat sections the homepage has rebuilt. Each page gets the
+// rebuilt versions it needs in an inert <template>, and fx/shared.js swaps
+// them in (keep these patterns in step with SWAPS there).
+const SHARED = [
+  { cls: 'tr', re: /publishing everywhere your customers/i },
+  { cls: 'hw', re: /receive full deliverables/i },
+  { cls: 'pf', re: /truly great content/i },
+  { cls: 'gx', re: /not happy with your first batch/i },
+  { cls: 'cx', re: /every other way costs more/i },
+  { cls: 'pj', re: /real businesses\.\s*(<br\/?>)?\s*real results/i },
+  { cls: 'rv', re: /real results, in their/i },
+  { cls: 'ct', re: /ready to get social media off your plate/i },
+];
+// Pages whose own subject is one of these sections keep their original.
+const KEEP = { reviews: ['rv'], 'case-studies': ['pj'] };
+const LEGAL = ['privacy', 'refund', 'terms'];
+const SHARED_CSS = ['projects.css', 'trust.css', 'hiw.css', 'portfolio.css', 'bottom.css'];
+const sectionsOf = (file) => {
+  const out = {};
+  partial(file).split(/\n(?=<section class=")/).forEach((s) => {
+    const m = s.match(/^<section class="([a-z]+)"/);
+    if (m) out[m[1]] = s.trim();
+  });
+  return out;
+};
+function sharedFor(file, html) {
+  const slug = path.relative(ROOT, path.dirname(file)).split(path.sep)[0];
+  if (!slug || LEGAL.includes(slug)) return '';
+  const body = html.slice(html.indexOf('<astro-island'));
+  const all = Object.assign({}, ...['home-trust.html', 'home-hiw.html', 'home-portfolio.html', 'home-projects.html', 'home-bottom.html'].map(sectionsOf));
+  const want = SHARED.filter(({ cls, re }) => re.test(body) && !(KEEP[slug] || []).includes(cls) && all[cls]);
+  if (!want.length) return '';
+  return `<template id="fx-shared">${want.map(({ cls }) => all[cls]).join('\n')}</template>`;
+}
+
 // Three.js is deliberately not preloaded: fx.js imports it on demand while the
 // intro curtain plays, which keeps it off the critical path to DOMContentLoaded.
-function block(home) {
+function block(home, shared) {
   return [
     START,
     '<link rel="stylesheet" href="/fx/fx.css">',
     '<link rel="stylesheet" href="/fx/chrome.css">',
     '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>',
-    ...(home ? [
-      '<link rel="stylesheet" href="/fx/hero.css">',
-      '<link rel="stylesheet" href="/fx/projects.css">',
-      '<link rel="stylesheet" href="/fx/trust.css">',
-      '<link rel="stylesheet" href="/fx/hiw.css">',
-      '<link rel="stylesheet" href="/fx/portfolio.css">',
-      '<link rel="stylesheet" href="/fx/bottom.css">',
-    ] : []),
+    ...(home ? ['<link rel="stylesheet" href="/fx/hero.css">'] : []),
+    ...(home || shared ? SHARED_CSS.map((f) => `<link rel="stylesheet" href="/fx/${f}">`) : []),
     '<script src="/fx/boot.js"></script>',
     '<script src="/fx/vendor/gsap.min.js" defer></script>',
     '<script src="/fx/vendor/ScrollTrigger.min.js" defer></script>',
@@ -79,9 +109,11 @@ for (const file of pages(ROOT)) {
   if (!remove) {
     const i = html.indexOf('</head>');
     if (i === -1) { console.warn('no </head>:', path.relative(ROOT, file)); continue; }
-    html = html.slice(0, i) + '\n' + block(home) + '\n' + html.slice(i);
+    const shared = home ? '' : sharedFor(file, html);
+    html = html.slice(0, i) + '\n' + block(home, !!shared) + '\n' + html.slice(i);
     for (const blk of BLOCKS) {
       if (blk.home && !home) continue;
+      if (blk.inner && (home || !shared)) continue;
       let k = -1;
       if (blk.at === 'main-start') {
         const m = html.indexOf('<main');
@@ -93,7 +125,7 @@ for (const file of pages(ROOT)) {
         k = at === -1 ? -1 : html.lastIndexOf('<astro-island', at);
       }
       if (k <= 0) { console.warn(`no place for ${blk.name}:`, path.relative(ROOT, file)); continue; }
-      const extra = blk.name === 'nav' && !home ? NAV_SPACE : '';
+      const extra = blk.name === 'nav' && !home ? NAV_SPACE : blk.name === 'shared' ? shared : '';
       html = html.slice(0, k) + blk.start + blk.files.map(partial).join('\n') + extra + blk.end + html.slice(k);
     }
   }

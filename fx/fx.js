@@ -9,7 +9,7 @@
  */
 /* global gsap, ScrollTrigger, Lenis */
 import { mountStages } from './stage.js';
-import { setupFunnel } from './funnel.js';
+import { setupFunnel, allowSticky } from './funnel.js';
 import { funnelFor } from './funnel-data.js';
 import { setupROI } from './roi.js';
 import { setupTowers } from './towers.js';
@@ -24,6 +24,7 @@ import { setupHomeBottom } from './bottom.js';
 import { setupTrust } from './trust.js';
 import { setupFooter } from './footer.js';
 import { setupSkin } from './skin.js';
+import { swapSharedSections } from './shared.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -161,6 +162,25 @@ function init() {
   if (!reduced) setupReveals(targets, intro);
 
   mount3D(homeHero ? null : hero, intro);
+
+  // Inner pages: swap in the rebuilt homepage sections they share, then wire
+  // up their motion (on the homepage these are static and set up above).
+  if (!page.home && !page.legal) {
+    swapSharedSections(islands).then((secs) => {
+      if (!secs.length) return;
+      const by = (c) => secs.find((s) => s.classList.contains(c));
+      secs.forEach(allowSticky);
+      const common = { gsap: G, lenis, reduced, finePointer };
+      if (by('tr')) setupTrust({ section: by('tr'), ...common });
+      if (by('hw')) setupHowItWorks({ section: by('hw'), ...common });
+      if (by('pf')) setupPortfolio({ section: by('pf'), ...common });
+      if (by('pj')) setupProjects({ section: by('pj'), ...common });
+      if (['gx', 'cx', 'rv', 'ct'].some(by)) setupHomeBottom({ ...common, narrow: isNarrow() });
+      if (by('ct')) ctaFloaters(by('ct').querySelector('.fbe-cta-card'));
+      ST.refresh();
+      scheduleRefresh();
+    });
+  }
 
   // Pointer effects and image depth aren't needed for first paint.
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 250));
@@ -983,26 +1003,33 @@ function mount3D(hero, intro) {
     });
   }
 
-  document.querySelectorAll('.fbe-cta-card').forEach((card) => {
-    const io = new IntersectionObserver((list) => { const e = list[list.length - 1]; // latest state wins
-      if (!e.isIntersecting) return;
-      io.disconnect();
-      ready.then((mod) => {
-        if (!mod) return;
-        const f = mod.mountFloaters({
-          host: card,
-          layout: ctaLayout,
-          gsap: G,
-          reduced,
-          pad: isNarrow() ? 30 : 90,
-          scrollOut: false,
-          maxDpr: isNarrow() ? 1.5 : 2,
-        });
-        ST.create({ trigger: card, start: 'top 80%', once: true, onEnter: () => f.intro(0) });
+  floatersReady = ready;
+  document.querySelectorAll('.fbe-cta-card').forEach(ctaFloaters);
+}
+
+// Floating 3D icons around a CTA card, mounted when it comes near. (Also used
+// for CTA cards added later, like the rebuilt one swapped into inner pages.)
+let floatersReady = null;
+function ctaFloaters(card) {
+  if (!floatersReady || !card) return;
+  const io = new IntersectionObserver((list) => { const e = list[list.length - 1]; // latest state wins
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    floatersReady.then((mod) => {
+      if (!mod) return;
+      const f = mod.mountFloaters({
+        host: card,
+        layout: ctaLayout,
+        gsap: G,
+        reduced,
+        pad: isNarrow() ? 30 : 90,
+        scrollOut: false,
+        maxDpr: isNarrow() ? 1.5 : 2,
       });
-    }, { rootMargin: '600px 0px' });
-    io.observe(card);
-  });
+      ST.create({ trigger: card, start: 'top 80%', once: true, onEnter: () => f.intro(0) });
+    });
+  }, { rootMargin: '600px 0px' });
+  io.observe(card);
 }
 
 // Where the hero's floating icons sit, in hero-local px.
