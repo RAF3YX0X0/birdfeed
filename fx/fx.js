@@ -13,6 +13,7 @@ import { setupFunnel } from './funnel.js';
 import { funnelFor } from './funnel-data.js';
 import { setupROI } from './roi.js';
 import { setupTowers } from './towers.js';
+import { setupCalendar } from './calendar.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -118,6 +119,7 @@ function init() {
     const common = { gsap: G, lenis, reduced, narrow: isNarrow() };
     if (cfg) placeInIsland([/pricing\s*&\s*plans/i, /real results/i], (anchor) => setupFunnel({ anchor, ...common, stages: cfg.stages, copy: cfg.copy }));
     if (slug === 'pricing') placeInIsland([/money back|first batch/i], (anchor) => setupROI({ anchor, ...common }));
+    if (slug === 'social-media-management') placeInIsland([/everything done for you/i, /real results/i], (anchor) => setupCalendar({ anchor, ...common }));
     if (slug === 'compare') placeInIsland([/why teams switch/i, /real results/i], (anchor) => setupTowers({ anchor, ...common }));
   }
 
@@ -802,18 +804,23 @@ function setupMagnetic() {
 function placeInIsland(headingMatchers, build) {
   const island = islands[0];
   if (!island) return;
-  const sections = [...island.querySelectorAll('section')];
   const heading = (sec) => (sec.querySelector('h2') || {}).textContent || '';
-  let anchor = null;
-  for (const re of headingMatchers) {
-    anchor = sections.find((sec) => re.test(heading(sec)));
-    if (anchor) break;
-  }
-  if (!anchor) return;
+  // Looked up fresh each time: if hydration hits a mismatch, React re-renders
+  // the whole island and the section we saw first is replaced.
+  const findAnchor = () => {
+    const sections = [...island.querySelectorAll('section')];
+    for (const re of headingMatchers) {
+      const found = sections.find((sec) => re.test(heading(sec)));
+      if (found) return found;
+    }
+    return null;
+  };
+  if (!findAnchor()) return;
 
   let placed = false;
   const place = () => {
-    if (placed || !anchor.isConnected) return;
+    const anchor = findAnchor();
+    if (placed || !anchor) return;
     placed = true;
     build(anchor);
     scheduleRefresh();
@@ -821,7 +828,14 @@ function placeInIsland(headingMatchers, build) {
   island.addEventListener('astro:hydration-error', place, { once: true });
   whenHydrated(island).then(() => {
     let tries = 0;
-    const wait = () => (reactOwned(anchor) || tries++ > 50 ? place() : setTimeout(wait, 100));
+    const wait = () => {
+      const anchor = findAnchor();
+      // Wait for React to own the anchor, and a moment more for a possible
+      // mismatch re-render to land.
+      if ((anchor && reactOwned(anchor) && tries > 3) || tries > 60) return place();
+      tries++;
+      setTimeout(wait, 150);
+    };
     wait();
   });
 }

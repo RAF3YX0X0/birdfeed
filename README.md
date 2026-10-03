@@ -73,6 +73,10 @@ An additive effects layer lives in `/fx/` and is injected into every page's `<he
 | Tilted 3D card wall with pointer parallax (home + service heroes) | `fx/fx.js` → `bindWall` |
 | Landing page: card groups staged in 3D like the helix gallery — curved arcs that turn with the scroll and can be dragged, a pinned ring for "how it works", a cover-flow review row, a vertical drum of text reviews, and the hero wall bent into a cylinder | `fx/stage.js` |
 | Landing page: "From scroll to sale" 3D sales funnel — five glossy tiers with people pouring in, dropping off and looping back as referrals; the section pins while scrolling walks through each stage in plain language | `fx/funnel.js`, `fx/three/funnel3d.js` |
+| Industry & service pages: the funnel retold per page (restaurants → "From scroll to reservation", email → "From inbox to income", ads → "From ad to customer"…) | `fx/funnel-data.js` |
+| Pricing: 3D ROI estimator — pick a business, budget and customer value; bars show reach → customers with an illustrative return | `fx/roi.js`, `fx/three/bars3d.js` |
+| Compare: 3D cost towers for each way of getting social media done | `fx/towers.js`, `fx/three/towers3d.js` |
+| Social media management: "A month of content, handled" — 3D calendar whose days flip to reveal posts as you scroll | `fx/calendar.js`, `fx/three/calendar3d.js` |
 | Branded 3D curtain on load and between pages, Lenis smooth scroll, scroll progress bar | `fx/fx.js` |
 | 3D scroll reveals for headings, copy, cards and media; hover tilt + glare on cards; magnetic CTAs; cursor ring; count-up stats; flip-in on tab/filter swaps | `fx/fx.js` |
 

@@ -44,7 +44,7 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 // which silently makes them scroll containers and breaks the pin. `clip` hides
 // the overflow the same way without being a scroll container. Returns false
 // (so the section stays unpinned) if an ancestor really does scroll.
-function allowSticky(sec) {
+export function allowSticky(sec) {
   const fixes = [];
   for (let n = sec.parentElement; n && n !== document.body; n = n.parentElement) {
     const cs = getComputedStyle(n);
