@@ -205,6 +205,7 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
 
 /* ---- Sales funnel section (fx/funnel.js) --------------------------------- */
 .fx-funnel {
+  overflow-x: clip; /* entrance offsets must not widen the page */
   position: relative;
   background:
     radial-gradient(620px 460px at 28% 62%, rgba(59, 91, 255, 0.09), transparent 70%),
@@ -253,7 +254,7 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
 }
 .fx-funnel__body {
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   gap: clamp(24px, 4vw, 56px);
   align-items: center;
   margin-top: clamp(18px, 3vh, 36px);
@@ -331,7 +332,7 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
 }
 .fx-funnel__stepbtn {
   display: grid;
-  grid-template-columns: 32px 1fr auto;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
   gap: 14px;
   align-items: center;
   width: 100%;
@@ -388,7 +389,7 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
 .fx-funnel__note a { color: #3b5bff; text-decoration: none; font-family: "Geist", Inter, sans-serif; font-weight: 600; font-size: 13px; }
 @media (max-width: 920px) {
   .fx-funnel__pin { padding-top: 72px; padding-bottom: 64px; }
-  .fx-funnel__body { grid-template-columns: 1fr; }
+  .fx-funnel__body { grid-template-columns: minmax(0, 1fr); }
   .fx-funnel__stage3d { height: 340px; }
   .fx-funnel__stepbtn { padding: 12px 12px; gap: 10px; }
   .fx-funnel__detail > div { padding-left: 54px; padding-right: 12px; }
@@ -398,6 +399,7 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
 
 /* ---- ROI estimator (fx/roi.js) -------------------------------------------- */
 .fx-roi {
+  overflow-x: clip;
   background:
     radial-gradient(560px 420px at 72% 58%, rgba(59, 91, 255, 0.08), transparent 70%),
     #f3f2f1;
@@ -481,6 +483,7 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
 
 /* ---- Cost towers (fx/towers.js) ------------------------------------------- */
 .fx-towers {
+  overflow-x: clip;
   background: radial-gradient(700px 420px at 50% 70%, rgba(59, 91, 255, 0.08), transparent 70%), #f3f2f1;
   color: #0a0b10;
   font-family: "Geist", Inter, system-ui, sans-serif;
@@ -535,6 +538,7 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
 
 /* ---- Content calendar (fx/calendar.js) ------------------------------------ */
 .fx-cal {
+  overflow-x: clip;
   background: radial-gradient(640px 460px at 38% 60%, rgba(59, 91, 255, 0.08), transparent 70%), #f3f2f1;
   color: #0a0b10;
   font-family: "Geist", Inter, system-ui, sans-serif;
@@ -577,6 +581,7 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
 
 /* ---- Page explainers (fx/explainer.js) ------------------------------------ */
 .fx-ex {
+  overflow-x: clip;
   background: radial-gradient(640px 460px at 34% 60%, rgba(59, 91, 255, 0.08), transparent 70%), #f3f2f1;
   color: #0a0b10;
   font-family: "Geist", Inter, system-ui, sans-serif;

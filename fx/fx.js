@@ -16,6 +16,7 @@ import { setupTowers } from './towers.js';
 import { setupCalendar } from './calendar.js';
 import { mountExplainer } from './explainer.js';
 import { explainerFor } from './explainers.js';
+import { setupHomeHero } from './hero.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -107,7 +108,10 @@ function init() {
   const hero = findHero();
   live.hero = hero;
   const intro = G.timeline({ paused: true });
-  if (!reduced && hero) buildHeroIntro(hero, intro);
+  // The homepage has its own hero (phone + card strip, see hero.js).
+  const homeHero = hero && hero.classList.contains('hx') ? setupHomeHero({ section: hero, gsap: G, reduced }) : null;
+  if (!reduced && homeHero) homeHero.buildIntro(intro);
+  else if (!reduced && hero) buildHeroIntro(hero, intro);
 
   if (page.home) setupGallery(curtain);
   if (page.home) {
@@ -137,7 +141,7 @@ function init() {
   }
   if (!reduced) setupReveals(targets, intro);
 
-  mount3D(hero, intro);
+  mount3D(homeHero ? null : hero, intro);
 
   // Pointer effects and image depth aren't needed for first paint.
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 250));
@@ -1180,12 +1184,14 @@ function setupGallery(curtain) {
 // ---------------------------------------------------------------------------
 if (!G || !ST) {
   html.classList.remove('fx-cover');
+  html.classList.add('hx-static');
 } else {
   G.registerPlugin(ST);
   try {
     init();
   } catch (err) {
     html.classList.remove('fx-cover');
+    html.classList.add('hx-static');
     document.querySelectorAll('.fx-curtain').forEach((n) => n.remove());
     console.error('[fx] init failed', err);
   }
