@@ -17,6 +17,7 @@ import { setupCalendar } from './calendar.js';
 import { mountExplainer } from './explainer.js';
 import { explainerFor } from './explainers.js';
 import { setupHomeHero } from './hero.js';
+import { setupProjects } from './projects.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -114,6 +115,8 @@ function init() {
   else if (!reduced && hero) buildHeroIntro(hero, intro);
 
   if (page.home) setupGallery(curtain);
+  const projects = document.querySelector('.pj');
+  if (projects) setupProjects({ section: projects, gsap: G, reduced });
   if (page.home) {
     // The sales funnel goes between the hero island and the main island, so it
     // sits right after the trust badges without touching React-owned DOM.
@@ -494,7 +497,7 @@ function scanReveals(hero) {
   }
 
   document.querySelectorAll('main section, main footer').forEach((sec) => {
-    if (sec === hero || sec.closest('.fx-gallery, .fx-funnel')) return;
+    if (sec === hero || sec.closest('.fx-gallery, .fx-funnel, [data-fx-skip]')) return;
     if (sec.parentElement && sec.parentElement.closest('section, footer')) return; // nested
     for (const k of sec.children) visit(k);
   });

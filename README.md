@@ -69,6 +69,7 @@ An additive effects layer lives in `/fx/` and is injected into every page's `<he
 | What | Where |
 |---|---|
 | Homepage hero: floating pill nav that tightens on scroll (hamburger menu, Contact us), blue arch, and a phone playing a reel that rises to the centre as you scroll while a curved strip of video and image cards opens out behind it. Markup lives in `fx/partials/home-hero.html` and is injected by `scripts/inject-fx.js`; the cloned header and hero stay in the page (hidden) so React hydrates normally | `fx/hero.js`, `fx/hero.css`, `fx/media/` |
+| Homepage "Selected work": one big card per project (real case-study results) stacked with sticky scrolling — each new project slides up over the last, which sinks back and dims; stats count up, chips, charts and reels animate in as each card lands | `fx/projects.js`, `fx/projects.css`, `fx/partials/home-projects.html` |
 | Floating 3D social icons (heart, play, chat, star…) over each page hero and the final CTA, with pointer parallax, cursor repulsion and scroll drift | `fx/three/floaters.js` |
 | 3D helix gallery of portfolio work on the homepage — pinned, scroll-driven, drag to spin, click to open `/examples/` | `fx/three/gallery.js` |
 | Tilted 3D card wall with pointer parallax (home + service heroes) | `fx/fx.js` → `bindWall` |

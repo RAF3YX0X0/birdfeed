@@ -10,12 +10,15 @@ const START = '<!-- fx:start -->';
 const END = '<!-- fx:end -->';
 const remove = process.argv.includes('--remove');
 
-// The homepage also gets its own hero (fx/partials/home-hero.html), placed in
-// <main> just before the first island, whose header and hero hero.css hides.
+// The homepage also gets its own hero and "Selected work" stack (fx/partials/),
+// placed in <main> just before the first island, whose header and hero
+// hero.css hides.
 const HOME = path.join(ROOT, 'index.html');
 const HERO_START = '<!-- fx:hero:start -->';
 const HERO_END = '<!-- fx:hero:end -->';
-const heroHtml = () => fs.readFileSync(path.join(ROOT, 'fx', 'partials', 'home-hero.html'), 'utf8').trim();
+const heroHtml = () => ['home-hero.html', 'home-projects.html']
+  .map((f) => fs.readFileSync(path.join(ROOT, 'fx', 'partials', f), 'utf8').trim())
+  .join('\n');
 
 // Three.js is deliberately not preloaded: fx.js imports it on demand while the
 // intro curtain plays, which keeps it off the critical path to DOMContentLoaded.
@@ -25,6 +28,7 @@ function block(home) {
     '<link rel="stylesheet" href="/fx/fx.css">',
     ...(home ? [
       '<link rel="stylesheet" href="/fx/hero.css">',
+      '<link rel="stylesheet" href="/fx/projects.css">',
       '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>',
     ] : []),
     '<script src="/fx/boot.js"></script>',
