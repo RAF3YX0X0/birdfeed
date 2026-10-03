@@ -29,7 +29,7 @@ export function setupProjects({ section, gsap: G, reduced }) {
   }
 
   // Section heading: the same 3D flip-up as the other landing-page headings.
-  const head = section.querySelectorAll('.pj__eyebrow, .pj__title, .pj__sub');
+  const head = section.querySelectorAll('.sx-eyebrow, .sx-title, .sx-sub');
   G.set(head, { opacity: 0, y: 40, rotationX: -50, transformPerspective: 900, transformOrigin: '50% 100%' });
   G.to(head, {
     opacity: 1, y: 0, rotationX: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1,

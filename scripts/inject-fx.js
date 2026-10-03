@@ -10,15 +10,17 @@ const START = '<!-- fx:start -->';
 const END = '<!-- fx:end -->';
 const remove = process.argv.includes('--remove');
 
-// The homepage also gets its own hero and "Selected work" stack (fx/partials/),
-// placed in <main> just before the first island, whose header and hero
-// hero.css hides.
+// The homepage also gets its own sections (fx/partials/): the hero and
+// "Selected work" go just before the first island (whose header and hero
+// hero.css hides), and "How it works" just before the main island (whose
+// first section hiw.css hides).
 const HOME = path.join(ROOT, 'index.html');
 const HERO_START = '<!-- fx:hero:start -->';
 const HERO_END = '<!-- fx:hero:end -->';
-const heroHtml = () => ['home-hero.html', 'home-projects.html']
-  .map((f) => fs.readFileSync(path.join(ROOT, 'fx', 'partials', f), 'utf8').trim())
-  .join('\n');
+const HIW_START = '<!-- fx:hiw:start -->';
+const HIW_END = '<!-- fx:hiw:end -->';
+const partial = (f) => fs.readFileSync(path.join(ROOT, 'fx', 'partials', f), 'utf8').trim();
+const heroHtml = () => ['home-hero.html', 'home-projects.html'].map(partial).join('\n');
 
 // Three.js is deliberately not preloaded: fx.js imports it on demand while the
 // intro curtain plays, which keeps it off the critical path to DOMContentLoaded.
@@ -29,6 +31,7 @@ function block(home) {
     ...(home ? [
       '<link rel="stylesheet" href="/fx/hero.css">',
       '<link rel="stylesheet" href="/fx/projects.css">',
+      '<link rel="stylesheet" href="/fx/hiw.css">',
       '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>',
     ] : []),
     '<script src="/fx/boot.js"></script>',
@@ -61,6 +64,9 @@ for (const file of pages(ROOT)) {
   const ha = html.indexOf(HERO_START);
   const hb = html.indexOf(HERO_END);
   if (ha !== -1 && hb !== -1) html = html.slice(0, ha) + html.slice(hb + HERO_END.length);
+  const wa = html.indexOf(HIW_START);
+  const wb = html.indexOf(HIW_END);
+  if (wa !== -1 && wb !== -1) html = html.slice(0, wa) + html.slice(wb + HIW_END.length);
   if (!remove) {
     const i = html.indexOf('</head>');
     if (i === -1) { console.warn('no </head>:', path.relative(ROOT, file)); continue; }
@@ -69,6 +75,10 @@ for (const file of pages(ROOT)) {
       const j = html.indexOf('<astro-island');
       if (j === -1) console.warn('no island on the homepage');
       else html = html.slice(0, j) + HERO_START + heroHtml() + HERO_END + html.slice(j);
+      // "How it works" replaces the first section of the main island.
+      const k = html.lastIndexOf('<astro-island', html.indexOf('component-export="FBHomeMain"'));
+      if (k === -1) console.warn('no FBHomeMain island on the homepage');
+      else html = html.slice(0, k) + HIW_START + partial('home-hiw.html') + HIW_END + html.slice(k);
     }
   }
   if (html !== src) {

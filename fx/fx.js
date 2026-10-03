@@ -18,6 +18,7 @@ import { mountExplainer } from './explainer.js';
 import { explainerFor } from './explainers.js';
 import { setupHomeHero } from './hero.js';
 import { setupProjects } from './projects.js';
+import { setupHowItWorks } from './hiw.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -117,10 +118,13 @@ function init() {
   if (page.home) setupGallery(curtain);
   const projects = document.querySelector('.pj');
   if (projects) setupProjects({ section: projects, gsap: G, reduced });
+  const hiw = document.querySelector('.hw');
+  if (hiw) setupHowItWorks({ section: hiw, gsap: G, lenis, reduced, finePointer });
   if (page.home) {
     // The sales funnel goes between the hero island and the main island, so it
     // sits right after the trust badges without touching React-owned DOM.
-    const anchor = islands.find((n) => n.getAttribute('component-export') === 'FBHomeMain');
+    // (Before the new "how it works" section, which now opens that island.)
+    const anchor = document.querySelector('.hw') || islands.find((n) => n.getAttribute('component-export') === 'FBHomeMain');
     if (anchor) setupFunnel({ anchor, gsap: G, lenis, reduced, narrow: isNarrow() });
   } else {
     const slug = location.pathname.replace(/^\/+|\/+$/g, '');

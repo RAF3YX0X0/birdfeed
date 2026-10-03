@@ -16,38 +16,6 @@
   font-family: Geist, Inter, system-ui, sans-serif;
 }
 
-.pj__head { max-width: 860px; margin: 0 auto; padding: 120px 24px 56px; text-align: center; }
-.pj__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 6px 18px -10px rgba(20, 30, 70, 0.25);
-  font: 500 12px/1 'JetBrains Mono', ui-monospace, monospace;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #52525B;
-}
-.pj__eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: #3B5BFF; box-shadow: 0 0 0 4px rgba(59, 91, 255, 0.15); }
-.pj__title {
-  margin: 20px 0 0;
-  font-size: clamp(36px, 5.2vw, 70px);
-  font-weight: 600;
-  line-height: 1.02;
-  letter-spacing: -0.045em;
-}
-.pj__title em {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 1.1em;
-  letter-spacing: -0.015em;
-  color: #3B5BFF;
-}
-.pj__sub { max-width: 520px; margin: 18px auto 0; font-size: 17px; line-height: 1.55; color: #52525B; }
-
 .pj__stack { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
 .pj-card {
   position: sticky;
@@ -267,8 +235,6 @@ html.pj-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
 /* ---- Smaller screens --------------------------------------------------------- */
 @media (max-width: 900px) {
   .pj { --pj-top: 80px; --pj-step: 10px; --pj-h: calc(100svh - var(--pj-top) - 52px); }
-  .pj__head { padding: 88px 16px 40px; }
-  .pj__sub { font-size: 15.5px; }
   .pj__stack { padding: 0 12px; }
   .pj-card { margin-bottom: 6vh; }
   .pj-card__in { display: flex; flex-direction: column; gap: 12px; padding: 12px; border-radius: 26px; }
