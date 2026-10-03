@@ -22,6 +22,7 @@ import { setupHowItWorks } from './hiw.js';
 import { setupPortfolio } from './portfolio.js';
 import { setupHomeBottom } from './bottom.js';
 import { setupTrust } from './trust.js';
+import { setupFooter } from './footer.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -128,6 +129,8 @@ function init() {
   const portfolio = document.querySelector('.pf');
   if (portfolio) setupPortfolio({ section: portfolio, gsap: G, lenis, reduced, finePointer });
   if (document.querySelector('.ct')) setupHomeBottom({ gsap: G, lenis, reduced, narrow: isNarrow() });
+  const footer = document.querySelector('footer.ft');
+  if (footer) setupFooter({ footer, gsap: G, lenis, reduced });
   if (page.home) {
     // The sales funnel goes between the hero island and the main island, so it
     // sits right after the trust badges without touching React-owned DOM.
@@ -1132,7 +1135,9 @@ const GALLERY_IMAGES = [
 ].map(([src, w, h]) => ({ src, aspect: w / h }));
 
 function setupGallery(curtain) {
-  const anchor = islands.find((n) => n.getAttribute('component-export') === 'FBHomeBottom');
+  // Between the case studies and the reviews, as on the original page (the
+  // reviews are now the rebuilt section before the bottom island).
+  const anchor = document.querySelector('.rv') || islands.find((n) => n.getAttribute('component-export') === 'FBHomeBottom');
   if (!anchor) return;
   const sec = make(
     'section',

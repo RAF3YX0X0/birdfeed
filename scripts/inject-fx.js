@@ -19,6 +19,8 @@ const HOME_BLOCKS = [
   { name: 'hero', island: 'FBHomeTop', files: ['home-hero.html', 'home-projects.html'] },
   { name: 'hiw', island: 'FBHomeMain', files: ['home-trust.html', 'home-hiw.html', 'home-portfolio.html', 'home-pricing-head.html'] },
   { name: 'bottom', island: 'FBHomeBottom', files: ['home-bottom.html'] },
+  // The footer goes after the last island, at the end of <main>.
+  { name: 'footer', island: 'FBHomeBottom', after: true, files: ['home-footer.html'] },
 ].map((b) => ({ ...b, start: `<!-- fx:${b.name}:start -->`, end: `<!-- fx:${b.name}:end -->` }));
 const partial = (f) => fs.readFileSync(path.join(ROOT, 'fx', 'partials', f), 'utf8').trim();
 
@@ -35,6 +37,7 @@ function block(home) {
       '<link rel="stylesheet" href="/fx/hiw.css">',
       '<link rel="stylesheet" href="/fx/portfolio.css">',
       '<link rel="stylesheet" href="/fx/bottom.css">',
+      '<link rel="stylesheet" href="/fx/footer.css">',
       '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>',
     ] : []),
     '<script src="/fx/boot.js"></script>',
@@ -76,7 +79,7 @@ for (const file of pages(ROOT)) {
     if (home) {
       for (const blk of HOME_BLOCKS) {
         const at = html.indexOf(`component-export="${blk.island}"`);
-        const k = at === -1 ? -1 : html.lastIndexOf('<astro-island', at);
+        const k = at === -1 ? -1 : blk.after ? html.indexOf('</main>', at) : html.lastIndexOf('<astro-island', at);
         if (k === -1) { console.warn(`no ${blk.island} island on the homepage`); continue; }
         html = html.slice(0, k) + blk.start + blk.files.map(partial).join('\n') + blk.end + html.slice(k);
       }
