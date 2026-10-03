@@ -63,14 +63,19 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
     const cw = cards[0].offsetWidth;
     const ch = cards[0].offsetHeight;
     const copyBottom = copy.offsetTop + copy.offsetHeight;
-    // Start just under the buttons, but always peeking at least a third.
-    const startTop = Math.min(copyBottom + (narrow ? 34 : 52), vh - ph * 0.34);
+    // The arch's lower edge curves just under the buttons; the phone starts
+    // below it (even if that's below the fold on a short screen).
+    const short = vh < 760;
+    const archGap = narrow ? 44 : short ? 40 : 64;
+    const archSize = arch.offsetWidth;
+    arch.style.top = `${Math.round(copyBottom + archGap - archSize)}px`;
+    const startTop = copyBottom + archGap + (narrow || short ? 24 : 34);
     // Centre in the space below the floating nav.
     const nav = narrow ? 70 : 84;
     const endTop = Math.max(nav, nav + (vh - nav - ph) / 2);
     const pitch = cw + (narrow ? 14 : 22);
     const top = section.getBoundingClientRect().top + window.scrollY;
-    m = { vh, vw, ph, cw, ch, startTop, endTop, pitch, total: pitch * cards.length, top, range: Math.max(1, section.offsetHeight - vh), narrow };
+    m = { vh, vw, ph, cw, ch, copyBottom, startTop, endTop, pitch, total: pitch * cards.length, top, range: Math.max(1, section.offsetHeight - vh), narrow };
     last = '';
   }
 
@@ -137,8 +142,9 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
     copy.style.opacity = fade.toFixed(3);
     copy.style.visibility = fade < 0.02 ? 'hidden' : '';
 
-    arch.style.transform = `translate3d(-50%, ${(-a * m.vh * 0.2 + (1 - ip) * 120).toFixed(1)}px, 0) scale(${(lerp(1, 1.08, a) * lerp(0.9, 1, ip)).toFixed(4)})`;
-    arch.style.opacity = clamp(ip * 1.4).toFixed(3);
+    // The arch lifts away with the copy as the phone takes over.
+    arch.style.transform = `translate3d(-50%, ${(-a * (m.copyBottom + 80) + (1 - ip) * 60).toFixed(1)}px, 0) scale(${lerp(0.96, 1, ip).toFixed(4)})`;
+    arch.style.opacity = (clamp(ip * 1.4) * (1 - a * 0.5)).toFixed(3);
 
     layoutStrip(r, drift + q * m.pitch * 2.5, phoneY + m.ph / 2);
   }

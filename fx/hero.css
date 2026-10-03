@@ -163,28 +163,18 @@
   min-height: 600px;
   overflow: hidden;
 }
-/* Melt the arch into the page below, under the strip and phone. */
-.hx__stage::after {
-  content: '';
-  position: absolute;
-  z-index: 1;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 24vh;
-  background: linear-gradient(180deg, rgba(243, 242, 241, 0), var(--hx-bg));
-  pointer-events: none;
-}
-
 /* The site's "book a demo" bar would cover the phone; it waits until the hero is done. */
 html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
 
+/* A huge circle holding the copy: only its lower edge shows, curving just
+   under the buttons. hero.js sets its top from the copy height; the value
+   here is the no-JS fallback. */
 .hx__arch {
   position: absolute;
   z-index: 0;
-  top: 33vh;
+  top: calc(660px - max(1600px, 132vw));
   left: 50%;
-  width: max(1380px, 122vw);
+  width: max(1600px, 132vw);
   aspect-ratio: 1;
   transform: translateX(-50%);
   pointer-events: none;
@@ -193,25 +183,25 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   /* A faint outer ring, like a second contour line. */
   content: '';
   position: absolute;
-  inset: -64px;
+  inset: -56px;
   border-radius: 50%;
-  border: 1px solid rgba(59, 91, 255, 0.13);
+  border: 1px solid rgba(59, 91, 255, 0.1);
 }
 .hx__arch-in {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: linear-gradient(180deg, #e6ebfb 0%, #d7e0ff 14%, #c9d5ff 34%, #bfcdff 60%);
-  box-shadow: inset 0 40px 80px rgba(255, 255, 255, 0.75), 0 -30px 120px rgba(59, 91, 255, 0.12);
+  background: linear-gradient(180deg, #f1f4fb 50%, #e7ecfa 80%, #dce5fb 100%);
+  box-shadow: 0 30px 80px -40px rgba(59, 91, 255, 0.22);
   overflow: hidden;
 }
 .hx__arch-in::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0 1px, transparent 1px 18px);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 18%, rgba(0, 0, 0, 0.5) 45%, transparent 70%);
-  mask-image: linear-gradient(180deg, transparent 0, #000 18%, rgba(0, 0, 0, 0.5) 45%, transparent 70%);
+  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0 1px, transparent 1px 18px);
+  -webkit-mask-image: linear-gradient(180deg, transparent 76%, #000 100%);
+  mask-image: linear-gradient(180deg, transparent 76%, #000 100%);
 }
 
 .hx__copy {
@@ -392,6 +382,14 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
 .hx-card video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 
+/* Short laptop screens: tighter top so the phone still peeks under the arch. */
+@media (min-width: 721px) and (max-height: 760px) {
+  .hx__copy { padding-top: 112px; }
+  .hx__title { margin-top: 18px; font-size: clamp(40px, 5.6vw, 72px); }
+  .hx__sub { margin-top: 16px; }
+  .hx__ctas { margin-top: 24px; }
+}
+
 /* ---- Small screens ---------------------------------------------------------- */
 @media (max-width: 720px) {
   .hx {
@@ -405,7 +403,7 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   .hx__sub { font-size: 15.5px; margin-top: 16px; }
   .hx__ctas { margin-top: 22px; }
   .hx-btn { height: 46px; padding: 0 20px; font-size: 14.5px; }
-  .hx__arch { top: 38vh; width: 230vw; }
+  .hx__arch { width: max(900px, 240vw); }
   .hx-card { border-radius: 16px; }
   .hx-nav { top: 12px; width: calc(100% - 24px); }
   .hx-nav.is-compact { top: 8px; width: calc(100% - 40px); }
@@ -428,5 +426,5 @@ html.hx-static .hx__stage,
 html:not(.fx) .hx__stage { position: relative; height: auto; min-height: 0; padding-bottom: 72px; }
 html.fx-reduced .hx__phone,
 html.hx-static .hx__phone,
-html:not(.fx) .hx__phone { position: relative; left: auto; margin: 48px auto 0; transform: none; }
+html:not(.fx) .hx__phone { position: relative; left: auto; margin: 98px auto 0; transform: none; }
 html.fx-reduced .hx-nav, html.fx-reduced .hx-nav__bar, html.fx-reduced .hx-menu { transition: none; }
