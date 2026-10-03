@@ -475,8 +475,91 @@ astro-island .sh-builder-grid > div:last-child > div { top: 96px !important; }
   astro-island [style*="grid-template-columns:repeat(3, 1fr)"]:has(> [style*="border"]) { grid-template-columns: minmax(0, 1fr) !important; }
 }
 
+/* ---- Component skin ------------------------------------------------------------
+   The cloned pages are built from the same few inline-styled blocks (counted
+   across all pages: ~2,200 beige bordered cards, ~750 beige pills, ~600 grey
+   icon tiles, blue buttons, 40-52px headings). Each is mapped to its
+   new-design equivalent here. Every selector comes in two spellings: the
+   server markup ("background:#FBFAF8") and the one React writes when it
+   re-renders ("background: rgb(251, 250, 248)"). Our own sections are excluded. */
+
+/* Cards: white, softly shadowed, rounder; no hairline border. */
+astro-island section:not([data-fx-skip]) :is([style*="border-radius:14px"], [style*="border-radius:16px"], [style*="border-radius:18px"], [style*="border-radius:20px"], [style*="border-radius: 14px"], [style*="border-radius: 16px"], [style*="border-radius: 18px"], [style*="border-radius: 20px"]):is([style*="background:#FBFAF8"], [style*="background: rgb(251, 250, 248)"]) {
+  background: #fff !important;
+  border-color: transparent !important;
+  border-radius: 24px !important;
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 24px 48px -36px rgba(20, 30, 70, 0.45) !important;
+}
+/* Pills and chips: white with a soft ring. */
+astro-island section:not([data-fx-skip]) :is([style*="border-radius:999px"], [style*="border-radius: 999px"]):is([style*="background:#FBFAF8"], [style*="background: rgb(251, 250, 248)"]) {
+  background: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.08), 0 8px 20px -14px rgba(20, 30, 70, 0.35);
+}
+/* Icon tiles: from grey to the brand tint. */
+astro-island section:not([data-fx-skip]) :is([style*="border-radius:8px"], [style*="border-radius:10px"], [style*="border-radius:11px"], [style*="border-radius:12px"], [style*="border-radius: 8px"], [style*="border-radius: 10px"], [style*="border-radius: 11px"], [style*="border-radius: 12px"]):is([style*="background:#EBEAE7"], [style*="background: rgb(235, 234, 231)"]):is([style*="display:grid"], [style*="display: grid"], [style*="display:flex"], [style*="display: flex"]) {
+  background: #E6EBFF !important;
+  border-color: transparent !important;
+  color: #3B5BFF !important;
+  border-radius: 14px !important;
+}
+/* Blue buttons: pills with the brand glow. */
+astro-island section:not([data-fx-skip]) :is(a, button):is([style*="background:#3B5BFF"], [style*="background: rgb(59, 91, 255)"]) {
+  border-radius: 999px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 10px 24px -10px rgba(59, 91, 255, 0.8);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
+}
+astro-island section:not([data-fx-skip]) :is(a, button):is([style*="background:#3B5BFF"], [style*="background: rgb(59, 91, 255)"]):hover { transform: translateY(-2px); background: #2F4DF0 !important; }
+/* Section headings: the homepage scale and tracking. */
+astro-island section:not([data-fx-skip]) h2:is([style*="font-size:40px"], [style*="font-size:42px"], [style*="font-size:44px"], [style*="font-size:46px"], [style*="font-size:48px"], [style*="font-size:50px"], [style*="font-size:52px"], [style*="font-size: 40px"], [style*="font-size: 42px"], [style*="font-size: 44px"], [style*="font-size: 46px"], [style*="font-size: 48px"], [style*="font-size: 50px"], [style*="font-size: 52px"]) {
+  font-size: clamp(34px, 4.4vw, 58px) !important;
+  line-height: 1.04 !important;
+  letter-spacing: -0.045em !important;
+}
+astro-island section:not([data-fx-skip]) h1 { letter-spacing: -0.045em !important; }
+@media (max-width: 480px) {
+  /* Long words ("alternatives.") must fit a phone screen at the larger size. */
+  astro-island section:not([data-fx-skip]) :is(h1, h2) { overflow-wrap: break-word; }
+  astro-island section:not([data-fx-skip]) h2:is([style*="font-size:40px"], [style*="font-size:42px"], [style*="font-size:44px"], [style*="font-size:46px"], [style*="font-size:48px"], [style*="font-size:50px"], [style*="font-size:52px"], [style*="font-size: 40px"], [style*="font-size: 42px"], [style*="font-size: 44px"], [style*="font-size: 46px"], [style*="font-size: 48px"], [style*="font-size: 50px"], [style*="font-size: 52px"]) { font-size: clamp(28px, 8.4vw, 34px) !important; letter-spacing: -0.035em !important; }
+}
+/* No hairlines between sections; the cards carry the structure now. */
+astro-island section:not([data-fx-skip]):is([style*="border-top:1px solid #E1DFDA"], [style*="border-top: 1px solid rgb(225, 223, 218)"]) { border-top-color: transparent !important; }
+astro-island section:not([data-fx-skip]):is([style*="border-bottom:1px solid #E1DFDA"], [style*="border-bottom: 1px solid rgb(225, 223, 218)"]) { border-bottom-color: transparent !important; }
+
+/* Grey section bands: the old design alternated #F3F2F1 and #EBEAE7 sections;
+   the new one is a single light page with the cards giving structure. */
+astro-island section:not([data-fx-skip]):is([style*="background:#EBEAE7"], [style*="background: rgb(235, 234, 231)"]) { background: transparent !important; }
+/* Grey cards (radius 14px and up) become white cards too. */
+astro-island section:not([data-fx-skip]) :is([style*="border-radius:14px"], [style*="border-radius:16px"], [style*="border-radius:18px"], [style*="border-radius:20px"], [style*="border-radius: 14px"], [style*="border-radius: 16px"], [style*="border-radius: 18px"], [style*="border-radius: 20px"]):is([style*="background:#EBEAE7"], [style*="background: rgb(235, 234, 231)"]):not(:has(> img:only-child)) {
+  background: #fff !important;
+  border-color: transparent !important;
+  border-radius: 24px !important;
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 24px 48px -36px rgba(20, 30, 70, 0.45) !important;
+}
+/* "The old way" red cards: soft tint, no hairline. */
+astro-island section:not([data-fx-skip]) [style*="border:1px solid rgba(239,68,68"], astro-island section:not([data-fx-skip]) [style*="border: 1px solid rgba(239, 68, 68"] {
+  border-color: transparent !important;
+  border-radius: 24px !important;
+  box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.1);
+}
+/* Blue-dot labels ("● BENEFITS") become the dotted pill eyebrow. */
+astro-island section:not([data-fx-skip]) span:is([style*="text-transform:uppercase"], [style*="text-transform: uppercase"]):is([style*="color:#3B5BFF"], [style*="color: rgb(59, 91, 255)"]):has(> span:first-child:empty) {
+  padding: 7px 14px !important;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 6px 18px -10px rgba(20, 30, 70, 0.25);
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #52525B !important;
+}
+astro-island section:not([data-fx-skip]) span:is([style*="text-transform:uppercase"], [style*="text-transform: uppercase"]):is([style*="color:#3B5BFF"], [style*="color: rgb(59, 91, 255)"]) > span:first-child:empty {
+  width: 7px !important;
+  height: 7px !important;
+  box-shadow: 0 0 0 4px rgba(59, 91, 255, 0.15);
+}
+
 /* Heading accents added by fx/skin.js (last words of a section heading). */
-astro-island h2 em[data-fx-accent] {
+astro-island :is(h1, h2) em[data-fx-accent] {
   font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
   font-weight: 400;
@@ -487,7 +570,7 @@ astro-island h2 em[data-fx-accent] {
 
 /* FAQ accordions (marked by fx/skin.js): the single bordered card becomes a
    stack of rounded cards, with the open question ringed in blue. */
-[data-fx-faq] > div > div:last-child {
+astro-island section[data-fx-faq] > div > div:last-child {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -495,13 +578,46 @@ astro-island h2 em[data-fx-accent] {
   border: 0 !important;
   background: transparent !important;
 }
-[data-fx-faq] > div > div:last-child > div {
+astro-island section[data-fx-faq] > div > div:last-child > div {
   border: 0 !important;
   border-radius: 20px;
   background: #fff;
   box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06);
   transition: box-shadow 0.35s ease;
 }
-[data-fx-faq] > div > div:last-child > div:hover { box-shadow: 0 0 0 1px rgba(59, 91, 255, 0.25), 0 16px 30px -24px rgba(20, 30, 70, 0.4); }
-[data-fx-faq] > div > div:last-child > div:has(> button + div) { box-shadow: 0 0 0 1.5px rgba(59, 91, 255, 0.4), 0 24px 44px -32px rgba(20, 30, 70, 0.45); }
-[data-fx-faq] > div > div:last-child > div:has(> button + div) button span[style*="JetBrains"] { color: #3B5BFF !important; }
+astro-island section[data-fx-faq] > div > div:last-child > div:hover { box-shadow: 0 0 0 1px rgba(59, 91, 255, 0.25), 0 16px 30px -24px rgba(20, 30, 70, 0.4); }
+astro-island section[data-fx-faq] > div > div:last-child > div:has(> button + div) { box-shadow: 0 0 0 1.5px rgba(59, 91, 255, 0.4), 0 24px 44px -32px rgba(20, 30, 70, 0.45); }
+astro-island section[data-fx-faq] > div > div:last-child > div:has(> button + div) button span[style*="JetBrains"] { color: #3B5BFF !important; }
+
+/* Static booking preview in the empty Cal.com window (fx/skin.js). */
+.fx-cal-preview { display: flex; flex-direction: column; gap: 14px; height: 100%; box-sizing: border-box; padding: 26px 28px; color: #0A0B10; text-decoration: none; font-family: Geist, Inter, system-ui, sans-serif; }
+.fx-cal-preview__head { display: flex; align-items: baseline; justify-content: space-between; }
+.fx-cal-preview__head b { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
+.fx-cal-preview__head small { font: 500 11px/1 'JetBrains Mono', ui-monospace, monospace; letter-spacing: 0.06em; text-transform: uppercase; color: #8A8B95; }
+.fx-cal-preview__dow, .fx-cal-preview__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; }
+.fx-cal-preview__dow i { font-style: normal; font: 500 11px/1 'JetBrains Mono', ui-monospace, monospace; color: #8A8B95; }
+.fx-cal-preview__grid i { display: grid; place-items: center; aspect-ratio: 1; border-radius: 12px; font-style: normal; font-size: 14px; color: #B9BAC2; }
+.fx-cal-preview__grid i.is-open { background: #E6EBFF; color: #3B5BFF; font-weight: 600; transition: background 0.2s ease, color 0.2s ease; }
+.fx-cal-preview__grid i.is-pick, .fx-cal-preview:hover .fx-cal-preview__grid i.is-open:hover { background: #3B5BFF; color: #fff; }
+.fx-cal-preview__slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.fx-cal-preview__slots i { padding: 10px 0; border-radius: 999px; font-style: normal; font-size: 13px; font-weight: 500; text-align: center; box-shadow: inset 0 0 0 1px rgba(59, 91, 255, 0.3); color: #3B5BFF; }
+.fx-cal-preview__slots i.is-pick { background: #3B5BFF; color: #fff; box-shadow: none; }
+.fx-cal-preview__cta { margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px; border-radius: 999px; background: #0A0B10; color: #fff; font-size: 14.5px; font-weight: 500; transition: background 0.2s ease; }
+.fx-cal-preview__cta em { font-style: normal; transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+.fx-cal-preview:hover .fx-cal-preview__cta { background: #3B5BFF; }
+.fx-cal-preview:hover .fx-cal-preview__cta em { transform: translateX(4px); }
+
+/* Missing images (fx/skin.js): a soft brand placeholder instead of a grey box. */
+astro-island img[data-fx-noimg="box"] { visibility: hidden; }
+/* Inline images (avatars beside a name) become a small brand-blue disc. */
+astro-island img[data-fx-noimg="dot"] { content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236A84FF'/%3E%3Cstop offset='1' stop-color='%233B5BFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='20' cy='20' r='20' fill='url(%23g)'/%3E%3C/svg%3E"); border-radius: 50%; }
+astro-island :has(> img[data-fx-noimg="box"]) {
+  background:
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0 1px, transparent 1px 16px),
+    radial-gradient(120% 90% at 50% 110%, #C9D5FF, transparent 70%),
+    linear-gradient(160deg, #EEF2FC, #DCE5FB) !important;
+}
+
+/* Nothing in a cloned section may widen the page (reveal tilts, long words,
+   wide tables). `clip`, unlike `hidden`, keeps sticky pins working. */
+astro-island section:not([data-fx-skip]) { overflow-x: clip; }
