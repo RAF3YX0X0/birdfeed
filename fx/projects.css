@@ -267,6 +267,41 @@ html.pj-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
 
 .pj__foot { display: flex; justify-content: center; padding: 56px 24px 110px; }
 
+/* ---- Shorter / narrower desktop screens ---------------------------------------
+   The card height follows the screen height, so the content steps down to fit:
+   first tighter type, then no challenge/what-we-did, then no headline. The
+   card also clips, so nothing can ever leak out below it. */
+.pj-card__in { overflow: hidden; }
+@media (min-width: 901px) and (max-height: 860px) {
+  .pj-card__info { padding-top: 16px; padding-bottom: 8px; }
+  .pj-card__name { padding-top: 18px; font-size: clamp(30px, 3.2vw, 48px); }
+  .pj-card__lede { margin-top: 10px; font-size: 16.5px; }
+  .pj-case { margin-top: 16px; }
+  .pj-case dd { font-size: 13.5px; }
+  .pj-card__stats { padding-top: 16px; }
+  .pj-card__stats b { font-size: clamp(26px, 2.5vw, 36px); }
+  .pj-card__stats span { margin-top: 6px; }
+  .pj-card__link { margin-top: 16px; padding: 10px 18px; }
+}
+@media (min-width: 901px) and (max-height: 740px), (min-width: 901px) and (max-width: 1100px) and (max-height: 900px) {
+  .pj-case { display: none; }
+}
+@media (min-width: 901px) and (max-height: 860px) {
+  /* Keep the results boards inside the (shorter) panel. */
+  .pj-board { width: min(84%, 460px, 64vh); padding: 18px 20px; }
+  .pj-waffle { gap: 4px; margin-top: 14px; }
+  .pj-bars { gap: 14px; margin-top: 16px; }
+  .pj-quote { width: min(82%, 440px, 70vh); }
+  .pj-quote blockquote { font-size: 15.5px; }
+}
+@media (min-width: 901px) and (max-height: 740px) {
+  .pj-card__media--board .pj-chip--tl { display: none; }
+}
+@media (min-width: 901px) and (max-height: 600px) {
+  .pj-card__lede { display: none; }
+  .pj-board { width: min(84%, 460px, 56vh); transform: translate(-50%, -50%); }
+}
+
 /* ---- Smaller screens --------------------------------------------------------- */
 @media (max-width: 1100px) {
   .pj-case { grid-template-columns: minmax(0, 1fr); gap: 12px; }
