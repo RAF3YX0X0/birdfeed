@@ -29,6 +29,7 @@ import { swapSharedSections } from './shared.js';
 import { setupPageHero } from './ph.js';
 import { setupHelp } from './help.js';
 import { setupSections } from './sections.js';
+import { setupIndustry, wireBlocks } from './ind.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -156,7 +157,10 @@ function init() {
   // Inner pages: swap in the rebuilt homepage sections they share, then wire
   // up their motion (on the homepage these are static and set up above).
   // Inner pages' own sections, rebuilt (see sections.js).
-  if (!page.home && !page.legal) setupSections({ islands, gsap: G, ST, reduced });
+  // (Their work and case-study blocks get the industry sections' motion.)
+  if (!page.home && !page.legal) setupSections({ islands, gsap: G, ST, reduced, onExtras: (secs) => wireBlocks(secs, { gsap: G, ST, reduced, finePointer }) });
+  // Industry pages' own sections (in the HTML).
+  if (!page.home) setupIndustry({ gsap: G, ST, reduced, finePointer });
   if (!page.home && !page.legal) {
     swapSharedSections(islands).then((secs) => {
       if (!secs.length) return;
@@ -519,7 +523,7 @@ function rebindHero() {
 // shape: headings, copy, media, and "card" boxes sitting in grids/flex rows.
 // ---------------------------------------------------------------------------
 const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'TEMPLATE', 'NOSCRIPT', 'SVG', 'svg', 'IFRAME', 'BR', 'HR', 'CANVAS', 'SOURCE', 'PATH']);
-const SKIP_SEL = 'header, .fbf-hero-visual, .svc-hero-visual, .fx-gallery, .fx-funnel, .csx, [data-fx-skip], [aria-hidden="true"]';
+const SKIP_SEL = 'header, .fbf-hero-visual, .svc-hero-visual, .fx-gallery, .fx-funnel, .csx, .ind, [data-fx-skip], [aria-hidden="true"]';
 
 function isTransparent(c) {
   return !c || c === 'transparent' || c === 'rgba(0, 0, 0, 0)';
@@ -910,8 +914,10 @@ function placeInIsland(headingMatchers, build) {
   const heading = (sec) => ((sec.querySelector('h2, h1') || {}).textContent || '').replace(/\s+/g, ' ');
   // Looked up fresh each time: if hydration hits a mismatch, React re-renders
   // the whole island and the section we saw first is replaced.
+  // The original sections only: our own (rebuilt copies, other 3D sections)
+  // are never React's, so waiting on one of them would stall.
   const findAnchor = () => {
-    const sections = [...island.querySelectorAll('section')];
+    const sections = [...island.querySelectorAll('section')].filter((sec) => !sec.matches('.nx, .fx-ex, .fx-funnel, [data-fx-skip]') && !sec.closest('.nx'));
     for (const re of headingMatchers) {
       const found = sections.find((sec) => re.test(heading(sec)));
       if (found) return found;
@@ -925,7 +931,11 @@ function placeInIsland(headingMatchers, build) {
     const anchor = findAnchor();
     if (placed || !anchor) return;
     placed = true;
-    build(anchor);
+    // In front of the anchor's rebuilt copy (and its extra sections), if
+    // they're already in.
+    let at = anchor;
+    while (at.previousElementSibling && at.previousElementSibling.matches('section.nx')) at = at.previousElementSibling;
+    build(at);
     scheduleRefresh();
   };
   island.addEventListener('astro:hydration-error', place, { once: true });

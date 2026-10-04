@@ -25,6 +25,11 @@ const ISLANDS = /component-export="(ServicePage|CategoryPage|IndustryPage|AllSer
 // Runs in the page (server markup): every top-level section of the page's
 // island, modelled. `skip` says why a section is left as it is.
 function extract() {
+  // Read the page as it was cloned: drop the rules our builds add to hide its
+  // sections (else a re-run would see them as hidden).
+  document.querySelectorAll('style').forEach((st) => {
+    if (!st.closest('astro-island') && /astro-island\[component-export=/.test(st.textContent) && /display:\s*none/.test(st.textContent)) st.remove();
+  });
   const island = document.querySelector('astro-island[component-export$="Page"], astro-island[component-export="AllServices"]');
   if (!island) return null;
   const SHARED = [/publishing everywhere your customers/i, /receive full deliverables/i, /truly great content/i, /not happy with your first batch/i, /every other way costs more/i, /real businesses\.?\s*real results/i, /real results, in their/i, /ready to get social media off your plate|let.s fill your calendar|fill your calendar with booked jobs/i];
@@ -73,17 +78,23 @@ function extract() {
   // CSS path to a section. The last step counts only original sections, so it
   // still holds once our sections are inserted beside them at runtime.
   const OURS = '.nx, .tr, .hw, .pf, .gx, .cx, .pj, .rv, .ct, [class^="fx-"], [class*=" fx-"]';
+  // Every step counts original elements only (ours get inserted beside them,
+  // at any level, and would shift a plain :nth-child).
   const pathOf = (el) => {
     const parts = [];
-    for (let n = el.parentElement; n && n !== island; n = n.parentElement) parts.unshift(`${n.tagName.toLowerCase()}:nth-child(${[...n.parentElement.children].indexOf(n) + 1})`);
-    const k = [...el.parentElement.children].filter((c) => c.tagName === 'SECTION').indexOf(el) + 1;
+    for (let n = el.parentElement; n && n !== island; n = n.parentElement) {
+      const k = [...n.parentElement.children].filter((c) => !c.matches(OURS)).indexOf(n) + 1;
+      parts.unshift(`${n.tagName.toLowerCase()}:nth-child(${k} of :not(${OURS}))`);
+    }
+    const k = [...el.parentElement.children].filter((c) => c.tagName === 'SECTION' && !c.matches(OURS)).indexOf(el) + 1;
     return `astro-island[component-export="${island.getAttribute('component-export')}"] > ${[...parts, `section:nth-child(${k} of section:not(${OURS}))`].join(' > ')}`;
   };
   return all.map((s, index) => {
     const base = { index, path: pathOf(s), heading: T(s.querySelector('h1, h2')).slice(0, 120) };
     if (cs(s).display === 'none' || !vis(s)) return { ...base, skip: 'hidden' };
     const html = s.outerHTML;
-    if (SHARED.some((re) => re.test(T(s.querySelector('h2')) || T(s).slice(0, 300))) || s.matches(CTA_CARD) || s.querySelector(CTA_CARD)) return { ...base, skip: 'shared' };
+    const isCta = s.matches(CTA_CARD) || !!s.querySelector(CTA_CARD) || SHARED[SHARED.length - 1].test(T(s.querySelector('h2')));
+    if (isCta || SHARED.some((re) => re.test(T(s.querySelector('h2')) || T(s).slice(0, 300)))) return { ...base, skip: 'shared', cta: isCta };
     if (s.querySelector('.sh-builder-grid')) return { ...base, skip: 'builder' };
     if (s.querySelector('h1')) return { ...base, skip: 'hero' };
     if (s.querySelector('input, select, textarea, iframe, [role="tab"], [role="tablist"]')) return { ...base, skip: 'interactive' };
@@ -331,6 +342,8 @@ if (require.main === module) {
     const only = process.argv.slice(2).filter((a) => !a.startsWith('-'));
     const slugs = fs.readdirSync(ROOT, { withFileTypes: true }).filter((e) => e.isDirectory() && fs.existsSync(path.join(ROOT, e.name, 'index.html')))
       .map((e) => e.name).filter((s) => ISLANDS.test(fs.readFileSync(path.join(ROOT, s, 'index.html'), 'utf8')))
+      // Industry pages are built whole by scripts/build-industries.js.
+      .filter((s) => !/component-export="IndustryPage"/.test(fs.readFileSync(path.join(ROOT, s, 'index.html'), 'utf8')))
       .filter((s) => !only.length || only.includes(s));
     const b = await puppeteer.launch({ executablePath: CHROME, headless: 'new' });
     const p = await b.newPage();
@@ -360,6 +373,10 @@ if (require.main === module) {
     };
 
     const { renderSection } = require('./render-sections.js');
+    const B = require('./render-blocks.js');
+    const { PORTFOLIO } = await import(require('url').pathToFileURL(path.join(ROOT, 'fx', 'portfolio-data.js')).href);
+    const CASES = JSON.parse(fs.readFileSync(path.join(ROOT, 'fx', 'cases.json'), 'utf8'));
+    const SERVICE = require('./service-extras.js');
     fs.mkdirSync(OUT, { recursive: true });
     for (const f of fs.readdirSync(OUT)) fs.unlinkSync(path.join(OUT, f));
     let built = 0;
@@ -368,12 +385,33 @@ if (require.main === module) {
       if (!secs) continue;
       const todo = secs.filter((m) => !m.skip);
       kept += secs.filter((m) => m.skip && /lossy|interactive/.test(m.skip)).length;
-      if (!todo.length) continue;
+      // General sections shared with the homepage (reviews, portfolio, how it
+      // works, guarantee, cost, case study grid, trust strip) aren't about
+      // this service: they go. The closing call to action stays.
+      // (And the original hero: every one of these pages has its new one.)
+      const generic = slug === 'all-services' ? secs.filter((m) => m.skip === 'hero') : secs.filter((m) => (m.skip === 'shared' && !m.cta) || m.skip === 'hero');
+      if (!todo.length && !generic.length) continue;
       todo.filter((m) => m.kind === 'faq').forEach((m) => m.faqs.forEach((f) => { f.a = answer(f.q); }));
+
+      // This service's own case studies and work, just before its FAQ.
+      const x = SERVICE[slug] || {};
+      const faqM = todo.find((m) => m.kind === 'faq');
+      let extras = '';
+      if (faqM) {
+        const media = x.work === 'videos' ? PORTFOLIO.videos : x.work === 'ugc' ? PORTFOLIO.ugc : x.work === 'posts' ? [...PORTFOLIO.posts].sort((a, z) => (z.f || 0) - (a.f || 0)).slice(0, 14) : [];
+        const list = (x.cases || []).map((s) => CASES.find((c) => c.slug === s)).filter(Boolean);
+        const tag = (html) => html.replace('<section class="nx', `<section data-nx-extra data-nx-for="${faqM.index}" data-nx-h="${B.esc(faqM.heading.slice(0, 60))}" class="nx`);
+        extras = [
+          media.length ? tag(B.work(media, { ...x.workCopy, video: x.work !== 'posts' })) : '',
+          list.length ? tag(B.cases(list, x.label)) : '',
+        ].join('\n');
+      }
       // One rule per section: a browser that can't read one selector skips
       // just that rule (the original then shows until the swap).
-      const html = `<style>${todo.map((m) => `html.fx:not(.fx-nx-off) ${m.path} { display: none !important; }`).join('\n')}</style>
+      const html = `<style>${todo.map((m) => `html.fx:not(.fx-nx-off) ${m.path} { display: none !important; }`).join('\n')}
+${generic.map((m) => `${m.path} { display: none !important; }`).join('\n')}</style>
 <template id="fx-nx">
+${extras}
 ${todo.map(renderSection).join('\n')}
 </template>`;
       fs.writeFileSync(path.join(OUT, slug.replace(/\//g, '__') + '.html'), html);

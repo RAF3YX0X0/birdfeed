@@ -23,13 +23,24 @@ const SWAPS = [
 // Every CTA variant opens with a small "// begin" eyebrow.
 const hasEyebrow = (sec, re) => [...sec.querySelectorAll('div, p, span')].some((n) => !n.children.length && re.test(n.textContent));
 
+// Service pages whose original closing line was the general one get their own.
+const OWN_CTA = {
+  '/short-form-video/': 'Ready for videos that <em>stop the scroll?</em>',
+  '/instagram-growth/': 'Ready to grow with <em>the right followers?</em>',
+  '/social-media-management/': 'Ready to hand off <em>your social media?</em>',
+};
+
 // Carry the original CTA's words over into the rebuilt one: its headline (the
 // last few words in the serif accent), subtitle, buttons and small print.
 function adapt(cls, sec, orig) {
   if (cls !== 'ct') return;
   const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
   const h2 = orig.querySelector('h2');
-  if (h2) {
+  const own = OWN_CTA[location.pathname];
+  if (own && h2 && /off your plate/i.test(h2.textContent)) {
+    // The page's original closing line is the general one: use its own.
+    sec.querySelector('.ct__title').innerHTML = own;
+  } else if (h2) {
     const words = h2.textContent.replace(/\s+/g, ' ').trim().split(' ');
     const k = words.length > 4 ? 3 : 1;
     sec.querySelector('.ct__title').innerHTML = `${esc(words.slice(0, -k).join(' '))} <em>${esc(words.slice(-k).join(' '))}</em>`;

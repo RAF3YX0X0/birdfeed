@@ -10,12 +10,13 @@ import { whenSafe } from './shared.js';
 const OURS = '.nx, .tr, .hw, .pf, .gx, .cx, .pj, .rv, .ct, [class^="fx-"], [class*=" fx-"]';
 const norm = (s) => (s || '').replace(/\s+/g, ' ').trim().slice(0, 60);
 
-export function setupSections({ islands, gsap: G, ST, reduced }) {
+export function setupSections({ islands, gsap: G, ST, reduced, onExtras }) {
   const tpl = document.getElementById('fx-nx');
   const island = islands.find((i) => /Page$|^AllServices$/.test(i.getAttribute('component-export') || ''));
   if (!tpl || !island) return Promise.resolve([]);
   return whenSafe(island).then((ok) => {
     const inserted = [];
+    const extras = [];
     // The failsafe already brought the originals back: leave them.
     if (document.documentElement.classList.contains('fx-nx-off')) return inserted;
     // The originals, in server order (our own sections skipped).
@@ -27,13 +28,16 @@ export function setupSections({ islands, gsap: G, ST, reduced }) {
       let orig = originals[k];
       if (!orig || (want && heading(orig) !== want)) orig = originals.find((s) => want && heading(s) === want) || (want ? null : orig);
       if (!orig || orig.hasAttribute('data-fx-replaced')) continue;
-      if (!ok && !orig.isConnected) continue;
       const sec = document.importNode(fresh, true);
       orig.parentNode.insertBefore(sec, orig);
+      // Extra sections (this service's work and case studies) go in before
+      // their section; the original itself is replaced by the next one.
+      if (fresh.hasAttribute('data-nx-extra')) { extras.push(sec); continue; }
       orig.setAttribute('data-fx-replaced', 'nx');
       orig.style.setProperty('display', 'none', 'important');
       inserted.push(sec);
     }
+    if (extras.length && onExtras) onExtras(extras);
     if (!reduced && G) inserted.forEach((sec) => animate(sec, G, ST));
     if (ST) ST.refresh();
     return inserted;
