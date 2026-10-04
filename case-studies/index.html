@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/fx/fx.css">
 <link rel="stylesheet" href="/fx/chrome.css">
 <link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/fx/ph.css">
+<link rel="stylesheet" href="/fx/cases.css">
 <link rel="stylesheet" href="/fx/projects.css">
 <link rel="stylesheet" href="/fx/trust.css">
 <link rel="stylesheet" href="/fx/hiw.css">
@@ -52,19 +52,327 @@
       </div>
     </div>
   </nav>
-</header><!-- fx:nav:end --><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();</script><script>(()=>{var g=Object.defineProperty;var w=(a,s,c)=>s in a?g(a,s,{enumerable:!0,configurable:!0,writable:!0,value:c}):a[s]=c;var l=(a,s,c)=>w(a,typeof s!="symbol"?s+"":s,c);var E=new Set(["__proto__","constructor","prototype"]);{let a={0:t=>y(t),1:t=>c(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(c(t)),5:t=>new Set(c(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>Number.POSITIVE_INFINITY*t},s=t=>{let[p,e]=t;return p in a?a[p](e):void 0},c=t=>t.map(s),y=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([p,e])=>[p,s(e)]));class f extends HTMLElement{constructor(){super(...arguments);l(this,"Component");l(this,"hydrator");l(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let r=this.querySelectorAll("astro-slot"),n={},d=this.querySelectorAll("template[data-astro-template]");for(let o of d){let i=o.closest(this.tagName);i!=null&&i.isSameNode(this)&&(n[o.getAttribute("data-astro-template")||"default"]=o.innerHTML,o.remove())}for(let o of r){let i=o.closest(this.tagName);i!=null&&i.isSameNode(this)&&(n[o.getAttribute("name")||"default"]=o.innerHTML)}let u;try{u=this.hasAttribute("props")?y(JSON.parse(this.getAttribute("props"))):{}}catch(o){let i=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(i+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${i}`,this.getAttribute("props"),o),o}let h;await this.hydrator(this)(this.Component,u,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});l(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),r.disconnect(),this.childrenConnectedCallback()},r=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});r.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}getRetryImportUrl(e){let r=new URL(e,document.baseURI);return r.searchParams.set("astro-retry",Date.now().toString()),r.toString()}async importWithRetry(e){try{return await import(e)}catch(r){return await new Promise(n=>setTimeout(n,1e3)),import(this.getRetryImportUrl(e))}}handleHydrationError(e){let r=this.getAttribute("component-url"),n=new CustomEvent("astro:hydration-error",{cancelable:!0,bubbles:!0,composed:!0,detail:{error:e,componentUrl:r}});this.dispatchEvent(n)&&console.error(`[astro-island] Error hydrating ${r}`,e)}async start(){let e=JSON.parse(this.getAttribute("opts")),r=this.getAttribute("client");if(Astro[r]===void 0){window.addEventListener(`astro:${r}`,()=>this.start(),{once:!0});return}try{await Astro[r](async()=>{let n=this.getAttribute("renderer-url");try{let[d,{default:u}]=await Promise.all([this.importWithRetry(this.getAttribute("component-url")),n?this.importWithRetry(n):Promise.resolve({default:()=>()=>{}})]),h=this.getAttribute("component-export")||"default";if(h.includes(".")){this.Component=d;for(let m of h.split(".")){if(E.has(m)||!this.Component||typeof this.Component!="object"&&typeof this.Component!="function"||!Object.hasOwn(this.Component,m))throw new Error(`Invalid component export path: ${h}`);this.Component=this.Component[m]}}else{if(E.has(h))throw new Error(`Invalid component export path: ${h}`);this.Component=d[h]}return this.hydrator=u,this.hydrate}catch(d){return this.handleHydrationError(d),()=>{}}},e,this)}catch(n){this.handleHydrationError(n)}}attributeChangedCallback(){this.hydrate()}}l(f,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",f)}})();</script><!-- fx:pagehero:start --><style>astro-island[component-export="CaseIndex"] > div:nth-child(1) > div:nth-child(3) > section:nth-child(1) { display: none !important; }</style>
-<section class="ph ph--plain" aria-label="Introduction">
-  <div class="ph__arch" aria-hidden="true"></div>
-  <div class="ph__copy">
-    
-    <span class="sx-eyebrow"><i></i>customer stories</span>
-    <h1 class="ph__title">Success stories from<br><em>businesses like yours.</em></h1>
-    <p class="ph__sub">See exactly what a dedicated MadMarketing team did for businesses like yours, the strategy, the work, and the numbers.</p>
-    <div class="ph__ctas"><a class="hx-btn hx-btn--blue" href="/pricing/">See plans &amp; pricing</a><a class="hx-btn hx-btn--white" href="/book-demo/">Book a demo</a></div>
-    
-    <p class="ph__trust"><span class="hx__faces" aria-hidden="true"><img src="/fx/media/avatar-1.webp" alt="" width="48" height="48"><img src="/fx/media/avatar-2.webp" alt="" width="48" height="48"><img src="/fx/media/avatar-3.webp" alt="" width="48" height="48"><img src="/fx/media/avatar-4.webp" alt="" width="48" height="48"></span><span><b>4.6/5</b> from 800+ reviews · <b>20,000+</b> businesses served</span></p>
+</header><!-- fx:nav:end --><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();</script><script>(()=>{var g=Object.defineProperty;var w=(a,s,c)=>s in a?g(a,s,{enumerable:!0,configurable:!0,writable:!0,value:c}):a[s]=c;var l=(a,s,c)=>w(a,typeof s!="symbol"?s+"":s,c);var E=new Set(["__proto__","constructor","prototype"]);{let a={0:t=>y(t),1:t=>c(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(c(t)),5:t=>new Set(c(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>Number.POSITIVE_INFINITY*t},s=t=>{let[p,e]=t;return p in a?a[p](e):void 0},c=t=>t.map(s),y=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([p,e])=>[p,s(e)]));class f extends HTMLElement{constructor(){super(...arguments);l(this,"Component");l(this,"hydrator");l(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let r=this.querySelectorAll("astro-slot"),n={},d=this.querySelectorAll("template[data-astro-template]");for(let o of d){let i=o.closest(this.tagName);i!=null&&i.isSameNode(this)&&(n[o.getAttribute("data-astro-template")||"default"]=o.innerHTML,o.remove())}for(let o of r){let i=o.closest(this.tagName);i!=null&&i.isSameNode(this)&&(n[o.getAttribute("name")||"default"]=o.innerHTML)}let u;try{u=this.hasAttribute("props")?y(JSON.parse(this.getAttribute("props"))):{}}catch(o){let i=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(i+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${i}`,this.getAttribute("props"),o),o}let h;await this.hydrator(this)(this.Component,u,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});l(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),r.disconnect(),this.childrenConnectedCallback()},r=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});r.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}getRetryImportUrl(e){let r=new URL(e,document.baseURI);return r.searchParams.set("astro-retry",Date.now().toString()),r.toString()}async importWithRetry(e){try{return await import(e)}catch(r){return await new Promise(n=>setTimeout(n,1e3)),import(this.getRetryImportUrl(e))}}handleHydrationError(e){let r=this.getAttribute("component-url"),n=new CustomEvent("astro:hydration-error",{cancelable:!0,bubbles:!0,composed:!0,detail:{error:e,componentUrl:r}});this.dispatchEvent(n)&&console.error(`[astro-island] Error hydrating ${r}`,e)}async start(){let e=JSON.parse(this.getAttribute("opts")),r=this.getAttribute("client");if(Astro[r]===void 0){window.addEventListener(`astro:${r}`,()=>this.start(),{once:!0});return}try{await Astro[r](async()=>{let n=this.getAttribute("renderer-url");try{let[d,{default:u}]=await Promise.all([this.importWithRetry(this.getAttribute("component-url")),n?this.importWithRetry(n):Promise.resolve({default:()=>()=>{}})]),h=this.getAttribute("component-export")||"default";if(h.includes(".")){this.Component=d;for(let m of h.split(".")){if(E.has(m)||!this.Component||typeof this.Component!="object"&&typeof this.Component!="function"||!Object.hasOwn(this.Component,m))throw new Error(`Invalid component export path: ${h}`);this.Component=this.Component[m]}}else{if(E.has(h))throw new Error(`Invalid component export path: ${h}`);this.Component=d[h]}return this.hydrator=u,this.hydrate}catch(d){return this.handleHydrationError(d),()=>{}}},e,this)}catch(n){this.handleHydrationError(n)}}attributeChangedCallback(){this.hydrate()}}l(f,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",f)}})();</script><!-- fx:pagehero:start --><style>astro-island[component-export="CaseIndex"] > div:nth-child(1) > div:nth-child(3) > section:is(:nth-child(1), :nth-child(2), :nth-child(3)) { display: none !important; }</style>
+<section class="csx" aria-label="Case studies" style="--n:16">
+  <h1 class="csx__sr">Case studies: success stories from businesses like yours</h1>
+  <div class="csx__stage">
+    <div class="csx__frame" data-theme="stone">
+      <ol class="csx__slides">
+      <li class="csx__slide" data-theme="stone" data-slug="district-raleigh" style="--fit:1.00;--bigfit:1.00">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">DR</span><span><b>District Raleigh</b><small>Nightlife &amp; Entertainment</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>+1,289</b><span>New followers in 7 weeks</span></li><li><b>2,806 to 4,095</b><span>Follower count growth</span></li><li><b>641</b><span>New followers in the last 30 days</span></li></ul>
+            <p class="csx__svc"><span>Instagram Growth</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 01</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>District</span></span><span class="csx__line"><span>Raleigh</span></span></h2>
+          <p class="csx__sr">District Raleigh added 1,289 real local Instagram followers in seven weeks</p>
+          <p class="csx__meta">Instagram Growth <span>/ Nightlife &amp; Entertainment</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>+1,289</span><small>New followers in 7 weeks</small></p>
+        <a class="csx__link" href="#district-raleigh" data-case="district-raleigh" aria-label="Read the District Raleigh case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="blue" data-slug="act-for-pain" style="--fit:1.00;--bigfit:1.00">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">AF</span><span><b>ACT for PAIN</b><small>Medical</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>3</b><span>Cornerstone pain-management articles published</span></li><li><b>24/7</b><span>Online resource for patients before their first visit</span></li><li><b>Brochure to lifeline</b><span>Website shifted from service info to ongoing support</span></li></ul>
+            <p class="csx__svc"><span>SEO Blog Posts</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 02</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>ACT for</span></span><span class="csx__line"><span>PAIN</span></span></h2>
+          <p class="csx__sr">Turning a chronic pain clinic's website into a 24/7 resource for hope and healing</p>
+          <p class="csx__meta">SEO Blog Posts <span>/ Medical</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>24/7</span><small>Online resource for patients before their first visit</small></p>
+        <a class="csx__link" href="#act-for-pain" data-case="act-for-pain" aria-label="Read the ACT for PAIN case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="ink" data-slug="psychology-in-the-park" style="--fit:0.91;--bigfit:0.50">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">PI</span><span><b>Psychology In The Park</b><small>Mental Health</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>More time on site</b><span>Visitors read and explored services significantly longer</span></li><li><b>Warmer calls</b><span>New clients arrived already connected to the team</span></li><li><b>Local SEO lift</b><span>Ranked for searches like family therapy Sherwood Park</span></li></ul>
+            <p class="csx__svc"><span>SEO Blog Posts</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 03</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>Psychology</span></span><span class="csx__line"><span>In The Park</span></span></h2>
+          <p class="csx__sr">Content that helps a Sherwood Park therapy team reach the people who need them most</p>
+          <p class="csx__meta">SEO Blog Posts <span>/ Mental Health</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>Warmer calls</span><small>New clients arrived already connected to the team</small></p>
+        <a class="csx__link" href="#psychology-in-the-park" data-case="psychology-in-the-park" aria-label="Read the Psychology In The Park case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="paper" data-slug="diy-to-thriving-seo-backlinks" style="--fit:0.77;--bigfit:1.00">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">SB</span><span><b>SEO Backlinks Client</b><small>SEO / Organic Growth</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>9,445</b><span>Monthly organic visitors by September 2025</span></li><li><b>10x+</b><span>Organic traffic increase versus the DIY baseline</span></li><li><b>1,394</b><span>Keywords on the first page of Google</span></li></ul>
+            <p class="csx__svc"><span>SEO Backlinks</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 04</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>SEO Backlinks</span></span><span class="csx__line"><span>Client</span></span></h2>
+          <p class="csx__sr">From under 2,000 to 9,445 monthly organic visitors after switching to professional backlinks</p>
+          <p class="csx__meta">SEO Backlinks <span>/ SEO / Organic Growth</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>9,445</span><small>Monthly organic visitors by September 2025</small></p>
+        <a class="csx__link" href="#diy-to-thriving-seo-backlinks" data-case="diy-to-thriving-seo-backlinks" aria-label="Read the SEO Backlinks Client case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="stone" data-slug="supplement-spot" style="--fit:1.00;--bigfit:1.00">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">SS</span><span><b>Supplement Spot</b><small>Health &amp; Wellness</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>+$1.5K</b><span>Revenue from one email send</span></li><li><b>23.05%</b><span>Open rate</span></li><li><b>20</b><span>Purchases completed</span></li></ul>
+            <p class="csx__svc"><span>Email Marketing</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 05</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>Supplement</span></span><span class="csx__line"><span>Spot</span></span></h2>
+          <p class="csx__sr">A single President's Day email delivered +$1.5K in a busy holiday weekend</p>
+          <p class="csx__meta">Email Marketing <span>/ Health &amp; Wellness</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>+$1.5K</span><small>Revenue from one email send</small></p>
+        <a class="csx__link" href="#supplement-spot" data-case="supplement-spot" aria-label="Read the Supplement Spot case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="blue" data-slug="upcode" style="--fit:1.00;--bigfit:1.00">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">U</span><span><b>UpCode</b><small>Technology / Custom Software Development</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>34.23%</b><span>Open rate</span></li><li><b>4.20%</b><span>Click rate, top performance tier</span></li></ul>
+            <p class="csx__svc"><span>Email Marketing</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 06</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>UpCode</span></span></h2>
+          <p class="csx__sr">A minimalist Why Choose UpCode email hit top-tier open and click rates</p>
+          <p class="csx__meta">Email Marketing <span>/ Technology / Custom Software Development</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>34.23%</span><small>Open rate</small></p>
+        <a class="csx__link" href="#upcode" data-case="upcode" aria-label="Read the UpCode case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="ink" data-slug="a-pensive-mans-coffee" style="--fit:0.83;--bigfit:1.00">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">AP</span><span><b>A Pensive Man's Coffee</b><small>Gourmet Food &amp; Coffee</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>+518</b><span>New followers in 21 days</span></li><li><b>83 to 601</b><span>Follower count growth</span></li><li><b>~25</b><span>New followers per day</span></li></ul>
+            <p class="csx__svc"><span>Instagram Growth</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 07</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>A Pensive</span></span><span class="csx__line"><span>Man's Coffee</span></span></h2>
+          <p class="csx__sr">A Pensive Man's Coffee grew from 83 to 601 followers in just three weeks</p>
+          <p class="csx__meta">Instagram Growth <span>/ Gourmet Food &amp; Coffee</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>+518</span><small>New followers in 21 days</small></p>
+        <a class="csx__link" href="#a-pensive-mans-coffee" data-case="a-pensive-mans-coffee" aria-label="Read the A Pensive Man's Coffee case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="paper" data-slug="client-a-ecommerce-scaling" style="--fit:1.00;--bigfit:1.00">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">CA</span><span><b>Client A</b><small>E-commerce</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>31.18x</b><span>Best-performing ad Purchase ROAS</span></li><li><b>9.44x+</b><span>Average ROAS across 7 winning creatives</span></li><li><b>+45%</b><span>Improvement in overall campaign efficiency</span></li></ul>
+            <p class="csx__svc"><span>Meta Ads Management</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 08</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>Client A</span></span></h2>
+          <p class="csx__sr">Turning Volatile Ad Spend Into a 45% Jump in Campaign Efficiency</p>
+          <p class="csx__meta">Meta Ads Management <span>/ E-commerce</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>31.18x</span><small>Best-performing ad Purchase ROAS</small></p>
+        <a class="csx__link" href="#client-a-ecommerce-scaling" data-case="client-a-ecommerce-scaling" aria-label="Read the Client A case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="stone" data-slug="client-b-high-acquisition-cost" style="--fit:1.00;--bigfit:1.00">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">CB</span><span><b>Client B</b><small>Professional Services</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>$149.53 to $103.64</b><span>Cost Per Purchase on highest-volume ad</span></li><li><b>25.88x</b><span>Maximum Purchase ROAS in retargeting</span></li><li><b>11.86x to 16.52x</b><span>ROAS lift on a key ad from CRO</span></li></ul>
+            <p class="csx__svc"><span>Meta Ads Management</span><span>Email Marketing</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 09</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>Client B</span></span></h2>
+          <p class="csx__sr">Cutting Cost Per Purchase From $149 to $103 on a High-Value Niche Product</p>
+          <p class="csx__meta">Meta Ads Management + Email Marketing <span>/ Professional Services</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>25.88x</span><small>Maximum Purchase ROAS in retargeting</small></p>
+        <a class="csx__link" href="#client-b-high-acquisition-cost" data-case="client-b-high-acquisition-cost" aria-label="Read the Client B case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="blue" data-slug="client-c-vocational-training" style="--fit:1.00;--bigfit:1.00">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">CC</span><span><b>Client C</b><small>Vocational Training &amp; Education</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>28.59x</b><span>Maximum Purchase ROAS in a high-intent audience</span></li><li><b>$18.25</b><span>Cost Per Purchase on the core workshop offer</span></li><li><b>3</b><span>Untracked purchases recovered in high-ROAS ad sets</span></li></ul>
+            <p class="csx__svc"><span>Meta Ads Management</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 10</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>Client C</span></span></h2>
+          <p class="csx__sr">Fixing Broken Tracking to Unlock a 28.59x ROAS in Vocational Training Ads</p>
+          <p class="csx__meta">Meta Ads Management <span>/ Vocational Training &amp; Education</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>28.59x</span><small>Maximum Purchase ROAS in a high-intent audience</small></p>
+        <a class="csx__link" href="#client-c-vocational-training" data-case="client-c-vocational-training" aria-label="Read the Client C case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="ink" data-slug="client-d-mass-market-volume" style="--fit:1.00;--bigfit:1.00">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">CD</span><span><b>Client D</b><small>Consumer Products</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>6.32x</b><span>Best-performing ad Purchase ROAS at high volume</span></li><li><b>$15.42</b><span>Cost Per Purchase across 21 purchases</span></li><li><b>7.0x</b><span>Profit ROAS target the brand can now pursue</span></li></ul>
+            <p class="csx__svc"><span>Meta Ads Management</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 11</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>Client D</span></span></h2>
+          <p class="csx__sr">Lifting a High-Volume Brand Toward Its 7.0x Profit Target Without Raising Costs</p>
+          <p class="csx__meta">Meta Ads Management <span>/ Consumer Products</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>6.32x</span><small>Best-performing ad Purchase ROAS at high volume</small></p>
+        <a class="csx__link" href="#client-d-mass-market-volume" data-case="client-d-mass-market-volume" aria-label="Read the Client D case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="paper" data-slug="ingrid-s-clay" style="--fit:1.00;--bigfit:1.00">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">IS</span><span><b>Ingrid S. Clay</b><small>Fitness, Health &amp; Wellness</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>8</b><span>Professionally edited reels delivered per month</span></li><li><b>14K+</b><span>Views on a treadmill and strength fusion reel</span></li><li><b>64K+</b><span>Instagram followers kept engaged without her time</span></li></ul>
+            <p class="csx__svc"><span>Short-Form Videos</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 12</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>Ingrid</span></span><span class="csx__line"><span>S. Clay</span></span></h2>
+          <p class="csx__sr">How a Fitness Expert With 64K Followers Reclaimed Her Time While Growing Instagram</p>
+          <p class="csx__meta">Short-Form Videos <span>/ Fitness, Health &amp; Wellness</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>14K+</span><small>Views on a treadmill and strength fusion reel</small></p>
+        <a class="csx__link" href="#ingrid-s-clay" data-case="ingrid-s-clay" aria-label="Read the Ingrid S. Clay case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="stone" data-slug="miss-sprinkles-gelato" style="--fit:0.71;--bigfit:0.86">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">MS</span><span><b>Miss Sprinkles Gelato</b><small>Gourmet Food</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>Cohesive</b><span>Unified brand identity across the grid</span></li><li><b>Monthly</b><span>Consistent content calendar and posting cadence</span></li><li><b>Scroll-stopping</b><span>Appetite-driven visuals built to spark cravings</span></li></ul>
+            <p class="csx__svc"><span>Social Media Posts</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 13</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>Miss Sprinkles</span></span><span class="csx__line"><span>Gelato</span></span></h2>
+          <p class="csx__sr">Scooping Up a Sweeter, Crave-Worthy Instagram Presence for a Gelato Brand</p>
+          <p class="csx__meta">Social Media Posts <span>/ Gourmet Food</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>Monthly</span><small>Consistent content calendar and posting cadence</small></p>
+        <a class="csx__link" href="#miss-sprinkles-gelato" data-case="miss-sprinkles-gelato" aria-label="Read the Miss Sprinkles Gelato case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="blue" data-slug="natures-glow-emporium" style="--fit:0.77;--bigfit:0.86">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">NG</span><span><b>Nature's Glow Emporium</b><small>Health &amp; Beauty</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>+1,419%</b><span>Increase in reach over 12 months</span></li><li><b>+28%</b><span>Follower base growth</span></li><li><b>10</b><span>Curated posts per month</span></li></ul>
+            <p class="csx__svc"><span>Social Media Posts</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 14</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>Nature's</span></span><span class="csx__line"><span>Glow Emporium</span></span></h2>
+          <p class="csx__sr">1,419% Reach Growth for a Natural Skincare Brand in 12 Months</p>
+          <p class="csx__meta">Social Media Posts <span>/ Health &amp; Beauty</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>+1,419%</span><small>Increase in reach over 12 months</small></p>
+        <a class="csx__link" href="#natures-glow-emporium" data-case="natures-glow-emporium" aria-label="Read the Nature's Glow Emporium case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="ink" data-slug="tanseys" style="--fit:1.00;--bigfit:0.86">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">T</span><span><b>Tanseys</b><small>Luxury Accessories</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>+1,233%</b><span>Increase in engagement</span></li><li><b>+580,000%</b><span>Increase in reach</span></li><li><b>5 months</b><span>Time to transformative results</span></li></ul>
+            <p class="csx__svc"><span>Social Media Posts</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 15</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>Tanseys</span></span></h2>
+          <p class="csx__sr">From Bedroom to Boardroom: 1,233% More Engagement for a Luxury Silk Brand</p>
+          <p class="csx__meta">Social Media Posts <span>/ Luxury Accessories</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>+1,233%</span><small>Increase in engagement</small></p>
+        <a class="csx__link" href="#tanseys" data-case="tanseys" aria-label="Read the Tanseys case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      <li class="csx__slide" data-theme="paper" data-slug="casa-m-spice-co" style="--fit:1.00;--bigfit:0.75">
+        <div class="csx__visual" aria-hidden="true">
+          <span class="csx__disc"></span>
+          <div class="csx__device"><div class="csx__screen">
+            <div class="csx__who"><span class="csx__avatar">CM</span><span><b>Casa M Spice Co®</b><small>Gourmet Food</small></span></div>
+            <p class="csx__k">Results</p>
+            <ul class="csx__stats"><li><b>+12,800%</b><span>Boost in views</span></li><li><b>+14,400%</b><span>More engagements</span></li><li><b>+6%</b><span>Increase in followers</span></li></ul>
+            <p class="csx__svc"><span>Social Media Posts</span><span>Short-Form Videos</span></p>
+          </div><span class="csx__notch"></span></div>
+        </div>
+        <p class="csx__num">/ 16</p>
+        <div class="csx__text">
+          <h2 class="csx__title"><span class="csx__line"><span>Casa M</span></span><span class="csx__line"><span>Spice Co®</span></span></h2>
+          <p class="csx__sr">From Dormant to Dominant: A 12,800% Reach Increase for Casa M Spice Co</p>
+          <p class="csx__meta">Social Media Posts + Short-Form Videos <span>/ Gourmet Food</span></p>
+        </div>
+        <p class="csx__big" aria-hidden="true"><span>+12,800%</span><small>Boost in views</small></p>
+        <a class="csx__link" href="#casa-m-spice-co" data-case="casa-m-spice-co" aria-label="Read the Casa M Spice Co® case study">Case study <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </li>
+      </ol>
+      <div class="csx__ui">
+        <button class="csx__all" type="button" aria-label="All case studies"><i></i><i></i></button>
+        <div class="csx__pager">
+          <button class="csx__prev" type="button">Prev</button>
+          <span class="csx__track"><i></i></span>
+          <button class="csx__next" type="button">Next</button>
+        </div>
+      </div>
+    </div>
   </div>
-  
 </section><!-- fx:pagehero:end --><astro-island uid="ppQFR" prefix="r1" component-url="/_astro/fb-cases-pages.DKWY1409-mm-c2.js" component-export="CaseIndex" renderer-url="/_astro/client.Dda4loRL.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;CaseIndex&quot;,&quot;value&quot;:true}" await-children><div style="background:#FCFCF9;color:#0A0B10;font-family:Inter, Inter Fallback, system-ui, sans-serif;width:100%;min-height:100vh"><style>
   .case-card{ transition: border-color .2s ease; }
   .case-card:hover{ border-color: #0A0B10 !important; }

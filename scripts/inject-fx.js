@@ -86,6 +86,7 @@ function block(home, shared, hero) {
     '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>',
     ...(home || /class="hx /.test(hero) ? ['<link rel="stylesheet" href="/fx/hero.css">'] : []),
     ...(/class="ph/.test(hero) ? ['<link rel="stylesheet" href="/fx/ph.css">'] : []),
+    ...(/class="csx/.test(hero) ? ['<link rel="stylesheet" href="/fx/cases.css">'] : []),
     ...(home || shared ? SHARED_CSS.map((f) => `<link rel="stylesheet" href="/fx/${f}">`) : []),
     '<script src="/fx/boot.js"></script>',
     '<script src="/fx/vendor/gsap.min.js" defer></script>',

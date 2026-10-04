@@ -24,6 +24,8 @@ const OUT = path.join(ROOT, 'fx', 'partials', 'heroes');
 const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const MEDIA = ['short-form-video', 'ugc-videos', 'social-media-management'];
 const PARTIAL = ['pricing', 'book-demo', 'privacy', 'refund', 'terms'];
+// Pages with their own hero partial, made by another script (left alone here).
+const OWN = ['case-studies']; // scripts/build-cases.js
 
 function pages() {
   const out = [];
@@ -203,7 +205,7 @@ function mediaHero(d) {
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
   const only = process.argv.slice(2);
-  const list = only.length ? only : pages();
+  const list = (only.length ? only : pages()).filter((slug) => !OWN.includes(slug));
   const b = await puppeteer.launch({ executablePath: CHROME, headless: 'new' });
   const p = await b.newPage();
   await p.setJavaScriptEnabled(false);

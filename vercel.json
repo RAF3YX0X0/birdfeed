@@ -31,6 +31,16 @@
       "source": "/social-media-city/:path*",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/case-study/:slug",
+      "destination": "/case-studies/?case=:slug",
+      "permanent": true
+    },
+    {
+      "source": "/case-study/:slug/",
+      "destination": "/case-studies/?case=:slug",
+      "permanent": true
     }
   ]
 }

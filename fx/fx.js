@@ -17,6 +17,7 @@ import { setupCalendar } from './calendar.js';
 import { mountExplainer } from './explainer.js';
 import { explainerFor } from './explainers.js';
 import { setupHomeHero } from './hero.js';
+import { setupCases } from './cases.js';
 import { setupProjects } from './projects.js';
 import { setupHowItWorks } from './hiw.js';
 import { setupPortfolio } from './portfolio.js';
@@ -98,7 +99,10 @@ function init() {
   const intro = G.timeline({ paused: true });
   // The homepage has its own hero (phone + card strip, see hero.js).
   const homeHero = hero && hero.classList.contains('hx') ? setupHomeHero({ section: hero, gsap: G, reduced }) : null;
+  // Case studies page: a fullscreen slider in place of a hero (see cases.js).
+  const cases = hero && hero.classList.contains('csx') ? setupCases({ section: hero, gsap: G, lenis, reduced }) : null;
   if (!reduced && homeHero) homeHero.buildIntro(intro);
+  else if (!reduced && cases) cases.buildIntro(intro);
   else if (!reduced && hero) buildHeroIntro(hero, intro);
   // Inner pages' generated hero: the visual rises into the arch on scroll.
   if (hero && hero.classList.contains('ph')) setupPageHero({ section: hero, gsap: G, reduced });
@@ -495,7 +499,7 @@ function rebindHero() {
 // shape: headings, copy, media, and "card" boxes sitting in grids/flex rows.
 // ---------------------------------------------------------------------------
 const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'TEMPLATE', 'NOSCRIPT', 'SVG', 'svg', 'IFRAME', 'BR', 'HR', 'CANVAS', 'SOURCE', 'PATH']);
-const SKIP_SEL = 'header, .fbf-hero-visual, .svc-hero-visual, .fx-gallery, .fx-funnel, [data-fx-skip], [aria-hidden="true"]';
+const SKIP_SEL = 'header, .fbf-hero-visual, .svc-hero-visual, .fx-gallery, .fx-funnel, .csx, [data-fx-skip], [aria-hidden="true"]';
 
 function isTransparent(c) {
   return !c || c === 'transparent' || c === 'rgba(0, 0, 0, 0)';
