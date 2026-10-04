@@ -86,7 +86,7 @@ export function mount({ host, tags, gsap, reduced, strong, weak }) {
     map: textTexture((c, w, h) => {
       c.strokeStyle = '#e6e5e1'; c.lineWidth = 2;
       for (let i = 0; i <= 4; i++) { const y = (h - 2) * (i / 4) + 1; c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke(); }
-      c.fillStyle = '#9a9aa3'; c.font = '500 22px "JetBrains Mono", monospace';
+      c.fillStyle = '#9a9aa3'; c.font = '500 22px Inter, Inter Fallback, system-ui, sans-serif';
       ['100%', '75%', '50%', '25%'].forEach((s, i) => c.fillText(s, 8, (h - 2) * (i / 4) + 26));
     }, 768, 512),
     transparent: true,
@@ -94,8 +94,8 @@ export function mount({ host, tags, gsap, reduced, strong, weak }) {
   grid.position.z = 0.002;
   chart.add(grid);
   const curveOf = (fn) => new THREE.CatmullRomCurve3(Array.from({ length: 61 }, (_, i) => new THREE.Vector3(X((i / 60) * SECONDS), Y(fn((i / 60) * SECONDS)), 0.04)));
-  const strongLine = new THREE.Mesh(new THREE.TubeGeometry(curveOf(strong), 200, 0.045, 8, false), glossy(0x3b5bff, { emissive: 0x3b5bff, emissiveIntensity: 0.2 }));
-  const weakLine = new THREE.Mesh(new THREE.TubeGeometry(curveOf(weak), 200, 0.04, 8, false), glossy(0xe8435f));
+  const strongLine = new THREE.Mesh(new THREE.TubeGeometry(curveOf(strong), 200, 0.045, 8, false), glossy(0x0029ff, { emissive: 0x0029ff, emissiveIntensity: 0.2 }));
+  const weakLine = new THREE.Mesh(new THREE.TubeGeometry(curveOf(weak), 200, 0.04, 8, false), glossy(0x0a0b10));
   chart.add(strongLine, weakLine);
   const marker = new THREE.Mesh(new THREE.PlaneGeometry(0.02, H), new THREE.MeshBasicMaterial({ color: 0x0a0b10, transparent: true, opacity: 0 }));
   marker.position.set(X(3), 0, 0.03);

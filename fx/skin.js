@@ -25,7 +25,8 @@ function eyebrows(root) {
     if (el.hasAttribute('data-fx-eyebrow') || el.children.length || !el.firstChild) return;
     const nodes = [...el.childNodes].filter((n) => n.nodeType !== 8);
     if (nodes.some((n) => n.nodeType !== 3) || !/^\s*\/\/\s*\S/.test(el.textContent)) return;
-    if (!/mono/i.test(getComputedStyle(el).fontFamily)) return;
+    // Small label text (these used to be the only monospace on the site).
+    if (parseFloat(getComputedStyle(el).fontSize) > 14 || el.textContent.trim().length > 90) return;
     if (!safe(el)) return; // not hydrated yet: try again later
     // Strip the leading "//" and the space after it, node by node.
     let strip = true;

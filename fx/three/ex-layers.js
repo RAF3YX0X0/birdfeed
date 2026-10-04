@@ -34,12 +34,12 @@ export function mount({ host, tags, gsap, reduced, layers }) {
   const items = layers.map((l, i) => {
     const top = i === layers.length - 1;
     const tex = textTexture((x, w, h) => {
-      x.fillStyle = top ? '#3b5bff' : '#fbfaf8'; x.fillRect(0, 0, w, h);
-      x.fillStyle = top ? '#ffffff' : '#8a8b95'; x.font = `600 ${top ? 56 : 44}px Geist, Inter, sans-serif`; x.textAlign = 'center';
+      x.fillStyle = top ? '#0029ff' : '#fefefc'; x.fillRect(0, 0, w, h);
+      x.fillStyle = top ? '#ffffff' : '#8a8b95'; x.font = `600 ${top ? 56 : 44}px Inter, Inter Fallback, system-ui, sans-serif`; x.textAlign = 'center';
       x.fillText(l.face, w / 2, h / 2 + 18);
     }, 1024, 512);
     const face = new THREE.MeshBasicMaterial({ map: tex });
-    const side = top ? glossy(0x3b5bff) : glossy(0xf1f0ed, { transparent: true, opacity: 0.95 });
+    const side = top ? glossy(0x0029ff) : glossy(0xf1f0ed, { transparent: true, opacity: 0.95 });
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(3.0, 0.16, 1.9), [side, side, face, side, side, side]);
     root.add(mesh);
     const tag = label(tags, '', `<b>${l.name}</b>`);

@@ -20,7 +20,7 @@ export function mountFunnel({ host, tagsHost, stages, gsap, reduced = false }) {
   const key = new THREE.DirectionalLight(0xffffff, 1.5);
   key.position.set(-5, 9, 8);
   scene.add(key);
-  const fill = new THREE.DirectionalLight(0xb9c4ff, 0.8);
+  const fill = new THREE.DirectionalLight(0xb8c4ff, 0.8);
   fill.position.set(6, -2, 4);
   scene.add(fill);
 

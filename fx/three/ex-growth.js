@@ -61,7 +61,7 @@ export function mount({ host, tags, gsap, reduced, real: REAL, bought: BOUGHT })
     bars: data.map((_, i) => { const b = new THREE.Mesh(box, mat); b.position.set((i - 2.5) * GAP, 0, z); root.add(b); return b; }),
   });
   const rows = [
-    mk('Real followers', REAL, 0.75, glossy(0x3b5bff), 'is-on'),
+    mk('Real followers', REAL, 0.75, glossy(0x0029ff), 'is-on'),
     mk('Bought followers', BOUGHT, -0.75, new THREE.MeshPhysicalMaterial({ color: 0xb7b9c2, roughness: 0.35, transparent: true, opacity: 0.7 }), ''),
   ];
 
@@ -70,7 +70,7 @@ export function mount({ host, tags, gsap, reduced, real: REAL, bought: BOUGHT })
   s.moveTo(0, -0.35); s.bezierCurveTo(-0.6, 0.05, -0.35, 0.55, 0, 0.25); s.bezierCurveTo(0.35, 0.55, 0.6, 0.05, 0, -0.35);
   const heartGeo = new THREE.ExtrudeGeometry(s, { depth: 0.1, bevelEnabled: true, bevelSize: 0.06, bevelThickness: 0.06, bevelSegments: 3 });
   heartGeo.center();
-  const heartMat = glossy(0xff4d6d);
+  const heartMat = glossy(0x0029ff);
   const hearts = Array.from({ length: 14 }, (_, i) => {
     const mesh = new THREE.Mesh(heartGeo, heartMat);
     root.add(mesh);

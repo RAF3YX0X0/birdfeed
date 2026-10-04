@@ -86,27 +86,6 @@ function scheduleRefresh() {
   refreshTimer = setTimeout(() => ST.refresh(), 220);
 }
 
-// Offset of `el` inside `ancestor`, ignoring CSS transforms (layout box only).
-function layoutBox(el, ancestor) {
-  let x = 0, y = 0, n = el;
-  while (n && n !== ancestor) {
-    x += n.offsetLeft;
-    y += n.offsetTop;
-    const p = n.offsetParent;
-    if (!p) break;
-    if (p === ancestor || !ancestor.contains(p)) {
-      if (p !== ancestor) {
-        const a = ancestor.getBoundingClientRect(), b = p.getBoundingClientRect();
-        x += b.left - a.left;
-        y += b.top - a.top;
-      }
-      break;
-    }
-    n = p;
-  }
-  return { x, y, w: el.offsetWidth, h: el.offsetHeight };
-}
-
 // ===========================================================================
 function init() {
   const t0 = performance.now();
@@ -164,7 +143,6 @@ function init() {
   }
   if (!reduced) setupReveals(targets, intro);
 
-  mount3D(homeHero ? null : hero, intro);
 
   // Inner pages: swap in the rebuilt homepage sections they share, then wire
   // up their motion (on the homepage these are static and set up above).
@@ -179,7 +157,6 @@ function init() {
       if (by('pf')) setupPortfolio({ section: by('pf'), ...common });
       if (by('pj')) setupProjects({ section: by('pj'), ...common });
       if (['gx', 'cx', 'rv', 'ct'].some(by)) setupHomeBottom({ ...common, narrow: isNarrow() });
-      if (by('ct')) ctaFloaters(by('ct').querySelector('.fbe-cta-card'));
       ST.refresh();
       scheduleRefresh();
     });
@@ -445,7 +422,7 @@ function buildHeroIntro(hero, tl) {
 
 // The live hero / wall / 3D layer. React may swap these nodes out if an island
 // fails to hydrate cleanly and re-renders, so afterHydrate() re-binds them.
-const live = { hero: null, floaters: null, wall: null, wallRest: null, qx: null, qy: null, wallScroll: null };
+const live = { hero: null, wall: null, wallRest: null, qx: null, qy: null, wallScroll: null };
 
 function setupWall(hero, visual, tl) {
   if (!bindWall(hero, visual)) return;
@@ -501,7 +478,6 @@ function rebindHero() {
   live.hero = next;
   const visual = next.querySelector('.fbf-hero-visual, .svc-hero-visual');
   if (visual && !reduced) bindWall(next, visual);
-  if (live.floaters) live.floaters.setHost(next, heroLayout(next));
 }
 
 // ---------------------------------------------------------------------------
@@ -1016,163 +992,6 @@ function watchSwaps(island) {
     for (const m of muts) m.addedNodes.forEach((n) => n.nodeType === 1 && queue.push(n));
     if (queue.length && !raf) raf = requestAnimationFrame(flush);
   }).observe(island, { childList: true, subtree: true });
-}
-
-// ---------------------------------------------------------------------------
-// WebGL components.
-// ---------------------------------------------------------------------------
-function mount3D(hero, intro) {
-  if (page.legal) return;
-  const load = () => Promise.all([import('./three/kit.js'), import('./three/floaters.js')]);
-  const ready = load().then(([kit, mod]) => (kit.webglAvailable() ? mod : null)).catch(() => null);
-
-  if (hero) {
-    ready.then((mod) => {
-      if (!mod) return;
-      const host = live.hero && live.hero.isConnected ? live.hero : hero;
-      const f = mod.mountFloaters({
-        host,
-        layout: heroLayout(host),
-        gsap: G,
-        reduced,
-        maxDpr: isNarrow() ? 1.5 : 2,
-      });
-      live.floaters = f;
-      const start = () => f.intro(0.25);
-      if (reduced || !intro.duration() || intro.progress() > 0 || intro.isActive()) start();
-      else intro.eventCallback('onStart', start);
-    });
-  }
-
-  floatersReady = ready;
-  document.querySelectorAll('.fbe-cta-card').forEach(ctaFloaters);
-}
-
-// Floating 3D icons around a CTA card, mounted when it comes near. (Also used
-// for CTA cards added later, like the rebuilt one swapped into inner pages.)
-let floatersReady = null;
-function ctaFloaters(card) {
-  if (!floatersReady || !card) return;
-  const io = new IntersectionObserver((list) => { const e = list[list.length - 1]; // latest state wins
-    if (!e.isIntersecting) return;
-    io.disconnect();
-    floatersReady.then((mod) => {
-      if (!mod) return;
-      const f = mod.mountFloaters({
-        host: card,
-        layout: ctaLayout,
-        gsap: G,
-        reduced,
-        pad: isNarrow() ? 30 : 90,
-        scrollOut: false,
-        maxDpr: isNarrow() ? 1.5 : 2,
-      });
-      ST.create({ trigger: card, start: 'top 80%', once: true, onEnter: () => f.intro(0) });
-    });
-  }, { rootMargin: '600px 0px' });
-  io.observe(card);
-}
-
-// Where the hero's floating icons sit, in hero-local px.
-function heroLayout(hero) {
-  const wall = hero.querySelector('.fbf-wall');
-  return ({ width, height }) => {
-    if (wall && wall.offsetWidth) {
-      const b = layoutBox(wall, hero);
-      const X = (f) => b.x + f * b.w;
-      const Y = (f) => b.y + f * b.h;
-      if (isNarrow()) {
-        // On phones the wall sits below the copy, so keep two icons up top
-        // beside the (centred) rating row as well.
-        return [
-          { kind: 'heart', x: 34, y: 66, size: 44, z: 2 },
-          { kind: 'star', x: width - 34, y: 92, size: 36, z: 2 },
-          { kind: 'play', x: X(0.96), y: Y(0.22), size: 66, z: 1 },
-          { kind: 'bubble', x: X(0.05), y: Y(0.62), size: 58, z: 2 },
-        ];
-      }
-      return [
-        { kind: 'heart', x: X(0.01), y: Y(0.17), size: 92, z: 2 },
-        { kind: 'play', x: X(1.0), y: Y(0.33), size: 108, z: 1 },
-        { kind: 'bubble', x: X(0.03), y: Y(0.76), size: 100, z: 2.5 },
-        { kind: 'star', x: X(0.8), y: Y(0.96), size: 70, z: 3 },
-        { kind: 'ring', x: X(0.97), y: Y(0.79), size: 62, z: -1 },
-        { kind: 'pearl', x: X(0.44), y: Y(0.02), size: 34, z: 1 },
-        { kind: 'sphere', x: X(-0.07), y: Y(0.47), size: 24, z: 0 },
-        { kind: 'capsule', x: Math.min(width - 30, X(1.0) + 60), y: Y(0.06), size: 40, z: -2 },
-      ];
-    }
-    return sideLayout(hero, width, height);
-  };
-}
-
-function sideLayout(hero, width, height) {
-  // Frame the headline band (heading → subtitle/CTAs) rather than the whole
-  // section, which on some pages runs far below the fold.
-  const h1 = hero.querySelector('h1') || hero.querySelector('h2');
-  const hb = h1 ? layoutBox(h1, hero) : { y: 0, h: 0 };
-  // Heading plus roughly a subtitle's height below it; anything further down
-  // (forms, pricing panels…) is left clear.
-  const top = Math.max(0, hb.y - 90);
-  const bottom = Math.max(top + 160, Math.min(height, hb.y + hb.h + 150, window.innerHeight - 40));
-  const Y = (f) => top + f * (bottom - top);
-
-  // Horizontal extent of readable/interactive content inside that band.
-  let L = width, R = 0;
-  hero.querySelectorAll('h1, h2, p, a, button, input, textarea, select, form, img, video').forEach((n) => {
-    if (!n.offsetWidth || n.closest('header')) return;
-    const b = layoutBox(n, hero);
-    if (b.w > width * 0.95 || b.y + b.h < top || b.y > bottom) return;
-    L = Math.min(L, b.x);
-    R = Math.max(R, b.x + b.w);
-  });
-  if (R <= L) { L = width * 0.3; R = width * 0.7; }
-  const left = L, right = width - R;
-
-  if (isNarrow()) {
-    return [
-      { kind: 'heart', x: width - 34, y: top + 30, size: 46, z: 1 },
-      { kind: 'star', x: 28, y: bottom - 24, size: 38, z: 2 },
-      { kind: 'pearl', x: width - 22, y: Y(0.62), size: 22, z: 0 },
-    ];
-  }
-  const items = [];
-  if (left > 150) {
-    items.push({ kind: 'heart', x: left * 0.5, y: Y(0.3), size: Math.min(104, left * 0.55), z: 2 });
-    items.push({ kind: 'bubble', x: left * 0.58, y: Y(0.78), size: Math.min(92, left * 0.5), z: 1 });
-    items.push({ kind: 'pearl', x: left * 0.2, y: Y(0.55), size: 26, z: 0 });
-  } else {
-    items.push({ kind: 'heart', x: 56, y: Y(0.9), size: 64, z: 2 });
-  }
-  if (right > 150) {
-    items.push({ kind: 'play', x: width - right * 0.5, y: Y(0.32), size: Math.min(108, right * 0.58), z: 2 });
-    items.push({ kind: 'star', x: width - right * 0.55, y: Y(0.8), size: Math.min(74, right * 0.42), z: 1.5 });
-    items.push({ kind: 'ring', x: width - right * 0.18, y: Y(0.06), size: 46, z: -1 });
-  } else {
-    items.push({ kind: 'play', x: width - 64, y: Y(0.12), size: 70, z: 1 });
-    items.push({ kind: 'star', x: width - 40, y: Y(0.92), size: 44, z: 2 });
-  }
-  return items;
-}
-
-function ctaLayout({ width, height }) {
-  const pad = isNarrow() ? 30 : 90;
-  const X = (f) => f * width;
-  const Y = (f) => f * height;
-  if (isNarrow()) {
-    return [
-      { kind: 'heart', x: X(0.1), y: Y(0.0), size: 52, z: 2 },
-      { kind: 'play', x: X(0.92), y: Y(1.0), size: 56, z: 2 },
-    ];
-  }
-  return [
-    { kind: 'heart', x: X(0.07), y: Y(0.22), size: 112, z: 2 },
-    { kind: 'bubble', x: X(0.15), y: Y(0.86), size: 92, z: 3 },
-    { kind: 'pearl', x: X(0.01), y: Y(0.62), size: 40, z: 1 },
-    { kind: 'play', x: X(0.92), y: Y(0.26), size: 116, z: 2 },
-    { kind: 'star', x: X(0.85), y: Y(0.9), size: 78, z: 3 },
-    { kind: 'ring', x: X(0.995), y: Y(0.68), size: 56, z: 0 },
-  ].map((i) => ({ ...i, y: Math.max(-pad * 0.6, i.y) }));
 }
 
 // ---------------------------------------------------------------------------

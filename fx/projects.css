@@ -11,9 +11,9 @@
   --pj-h: min(760px, calc(100svh - var(--pj-top) - 72px));
   position: relative;
   padding: 0 !important; /* the site pads every section on phones */
-  background: var(--hx-bg, #F3F2F1);
+  background: var(--hx-bg, #FCFCF9);
   color: #0A0B10;
-  font-family: Geist, Inter, system-ui, sans-serif;
+  font-family: Inter, Inter Fallback, system-ui, sans-serif;
 }
 
 .pj__stack { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
@@ -56,7 +56,7 @@ html.pj-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
 
 .pj-card__info { display: flex; flex-direction: column; min-height: 0; padding: 22px 10px 14px 22px; }
 .pj-card__tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.pj-card__num { margin-right: 6px; font: 500 13px/1 'JetBrains Mono', ui-monospace, monospace; color: var(--c); }
+.pj-card__num { margin-right: 6px; font: 500 13px/1 Inter, Inter Fallback, system-ui, sans-serif; color: var(--c); }
 .pj-tag {
   padding: 6px 12px;
   border-radius: 999px;
@@ -80,7 +80,7 @@ html.pj-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
   gap: 18px;
   margin-top: auto;
   padding-top: 22px;
-  border-top: 1px solid #ECEAE6;
+  border-top: 1px solid #EEEEEA;
 }
 .pj-card__stats b {
   display: block;
@@ -114,7 +114,7 @@ html.pj-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
 /* Case summary: the challenge and what we did. */
 .pj-case { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 22px 0 0; }
 .pj-case div { padding-left: 14px; border-left: 2px solid var(--tint); }
-.pj-case dt { font: 500 11px/1.3 'JetBrains Mono', ui-monospace, monospace; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c); }
+.pj-case dt { font: 500 11px/1.3 Inter, Inter Fallback, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c); }
 .pj-case dd { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: #52525B; }
 
 /* ---- Results panel ---------------------------------------------------------- */
@@ -137,7 +137,7 @@ html.pj-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
   mask-image: linear-gradient(180deg, transparent 30%, #000 100%);
   pointer-events: none;
 }
-.pj-chart__label { margin: 0; font: 500 12px/1 'JetBrains Mono', ui-monospace, monospace; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c); }
+.pj-chart__label { margin: 0; font: 500 12px/1 Inter, Inter Fallback, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c); }
 
 /* Line chart (follower growth, organic traffic). */
 .pj-chart { position: absolute; inset: 0; padding: 30px 30px 0; }
@@ -211,8 +211,8 @@ html.pj-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
 .pj-waffle { display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; margin-top: 18px; }
 .pj-waffle i { aspect-ratio: 1; border-radius: 4px; transform: scale(0); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) calc(0.2s + var(--k) * 9ms); }
 .pj-waffle .is-video, .pj-legend .is-video { background: var(--c); }
-.pj-waffle .is-post, .pj-legend .is-post { background: #E08A7F; }
-.pj-waffle .is-story, .pj-legend .is-story { background: #F4C7C0; }
+.pj-waffle .is-post, .pj-legend .is-post { background: #7088FF; }
+.pj-waffle .is-story, .pj-legend .is-story { background: #C4CDFF; }
 .pj-card.is-seen .pj-waffle i { transform: scale(1); }
 .pj-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 16px 0 0; padding: 0; list-style: none; font-size: 13px; color: #52525B; }
 .pj-legend li { display: inline-flex; align-items: center; gap: 7px; }
@@ -234,7 +234,7 @@ html.pj-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
 }
 .pj-quote::before { content: '“'; position: absolute; top: -6px; left: 22px; font-family: 'Instrument Serif', Georgia, serif; font-size: 96px; line-height: 1; color: var(--c); }
 .pj-quote blockquote { margin: 18px 0 0; font-size: 17px; line-height: 1.5; letter-spacing: -0.01em; color: #26262C; }
-.pj-quote figcaption { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding-top: 16px; border-top: 1px solid #F0EEEA; }
+.pj-quote figcaption { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding-top: 16px; border-top: 1px solid #EEEEEA; }
 .pj-quote__av { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--c); color: #fff; font-size: 12.5px; font-weight: 600; }
 .pj-quote b { display: block; font-size: 14px; color: #0A0B10; }
 .pj-quote small { display: block; font-size: 12px; color: #8A8B95; }
@@ -257,7 +257,7 @@ html.pj-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
   transform: translateY(18px) scale(0.94);
   transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.pj-chip small { font: 500 10.5px/1 'JetBrains Mono', ui-monospace, monospace; letter-spacing: 0.06em; text-transform: uppercase; color: #8A8B95; }
+.pj-chip small { font: 500 10.5px/1 Inter, Inter Fallback, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: #8A8B95; }
 .pj-chip b { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: #0A0B10; }
 .pj-chip--tl { top: 20px; left: 20px; }
 .pj-chip--br { right: 20px; bottom: 20px; }

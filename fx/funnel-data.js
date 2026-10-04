@@ -4,11 +4,11 @@
 // All numbers are illustrative and labelled as such on the page.
 
 const PALETTE = [
-  { color: '#7A8BFF', color3d: '#C7D0FF' },
-  { color: '#5E73FF', color3d: '#9DAEFF' },
-  { color: '#3B5BFF', color3d: '#6F86FF' },
-  { color: '#2A45E0', color3d: '#3B5BFF' },
-  { color: '#E8435F', color3d: '#FF5C7A' },
+  { color: '#7088FF', color3d: '#B8C4FF' },
+  { color: '#3352FF', color3d: '#7088FF' },
+  { color: '#0029FF', color3d: '#3352FF' },
+  { color: '#0021D6', color3d: '#0029FF' },
+  { color: '#0A0B10', color3d: '#3A3B42' },
 ];
 
 const withColors = (stages) => stages.map((s, i) => ({ ...PALETTE[i], ...s }));

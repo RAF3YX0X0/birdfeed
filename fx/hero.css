@@ -20,7 +20,7 @@
   padding: 0 !important; /* the site pads every section on phones */
   background: var(--hx-bg);
   color: var(--hx-ink);
-  font-family: Geist, Inter, system-ui, sans-serif;
+  font-family: Inter, Inter Fallback, system-ui, sans-serif;
   overflow: clip;
 }
 .hx__stage {
@@ -53,14 +53,14 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   position: absolute;
   inset: -56px;
   border-radius: 50%;
-  border: 1px solid rgba(59, 91, 255, 0.1);
+  border: 1px solid rgba(0, 41, 255, 0.1);
 }
 .hx__arch-in {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: linear-gradient(180deg, #f1f4fb 50%, #e7ecfa 80%, #dce5fb 100%);
-  box-shadow: 0 30px 80px -40px rgba(59, 91, 255, 0.22);
+  background: linear-gradient(180deg, #f1f4fb 50%, #f2f2ee 80%, #ebebe6 100%);
+  box-shadow: 0 30px 80px -40px rgba(0, 41, 255, 0.22);
   overflow: hidden;
 }
 .hx__arch-in::after {

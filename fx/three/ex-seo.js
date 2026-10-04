@@ -15,16 +15,16 @@ const slotY = (rank) => 2.9 - (rank - 1) * SLOT;
 
 function resultCard(THREE, mine, n) {
   const tex = textTexture((ctx, w, h) => {
-    ctx.fillStyle = mine ? '#3b5bff' : '#ffffff';
+    ctx.fillStyle = mine ? '#0029ff' : '#ffffff';
     ctx.fillRect(0, 0, w, h);
     ctx.fillStyle = mine ? 'rgba(255,255,255,.95)' : '#d9dde8';
     ctx.beginPath(); ctx.arc(34, 40, 14, 0, Math.PI * 2); ctx.fill();
     if (mine) {
       ctx.fillStyle = '#fff';
-      ctx.font = '600 30px Geist, Inter, sans-serif';
+      ctx.font = '600 30px Inter, Inter Fallback, system-ui, sans-serif';
       ctx.fillText('Your business — exactly what they searched', 62, 50);
       ctx.fillStyle = 'rgba(255,255,255,.75)';
-      ctx.font = '400 20px "JetBrains Mono", monospace';
+      ctx.font = '400 20px Inter, Inter Fallback, system-ui, sans-serif';
       ctx.fillText('yourbusiness.com', 62, 84);
     } else {
       ctx.fillStyle = '#c8ccd6';
@@ -34,12 +34,12 @@ function resultCard(THREE, mine, n) {
     }
     ctx.fillStyle = mine ? 'rgba(255,255,255,.55)' : '#eceef3';
     ctx.fillRect(20, 104, 560 + ((n * 29) % 200), 10);
-    ctx.strokeStyle = mine ? '#2a45e0' : '#d6d9e2';
+    ctx.strokeStyle = mine ? '#0021d6' : '#d6d9e2';
     ctx.lineWidth = 6;
     ctx.strokeRect(3, 3, w - 6, h - 6);
   }, 1024, 128);
   const face = new THREE.MeshBasicMaterial({ map: tex });
-  const side = mine ? glossy(0x3b5bff) : glossy(0xf4f3f0);
+  const side = mine ? glossy(0x0029ff) : glossy(0xf4f3f0);
   return new THREE.Mesh(new THREE.BoxGeometry(4.6, 0.52, 0.06), [side, side, side, side, face, side]);
 }
 

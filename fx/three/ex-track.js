@@ -51,7 +51,7 @@ export function mount({ host, tags, gsap, reduced }) {
   const curve = new THREE.CatmullRomCurve3(pts.map((p) => new THREE.Vector3(...p)), false, 'centripetal');
   const tube = (radius, mat) => new THREE.Mesh(new THREE.TubeGeometry(curve, 240, radius, 10, false), mat);
   root.add(tube(0.06, new THREE.MeshPhysicalMaterial({ color: 0xdfe2ea, roughness: 0.5 })));
-  const done = tube(0.075, glossy(0x3b5bff, { emissive: 0x3b5bff, emissiveIntensity: 0.25 }));
+  const done = tube(0.075, glossy(0x0029ff, { emissive: 0x0029ff, emissiveIntensity: 0.25 }));
   root.add(done);
 
   const floor = new THREE.Mesh(new THREE.CylinderGeometry(5.6, 5.6, 0.08, 96), new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.45, transparent: true, opacity: 0.85 }));
@@ -61,7 +61,7 @@ export function mount({ host, tags, gsap, reduced }) {
   const nodes = STEPS.map((name, i) => {
     const u = i / (STEPS.length - 1);
     const p = curve.getPointAt(Math.min(0.999, u));
-    const color = i === STEPS.length - 1 ? 0xe8435f : 0x3b5bff;
+    const color = i === STEPS.length - 1 ? 0x0a0b10 : 0x0029ff;
     const pod = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.48, 0.24, 48), glossy(0xffffff, { emissive: color, emissiveIntensity: 0 }));
     pod.position.set(p.x, 0.12, p.z);
     const dot = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.26, 32), glossy(color));
@@ -74,8 +74,8 @@ export function mount({ host, tags, gsap, reduced }) {
     return { u, pod, ring, tag, on: 0, pinged: false, top: new THREE.Vector3(p.x, 0.75, p.z) };
   });
 
-  const walker = new THREE.Mesh(new THREE.SphereGeometry(0.2, 32, 20), glossy(0xff5c7a));
-  const glow = new THREE.Mesh(new THREE.SphereGeometry(0.34, 24, 16), new THREE.MeshBasicMaterial({ color: 0xff5c7a, transparent: true, opacity: 0.18 }));
+  const walker = new THREE.Mesh(new THREE.SphereGeometry(0.2, 32, 20), glossy(0x3a3b42));
+  const glow = new THREE.Mesh(new THREE.SphereGeometry(0.34, 24, 16), new THREE.MeshBasicMaterial({ color: 0x3a3b42, transparent: true, opacity: 0.18 }));
   root.add(walker, glow);
   ctx.refresh();
   return { setProgress(p) { progress = reduced ? 1 : p; ctx.refresh(); }, destroy: ctx.destroy };

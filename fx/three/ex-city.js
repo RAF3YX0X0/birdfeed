@@ -39,7 +39,7 @@ export function mount({ host, tags, gsap, reduced, city }) {
   root.add(new THREE.Mesh(new THREE.CylinderGeometry(R + 0.4, R + 0.4, 0.12, 96), new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.45, clearcoat: 1 })));
 
   const dim = new THREE.MeshPhysicalMaterial({ color: 0xe4e3df, roughness: 0.4 });
-  const lit = glossy(0x7a8bff);
+  const lit = glossy(0x7088ff);
   const box = new THREE.BoxGeometry(0.34, 1, 0.34);
   const blocks = [];
   // Deterministic pseudo-random city so every load looks the same.
@@ -56,19 +56,19 @@ export function mount({ host, tags, gsap, reduced, city }) {
       blocks.push({ mesh, d, h });
     }
   }
-  const ring = new THREE.Mesh(new THREE.RingGeometry(0.97, 1, 128), new THREE.MeshBasicMaterial({ color: 0x3b5bff, transparent: true, side: THREE.DoubleSide }));
+  const ring = new THREE.Mesh(new THREE.RingGeometry(0.97, 1, 128), new THREE.MeshBasicMaterial({ color: 0x0029ff, transparent: true, side: THREE.DoubleSide }));
   ring.rotation.x = -Math.PI / 2;
   ring.position.y = 0.08;
-  const pulse = new THREE.Mesh(new THREE.CircleGeometry(1, 96), new THREE.MeshBasicMaterial({ color: 0x3b5bff, transparent: true, side: THREE.DoubleSide, depthWrite: false }));
+  const pulse = new THREE.Mesh(new THREE.CircleGeometry(1, 96), new THREE.MeshBasicMaterial({ color: 0x0029ff, transparent: true, side: THREE.DoubleSide, depthWrite: false }));
   pulse.rotation.x = -Math.PI / 2;
   pulse.position.y = 0.07;
   root.add(ring, pulse);
 
   // Map pin: cone + sphere.
   const pin = new THREE.Group();
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.3, 32, 24), glossy(0xe8435f));
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.3, 32, 24), glossy(0x0a0b10));
   head.position.y = 0.35;
-  const tip = new THREE.Mesh(new THREE.ConeGeometry(0.2, 0.5, 32), glossy(0xe8435f));
+  const tip = new THREE.Mesh(new THREE.ConeGeometry(0.2, 0.5, 32), glossy(0x0a0b10));
   tip.rotation.x = Math.PI;
   pin.add(head, tip);
   root.add(pin);
