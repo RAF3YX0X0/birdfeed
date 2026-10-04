@@ -28,6 +28,7 @@ import { setupSkin } from './skin.js';
 import { swapSharedSections } from './shared.js';
 import { setupPageHero } from './ph.js';
 import { setupHelp } from './help.js';
+import { setupSections } from './sections.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -154,6 +155,8 @@ function init() {
 
   // Inner pages: swap in the rebuilt homepage sections they share, then wire
   // up their motion (on the homepage these are static and set up above).
+  // Inner pages' own sections, rebuilt (see sections.js).
+  if (!page.home && !page.legal) setupSections({ islands, gsap: G, ST, reduced });
   if (!page.home && !page.legal) {
     swapSharedSections(islands).then((secs) => {
       if (!secs.length) return;
@@ -1134,14 +1137,14 @@ function setupGallery(curtain) {
 // ---------------------------------------------------------------------------
 if (!G || !ST) {
   html.classList.remove('fx-cover');
-  html.classList.add('hx-static');
+  html.classList.add('hx-static', 'fx-nx-off'); // originals back: the rebuilt sections can't go in
 } else {
   G.registerPlugin(ST);
   try {
     init();
   } catch (err) {
     html.classList.remove('fx-cover');
-    html.classList.add('hx-static');
+    html.classList.add('hx-static', 'fx-nx-off');
     document.querySelectorAll('.fx-curtain').forEach((n) => n.remove());
     console.error('[fx] init failed', err);
   }

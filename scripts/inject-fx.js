@@ -26,6 +26,8 @@ const BLOCKS = [
   // The case studies sit between the guarantee and "The real cost".
   { name: 'bottom', home: true, island: 'FBHomeBottom', files: ['home-bottom.html'], insert: { file: 'home-projects.html', before: '<section class="cx"' } },
   { name: 'shared', inner: true, at: 'main-end', files: [] },
+  // Inner pages: their own cloned sections, rebuilt (scripts/build-sections.js).
+  { name: 'sections', at: 'main-end', files: [] },
   { name: 'footer', at: 'main-end', files: ['footer.html'] },
 ].map((b) => ({ ...b, start: `<!-- fx:${b.name}:start -->`, end: `<!-- fx:${b.name}:end -->` }));
 const partial = (f) => fs.readFileSync(path.join(ROOT, 'fx', 'partials', f), 'utf8').trim();
@@ -98,7 +100,15 @@ function cssBundle(list) {
   return cssBundles.get(key);
 }
 
-function block(home, shared, hero) {
+// An inner page's rebuilt sections ('' if none): a <style> hiding the
+// originals and a <template> that fx/sections.js swaps in.
+function sectionsFor(file) {
+  const slug = path.relative(ROOT, path.dirname(file)).split(path.sep).join('__');
+  const f = path.join(ROOT, 'fx', 'partials', 'sections', slug + '.html');
+  return slug && fs.existsSync(f) ? fs.readFileSync(f, 'utf8').trim() : '';
+}
+
+function block(home, shared, hero, nx) {
   const css = [
     'fx.css',
     'chrome.css',
@@ -106,6 +116,7 @@ function block(home, shared, hero) {
     ...(/class="ph/.test(hero) ? ['ph.css'] : []),
     ...(/class="csx/.test(hero) ? ['cases.css'] : []),
     ...(home || shared ? SHARED_CSS : []),
+    ...(nx ? ['nx.css'] : []),
   ];
   const font = '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>';
   if (manifest) {
@@ -166,11 +177,13 @@ for (const file of pages(ROOT)) {
     if (i === -1) { console.warn('no </head>:', path.relative(ROOT, file)); continue; }
     const shared = home ? '' : sharedFor(file, html);
     const hero = home ? '' : heroFor(file);
-    html = html.slice(0, i) + '\n' + block(home, !!shared, hero) + '\n' + html.slice(i);
+    const nx = home ? '' : sectionsFor(file);
+    html = html.slice(0, i) + '\n' + block(home, !!shared, hero, !!nx) + '\n' + html.slice(i);
     for (const blk of BLOCKS) {
       if (blk.home && !home) continue;
       if (blk.inner && (home || !shared)) continue;
       if (blk.name === 'pagehero' && !hero) continue;
+      if (blk.name === 'sections' && !nx) continue;
       let k = -1;
       if (blk.at === 'main-start') {
         const m = html.indexOf('<main');
@@ -184,7 +197,7 @@ for (const file of pages(ROOT)) {
         k = at === -1 ? -1 : html.lastIndexOf('<astro-island', at);
       }
       if (k <= 0) { console.warn(`no place for ${blk.name}:`, path.relative(ROOT, file)); continue; }
-      const extra = blk.name === 'nav' && !home && !hero ? NAV_SPACE : blk.name === 'shared' ? shared : blk.name === 'pagehero' ? hero : '';
+      const extra = blk.name === 'nav' && !home && !hero ? NAV_SPACE : blk.name === 'shared' ? shared : blk.name === 'pagehero' ? hero : blk.name === 'sections' ? nx : '';
       let body = blk.files.map(partial).join('\n');
       if (blk.insert) {
         const at = body.indexOf(blk.insert.before);

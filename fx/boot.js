@@ -8,6 +8,9 @@
   try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   d.classList.add('fx');
+  // Inner pages' rebuilt sections replace the originals once fx.js runs; if
+  // it never does, show the originals again.
+  setTimeout(function () { if (document.getElementById('fx-nx') && !document.querySelector('section.nx')) d.classList.add('fx-nx-off'); }, 12000);
   if (reduce) { d.classList.add('fx-reduced'); return; }
 
   // A page reached through an fx page-transition starts covered so the

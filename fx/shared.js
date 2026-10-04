@@ -87,11 +87,22 @@ export function swapSharedSections(islands) {
       resolve(inserted);
     };
 
+    whenSafe(island).then((ok) => (ok ? swap() : resolve([])));
+  });
+}
+
+// Resolves true once sections can safely be added inside an island: React
+// has hydrated it, or its component code is missing so it never will. False
+// after ~30s if neither (then it's left alone).
+export function whenSafe(island) {
+  return new Promise((resolve) => {
+    let done = false;
+    const finish = (ok) => { if (!done) { done = true; resolve(ok); } };
     // Is the island's component code missing (so it will never hydrate)?
     let frozen = false;
     const url = island.getAttribute('component-url');
     if (url) fetch(url, { method: 'HEAD' }).then((r) => { frozen = !r.ok; }).catch(() => {});
-    island.addEventListener('astro:hydration-error', swap, { once: true });
+    island.addEventListener('astro:hydration-error', () => finish(true), { once: true });
 
     // Poll until it's safe. React owns the DOM a moment after astro:hydrate
     // fires (that event marks the *start* of hydration), so give it a beat.
@@ -99,14 +110,14 @@ export function swapSharedSections(islands) {
     let tries = 0;
     const tick = () => {
       if (done) return;
-      if (frozen) return swap();
+      if (frozen) return finish(true);
       // React hydrates in chunks, and only claims an element once everything
       // inside it is done, so the island's root element is the signal that
       // the whole page is hydrated and siblings can safely be added.
       const root = island.firstElementChild;
       if (root && reactOwned(root)) owned++;
-      if (owned > 3) return swap();
-      if (++tries > 200) return resolve([]); // ~30s: never hydrated, leave it be
+      if (owned > 3) return finish(true);
+      if (++tries > 200) return finish(false);
       setTimeout(tick, 150);
     };
     tick();
