@@ -478,14 +478,129 @@ astro-island :is(h1, h2) span[style*="color:#0029FF"],
   box-shadow: 0 0 0 4px rgba(0, 41, 255, 0.15);
 }
 
-/* Pricing builder (homepage, pricing page and service pages): rounder white
-   tiles, blue "most popular" card, sticky estimate clear of the pill nav. */
-astro-island .sh-bld { border-radius: 22px !important; background: #fff !important; }
-astro-island .sh-bld:hover { border-color: #0029FF !important; box-shadow: 0 0 0 4px rgba(0, 41, 255, 0.1), 0 20px 40px -26px rgba(20, 30, 70, 0.45) !important; }
-astro-island .sh-bld.sh-feat { border-color: #0029FF !important; box-shadow: 0 0 0 5px rgba(0, 41, 255, 0.1), 0 30px 60px -36px rgba(20, 30, 70, 0.45); }
-astro-island .sh-bld.sh-feat > span:first-child { background: #0029FF !important; padding: 6px 12px !important; letter-spacing: 0.08em !important; }
-astro-island .sh-bld:hover .sh-add { border-color: #0029FF !important; }
-astro-island .sh-builder-grid > div:last-child > div { top: 96px !important; }
+/* ---- Pricing builder (homepage, pricing page, service and industry pages) ------
+   One React component everywhere, restyled here (its markup and inline styles
+   are left alone so it hydrates and works as before): soft white tiles with
+   round "+" buttons that turn blue, a blue ring on what's in the plan, a
+   featured card with a dark stepper and its examples fanned out, and the
+   estimate as a black card with a blue pill button. The doubled-up selectors
+   outrank the generic card / pill / icon skin further down. */
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid { gap: 28px !important; }
+
+/* Tiles. Inline borders mark the state: 2px black = in the plan. */
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld {
+  border: 1px solid #E5E5E0 !important;
+  border-radius: 22px !important;
+  background: #fff !important;
+  box-shadow: 0 1px 0 rgba(10, 11, 16, 0.02), 0 14px 30px -24px rgba(20, 30, 70, 0.35);
+  transition: border-color 0.25s ease, box-shadow 0.3s ease, background-color 0.25s ease !important;
+}
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld:hover { border-color: #B8C4FF !important; box-shadow: 0 0 0 4px rgba(0, 41, 255, 0.08), 0 20px 40px -26px rgba(20, 30, 70, 0.45); }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld:is([style*="solid rgb(10, 11, 16)"], [style*="solid #0A0B10"], [style*="solid #0a0b10"]) {
+  border-color: #0029FF !important;
+  background: #F3F5FF !important;
+  box-shadow: 0 0 0 1px #0029FF, 0 0 0 5px rgba(0, 41, 255, 0.1), 0 18px 36px -26px rgba(0, 41, 255, 0.45);
+}
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-other-grid { gap: 12px !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld:not(.sh-feat) { min-height: 74px; padding: 14px 16px 14px 14px !important; box-sizing: border-box; }
+/* Icon: a round tile, blue once it's in the plan. */
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld:not(.sh-feat) > span:first-child { width: 42px !important; height: 42px !important; border-radius: 50% !important; background: #F1F1ED !important; transition: background-color 0.25s ease, color 0.25s ease; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld:not(.sh-feat):hover > span:first-child { background: #EEF1FF !important; color: #0029FF !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld:is([style*="solid rgb(10, 11, 16)"], [style*="solid #0A0B10"], [style*="solid #0a0b10"]):not(.sh-feat) > span:first-child { background: #0029FF !important; color: #fff !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld:not(.sh-feat) > span:nth-child(2) > span:first-child { font-size: 14.5px !important; font-weight: 600 !important; letter-spacing: -0.01em; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld:not(.sh-feat) > span:nth-child(2) > span:last-child { color: #6B6B74 !important; }
+/* "i" and "+": round buttons. */
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-info { width: 26px !important; height: 26px !important; background: #F1F1ED !important; color: #52525B !important; transition: background-color 0.2s ease, color 0.2s ease; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-info:hover { background: #0A0B10 !important; color: #fff !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-add {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid #D4D4CF !important;
+  background: #fff !important;
+  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-add > span { color: #0A0B10 !important; font-size: 19px !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld:hover .sh-add { border-color: #0029FF !important; background: #0029FF !important; transform: rotate(90deg); }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld:hover .sh-add > span { color: #fff !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-add:has(svg) { border-color: #0029FF !important; background: #0029FF !important; transform: none !important; }
+
+/* The featured service. */
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld.sh-feat { padding: 30px !important; border-radius: 28px !important; background: radial-gradient(120% 90% at 100% 0%, #EEF1FF 0%, rgba(238, 241, 255, 0) 55%), #fff !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-bld.sh-feat:is([style*="solid rgb(10, 11, 16)"], [style*="solid #0A0B10"], [style*="solid #0a0b10"]) { background: radial-gradient(120% 90% at 100% 0%, #E6EAFF 0%, rgba(238, 241, 255, 0) 55%), #F8F9FF !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:first-child {
+  top: -13px !important;
+  left: 26px !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px 7px 10px !important;
+  border-radius: 999px !important;
+  background: #0A0B10 !important;
+  font: 600 10.5px/1 Inter, Inter Fallback, system-ui, sans-serif !important;
+  letter-spacing: 0.08em !important;
+}
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:first-child::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #3352FF; box-shadow: 0 0 0 3px rgba(51, 82, 255, 0.3); }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(2) > span:first-child > span:first-child { width: 54px !important; height: 54px !important; border-radius: 50% !important; background: #0029FF !important; color: #fff !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(2) > span:first-child > span:nth-child(2) > span:first-child > span:first-child { font-size: 22px !important; font-weight: 600 !important; letter-spacing: -0.025em; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(2) > span:first-child > span:nth-child(2) > span:first-child > span:nth-child(2) { font-weight: 500 !important; color: #52525B !important; }
+/* Stepper: a dark pill. */
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(2) > span:nth-child(2) { gap: 14px !important; margin-top: 20px !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(2) > span:nth-child(2) > span:first-child { border: 0 !important; background: #0A0B10 !important; padding: 4px !important; box-shadow: 0 12px 24px -14px rgba(10, 11, 16, 0.6); }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(2) > span:nth-child(2) > span:first-child > span { color: #fff !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(2) > span:nth-child(2) > span:first-child > span:is(:first-child, :last-child) { width: 34px !important; height: 34px !important; background: rgba(255, 255, 255, 0.12); transition: background-color 0.2s ease; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(2) > span:nth-child(2) > span:first-child > span:is(:first-child, :last-child):hover { background: #0029FF; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(2) > span:nth-child(2) > span:nth-child(2) { color: #0029FF !important; }
+/* Examples: fanned out, spreading a little on hover. */
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(3) { gap: 10px !important; perspective: 900px; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(3) > span { border-radius: 14px !important; box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 18px 30px -16px rgba(16, 24, 40, 0.5) !important; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(3) > span:nth-child(1) { transform: rotate(-7deg) translate(6px, 6px) !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(3) > span:nth-child(2) { transform: translateY(-8px) scale(1.04) !important; z-index: 1; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat > span:nth-child(3) > span:nth-child(3) { transform: rotate(7deg) translate(-6px, 6px) !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat:hover > span:nth-child(3) > span:nth-child(1) { transform: rotate(-11deg) translate(-4px, 4px) !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat:hover > span:nth-child(3) > span:nth-child(2) { transform: translateY(-14px) scale(1.06) !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-feat:hover > span:nth-child(3) > span:nth-child(3) { transform: rotate(11deg) translate(4px, 4px) !important; }
+
+/* "More add-ons & services". */
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-other-grid + div { margin-top: 14px !important; border: 1.5px dashed #D4D4CF !important; border-radius: 22px !important; background: rgba(255, 255, 255, 0.6) !important; padding: 0 18px !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-other-grid + div > button:first-child > span:first-child { width: 30px !important; height: 30px !important; border-radius: 50% !important; border-color: #D4D4CF !important; color: #0A0B10 !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid .sh-other-grid + div > button:first-child > span:nth-child(2) > span:first-child { font-weight: 600 !important; }
+
+/* Estimate: a black card. */
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child { top: 96px !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div { filter: none !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:last-child:not(:first-child) { display: none !important; } /* receipt edge */
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child {
+  border: 0 !important;
+  border-radius: 28px !important;
+  padding: 30px 28px 26px !important;
+  background: radial-gradient(90% 60% at 100% 0%, rgba(0, 41, 255, 0.28) 0%, rgba(0, 41, 255, 0) 70%), #0A0B10 !important;
+  color: #F4F4F0;
+  box-shadow: 0 50px 90px -40px rgba(10, 11, 16, 0.65), 0 20px 40px -24px rgba(0, 41, 255, 0.35);
+}
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child :is([style*="0A0B10"], [style*="0a0b10"], [style*="10, 11, 16"]) { color: #fff !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child :is([style*="52525B"], [style*="52525b"], [style*="82, 82, 91"]) { color: rgba(255, 255, 255, 0.68) !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child :is([style*="8A8B95"], [style*="8a8b95"], [style*="138, 139, 149"]) { color: rgba(255, 255, 255, 0.5) !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child :is([style*="color:#0029FF"], [style*="color: rgb(0, 41, 255)"], [style*="color:#0029ff"]) { color: #8DA0FF !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child :is(div, span)[style*="dashed"] { border-color: rgba(255, 255, 255, 0.14) !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child span[style*="dotted"] { border-color: rgba(255, 255, 255, 0.22) !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child div[style*="padding:13px 14px"] { border: 1px solid rgba(255, 255, 255, 0.08) !important; border-radius: 16px !important; background: rgba(255, 255, 255, 0.05) !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child > a {
+  min-height: 56px;
+  box-sizing: border-box;
+  border-radius: 999px !important;
+  background: #0029FF !important;
+  color: #fff !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 14px 30px -12px rgba(0, 41, 255, 0.9);
+  transition: background-color 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child > a:hover { background: #0021D6 !important; transform: translateY(-2px); }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child p a { color: rgba(255, 255, 255, 0.72) !important; }
+html body .sh-builder-grid.sh-builder-grid.sh-builder-grid > div:last-child > div > div:first-child button { color: #8DA0FF !important; }
+
+/* Phones: the bottom "n services selected" bar. */
+.sh-mini-receipt > div { border-radius: 999px !important; padding: 8px 8px 8px 22px !important; box-shadow: 0 20px 40px -18px rgba(10, 11, 16, 0.6) !important; }
+.sh-mini-receipt > div > a { background: #0029FF !important; color: #fff !important; }
 
 /* Some cloned pages lay cards out in a fixed three-column grid with no phone
    layout (e.g. the video demo page); on phones those cards stack instead. */
