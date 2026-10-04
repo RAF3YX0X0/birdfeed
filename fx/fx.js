@@ -31,6 +31,7 @@ import { setupHelp } from './help.js';
 import { setupSections } from './sections.js';
 import { setupIndustry, wireBlocks } from './ind.js';
 import { startCal } from './cal.js';
+import { setupPricing } from './pricing.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -110,7 +111,9 @@ function init() {
   const animateIn = !reduced && curtain.covered;
   if (animateIn && homeHero) homeHero.buildIntro(intro);
   else if (animateIn && cases) cases.buildIntro(intro);
-  else if (animateIn && hero) buildHeroIntro(hero, intro);
+  else if (animateIn && hero && !hero.classList.contains('prx')) buildHeroIntro(hero, intro);
+  // The pricing page (see pricing.js).
+  if (hero && hero.classList.contains('prx')) setupPricing({ hero, gsap: G, ST, lenis, reduced, intro, animateIn, finePointer });
   // Inner pages' generated hero: the visual rises into the arch on scroll.
   if (hero && hero.classList.contains('ph')) setupPageHero({ section: hero, gsap: G, reduced });
 
@@ -137,7 +140,9 @@ function init() {
     const cfg = funnelFor(location.pathname);
     const common = { gsap: G, lenis, reduced, narrow: isNarrow() };
     if (cfg) placeInIsland([/pricing\s*&\s*plans/i, /real results/i], (anchor) => setupFunnel({ anchor, ...common, stages: cfg.stages, copy: cfg.copy }));
-    if (slug === 'pricing') placeInIsland([/money back|first batch/i], (anchor) => setupROI({ anchor, ...common }));
+    // Pricing: the estimator has a slot among the page's own sections.
+    const roiSlot = document.getElementById('fx-roi-slot');
+    if (slug === 'pricing') roiSlot ? setupROI({ anchor: roiSlot, ...common }) : placeInIsland([/money back|first batch/i], (anchor) => setupROI({ anchor, ...common }));
     if (slug === 'social-media-management') placeInIsland([/everything done for you/i, /real results/i], (anchor) => setupCalendar({ anchor, ...common }));
     const ex = explainerFor(location.pathname);
     if (ex) placeInIsland(ex.anchors, (anchor) => mountExplainer({ anchor, position: ex.position, def: ex.def, ...common }));

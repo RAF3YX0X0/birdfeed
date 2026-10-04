@@ -1,0 +1,765 @@
+{
+ "services": [
+  {
+   "name": "Social Media Posts",
+   "agency": 750,
+   "cat": "Social Media",
+   "icon": "image",
+   "tiers": [
+    [
+     "10 posts",
+     "$99"
+    ],
+    [
+     "20 posts",
+     "$199"
+    ],
+    [
+     "30 posts",
+     "$299"
+    ]
+   ],
+   "note": "One social set included (one of each channel)",
+   "hl": [
+    "1 social set",
+    "One of each social channel for your brand"
+   ],
+   "tag": "Custom-branded posts created and posted across your channels each month.",
+   "feat": [
+    [
+     "image",
+     "Custom-designed posts in your branding"
+    ],
+    [
+     "pen",
+     "Strategy, engaging captions and relevant hashtags"
+    ],
+    [
+     "cal",
+     "We schedule and post to your channels for you"
+    ],
+    [
+     "check",
+     "One social set included, one of each channel"
+    ],
+    [
+     "repeat",
+     "3 revision rounds month one, 1 round ongoing"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "First delivery",
+     "7 business days"
+    ],
+    [
+     "repeat",
+     "Revisions",
+     "3 first month, 1 ongoing"
+    ],
+    [
+     "badge",
+     "Guarantee",
+     "14-day satisfaction"
+    ]
+   ]
+  },
+  {
+   "name": "Short-Form Videos",
+   "agency": 800,
+   "cat": "Social Media",
+   "icon": "video",
+   "tiers": [
+    [
+     "5 videos",
+     "$149"
+    ],
+    [
+     "10 videos",
+     "$279"
+    ],
+    [
+     "15 videos",
+     "$389"
+    ]
+   ],
+   "note": "Custom volume available beyond 15 videos",
+   "hl": [
+    "20 to 60s",
+    "Platform-optimized edits for TikTok, Reels & Shorts"
+   ],
+   "tag": "Scroll-stopping Reels, TikToks, and Shorts, edited by expert editors.",
+   "feat": [
+    [
+     "video",
+     "20 to 60 second videos for TikTok, Reels and Shorts"
+    ],
+    [
+     "check",
+     "Edited from your footage or premium stock"
+    ],
+    [
+     "cal",
+     "We schedule and post to your channels for you"
+    ],
+    [
+     "check",
+     "On-brand overlays, captions and trending hashtags"
+    ],
+    [
+     "check",
+     "Royalty-free music and platform-ready pacing"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "First delivery",
+     "7 business days"
+    ],
+    [
+     "repeat",
+     "Revisions",
+     "3 first month, 1 ongoing"
+    ],
+    [
+     "badge",
+     "Guarantee",
+     "14-day satisfaction"
+    ]
+   ]
+  },
+  {
+   "name": "Meta Ads Management",
+   "agency": 1500,
+   "cat": "Ads Management",
+   "icon": "trend",
+   "flat": "$499",
+   "priceLabel": "Flat rate",
+   "note": "Ad spend paid separately, directly to Meta",
+   "addon": "Higher ad spend? Add extra static, video, or UGC ads on top for more creative volume.",
+   "hl": [
+    "Every 2-3 days",
+    "Your account is actively optimized, not set and forget"
+   ],
+   "tag": "Full-service Facebook and Instagram ads run by a dedicated media buyer.",
+   "feat": [
+    [
+     "trend",
+     "Dedicated media buyer and creative strategy team"
+    ],
+    [
+     "check",
+     "5 static + 2 video ads monthly, add more anytime"
+    ],
+    [
+     "target",
+     "Strategic audience targeting and segmentation"
+    ],
+    [
+     "wrench",
+     "Setup plus ongoing optimization every 2-3 days"
+    ],
+    [
+     "shield",
+     "You keep full ownership of your ad account and data"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "Campaign launch",
+     "10 to 12 days"
+    ],
+    [
+     "repeat",
+     "Optimization",
+     "Every 2-3 days"
+    ],
+    [
+     "check",
+     "Add-on",
+     "Pixel & tracking setup"
+    ]
+   ]
+  },
+  {
+   "name": "Google Ads Management",
+   "agency": 1500,
+   "cat": "Ads Management",
+   "icon": "target",
+   "flat": "$499",
+   "priceLabel": "Flat rate",
+   "note": "Ad spend paid separately, directly to Google",
+   "hl": [
+    "Every 2-3 days",
+    "Your account is actively optimized, not set and forget"
+   ],
+   "tag": "Search, Performance Max, and YouTube ads run by a dedicated Google specialist.",
+   "feat": [
+    [
+     "search",
+     "Dedicated Google Ads specialist and strategy"
+    ],
+    [
+     "target",
+     "Keyword research and high-intent targeting"
+    ],
+    [
+     "check",
+     "Search, Performance Max and Shopping campaigns"
+    ],
+    [
+     "wrench",
+     "Weekly optimization and negative-keyword cleanup"
+    ],
+    [
+     "shield",
+     "You keep full ownership of your ad account"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "Campaign launch",
+     "10 to 12 days"
+    ],
+    [
+     "repeat",
+     "Optimization",
+     "Every 2-3 days"
+    ],
+    [
+     "check",
+     "Add-on",
+     "Conversion tracking"
+    ]
+   ]
+  },
+  {
+   "name": "Instagram Growth",
+   "agency": 500,
+   "cat": "Social Media",
+   "icon": "userplus",
+   "flat": "$149",
+   "priceLabel": "Flat rate",
+   "note": "Dedicated growth manager included",
+   "hl": [
+    "100-400+",
+    "New, targeted followers per month"
+   ],
+   "tag": "Real, targeted followers through manual engagement. No bots, no automation.",
+   "feat": [
+    [
+     "userplus",
+     "100 to 400+ new, targeted followers each month"
+    ],
+    [
+     "users",
+     "Dedicated personal growth manager"
+    ],
+    [
+     "target",
+     "Custom targeting by niche, content and location"
+    ],
+    [
+     "shield",
+     "Manual actions from real devices, never bots"
+    ],
+    [
+     "file",
+     "Monthly growth and engagement reports"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "Warm-up",
+     "2 weeks, then full pace"
+    ],
+    [
+     "trend",
+     "Method",
+     "Manual follow / unfollow"
+    ],
+    [
+     "check",
+     "Bots",
+     "Never used"
+    ]
+   ]
+  },
+  {
+   "name": "Email Marketing",
+   "agency": 800,
+   "cat": "Email",
+   "icon": "mail",
+   "tiers": [
+    [
+     "2 emails",
+     "$149"
+    ],
+    [
+     "4 emails",
+     "$289"
+    ],
+    [
+     "8 emails",
+     "$549"
+    ]
+   ],
+   "note": "Split across campaigns and automated flows",
+   "hl": [
+    "Any ESP",
+    "Klaviyo, Mailchimp, Shopify Email, ActiveCampaign"
+   ],
+   "tag": "Conversion-focused campaigns and flows, designed and built inside your ESP.",
+   "feat": [
+    [
+     "mail",
+     "Custom image-based email designs in your branding"
+    ],
+    [
+     "pen",
+     "Conversion copywriting written by our team"
+    ],
+    [
+     "wrench",
+     "Built and implemented directly in your ESP"
+    ],
+    [
+     "check",
+     "Campaigns and automated flows, split as you like"
+    ],
+    [
+     "check",
+     "Responsive, tested across major inboxes"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "Delivery",
+     "Within 10 business days"
+    ],
+    [
+     "repeat",
+     "Revisions",
+     "2 first month, 1 ongoing"
+    ],
+    [
+     "badge",
+     "Guarantee",
+     "14-day satisfaction"
+    ]
+   ]
+  },
+  {
+   "name": "UGC Videos",
+   "agency": 1200,
+   "cat": "Ad Creative",
+   "icon": "clap",
+   "tiers": [
+    [
+     "3 videos",
+     "$599"
+    ],
+    [
+     "6 videos",
+     "$1,199"
+    ],
+    [
+     "9 videos",
+     "$1,799"
+    ]
+   ],
+   "note": "1 creator per batch of 3 videos",
+   "hl": [
+    "About 4 weeks",
+    "From creative brief to final, ad-ready delivery"
+   ],
+   "tag": "Ad-ready videos from vetted creators, scripted and directed by our team.",
+   "feat": [
+    [
+     "clap",
+     "Vetted creators matched to your brand"
+    ],
+    [
+     "pen",
+     "Custom scripts and creator briefs"
+    ],
+    [
+     "video",
+     "Professional editing, captions, and CTAs"
+    ],
+    [
+     "check",
+     "Sound design and music"
+    ],
+    [
+     "shield",
+     "Brand compliance review on every video"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "Turnaround",
+     "About 4 weeks"
+    ],
+    [
+     "repeat",
+     "Revisions",
+     "1 round on final edits"
+    ],
+    [
+     "check",
+     "Output",
+     "Ready to run as ads"
+    ]
+   ]
+  },
+  {
+   "name": "SEO Backlinks",
+   "agency": 750,
+   "cat": "SEO",
+   "icon": "link",
+   "tiers": [
+    [
+     "3 backlinks",
+     "$249"
+    ],
+    [
+     "6 backlinks",
+     "$479"
+    ],
+    [
+     "12 backlinks",
+     "$899"
+    ]
+   ],
+   "note": "DA 20-65, delivered within 30 days",
+   "hl": [
+    "DA 20-65",
+    "Guaranteed authority range on every link"
+   ],
+   "tag": "High-authority backlinks built through genuine manual outreach.",
+   "feat": [
+    [
+     "link",
+     "Do-follow links from DA 20-65 authority sites"
+    ],
+    [
+     "search",
+     "100% genuine manual outreach, no spam directories"
+    ],
+    [
+     "pen",
+     "Content writing for every placement included"
+    ],
+    [
+     "check",
+     "Industry relevant, minimum 100 visits per month"
+    ],
+    [
+     "shield",
+     "6-month link stability guarantee"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "Delivery",
+     "Within 30 days"
+    ],
+    [
+     "trend",
+     "Tracking",
+     "Ahrefs traffic verified"
+    ],
+    [
+     "badge",
+     "Guarantee",
+     "Money-back"
+    ]
+   ]
+  },
+  {
+   "name": "SEO Blog Posts",
+   "agency": 300,
+   "cat": "SEO",
+   "icon": "pen",
+   "tiers": [
+    [
+     "2 posts",
+     "$99"
+    ],
+    [
+     "4 posts",
+     "$179"
+    ],
+    [
+     "6 posts",
+     "$249"
+    ]
+   ],
+   "note": "1,000 words each, custom volume available",
+   "hl": [
+    "1,000 words",
+    "Research-backed articles built to rank"
+   ],
+   "tag": "SEO-optimized articles written for search intent and organic traffic.",
+   "feat": [
+    [
+     "pen",
+     "1,000-word posts written for search intent"
+    ],
+    [
+     "search",
+     "Keyword research and monthly topic ideas"
+    ],
+    [
+     "image",
+     "Premium licensed images included"
+    ],
+    [
+     "link",
+     "Strategic internal and external links"
+    ],
+    [
+     "file",
+     "Meta descriptions and title tags"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "Delivery",
+     "5 days after topics"
+    ],
+    [
+     "repeat",
+     "Revisions",
+     "3 first month, 1 ongoing"
+    ],
+    [
+     "badge",
+     "Guarantee",
+     "14-day satisfaction"
+    ]
+   ]
+  },
+  {
+   "name": "Managed SEO",
+   "agency": 2000,
+   "cat": "SEO",
+   "icon": "search",
+   "flat": "$499",
+   "priceLabel": "From",
+   "note": "We decide the right mix each month",
+   "hl": [
+    "All-in-one",
+    "Content, links, and technical SEO in one plan"
+   ],
+   "tag": "Done-for-you SEO. We plan the strategy, then handle every part of it.",
+   "feat": [
+    [
+     "search",
+     "Keyword research and strategy for your niche"
+    ],
+    [
+     "pen",
+     "SEO content and on-page updates"
+    ],
+    [
+     "link",
+     "High-quality backlinks via outreach"
+    ],
+    [
+     "wrench",
+     "On-page and technical SEO fixes"
+    ],
+    [
+     "chart",
+     "Clear monthly reporting on rankings and traffic"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "Early movement",
+     "2 to 3 months"
+    ],
+    [
+     "trend",
+     "Strong gains",
+     "6 to 12 months"
+    ],
+    [
+     "check",
+     "Contract",
+     "None, cancel anytime"
+    ]
+   ]
+  },
+  {
+   "name": "Landing Pages",
+   "agency": 1500,
+   "cat": "Other",
+   "icon": "image",
+   "oneTime": true,
+   "flat": "$349",
+   "priceLabel": "Flat rate",
+   "note": "Built and published on your platform",
+   "hl": [
+    "1 goal",
+    "Every page built around a single conversion action"
+   ],
+   "tag": "High-converting landing pages, designed, written, and built for you.",
+   "feat": [
+    [
+     "image",
+     "Custom landing page designed in your branding"
+    ],
+    [
+     "pen",
+     "Conversion copywriting written for your offer"
+    ],
+    [
+     "wrench",
+     "Built and published on your platform"
+    ],
+    [
+     "target",
+     "Optimized for one clear conversion goal"
+    ],
+    [
+     "check",
+     "Mobile-responsive and speed-tested"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "First draft",
+     "7 to 10 business days"
+    ],
+    [
+     "repeat",
+     "Revisions",
+     "2 rounds included"
+    ],
+    [
+     "badge",
+     "Guarantee",
+     "14-day satisfaction"
+    ]
+   ]
+  },
+  {
+   "name": "Conversion Tracking",
+   "agency": 800,
+   "cat": "Other",
+   "icon": "target",
+   "oneTime": true,
+   "tiers": [
+    [
+     "1 channel",
+     "$249"
+    ],
+    [
+     "2 channels",
+     "$349"
+    ]
+   ],
+   "note": "One channel (Meta or Google) or both",
+   "hl": [
+    "Meta & Google",
+    "Set up one channel or both, your choice"
+   ],
+   "tag": "Proper conversion tracking, so every campaign decision is based on real data.",
+   "feat": [
+    [
+     "target",
+     "Set up for Meta, Google, or both channels"
+    ],
+    [
+     "chart",
+     "GA4 and platform conversion events configured"
+    ],
+    [
+     "wrench",
+     "Server-side tracking where it helps"
+    ],
+    [
+     "check",
+     "Verified, accurate event firing"
+    ],
+    [
+     "file",
+     "Simple report of everything we set up"
+    ]
+   ],
+   "facts": [
+    [
+     "clock",
+     "Setup",
+     "5 to 7 business days"
+    ],
+    [
+     "shield",
+     "Ownership",
+     "You keep full account access"
+    ],
+    [
+     "check",
+     "Scope",
+     "One-time setup"
+    ]
+   ]
+  }
+ ],
+ "cats": [
+  {
+   "label": "Social Media Management",
+   "icon": "image",
+   "bicon": "posts",
+   "items": [
+    "Social Media Posts",
+    "Short-Form Videos",
+    "Instagram Growth"
+   ]
+  },
+  {
+   "label": "Paid Ads",
+   "icon": "trend",
+   "bicon": "meta",
+   "items": [
+    "Meta Ads Management",
+    "Google Ads Management",
+    "UGC Videos"
+   ]
+  },
+  {
+   "label": "SEO",
+   "icon": "search",
+   "bicon": "seo",
+   "items": [
+    "SEO Blog Posts",
+    "SEO Backlinks",
+    "Managed SEO"
+   ]
+  },
+  {
+   "label": "Other",
+   "icon": "sparkle",
+   "bicon": "sparkle",
+   "items": [
+    "Email Marketing",
+    "Landing Pages",
+    "Conversion Tracking"
+   ]
+  }
+ ]
+}

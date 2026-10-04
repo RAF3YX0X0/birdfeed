@@ -25,7 +25,7 @@ const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application
 const MEDIA = ['short-form-video', 'ugc-videos', 'social-media-management'];
 const PARTIAL = ['pricing', 'book-demo', 'privacy', 'refund', 'terms'];
 // Pages with their own hero partial, made by another script (left alone here).
-const OWN = ['case-studies']; // scripts/build-cases.js
+const OWN = ['case-studies', 'pricing']; // scripts/build-cases.js, build-pricing.js
 
 function pages() {
   const out = [];
