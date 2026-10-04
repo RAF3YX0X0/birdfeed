@@ -87,7 +87,7 @@ function faqs(root) {
 // to the demo page instead.
 function calendars(root) {
   root.querySelectorAll('#my-cal-inline, .fx-cal-slot').forEach((box) => {
-    if (box.hasAttribute('data-fx-cal') || box.querySelector('iframe') || !safe(box)) return;
+    if (box.hasAttribute('data-fx-cal') || box.querySelector('iframe') || box.dataset.calInitDone || !safe(box)) return;
     box.setAttribute('data-fx-cal', '');
     const now = new Date();
     const first = new Date(now.getFullYear(), now.getMonth(), 1);

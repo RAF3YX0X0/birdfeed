@@ -30,6 +30,7 @@ import { setupPageHero } from './ph.js';
 import { setupHelp } from './help.js';
 import { setupSections } from './sections.js';
 import { setupIndustry, wireBlocks } from './ind.js';
+import { startCal } from './cal.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -159,6 +160,9 @@ function init() {
   // Inner pages' own sections, rebuilt (see sections.js).
   // (Their work and case-study blocks get the industry sections' motion.)
   if (!page.home && !page.legal) setupSections({ islands, gsap: G, ST, reduced, onExtras: (secs) => wireBlocks(secs, { gsap: G, ST, reduced, finePointer }) });
+  // The demo page's booking calendar, without the component's 4s wait.
+  const calBox = document.getElementById('my-cal-inline');
+  if (calBox && calBox.offsetParent) startCal();
   // Industry pages' own sections (in the HTML).
   if (!page.home) setupIndustry({ gsap: G, ST, reduced, finePointer });
   if (!page.home && !page.legal) {
@@ -232,7 +236,10 @@ function init() {
 // ---------------------------------------------------------------------------
 function setupSmoothScroll() {
   if (reduced || !window.Lenis) return null;
-  const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, allowNestedScroll: true, anchors: false, autoRaf: false });
+  // A slow, soft glide: each frame closes 6.5% of the remaining distance
+  // (Lenis's default is 10%), with slightly gentler wheel steps. Touch
+  // screens keep native scrolling, which feels best under a finger.
+  const lenis = new Lenis({ lerp: 0.065, wheelMultiplier: 0.9, smoothWheel: true, allowNestedScroll: true, anchors: false, autoRaf: false });
   lenis.on('scroll', ST.update);
   G.ticker.add((t) => lenis.raf(t * 1000));
   G.ticker.lagSmoothing(0);

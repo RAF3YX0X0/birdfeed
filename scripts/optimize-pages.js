@@ -61,6 +61,17 @@ function lazyImages(html) {
   return out + html.slice(last);
 }
 
+// The demo page's booking calendar (Cal.com): connect to Cal and fetch its
+// script from the start, and let React take over the section within 600ms of
+// the page settling instead of whenever the browser is next idle.
+function bookingEmbed(html) {
+  if (!/component-export="BookDemo"/.test(html) || !/my-cal-inline/.test(html)) return html;
+  if (!html.includes('<!-- cal:preconnect -->')) {
+    html = html.replace('</title>', '</title><!-- cal:preconnect --><link rel="preconnect" href="https://app.cal.com"><link rel="preconnect" href="https://feedbirdteam.cal.com"><link rel="preload" as="script" href="https://app.cal.com/embed/embed.js">');
+  }
+  return html.replace(/(<astro-island[^>]*component-export="BookDemo"[^>]*opts="{&quot;name&quot;:&quot;BookDemo&quot;,&quot;value&quot;:)true(})/, '$1{&quot;timeout&quot;:600}$2');
+}
+
 function seo(html) {
   html = html.replace(/(<link rel="canonical" href=")([^"]+)(")/, (m, a, u, b) => a + abs(u) + b);
   html = html.replace(/(<meta (?:property|name)="(?:og:url|og:image|twitter:image)" content=")([^"]+)(")/g, (m, a, u, b) => a + abs(u) + b);
@@ -95,7 +106,7 @@ for (const f of pages(ROOT)) {
   let s = fs.readFileSync(f, 'utf8');
   const before = s;
   for (const re of TRACKERS) s = s.replace(re, () => { removed++; return ''; });
-  s = seo(lazyImages(s));
+  s = bookingEmbed(seo(lazyImages(s)));
   if (s !== before) fs.writeFileSync(f, s);
   const rel = path.relative(ROOT, path.dirname(f)).split(path.sep).join('/');
   if (!/name="robots" content="noindex/.test(s)) urls.push(rel ? `/${rel}/` : '/'); // (the login page isn't listed)
