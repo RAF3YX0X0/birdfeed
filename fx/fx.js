@@ -381,7 +381,7 @@ function setupCurtain(lenis) {
   window.addEventListener('pageshow', (e) => { if (!e.persisted) return; lift(true); if (loadBar) { loadBar.remove(); loadBar = null; } });
 
   // revealAt: when the hero intro starts, i.e. while the panels are mid-lift.
-  return { lift: () => lift(false), leave, covered, revealAt: covered ? 0.3 : 0 };
+  return { lift: () => lift(false), leave, covered, revealAt: covered ? (fromLoad ? 1.95 : 0.55) : 0 };
 }
 
 function setupProgress() {

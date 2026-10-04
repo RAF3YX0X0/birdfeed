@@ -13,7 +13,16 @@
   setTimeout(function () { if (document.getElementById('fx-nx') && !document.querySelector('section.nx')) d.classList.add('fx-nx-off'); }, 12000);
   if (reduce) { d.classList.add('fx-reduced'); return; }
 
-  // Pages show straight away: no preloader, no cover between pages. (Clear
-  // the flag older versions set before navigating.)
-  try { sessionStorage.removeItem('fx-nav'); } catch (e) {}
+  // The preloader plays on the first page of a visit; pages after that show
+  // straight away (links navigate natively, with a quick cross-fade).
+  var seen = false;
+  try {
+    seen = sessionStorage.getItem('fx-seen') === '1';
+    sessionStorage.setItem('fx-seen', '1');
+    sessionStorage.removeItem('fx-nav');
+  } catch (e) {}
+  if (seen) return;
+  d.classList.add('fx-cover', 'fx-from-load');
+  // Failsafe: never leave the page covered if fx.js fails to run.
+  setTimeout(function () { d.classList.remove('fx-cover'); }, 4000);
 })();
