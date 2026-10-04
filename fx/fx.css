@@ -301,8 +301,19 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
   position: relative;
   height: clamp(360px, calc(100vh - 330px), 560px);
 }
-.fx-funnel__canvas { position: absolute; inset: 0; }
-.fx-funnel__canvas canvas { display: block; width: 100%; height: 100%; }
+/* The drawing (fx/funnel-svg.js): matte tiers; the active one lifts and turns blue. */
+.fx-funnel__svg { position: absolute; inset: 0; }
+.fx-fn { display: block; width: 100%; height: 100%; overflow: visible; }
+.fx-fn__body { animation: fx-fn-float 7s ease-in-out infinite; }
+@keyframes fx-fn-float { 50% { transform: translateY(-6px); } }
+.fx-fn.is-still .fx-fn__body { animation: none; }
+.fx-fn__tier { transform-box: fill-box; transform-origin: 50% 50%; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.fx-fn__tier.is-on { transform: translateY(-9px) scale(1.045); }
+.fx-fn__on, .fx-fn__tint { opacity: 0; transition: opacity 0.5s ease; }
+.fx-fn__tier.is-on .fx-fn__on { opacity: 1; }
+.fx-fn__tier.is-past .fx-fn__tint { opacity: 0.16; }
+.fx-fn__rim { stroke: rgba(255, 255, 255, 0.75); stroke-width: 1.2; }
+.fx-fn.is-still .fx-fn__tier, .fx-fn.is-still .fx-fn__on, .fx-fn.is-still .fx-fn__tint { transition: none; }
 .fx-funnel__tags { position: absolute; inset: 0; pointer-events: none; }
 .fx-funnel__tag {
   position: absolute;
@@ -336,29 +347,7 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
 .fx-funnel__tag.is-active { background: var(--c); border-color: transparent; color: #fff; }
 .fx-funnel__tag.is-active i { background: #fff; color: var(--c); }
 
-/* Flat funnel shown until (or instead of) the WebGL one. */
-.fx-funnel__fallback {
-  position: absolute;
-  inset: 8% 18% 10%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  transition: opacity 0.6s ease;
-}
-.fx-funnel__fallback span {
-  flex: 1;
-  width: var(--w);
-  background: var(--c);
-  clip-path: polygon(0 0, 100% 0, 92% 100%, 8% 100%);
-  border-radius: 6px;
-  box-shadow: inset 0 -10px 18px -12px rgba(10, 11, 16, 0.18);
-  transition: background-color 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-/* Mirrors the 3D funnel: the active stage lifts and turns blue. */
-.fx-funnel__fallback span.is-past { background: #DDE2F7; }
-.fx-funnel__fallback span.is-on { background: #0029FF; transform: translateY(-6px) scaleX(1.04); }
-.fx-funnel.is-3d .fx-funnel__fallback { opacity: 0; }
+
 
 .fx-funnel__steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
 .fx-funnel__step {

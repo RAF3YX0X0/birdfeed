@@ -4,7 +4,8 @@
 // helix gallery). Phones get a stacked version: the heading scrolls away, then
 // the 3D funnel and the current stage's card hold the screen. Reduced motion /
 // short screens: a normal section where the stage in the middle of the screen
-// is highlighted.
+// is highlighted. The funnel itself is SVG (funnel-svg.js): drawn instantly.
+import { mountFunnelSVG } from './funnel-svg.js';
 
 export const FUNNEL_STAGES = [
   {
@@ -82,8 +83,7 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
       </div>
       <div class="fx-funnel__body">
         <div class="fx-funnel__stage3d" aria-hidden="true">
-          <div class="fx-funnel__fallback">${STAGES.map((s, i) => `<span style="--c:${s.color3d};--w:${100 - i * 15}%"></span>`).join('')}</div>
-          <div class="fx-funnel__canvas"></div>
+          <div class="fx-funnel__svg"></div>
           <div class="fx-funnel__tags"></div>
         </div>
         <ol class="fx-funnel__steps">
@@ -116,8 +116,7 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
 
   // ---- active stage ----------------------------------------------------------
   let active = -1;
-  let funnel = null;
-  const fallback = [...sec.querySelectorAll('.fx-funnel__fallback span')];
+  const funnel = mountFunnelSVG({ host: sec.querySelector('.fx-funnel__svg'), tagsHost: sec.querySelector('.fx-funnel__tags'), stages: STAGES, reduced });
   const counted = new Set();
   function setActive(i) {
     if (i === active) return;
@@ -127,9 +126,7 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
       li.classList.toggle('is-past', k < i);
       li.querySelector('button').setAttribute('aria-expanded', String(k === i));
     });
-    if (funnel) funnel.setActive(i);
-    // The flat funnel shown until the 3D one is ready follows along too.
-    fallback.forEach((t, k) => { t.classList.toggle('is-on', k === i); t.classList.toggle('is-past', k < i); });
+    funnel.setActive(i);
     // Count the stage's number up the first time it's shown.
     if (!reduced && !counted.has(i)) {
       counted.add(i);
@@ -193,7 +190,7 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
     });
   });
 
-  // ---- entrance + lazy 3D ----------------------------------------------------
+  // ---- entrance --------------------------------------------------------------
   const head = sec.querySelectorAll('.fx-funnel__eyebrow, .fx-funnel__title, .fx-funnel__lede');
   // Stacked, only the current card shows, so the list comes in as one.
   const cards = stack ? [sec.querySelector('.fx-funnel__steps')] : steps;
@@ -220,27 +217,6 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
     const r = sec.getBoundingClientRect();
     if (r.top < window.innerHeight * 0.85 && r.bottom > 0) show();
   }, 250);
-
-  const lazy = new IntersectionObserver(async (list) => { const e = list[list.length - 1]; // latest state wins
-    if (!e.isIntersecting) return;
-    lazy.disconnect();
-    try {
-      const [kit, mod] = await Promise.all([import('./three/kit.js'), import('./three/funnel3d.js')]);
-      if (!kit.webglAvailable()) return; // the CSS funnel stays
-      funnel = mod.mountFunnel({
-        host: sec.querySelector('.fx-funnel__canvas'),
-        tagsHost: sec.querySelector('.fx-funnel__tags'),
-        stages: STAGES,
-        gsap,
-        reduced,
-      });
-      funnel.setActive(active);
-      sec.classList.add('is-3d');
-    } catch (err) {
-      console.warn('[fx] funnel 3D unavailable', err);
-    }
-  }, { rootMargin: '200% 0px' });
-  lazy.observe(sec);
 
   return sec;
 }

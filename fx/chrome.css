@@ -1048,3 +1048,6 @@ div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-
   .mm-help { right: 12px; bottom: 76px; }
   .mm-help__hi { font-size: 27px; }
 }
+/* Out of the way while a pinned section (funnel, case studies) holds the screen. */
+html.fx-hold .mm-help__btn:not(.is-open) { opacity: 0; transform: scale(0.8); pointer-events: none; }
+.mm-help__btn { transition: background-color 0.2s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), bottom 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease; }
