@@ -972,3 +972,79 @@ div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-
   [aria-label="Book a free demo"] h2 + p + div + div > div > span:last-child { font-size: 13px !important; }
   [aria-label="Book a free demo"] .fbpop-cta { height: 52px; margin-top: 20px !important; }
 }
+
+/* ---- Help launcher (fx/help.js) ----------------------------------------------- */
+.mm-help__btn {
+  position: fixed;
+  z-index: 95;
+  right: 20px;
+  bottom: 20px;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 0;
+  border-radius: 50%;
+  background: #0029FF;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 16px 34px -12px rgba(0, 41, 255, 0.75);
+  transition: background-color 0.2s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), bottom 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.mm-help__btn:hover { background: #0021D6; transform: scale(1.06); }
+.mm-help__btn:focus-visible { outline: 2px solid #0A0B10; outline-offset: 3px; }
+.mm-help__ico { grid-area: 1 / 1; display: grid; transition: opacity 0.25s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.mm-help__ico--close { opacity: 0; transform: rotate(-90deg) scale(0.6); }
+.mm-help__btn.is-open .mm-help__ico--chat { opacity: 0; transform: rotate(90deg) scale(0.6); }
+.mm-help__btn.is-open .mm-help__ico--close { opacity: 1; transform: none; }
+.mm-help {
+  position: fixed;
+  z-index: 96;
+  right: 20px;
+  bottom: 92px;
+  width: min(380px, calc(100vw - 24px));
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+  border-radius: 28px;
+  background: radial-gradient(120% 48% at 50% -6%, #E6EAFF 0%, rgba(238, 241, 255, 0.55) 45%, rgba(254, 254, 252, 0) 75%), #FEFEFC;
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 40px 80px -30px rgba(16, 24, 40, 0.55);
+  font-family: Inter, Inter Fallback, system-ui, sans-serif;
+  color: #0A0B10;
+  transform-origin: 100% 100%;
+  scrollbar-width: none;
+}
+.mm-help[hidden] { display: none; }
+.mm-help__head { display: flex; align-items: center; justify-content: space-between; padding: 22px 18px 0 26px; }
+.mm-help__head img { display: block; }
+.mm-help__x { display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 50%; background: #F1F1ED; color: #0A0B10; font-size: 19px; line-height: 1; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+.mm-help__x:hover { background: #0A0B10; color: #fff; transform: rotate(90deg); }
+.mm-help__hi { margin: 26px 26px 0; font-size: 30px; font-weight: 600; line-height: 1.08; letter-spacing: -0.035em; }
+.mm-help__hi em { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 1.1em; letter-spacing: -0.01em; color: #0029FF; }
+.mm-help__list { display: grid; gap: 8px; margin: 22px 0 0; padding: 0 14px; list-style: none; }
+.mm-help__list a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 14px 14px 12px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 0 0 1px #E5E5E0, 0 12px 24px -20px rgba(16, 24, 40, 0.4);
+  color: inherit;
+  text-decoration: none;
+  transition: box-shadow 0.25s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.mm-help__list a:hover, .mm-help__list a:focus-visible { box-shadow: 0 0 0 1px #0029FF, 0 0 0 5px rgba(0, 41, 255, 0.1); transform: translateX(3px); outline: none; }
+.mm-help__list a > svg { flex: none; margin-left: auto; color: #8A8B95; }
+.mm-help__aico { display: grid; place-items: center; flex: none; width: 42px; height: 42px; border-radius: 50%; background: #EEF1FF; color: #0029FF; }
+.mm-help__list a:hover .mm-help__aico { background: #0029FF; color: #fff; }
+.mm-help__list b { display: block; font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; }
+.mm-help__list small { display: block; margin-top: 3px; font-size: 12.5px; line-height: 1.4; color: #6B6B74; }
+.mm-help__foot { margin: 18px 0 0; padding: 14px 26px 18px; border-top: 1px solid #EFEFEA; font-size: 12.5px; color: #8A8B95; }
+.mm-help__foot span { font-weight: 600; color: #0029FF; }
+/* On phones it rises above the sticky "book a demo" bar while that's shown. */
+@media (max-width: 720px) {
+  .mm-help__btn { right: 14px; bottom: 14px; width: 52px; height: 52px; }
+  html:has(.fbf-stickybar[style*="translateY(0)"]):not(.fx-hold):not(.ft-on) .mm-help__btn { bottom: 104px; }
+  .mm-help { right: 12px; bottom: 76px; }
+  .mm-help__hi { font-size: 27px; }
+}

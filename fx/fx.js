@@ -27,6 +27,7 @@ import { setupFooter } from './footer.js';
 import { setupSkin } from './skin.js';
 import { swapSharedSections } from './shared.js';
 import { setupPageHero } from './ph.js';
+import { setupHelp } from './help.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -198,6 +199,8 @@ function init() {
   islands.forEach((island) => whenHydrated(island).then(() => afterHydrate(island)));
   setupSkin(islands);
   lazyPosters();
+  // Help launcher, once the page is idle (the case studies page is the slider alone).
+  if (!location.pathname.startsWith('/case-studies')) idle(() => setupHelp({ gsap: G, reduced }), { timeout: 3000 });
   if ('ResizeObserver' in window) new ResizeObserver(scheduleRefresh).observe(document.body);
 
   ST.sort();

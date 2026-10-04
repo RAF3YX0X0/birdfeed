@@ -146,7 +146,10 @@ function pages(dir, out = []) {
 }
 
 let changed = 0;
+// Standalone pages with their own markup and styles (no React, no FX layer).
+const STANDALONE = ['login'];
 for (const file of pages(ROOT)) {
+  if (STANDALONE.includes(path.relative(ROOT, path.dirname(file)).split(path.sep).join('/'))) continue;
   const src = fs.readFileSync(file, 'utf8');
   let html = src;
   const a = html.indexOf(START);

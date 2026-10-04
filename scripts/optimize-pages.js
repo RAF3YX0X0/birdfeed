@@ -98,7 +98,7 @@ for (const f of pages(ROOT)) {
   s = seo(lazyImages(s));
   if (s !== before) fs.writeFileSync(f, s);
   const rel = path.relative(ROOT, path.dirname(f)).split(path.sep).join('/');
-  urls.push(rel ? `/${rel}/` : '/');
+  if (!/name="robots" content="noindex/.test(s)) urls.push(rel ? `/${rel}/` : '/'); // (the login page isn't listed)
 }
 
 const today = new Date().toISOString().slice(0, 10);

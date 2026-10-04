@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log in | MadMarketing</title>
+<meta name="description" content="Log in to your MadMarketing client account.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#FCFCF9">
+<link rel="canonical" href="https://madmarketinghaseeb.vercel.app/login/">
+<link rel="icon" type="image/svg+xml" href="/assets/madmarketing-mark.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/madmarketing-icon-32.png">
+<link rel="apple-touch-icon" href="/assets/madmarketing-apple-touch.png">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-wght-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/instrument-serif-latin-400-italic.woff2" crossorigin>
+<!-- Standalone page (no React, no FX layer): everything it needs is inline. -->
+<style>
+@font-face { font-family: Inter; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/inter-latin-wght-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Inter Fallback"; src: local("Arial"); ascent-override: 90.44%; descent-override: 22.52%; line-gap-override: 0%; size-adjust: 107.12%; }
+@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url(/fonts/instrument-serif-latin-400-italic.woff2) format("woff2"); }
+:root { --blue: #0029FF; --blue-d: #0021D6; --ink: #0A0B10; --muted: #52525B; --soft: #8A8B95; --line: #E5E5E0; --bg: #FCFCF9; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: Inter, "Inter Fallback", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+.lg { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); min-height: 100vh; min-height: 100svh; }
+
+/* ---- Form side ---------------------------------------------------------------- */
+.lg__side { position: relative; display: flex; flex-direction: column; padding: 32px clamp(24px, 6vw, 88px); overflow: hidden; }
+/* The site's arch: a huge soft circle whose lower edge curves under the form. */
+.lg__arch { position: absolute; z-index: 0; left: 50%; bottom: 18%; width: 1700px; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: linear-gradient(180deg, #F1F4FB 50%, #F2F2EE 82%, #EBEBE6 100%); box-shadow: 0 30px 80px -40px rgba(0, 41, 255, 0.22), 0 0 0 1px rgba(0, 41, 255, 0.07); pointer-events: none; }
+.lg__arch::before { content: ""; position: absolute; inset: -56px; border-radius: 50%; border: 1px solid rgba(0, 41, 255, 0.1); }
+.lg__top, .lg__main, .lg__foot { position: relative; z-index: 1; }
+.lg__top { display: flex; align-items: center; justify-content: space-between; }
+.lg__logo img { display: block; width: 150px; height: auto; }
+.lg__back { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 999px; background: rgba(255, 255, 255, 0.85); box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.07), 0 8px 20px -14px rgba(20, 30, 70, 0.35); font-size: 13.5px; font-weight: 500; text-decoration: none; transition: background-color 0.2s ease; }
+.lg__back:hover { background: #fff; }
+.lg__main { width: 100%; max-width: 440px; margin: auto 0; padding: 56px 0; }
+.lg__eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: rgba(255, 255, 255, 0.9); box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 6px 18px -10px rgba(20, 30, 70, 0.25); font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.lg__eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 4px rgba(0, 41, 255, 0.15); }
+h1 { margin: 22px 0 0; font-size: clamp(44px, 5.2vw, 68px); font-weight: 600; line-height: 1; letter-spacing: -0.045em; }
+h1 em { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; font-size: 1.1em; letter-spacing: -0.015em; color: var(--blue); }
+.lg__lede { margin: 18px 0 0; font-size: 17px; line-height: 1.55; color: var(--muted); }
+form { margin-top: 34px; }
+label { display: block; margin: 0 0 10px 4px; font-size: 13px; font-weight: 500; color: var(--muted); }
+.lg__field { position: relative; }
+.lg__field svg { position: absolute; left: 22px; top: 50%; width: 18px; height: 18px; margin-top: -9px; color: var(--soft); pointer-events: none; transition: color 0.2s ease; }
+input { width: 100%; height: 58px; padding: 0 22px 0 52px; border: 0; border-radius: 999px; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 12px 28px -20px rgba(20, 30, 70, 0.35); font: 500 16px Inter, "Inter Fallback", system-ui, sans-serif; color: var(--ink); outline: none; transition: box-shadow 0.2s ease; }
+input::placeholder { color: #A1A1AA; font-weight: 400; }
+input:focus { box-shadow: 0 0 0 2px var(--blue), 0 0 0 6px rgba(0, 41, 255, 0.12); }
+.lg__field:focus-within svg { color: var(--blue); }
+.lg__field.is-bad input { box-shadow: 0 0 0 2px #E11D48, 0 0 0 6px rgba(225, 29, 72, 0.1); }
+button { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 58px; margin-top: 14px; border: 0; border-radius: 999px; background: var(--blue); color: #fff; font: 600 16px Inter, "Inter Fallback", system-ui, sans-serif; cursor: pointer; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 14px 30px -12px rgba(0, 41, 255, 0.75); transition: background-color 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+button:hover { background: var(--blue-d); transform: translateY(-2px); }
+button svg { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+button:hover svg { transform: translateX(3px); }
+button:focus-visible, .lg a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.lg__msg { margin: 16px 4px 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
+.lg__msg[hidden] { display: none; }
+.lg__msg.is-bad { color: #BE123C; }
+.lg__msg a { color: var(--blue); font-weight: 600; text-decoration: none; }
+.lg__alt { margin: 30px 0 0; padding-top: 22px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.lg__alt a { font-weight: 600; color: var(--ink); text-decoration: none; }
+.lg__alt a:hover { color: var(--blue); }
+.lg__foot { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12.5px; color: var(--soft); }
+.lg__foot a { text-decoration: none; }
+.lg__foot a:hover { color: var(--ink); }
+
+/* ---- Visual side: a black panel with a tilted wall of content ------------------ */
+.lg__visual { position: relative; margin: 10px; border-radius: 28px; overflow: hidden; background: radial-gradient(80% 60% at 80% 10%, rgba(0, 41, 255, 0.45), rgba(0, 41, 255, 0) 70%), #0A0B10; }
+.lg__wall { position: absolute; inset: -30% -20%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; transform: perspective(1400px) rotateX(18deg) rotateZ(-14deg) rotateY(-8deg); }
+.lg__col { display: flex; flex-direction: column; gap: 18px; animation: lg-up 46s linear infinite; }
+.lg__col:nth-child(even) { animation-name: lg-down; animation-duration: 54s; }
+.lg__col img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 20px; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8); }
+@keyframes lg-up { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+@keyframes lg-down { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+.lg__fade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 11, 16, 0.2) 0%, rgba(10, 11, 16, 0) 30%, rgba(10, 11, 16, 0) 55%, rgba(10, 11, 16, 0.92) 100%); pointer-events: none; }
+.lg__quote { position: absolute; left: clamp(28px, 4vw, 52px); right: clamp(28px, 4vw, 52px); bottom: clamp(28px, 5vh, 52px); color: #fff; }
+.lg__quote p { margin: 0; font-size: clamp(28px, 2.8vw, 40px); font-weight: 600; line-height: 1.08; letter-spacing: -0.035em; }
+.lg__quote em { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; font-size: 1.08em; color: #8DA0FF; }
+.lg__quote span { display: block; margin-top: 14px; font-size: 14px; color: rgba(255, 255, 255, 0.6); }
+
+@media (max-width: 900px) {
+  .lg { grid-template-columns: 1fr; }
+  .lg__visual { display: none; }
+  .lg__side { padding: 20px; }
+  .lg__logo img { width: 128px; }
+  .lg__main { padding: 40px 0 48px; }
+  .lg__arch { bottom: 30%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lg__col { animation: none; }
+  button, button svg { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="lg">
+  <div class="lg__side">
+    <div class="lg__arch" aria-hidden="true"></div>
+    <div class="lg__top">
+      <a class="lg__logo" href="/" aria-label="MadMarketing home"><img loading="eager" src="/assets/madmarketing-logo.svg" alt="MadMarketing" width="150" height="25"></a>
+      <a class="lg__back" href="/"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to site</a>
+    </div>
+
+    <main class="lg__main">
+      <span class="lg__eyebrow"><i></i>Client login</span>
+      <h1>Welcome <em>back.</em></h1>
+      <p class="lg__lede">Log in to see your content calendar, approve posts and talk to your team.</p>
+
+      <form id="lg-form" novalidate>
+        <label for="lg-email">Work email</label>
+        <div class="lg__field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4zM4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <input id="lg-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required>
+        </div>
+        <button type="submit">Continue <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <p class="lg__msg" id="lg-msg" role="status" aria-live="polite" hidden></p>
+      </form>
+
+      <p class="lg__alt">New to MadMarketing? <a href="/pricing/">Build your plan</a> or <a href="/book-demo/">book a free demo</a>.</p>
+    </main>
+
+    <div class="lg__foot">
+      <span>© MadMarketing</span>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </div>
+  </div>
+
+  <div class="lg__visual" aria-hidden="true">
+    <div class="lg__wall">
+      <div class="lg__col"><img src="/assets/work/social-citrus.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/story-yoga.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/ugc-mic.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/social-citrus.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/story-yoga.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/ugc-mic.webp" alt="" loading="lazy" decoding="async"></div>
+      <div class="lg__col"><img src="/assets/work/carousel-caffeine.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/email-glow.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/ugc-handmade.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/carousel-caffeine.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/email-glow.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/ugc-handmade.webp" alt="" loading="lazy" decoding="async"></div>
+      <div class="lg__col"><img src="/assets/work/story-sunglasses.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/social-laundry.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/video-plane.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/story-sunglasses.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/social-laundry.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/video-plane.webp" alt="" loading="lazy" decoding="async"></div>
+      <div class="lg__col"><img src="/assets/work/carousel-holiday.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/ugc-sam.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/carousel-driving.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/carousel-holiday.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/ugc-sam.webp" alt="" loading="lazy" decoding="async"><img src="/assets/work/carousel-driving.webp" alt="" loading="lazy" decoding="async"></div>
+    </div>
+    <div class="lg__fade"></div>
+    <div class="lg__quote"><p>Your whole month of content, <em>in one place.</em></p><span>Plan, approve and track every post with your team.</span></div>
+  </div>
+</div>
+<script>
+// Until a client portal is connected, sign-in isn't possible here: set
+// LOGIN_URL to the portal's sign-in address (the email is passed along) and
+// the form will send people there.
+(function () {
+  var LOGIN_URL = '';
+  var form = document.getElementById('lg-form');
+  var input = document.getElementById('lg-email');
+  var msg = document.getElementById('lg-msg');
+  var field = input.parentNode;
+  function say(html, bad) { msg.innerHTML = html; msg.hidden = false; msg.classList.toggle('is-bad', !!bad); field.classList.toggle('is-bad', !!bad); }
+  input.addEventListener('input', function () { if (field.classList.contains('is-bad')) { field.classList.remove('is-bad'); msg.hidden = true; } });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = input.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { say('Please enter a valid email address.', true); input.focus(); return; }
+    if (LOGIN_URL) { location.href = LOGIN_URL + (LOGIN_URL.indexOf('?') < 0 ? '?' : '&') + 'email=' + encodeURIComponent(email); return; }
+    say('Online sign-in isn’t open yet. Need something from your team? <a href="/book-demo/">Book a call with us</a>.');
+  });
+})();
+</script>
+</body>
+</html>
