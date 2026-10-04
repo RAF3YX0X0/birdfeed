@@ -36,7 +36,12 @@ function eyebrows(root) {
       strip = v === '';
       n.nodeValue = v;
     }
-    el.setAttribute('data-fx-eyebrow', '');
+    // Centred over its heading? Then it gets a rule on each side.
+    const r = el.getBoundingClientRect();
+    const p = el.parentElement.getBoundingClientRect();
+    // (A full-width label is centred if its text is.)
+    const centred = getComputedStyle(el).textAlign === 'center' || (p.width - r.width > 40 && Math.abs(r.left + r.width / 2 - (p.left + p.width / 2)) < 8);
+    el.setAttribute('data-fx-eyebrow', centred ? 'c' : '');
   });
 }
 

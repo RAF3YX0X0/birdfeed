@@ -191,20 +191,41 @@ astro-island footer:has(.cfooter-grid) { display: none !important; }
 
 /* ---- Shared section heading (projects, how it works, …) ------------------- */
 .sx-head { max-width: 860px; margin: 0 auto; padding: 120px 24px 56px; text-align: center; }
-.sx-eyebrow {
-  display: inline-flex;
+/* ---- Section labels ---------------------------------------------------------
+   The small label over a section heading: letter-spaced caps with a fine blue
+   rule fading in; one rule in front for left-aligned headings, one each side
+   for centred ones. (React's "// label" texts get it too, via skin.js.) */
+:is(.sx-eyebrow, .nx__eyebrow, .csx-case__eyebrow, [data-fx-eyebrow], .fx-funnel__eyebrow, .fx-roi__eyebrow, .fx-towers__eyebrow, .fx-cal__eyebrow, .fx-ex__eyebrow, .fx-gallery__eyebrow) {
+  display: inline-flex !important;
   align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 6px 18px -10px rgba(20, 30, 70, 0.25);
-  font: 500 12px/1 Inter, Inter Fallback, system-ui, sans-serif;
-  letter-spacing: 0.06em;
+  gap: 14px;
+  width: auto !important;
+  max-width: 100%;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  font: 500 12px/1.3 Inter, Inter Fallback, system-ui, sans-serif !important;
+  letter-spacing: 0.18em !important;
   text-transform: uppercase;
-  color: #52525B;
+  color: var(--eb-c, #52525B) !important;
 }
-.sx-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: #0029FF; box-shadow: 0 0 0 4px rgba(0, 41, 255, 0.15); }
+:is(.sx-eyebrow, .nx__eyebrow, .csx-case__eyebrow, [data-fx-eyebrow], .fx-funnel__eyebrow, .fx-roi__eyebrow, .fx-towers__eyebrow, .fx-cal__eyebrow, .fx-ex__eyebrow, .fx-gallery__eyebrow) > i { display: none; }
+:is(.sx-eyebrow, .nx__eyebrow, .csx-case__eyebrow, [data-fx-eyebrow], .fx-funnel__eyebrow, .fx-roi__eyebrow, .fx-towers__eyebrow, .fx-cal__eyebrow, .fx-ex__eyebrow, .fx-gallery__eyebrow)::before,
+:is(:is(.sx-head, .nx__head, .fx-funnel__head, .fx-roi__head, .fx-towers__head, .fx-cal__head, .fx-ex__head, .ph__copy, .hx__copy, .tr__k, .ct__copy, .fx-gallery__head) > :is(.sx-eyebrow, .nx__eyebrow, .csx-case__eyebrow, [data-fx-eyebrow], .fx-funnel__eyebrow, .fx-roi__eyebrow, .fx-towers__eyebrow, .fx-cal__eyebrow, .fx-ex__eyebrow, .fx-gallery__eyebrow), [data-fx-eyebrow="c"])::after {
+  content: '';
+  flex: none;
+  width: 34px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(0, 41, 255, 0), var(--eb-line, #0029FF));
+}
+:is(:is(.sx-head, .nx__head, .fx-funnel__head, .fx-roi__head, .fx-towers__head, .fx-cal__head, .fx-ex__head, .ph__copy, .hx__copy, .tr__k, .ct__copy, .fx-gallery__head) > :is(.sx-eyebrow, .nx__eyebrow, .csx-case__eyebrow, [data-fx-eyebrow], .fx-funnel__eyebrow, .fx-roi__eyebrow, .fx-towers__eyebrow, .fx-cal__eyebrow, .fx-ex__eyebrow, .fx-gallery__eyebrow), [data-fx-eyebrow="c"])::after { background: linear-gradient(90deg, var(--eb-line, #0029FF), rgba(0, 41, 255, 0)); }
+@media (min-width: 921px) { .nx--split .nx__head > .nx__eyebrow::after { content: none; } }
+/* On dark sections. */
+:is(.nx--ink, .fx-gallery, .csx [data-theme="ink"], .csx [data-theme="blue"]) { --eb-c: rgba(255, 255, 255, 0.62); --eb-line: #7088FF; }
+
 .sx-title {
   margin: 20px 0 0;
   font-size: clamp(36px, 5.2vw, 70px);
@@ -468,30 +489,6 @@ astro-island :is(h1, h2) span[style*="color:#0029FF"],
   font-size: 1.1em;
   letter-spacing: -0.015em;
   color: #0029FF;
-}
-[data-fx-eyebrow] {
-  display: inline-flex !important;
-  align-items: center;
-  gap: 8px;
-  width: auto !important;
-  max-width: 100%;
-  padding: 7px 14px !important;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 6px 18px -10px rgba(20, 30, 70, 0.25);
-  font: 500 12px/1.2 Inter, Inter Fallback, system-ui, sans-serif !important;
-  letter-spacing: 0.06em !important;
-  text-transform: uppercase;
-  color: #52525B !important;
-}
-[data-fx-eyebrow]::before {
-  content: '';
-  flex: none;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #0029FF;
-  box-shadow: 0 0 0 4px rgba(0, 41, 255, 0.15);
 }
 
 /* ---- Pricing builder (homepage, pricing page, service and industry pages) ------
