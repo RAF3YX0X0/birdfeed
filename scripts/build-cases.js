@@ -2,8 +2,9 @@
 // from the case studies already in the site's data (the React bundle):
 //   - fx/partials/heroes/case-studies.html: the slider markup, one slide per
 //     case (served as the page's hero, so it's in the HTML from the start),
-//     plus a <style> hiding the original hero, featured story and grid (left
-//     in the DOM so React hydrates as usual),
+//     plus a <style> hiding everything else on the page: the page is the
+//     slider alone, like a portfolio's fullscreen slider (the original
+//     content stays in the DOM so React hydrates as usual),
 //   - fx/cases.json: the full stories, opened from each slide's "Case study".
 // build-heroes.js skips this page so a re-run doesn't overwrite the slider.
 //
@@ -96,7 +97,9 @@ const cases = readCases();
 // The featured story leads, then the rest in the site's order.
 cases.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
-const hide = 'astro-island[component-export="CaseIndex"] > div:nth-child(1) > div:nth-child(3) > section:is(:nth-child(1), :nth-child(2), :nth-child(3))';
+// The original page (hero, stories, reviews, CTA), the footer and the sticky
+// "book a demo" bar.
+const hide = 'astro-island[component-export="CaseIndex"], footer.ft, .fbf-stickybar';
 const html = `<style>${hide} { display: none !important; }</style>
 <section class="csx" aria-label="Case studies" style="--n:${cases.length}">
   <h1 class="csx__sr">Case studies: success stories from businesses like yours</h1>

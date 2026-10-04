@@ -12,6 +12,10 @@ export function rankAt(p, ranks) {
 
 const SLOT = 0.62;
 const slotY = (rank) => 2.9 - (rank - 1) * SLOT;
+// Below page one: the "page 2" label sits just under result #10, and
+// anything past #10 waits clearly below the label.
+const P2_LABEL = slotY(10) - 0.34;
+const P2_Y = slotY(10) - 1.25;
 
 function resultCard(THREE, mine, n) {
   const tex = textTexture((ctx, w, h) => {
@@ -46,27 +50,30 @@ function resultCard(THREE, mine, n) {
 export function mount({ host, tags, gsap, reduced, ranks }) {
   let progress = reduced ? 1 : 0;
   let shown = progress;
+  let myY = null;
   const ctx = createScene({
     host, gsap, reduced, fov: 30,
     fit(camera) {
       const half = Math.tan((camera.fov / 2) * Math.PI / 180);
-      const d = Math.max(3.9 / half, 4.1 / (half * camera.aspect));
-      camera.position.set(0.4, 0.4, d);
-      camera.lookAt(0.4, -0.5, 0);
+      const d = Math.max(4.3 / half, 4.1 / (half * camera.aspect));
+      camera.position.set(0.4, 0.1, d);
+      camera.lookAt(0.4, -0.8, 0);
     },
     frame(dt, t) {
       shown += (progress - shown) * (reduced ? 1 : 0.1);
       const r = rankAt(shown, ranks);
       ctx.root.rotation.set(-0.2, 0.18 + Math.sin(t * 0.3) * 0.03, 0.01);
-      // Your card: on page 1 at its slot, otherwise hovering below the fold.
-      const myY = r <= 10.5 ? slotY(r) : slotY(10) - 0.8 - Math.min(0.6, (r - 10) * 0.025);
+      // Your card: on page 1 at its slot, otherwise waiting on page 2 (eased,
+      // so it glides up onto page one instead of jumping).
+      const target = r <= 10.5 ? slotY(r) : P2_Y - Math.min(0.12, (r - 10) * 0.004);
+      myY = myY === null || reduced ? target : myY + (target - myY) * 0.18;
       mine.position.set(0, myY, 0.25);
       mine.scale.setScalar(1.04);
       others.forEach((card, j) => {
         const natural = j + 1;
         const shift = clamp(natural + 0.5 - r, 0, 1); // pushed down once you pass it
         const rank = natural + shift;
-        card.position.set(0, rank > 10 ? slotY(10) - 0.9 - (rank - 10) * 0.25 : slotY(rank), 0);
+        card.position.set(0, rank > 10 ? P2_Y - (rank - 10) * 0.25 : slotY(rank), 0);
         card.visible = rank < 11.6;
       });
       ctx.root.updateMatrixWorld();
@@ -75,7 +82,7 @@ export function mount({ host, tags, gsap, reduced, ranks }) {
       if (myTag.dataset.r !== String(shownRank)) { myTag.dataset.r = shownRank; myTag.innerHTML = `<b>#${shownRank}</b> your business`; }
       myTag.classList.toggle('is-on', r <= 10.5);
       ctx.pin(p1, new ctx.THREE.Vector3(-2.4, slotY(1) + 0.45, 0).applyMatrix4(ctx.root.matrixWorld), '0, -100%');
-      ctx.pin(p2, new ctx.THREE.Vector3(-2.4, slotY(10) - 0.55, 0).applyMatrix4(ctx.root.matrixWorld), '0, 0');
+      ctx.pin(p2, new ctx.THREE.Vector3(-2.4, P2_LABEL, 0).applyMatrix4(ctx.root.matrixWorld), '0, 0');
     },
   });
   const { THREE, root } = ctx;
