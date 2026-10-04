@@ -120,6 +120,19 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   perspective: 1000px;
 }
 .hx__line { display: inline-block; }
+/* The price leads, huge: "from $99/mo". */
+.hx__price {
+  display: block;
+  margin-bottom: 0.1em;
+  font-size: clamp(120px, 14.5vw, 214px);
+  font-weight: 700;
+  line-height: 0.86;
+  letter-spacing: -0.06em;
+}
+.hx__price small { font-size: 0.13em; font-weight: 500; letter-spacing: -0.01em; color: var(--hx-muted); margin-right: 0.3em; vertical-align: 0.2em; }
+.hx__price sup { font-size: 0.44em; font-weight: 600; letter-spacing: -0.02em; vertical-align: 0.82em; margin-right: 0.02em; }
+.hx__title .hx__price em { font-size: 0.34em; letter-spacing: -0.01em; margin-left: 0.08em; padding-right: 0; }
+.hx__price + .hx__line { font-size: 0.62em; }
 .hx__title em {
   font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
@@ -235,6 +248,7 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
 @media (min-width: 721px) and (max-height: 760px) {
   .hx__copy { padding-top: 112px; }
   .hx__title { margin-top: 18px; font-size: clamp(40px, 5.6vw, 72px); }
+  .hx__price { font-size: clamp(96px, 19vh, 160px); }
   .hx__sub { margin-top: 16px; }
   .hx__ctas { margin-top: 24px; }
 }
@@ -248,6 +262,7 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   }
   .hx__copy { padding-top: 104px; padding-left: 16px; padding-right: 16px; }
   .hx__title { font-size: clamp(36px, 10.4vw, 52px); margin-top: 18px; }
+  .hx__price { font-size: clamp(92px, 29vw, 140px); }
   .hx__line { display: block; }
   .hx__sub { font-size: 15.5px; margin-top: 16px; }
   .hx__ctas { margin-top: 22px; }
