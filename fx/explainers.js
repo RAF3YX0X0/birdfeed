@@ -169,27 +169,6 @@ const GLOBE = {
   },
 };
 
-// ---- City pages ------------------------------------------------------------------------
-function cityDef(slug) {
-  const city = slug.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
-  return {
-    key: 'city',
-    eyebrow: '// local reach',
-    title: 'Reach people <em>near you.</em>',
-    lede: `Posts and ads aimed at people who live and work around your business in ${city}, not random followers on the other side of the world.`,
-    steps: [
-      { title: 'Your neighbourhood', text: 'People within walking or a short drive: the ones most likely to visit.' },
-      { title: 'Your side of town', text: 'Local hashtags, location tags and nearby targeting widen the circle.' },
-      { title: `All of ${city}`, text: 'Ads and shareable content reach the wider city and suburbs.' },
-    ],
-    stat: (p) => [`${Math.round(1 + p * 14)} mi`, `reach around your business in ${city}`],
-    note: 'Illustrative reach radius; actual targeting depends on your goals and budget.',
-    pin: 1.8,
-    scene: () => import('./three/ex-city.js'),
-    sceneOpts: { city },
-  };
-}
-
 const PRICING = [/pricing\s*&\s*plans/i, /real results/i];
 const PAGES = {
   'seo-services': { anchors: [/why businesses pick us/i, ...PRICING], def: SEO },
@@ -207,8 +186,5 @@ const PAGES = {
 // Explainer for the current page, or null.
 export function explainerFor(pathname) {
   const parts = pathname.replace(/^\/+|\/+$/g, '').split('/');
-  if (parts[0] === 'social-media-city' && parts[1]) {
-    return { anchors: [/businesses pick us/i, /real results/i], def: cityDef(parts[1]) };
-  }
   return PAGES[parts[0]] || null;
 }

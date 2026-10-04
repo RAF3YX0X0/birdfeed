@@ -10,8 +10,8 @@
 //     frame that rises and flattens as you scroll.
 // The partial also carries a <style> that hides the original (left in the DOM,
 // so React hydrates as usual). On pages where the hero section holds more than
-// the copy (the pricing builder, the live calendar, the legal text, the city
-// search) only the original copy block is hidden and the rest stays.
+// the copy (the pricing builder, the live calendar, the legal text) only the
+// original copy block is hidden and the rest stays.
 //
 //   node server.js &   (the site must be served on :3000)
 //   NODE_PATH=<dir with puppeteer-core> node scripts/build-heroes.js [slug...]
@@ -23,7 +23,7 @@ const ROOT = path.join(__dirname, '..');
 const OUT = path.join(ROOT, 'fx', 'partials', 'heroes');
 const CHROME = process.env.CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const MEDIA = ['short-form-video', 'ugc-videos', 'social-media-management'];
-const PARTIAL = ['pricing', 'book-demo', 'privacy', 'refund', 'terms', 'social-media-city'];
+const PARTIAL = ['pricing', 'book-demo', 'privacy', 'refund', 'terms'];
 
 function pages() {
   const out = [];

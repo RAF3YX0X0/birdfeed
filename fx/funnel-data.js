@@ -3,13 +3,9 @@
 // numbers; email, ads and landing-page services get funnels of their own.
 // All numbers are illustrative and labelled as such on the page.
 
-const PALETTE = [
-  { color: '#7088FF', color3d: '#B8C4FF' },
-  { color: '#3352FF', color3d: '#7088FF' },
-  { color: '#0029FF', color3d: '#3352FF' },
-  { color: '#0021D6', color3d: '#0029FF' },
-  { color: '#0A0B10', color3d: '#3A3B42' },
-];
+// One blue for every stage (the 3D tiers are off-white until they're active);
+// color3d is the 2D fallback's tier colour.
+const PALETTE = Array.from({ length: 5 }, () => ({ color: '#0029FF', color3d: '#E9E9E4' }));
 
 const withColors = (stages) => stages.map((s, i) => ({ ...PALETTE[i], ...s }));
 

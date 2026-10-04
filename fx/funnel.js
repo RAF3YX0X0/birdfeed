@@ -6,31 +6,31 @@
 
 export const FUNNEL_STAGES = [
   {
-    key: 'Awareness', title: 'They see you', color: '#7088FF', color3d: '#B8C4FF',
+    key: 'Awareness', title: 'They see you', color: '#0029FF', color3d: '#E9E9E4',
     text: 'Your posts, reels and ads show up in the feeds of people nearby who have never heard of you.',
     we: 'Daily on-brand posts, short videos, smart hashtags and local targeting.',
     num: 10000, unit: 'people see your posts',
   },
   {
-    key: 'Interest', title: 'They like what they see', color: '#3352FF', color3d: '#7088FF',
+    key: 'Interest', title: 'They like what they see', color: '#0029FF', color3d: '#E9E9E4',
     text: 'They stop scrolling to like, comment, share and follow you.',
     we: 'Scroll-stopping content, and replies to every comment and message.',
     num: 1200, unit: 'like, comment or follow',
   },
   {
-    key: 'Consideration', title: 'They check you out', color: '#0029FF', color3d: '#3352FF',
+    key: 'Consideration', title: 'They check you out', color: '#0029FF', color3d: '#E9E9E4',
     text: 'They visit your profile, tap your link, read your reviews or send you a message.',
     we: 'A clear bio and links, story highlights, offers and fast replies.',
     num: 300, unit: 'visit your page or message you',
   },
   {
-    key: 'Conversion', title: 'They buy', color: '#0021D6', color3d: '#0029FF',
+    key: 'Conversion', title: 'They buy', color: '#0029FF', color3d: '#E9E9E4',
     text: 'They book, order or call, and become paying customers.',
     we: 'Retargeting ads, promotions and one-tap booking or checkout links.',
     num: 45, unit: 'become customers',
   },
   {
-    key: 'Loyalty', title: 'They come back and tell friends', color: '#0A0B10', color3d: '#3A3B42',
+    key: 'Loyalty', title: 'They come back and tell friends', color: '#0029FF', color3d: '#E9E9E4',
     text: 'Happy customers return, leave reviews and bring their friends, who start the journey all over again.',
     we: 'Review requests, customer spotlights and content that keeps you top of mind.',
     num: 15, unit: 'come back and refer friends',
