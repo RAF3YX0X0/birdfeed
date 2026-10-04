@@ -1,5 +1,5 @@
 /* =========================================================================
-   Feedbird FX layer — 3D, motion and transitions on top of the Astro build.
+   MadMarketing FX layer — 3D, motion and transitions on top of the Astro build.
    Everything here is additive: it never restyles the React islands' own
    classes, only elements carrying data-fx-* hooks or fx-owned nodes.
    ========================================================================= */
@@ -18,73 +18,113 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
 .lenis.lenis-autoToggle { transition-property: overflow; transition-duration: 1ms; transition-behavior: allow-discrete; }
 
-/* ---- Cover shown from first paint until fx.js takes over ----------------- */
+/* ---- Cover shown from first paint until fx.js takes over -----------------
+   The same light panel, arch and logo the preloader starts from, so the
+   hand-over is seamless. */
 html.fx-cover body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 2147483000;
-  background: var(--fx-blue) url("/assets/feedbird-logo.svg") center / 190px auto no-repeat;
-  pointer-events: none;
-}
-/* The logo SVG is black; the inverted copy reads white on the blue panel. */
-html.fx-cover body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 2147483001;
-  background: url("/assets/feedbird-logo.svg") center / 190px auto no-repeat;
-  filter: invert(1);
+  background:
+    url("/assets/madmarketing-logo.svg") center calc(50% - 18px) / 264px auto no-repeat,
+    radial-gradient(circle 100vmax at 50% calc(70vh + 100vmax), #dfe6ff 99.7%, transparent 100%),
+    var(--fx-bg);
   pointer-events: none;
 }
 
-/* ---- Page-transition curtain --------------------------------------------- */
+/* ---- Preloader and page-transition curtain ------------------------------- */
 .fx-curtain {
   position: fixed;
   inset: 0;
   z-index: 2147483000;
   pointer-events: none;
-  perspective: 1400px;
   visibility: hidden;
 }
 .fx-curtain.is-active { visibility: visible; pointer-events: auto; }
 .fx-curtain__panel {
   position: absolute;
   inset: 0;
-  transform-origin: 50% 0%;
+  overflow: hidden;
   will-change: transform;
 }
-.fx-curtain__panel--ink { background: var(--fx-ink); }
 .fx-curtain__panel--blue { background: var(--fx-blue); }
-.fx-curtain__logo {
+.fx-curtain__panel--light { background: var(--fx-bg); }
+.fx-curtain__arch {
+  position: absolute;
+  left: 50%;
+  top: 70vh;
+  width: 200vmax;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #dfe6ff 0%, #c9d5ff 40%);
+  box-shadow: 0 0 0 56px rgba(59, 91, 255, 0.05), 0 0 0 57px rgba(59, 91, 255, 0.12);
+  transform: translateX(-50%);
+}
+.fx-curtain__arch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0 1px, transparent 1px 18px);
+}
+.fx-curtain__brand {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 190px;
-  height: 30px;
-  margin: -15px 0 0 -95px;
-  background: url("/assets/feedbird-logo.svg") center / contain no-repeat;
-  filter: invert(1);
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transform: translate(-50%, calc(-50% - 18px));
+  perspective: 600px;
+  font-family: Geist, Inter, system-ui, sans-serif;
+  color: var(--fx-ink);
+  white-space: nowrap;
 }
+.fx-curtain__mark { width: 52px; height: 52px; display: block; will-change: transform, opacity; }
+.fx-curtain__word { display: flex; align-items: baseline; font-size: 46px; line-height: 1.15; }
+.fx-curtain__word span { display: inline-block; overflow: hidden; padding: 0 0.01em 0.08em; margin-bottom: -0.08em; }
+.fx-curtain__word i { display: inline-block; font-style: normal; will-change: transform; }
+.fx-curtain__word .is-sans { font-weight: 700; letter-spacing: -0.035em; }
+.fx-curtain__word .is-serif { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.12em; color: var(--fx-blue); }
+.fx-curtain__word .is-serif i { font-style: italic; }
+.fx-curtain__word .is-serif:first-of-type { margin-left: 4px; }
+.fx-curtain__meter {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 40px);
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  transform: translateX(-50%);
+  font: 500 12px/1 "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: 0.06em;
+  color: #52525b;
+}
+.fx-curtain__count { font-weight: 600; color: var(--fx-ink); min-width: 3ch; text-align: right; }
 .fx-curtain__bar {
   position: absolute;
   left: 50%;
-  top: calc(50% + 34px);
-  width: 120px;
-  height: 2px;
-  margin-left: -60px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.22);
+  top: 22px;
+  width: 160px;
+  height: 3px;
+  margin-left: -80px;
+  border-radius: 3px;
+  background: rgba(59, 91, 255, 0.15);
   overflow: hidden;
 }
 .fx-curtain__bar i {
   position: absolute;
   inset: 0;
-  background: #fff;
+  border-radius: inherit;
+  background: var(--fx-blue);
   transform-origin: 0 50%;
   transform: scaleX(0);
+}
+@media (max-width: 520px) {
+  html.fx-cover body::after { background-size: 210px auto, auto, auto; }
+  .fx-curtain__mark { width: 40px; height: 40px; }
+  .fx-curtain__word { font-size: 34px; }
 }
 
 /* ---- Scroll progress ------------------------------------------------------ */

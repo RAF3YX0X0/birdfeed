@@ -83,8 +83,8 @@ astro-island footer:has(.cfooter-grid) { display: none !important; }
 .hx-nav__burger[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
 
 .hx-nav__logo { display: flex; align-items: center; }
-.hx-nav__logo img { display: block; width: 112px; height: auto; transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
-.hx-nav.is-compact .hx-nav__logo img { width: 100px; }
+.hx-nav__logo img { display: block; width: 132px; height: auto; transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+.hx-nav.is-compact .hx-nav__logo img { width: 118px; }
 
 .hx-nav__cta {
   justify-self: end;
@@ -216,7 +216,7 @@ astro-island footer:has(.cfooter-grid) { display: none !important; }
   .hx-nav.is-compact .hx-nav__bar { height: 50px; }
   .hx-nav__cta { height: 40px; padding: 0 16px; font-size: 13.5px; }
   .hx-nav.is-compact .hx-nav__cta { height: 36px; }
-  .hx-nav__logo img, .hx-nav.is-compact .hx-nav__logo img { width: 92px; }
+  .hx-nav__logo img, .hx-nav.is-compact .hx-nav__logo img { width: 118px; }
   .hx-menu__in { grid-template-columns: 1fr 1fr; padding: 18px 20px 20px; }
   .hx-menu__col--cta { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; gap: 4px 18px; }
   .hx-menu__col--cta .hx-menu__head { width: 100%; }
@@ -260,7 +260,7 @@ html.ft-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
 .ft__card > * { position: relative; }
 
 .ft__top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); gap: 56px; }
-.ft__logo img { display: block; width: 132px; height: auto; }
+.ft__logo img { display: block; width: 150px; height: auto; }
 .ft__blurb { max-width: 330px; margin: 18px 0 0; font-size: 15px; line-height: 1.6; color: #52525B; }
 .ft__badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
 .ft__status, .ft__rating {
@@ -382,7 +382,7 @@ html.ft-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
   display: flex;
   justify-content: center;
   margin: 10px -56px 0;
-  font-size: clamp(90px, 21.5vw, 290px);
+  font-size: clamp(54px, 12.8vw, 176px);
   font-weight: 600;
   line-height: 0.74;
   letter-spacing: -0.065em;
@@ -393,6 +393,8 @@ html.ft-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
   user-select: none;
   pointer-events: none;
 }
+/* "Marketing" in the serif italic, as in the logo. */
+.ft__word span.is-serif { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.12em; letter-spacing: -0.02em; }
 .ft__word span {
   display: inline-block;
   background: linear-gradient(180deg, #3B5BFF 0%, #8FA3FF 55%, rgba(143, 163, 255, 0.15) 100%);
@@ -417,7 +419,7 @@ html.ft-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
   .ft__agency b { padding-right: 40px; }
   .ft-seo { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .ft__bottom { flex-direction: column; align-items: flex-start; }
-  .ft__word { margin: 16px -20px 0; font-size: 24vw; }
+  .ft__word { margin: 16px -20px 0; font-size: 13.6vw; }
 }
 html.fx-reduced .ft__status i { animation: none; }
 
@@ -621,3 +623,61 @@ astro-island :has(> img[data-fx-noimg="box"]) {
 /* Nothing in a cloned section may widen the page (reveal tilts, long words,
    wide tables). `clip`, unlike `hidden`, keeps sticky pins working. */
 :is(astro-island section:not([data-fx-skip]), .ph__frame) { overflow-x: clip; }
+
+/* ---- Sticky "book a demo" bars ------------------------------------------------
+   Two React variants: the site-wide "Curious how it all works?" bar and the
+   per-service "{Service} from $X/mo · Book a demo · Checkout" bar (rendered in
+   the browser only, so matched by its inline style). Both become a white
+   glass pill like the nav, with the brand mark, dark text and a blue button. */
+.fbf-stickybar-inner,
+div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-width:720px"], [style*="max-width: 720px"]) {
+  background: rgba(255, 255, 255, 0.86) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  backdrop-filter: blur(18px) saturate(180%);
+  border-radius: 999px !important;
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.07), 0 24px 50px -22px rgba(20, 30, 70, 0.45) !important;
+  color: #0A0B10 !important;
+}
+.fbf-stickybar-inner::before,
+div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-width:720px"], [style*="max-width: 720px"])::before { display: none; }
+/* Brand mark at the start of the site-wide bar. */
+.fbf-stickybar-inner { padding-left: 10px !important; gap: 14px !important; }
+.fbf-stickybar-inner > div:first-child { display: flex; flex-direction: column; justify-content: center; padding-left: 50px; min-height: 40px; }
+.fbf-stickybar-inner > div:first-child::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  background: url("/assets/madmarketing-mark.svg") center / contain no-repeat;
+}
+.fbf-stickybar-title { color: #0A0B10 !important; }
+.fbf-stickybar-sub { color: #6B6B74 !important; }
+.fbf-stickybar-cta {
+  background: #3B5BFF !important;
+  color: #fff !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 10px 24px -10px rgba(59, 91, 255, 0.8);
+  transition: background 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.fbf-stickybar-cta:hover { background: #2F4DF0 !important; transform: translateY(-1px); }
+.fbf-stickybar-inner button[aria-label="Dismiss"] { background: #F3F2F1 !important; color: #52525B !important; }
+.fbf-stickybar-inner button[aria-label="Dismiss"]:hover { background: #0A0B10 !important; color: #fff !important; }
+
+/* Service bar: icon tile in the brand tint, dark text, blue checkout. */
+div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-width:720px"], [style*="max-width: 720px"]) { padding: 8px 8px 8px 10px !important; }
+div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-width:720px"], [style*="max-width: 720px"]) > span:first-child > span:first-child { background: #E6EBFF !important; color: #3B5BFF !important; border-radius: 999px !important; width: 38px !important; height: 38px !important; }
+div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-width:720px"], [style*="max-width: 720px"]) > span:first-child > span:last-child { color: #0A0B10 !important; }
+div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-width:720px"], [style*="max-width: 720px"]) > span:first-child > span:last-child span { color: #6B6B74 !important; }
+div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-width:720px"], [style*="max-width: 720px"]) > a:not([rel="nofollow"]) { color: #0A0B10 !important; }
+div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-width:720px"], [style*="max-width: 720px"]) > a[rel="nofollow"] {
+  background: #3B5BFF !important;
+  color: #fff !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 10px 24px -10px rgba(59, 91, 255, 0.8);
+}
+@media (max-width: 640px) {
+  .fbf-stickybar-inner { border-radius: 26px !important; }
+  .fbf-stickybar-inner > div:first-child { padding-left: 46px; }
+  .fbf-stickybar-inner > div:first-child::before { width: 36px; height: 36px; margin-top: -18px; }
+}

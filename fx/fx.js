@@ -1,5 +1,5 @@
 /*
- * Feedbird FX — 3D, motion and page transitions layered over the Astro build.
+ * MadMarketing FX — 3D, motion and page transitions layered over the Astro build.
  *
  * The pages are pre-rendered React islands, so this layer follows two rules:
  *   1. Never add, remove or re-text nodes React owns before it hydrates. Effects
@@ -244,23 +244,52 @@ function setupSmoothScroll() {
 // Curtain: intro cover on load, 3D wipe between pages, same-page anchor scroll.
 // ---------------------------------------------------------------------------
 function setupCurtain(lenis) {
+  // Preloader / page transition, in the site's design: a light panel with the
+  // blue arch, the mark flipping in, "Mad Marketing" rising letter by letter
+  // and a percentage counter; it lifts away with a rounded edge, a blue layer
+  // trailing behind it.
+  const letters = (w, cls) => [...w].map((c) => `<span class="${cls}"><i>${c}</i></span>`).join('');
   const curtain = make(
     'div',
     'fx-curtain',
-    '<div class="fx-curtain__panel fx-curtain__panel--ink"></div>' +
-      '<div class="fx-curtain__panel fx-curtain__panel--blue"><div class="fx-curtain__logo"></div>' +
-      '<div class="fx-curtain__bar"><i></i></div></div>'
+    '<div class="fx-curtain__panel fx-curtain__panel--blue"></div>' +
+      '<div class="fx-curtain__panel fx-curtain__panel--light">' +
+      '<div class="fx-curtain__arch"></div>' +
+      '<div class="fx-curtain__brand">' +
+      '<img class="fx-curtain__mark" src="/assets/madmarketing-mark.svg" alt="">' +
+      `<div class="fx-curtain__word">${letters('Mad', 'is-sans')}${letters('Marketing', 'is-serif')}</div>` +
+      '</div>' +
+      '<div class="fx-curtain__meter"><b class="fx-curtain__count">0</b><span>%</span><div class="fx-curtain__bar"><i></i></div></div>' +
+      '</div>'
   );
   curtain.setAttribute('aria-hidden', 'true');
   document.body.appendChild(curtain);
-  const ink = curtain.querySelector('.fx-curtain__panel--ink');
+  const light = curtain.querySelector('.fx-curtain__panel--light');
   const blue = curtain.querySelector('.fx-curtain__panel--blue');
-  const logo = curtain.querySelector('.fx-curtain__logo');
+  const mark = curtain.querySelector('.fx-curtain__mark');
+  const chars = curtain.querySelectorAll('.fx-curtain__word i');
+  const meter = curtain.querySelector('.fx-curtain__meter');
+  const count = curtain.querySelector('.fx-curtain__count');
   const bar = curtain.querySelector('.fx-curtain__bar i');
   const covered = html.classList.contains('fx-cover');
   const fromLoad = html.classList.contains('fx-from-load');
+  const pct = { v: 0 };
+  const showPct = () => { count.textContent = Math.round(pct.v); bar.style.transform = `scaleX(${pct.v / 100})`; };
 
-  if (covered) curtain.classList.add('is-active');
+  if (covered) {
+    curtain.classList.add('is-active');
+    // Fresh load: the brand builds in while the page settles.
+    if (fromLoad && !reduced) {
+      G.set(mark, { rotationY: -100, scale: 0.6, opacity: 0 });
+      G.set(chars, { yPercent: 110 });
+      G.set(meter, { opacity: 0, y: 10 });
+      G.timeline()
+        .to(mark, { rotationY: 0, scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.6)' })
+        .to(chars, { yPercent: 0, duration: 0.55, ease: 'expo.out', stagger: 0.025 }, 0.08)
+        .to(meter, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 0.2)
+        .to(pct, { v: 72, duration: 0.6, ease: 'power2.out', onUpdate: showPct }, 0.2);
+    }
+  }
   html.classList.remove('fx-cover');
 
   function lift(fast) {
@@ -269,34 +298,43 @@ function setupCurtain(lenis) {
       const tl = G.timeline({
         onComplete() {
           curtain.classList.remove('is-active');
-          G.set([ink, blue, logo, bar], { clearProps: 'all' });
+          G.set([light, blue, mark, chars, meter], { clearProps: 'all' });
+          pct.v = 0;
+          showPct();
           resolve();
         },
       });
-      G.set([ink, blue], { transformOrigin: '50% 0%' });
-      if (fromLoad && !fast) tl.to(bar, { scaleX: 1, duration: 0.35, ease: 'power2.inOut' });
-      tl.to(logo, { yPercent: -140, rotationX: 75, opacity: 0, duration: 0.35, ease: 'power3.in' }, fast ? 0 : '-=0.05')
-        .to(blue, { yPercent: -100, rotationX: 14, duration: 0.85, ease: 'expo.inOut' }, '-=0.15')
-        .to(ink, { yPercent: -100, rotationX: 10, duration: 0.85, ease: 'expo.inOut' }, '<0.08');
+      // Fresh load: let the brand finish building in, fill the counter, hold.
+      if (fromLoad && !fast) tl.to(pct, { v: 100, duration: 0.5, ease: 'power2.inOut', onUpdate: showPct }, 0.8).to({}, { duration: 0.2 });
+      tl.to(chars, { yPercent: -110, duration: 0.4, ease: 'power3.in', stagger: 0.015 }, fast ? 0 : '>')
+        .to(mark, { rotationY: 90, scale: 0.7, opacity: 0, duration: 0.35, ease: 'power3.in' }, '<')
+        .to(meter, { opacity: 0, y: -8, duration: 0.25 }, '<')
+        .to(light, { yPercent: -100, borderBottomLeftRadius: '50% 18vh', borderBottomRightRadius: '50% 18vh', duration: 0.9, ease: 'expo.inOut' }, '-=0.12')
+        .to(blue, { yPercent: -100, borderBottomLeftRadius: '50% 18vh', borderBottomRightRadius: '50% 18vh', duration: 0.9, ease: 'expo.inOut' }, '<0.09');
     });
   }
 
   function leave(href) {
     if (reduced) { location.href = href; return; }
     curtain.classList.add('is-active');
-    G.set([ink, blue], { yPercent: 100, rotationX: -14, transformOrigin: '50% 100%' });
-    G.set(logo, { yPercent: 140, rotationX: -75, opacity: 0 });
-    G.set(bar, { scaleX: 0 });
+    G.set([light, blue], { yPercent: 100, borderTopLeftRadius: '50% 18vh', borderTopRightRadius: '50% 18vh' });
+    G.set(mark, { rotationY: -100, scale: 0.6, opacity: 0 });
+    G.set(chars, { yPercent: 110 });
+    G.set(meter, { opacity: 0 });
+    pct.v = 0;
+    showPct();
     G.timeline({
       onComplete() {
         try { sessionStorage.setItem('fx-nav', '1'); } catch (e) {}
         location.href = href;
       },
     })
-      .to(ink, { yPercent: 0, rotationX: 0, duration: 0.7, ease: 'expo.inOut' })
-      .to(blue, { yPercent: 0, rotationX: 0, duration: 0.7, ease: 'expo.inOut' }, '<0.09')
-      .to(logo, { yPercent: 0, rotationX: 0, opacity: 1, duration: 0.45, ease: 'power3.out' }, '-=0.3')
-      .to(bar, { scaleX: 0.35, duration: 0.3, ease: 'power1.out' }, '<');
+      .to(blue, { yPercent: 0, borderTopLeftRadius: '0% 0vh', borderTopRightRadius: '0% 0vh', duration: 0.7, ease: 'expo.inOut' })
+      .to(light, { yPercent: 0, borderTopLeftRadius: '0% 0vh', borderTopRightRadius: '0% 0vh', duration: 0.7, ease: 'expo.inOut' }, '<0.08')
+      .to(mark, { rotationY: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, '-=0.3')
+      .to(chars, { yPercent: 0, duration: 0.45, ease: 'expo.out', stagger: 0.02 }, '<0.05')
+      .to(meter, { opacity: 1, duration: 0.25 }, '<')
+      .to(pct, { v: 40, duration: 0.35, ease: 'power1.out', onUpdate: showPct }, '<');
   }
 
   function isInternal(a, e) {
@@ -346,7 +384,7 @@ function setupCurtain(lenis) {
   window.addEventListener('pageshow', (e) => { if (e.persisted) lift(true); });
 
   // revealAt: when the hero intro starts, i.e. while the panels are mid-lift.
-  return { lift: () => lift(false), leave, revealAt: covered ? (fromLoad ? 0.7 : 0.4) : 0 };
+  return { lift: () => lift(false), leave, revealAt: covered ? (fromLoad ? 1.95 : 0.55) : 0 };
 }
 
 function setupProgress() {
