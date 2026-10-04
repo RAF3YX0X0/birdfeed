@@ -1,8 +1,10 @@
 // "From scroll to sale" — a 3D sales funnel section for the landing page that
 // explains, in plain words, how social media turns strangers into customers.
-// Desktop: the section pins while scrolling walks through the five stages
-// (like the helix gallery). Phones / reduced motion: a normal section where
-// the stage in the middle of the screen is highlighted.
+// The section pins while scrolling walks through the five stages (like the
+// helix gallery). Phones get a stacked version: the heading scrolls away, then
+// the 3D funnel and the current stage's card hold the screen. Reduced motion /
+// short screens: a normal section where the stage in the middle of the screen
+// is highlighted.
 
 export const FUNNEL_STAGES = [
   {
@@ -104,8 +106,12 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
   anchor.parentNode.insertBefore(sec, anchor);
 
   const steps = [...sec.querySelectorAll('.fx-funnel__step')];
-  const pinned = !reduced && !narrow && window.innerHeight >= 680 && allowSticky(sec);
+  const pin = sec.querySelector('.fx-funnel__pin');
+  const headEl = sec.querySelector('.fx-funnel__head');
+  const pinned = !reduced && window.innerHeight >= (narrow ? 520 : 680) && allowSticky(sec);
+  const stack = pinned && narrow;
   sec.classList.toggle('is-pinned', pinned);
+  sec.classList.toggle('is-stack', stack);
   sec.style.setProperty('--fx-funnel-stages', N);
 
   // ---- active stage ----------------------------------------------------------
@@ -134,17 +140,40 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
     }
   }
 
-  // Scroll position inside the pinned section → stage.
-  function span() { return sec.offsetHeight - window.innerHeight; }
+  // Scroll position inside the pinned section → stage. Stacked, the pin's top
+  // is pulled up by the heading's height (`lead`) so the heading scrolls away
+  // before the funnel holds the screen.
+  let lead = 0;
+  const span = () => Math.max(1, sec.offsetHeight - pin.offsetHeight);
+  let holding = false;
   function onScroll() {
     const r = sec.getBoundingClientRect();
-    const q = clamp(-r.top / Math.max(1, span()), 0, 0.9999);
-    setActive(Math.floor(q * N));
+    const p = (-r.top - lead) / span();
+    setActive(Math.floor(clamp(p, 0, 0.9999) * N));
+    // While the funnel holds the screen, the sticky "book a demo" bar steps
+    // aside so it doesn't cover the stage card.
+    const hold = p > -0.02 && p < 1;
+    if (hold !== holding) document.documentElement.classList.toggle('fx-hold', (holding = hold));
+  }
+  // Touch screens: a snap point in the middle of each stage, so a flick
+  // settles on a stage instead of flying through the funnel. (Off while Lenis
+  // animates a scroll, which would otherwise be snapped frame by frame.)
+  const snaps = stack && matchMedia('(pointer: coarse)').matches
+    ? STAGES.map(() => sec.appendChild(Object.assign(document.createElement('i'), { className: 'fx-funnel__snap' })))
+    : [];
+  if (snaps.length) document.documentElement.classList.add('fx-snap');
+  function measure() {
+    lead = stack ? headEl.offsetHeight : 0;
+    sec.style.setProperty('--fx-funnel-lead', lead + 'px');
+    snaps.forEach((s, i) => { s.style.top = Math.round(lead + ((i + 0.5) / N) * span()) + 'px'; });
+    if (pinned) onScroll();
   }
   if (pinned) {
+    measure();
+    new ResizeObserver(measure).observe(headEl);
+    window.addEventListener('resize', measure);
     if (lenis) lenis.on('scroll', onScroll);
     else window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
   } else {
     // Unpinned: highlight the step crossing the middle of the screen.
     const io = new IntersectionObserver((entries) => {
@@ -159,16 +188,18 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
     li.querySelector('button').addEventListener('click', () => {
       if (!pinned) return setActive(i);
       const top = sec.getBoundingClientRect().top + window.scrollY;
-      const y = top + ((i + 0.5) / N) * span();
+      const y = top + lead + ((i + 0.5) / N) * span();
       lenis ? lenis.scrollTo(y, { duration: 1.1 }) : window.scrollTo({ top: y, behavior: 'smooth' });
     });
   });
 
   // ---- entrance + lazy 3D ----------------------------------------------------
   const head = sec.querySelectorAll('.fx-funnel__eyebrow, .fx-funnel__title, .fx-funnel__lede');
+  // Stacked, only the current card shows, so the list comes in as one.
+  const cards = stack ? [sec.querySelector('.fx-funnel__steps')] : steps;
   if (!reduced) {
     gsap.set(head, { opacity: 0, y: 36, rotationX: -45, transformPerspective: 900, transformOrigin: '50% 100%' });
-    gsap.set(steps, { opacity: 0, x: 40, rotationY: -18, transformPerspective: 900 });
+    gsap.set(cards, { opacity: 0, x: 40, rotationY: -18, transformPerspective: 900 });
   }
   // Entrance when the section comes into view. A timer backs up the observer,
   // whose callbacks can starve on a busy main thread (content would stay hidden).
@@ -180,7 +211,7 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
     clearInterval(backup);
     if (!reduced) {
       gsap.to(head, { opacity: 1, y: 0, rotationX: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, clearProps: 'transform' });
-      gsap.to(steps, { opacity: 1, x: 0, rotationY: 0, duration: 1, ease: 'expo.out', stagger: 0.07, delay: 0.2, clearProps: 'transform' });
+      gsap.to(cards, { opacity: 1, x: 0, rotationY: 0, duration: 1, ease: 'expo.out', stagger: 0.07, delay: 0.2, clearProps: 'transform' });
     }
   };
   const once = new IntersectionObserver((list) => { if (list[list.length - 1].isIntersecting) show(); }, { threshold: 0.15 });

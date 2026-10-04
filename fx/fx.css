@@ -438,6 +438,51 @@ html.fx-landing .fbf-wall-col:nth-of-type(3) .fbf-wall-card { transform: transla
   .fx-funnel__metric b { font-size: 17px; }
 }
 
+/* Phones: the funnel pins too. The pin's top is pulled up by the heading's
+   height (--fx-funnel-lead, set by funnel.js), so the heading scrolls away and
+   then the 3D funnel and the current stage's card hold the screen while the
+   stages are scrolled through, in both directions. */
+.fx-funnel.is-stack {
+  height: calc(100vh + var(--fx-funnel-lead, 0px) + var(--fx-funnel-stages, 5) * 70vh);
+  height: calc(100svh + var(--fx-funnel-lead, 0px) + var(--fx-funnel-stages, 5) * 70svh);
+}
+.fx-funnel.is-stack .fx-funnel__pin {
+  top: calc(-1 * var(--fx-funnel-lead, 0px));
+  height: calc(100vh + var(--fx-funnel-lead, 0px));
+  height: calc(100svh + var(--fx-funnel-lead, 0px));
+  justify-content: flex-start;
+  padding: 0 16px;
+}
+.fx-funnel.is-stack .fx-funnel__head { padding-top: 72px; }
+.fx-funnel.is-stack .fx-funnel__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding-top: 70px; /* clears the nav while pinned */
+}
+.fx-funnel.is-stack .fx-funnel__stage3d { flex: 1 1 0; min-height: 150px; height: auto; }
+.fx-funnel.is-stack .fx-funnel__steps { display: grid; flex: none; }
+.fx-funnel.is-stack .fx-funnel__step {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(18px) scale(0.98);
+  transition: opacity 0.4s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.55s;
+}
+.fx-funnel.is-stack .fx-funnel__step.is-past { transform: translateY(-18px) scale(0.98); }
+.fx-funnel.is-stack .fx-funnel__step.is-active { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.fx-funnel.is-stack .fx-funnel__detail { grid-template-rows: 1fr; transition: none; }
+.fx-funnel.is-stack .fx-funnel__detail > div { padding-bottom: 14px; }
+.fx-funnel.is-stack .fx-funnel__detail p { font-size: 14px; line-height: 1.5; }
+.fx-funnel.is-stack .fx-funnel__note { margin: 8px auto 12px; max-width: 560px; font-size: 10.5px; }
+.fx-funnel__snap { position: absolute; left: 0; width: 1px; height: 1px; scroll-snap-align: start; pointer-events: none; }
+html.fx-snap:not(.lenis-smooth) { scroll-snap-type: y proximity; }
+
 /* ---- ROI estimator (fx/roi.js) -------------------------------------------- */
 .fx-roi {
   overflow-x: clip;

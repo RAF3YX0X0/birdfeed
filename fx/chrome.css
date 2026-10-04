@@ -42,7 +42,9 @@ astro-island footer:has(.cfooter-grid) { display: none !important; }
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  /* Side columns never narrower than their content, so on small phones the
+     button pushes the logo over a little instead of overlapping it. */
+  grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
   align-items: center;
   height: 62px;
   padding: 0 9px 0 10px;
@@ -97,6 +99,7 @@ astro-island footer:has(.cfooter-grid) { display: none !important; }
   color: #fff;
   font-size: 14px;
   font-weight: 500;
+  white-space: nowrap;
   text-decoration: none;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 6px 16px -6px rgba(0, 41, 255, 0.7);
   transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
@@ -221,11 +224,24 @@ astro-island footer:has(.cfooter-grid) { display: none !important; }
   .hx-menu__col--cta { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; gap: 4px 18px; }
   .hx-menu__col--cta .hx-menu__head { width: 100%; }
 }
+/* Small phones: a narrower logo and button so "Contact us" stays on one line. */
+@media (max-width: 400px) {
+  .hx-nav__bar { padding: 0 7px 0 6px; }
+  .hx-nav__cta { padding: 0 14px; font-size: 13px; }
+  .hx-nav__logo img, .hx-nav.is-compact .hx-nav__logo img { width: 106px; }
+  .hx-nav__bar { column-gap: 6px; }
+}
+@media (max-width: 340px) {
+  .hx-nav__cta { padding: 0 12px; }
+  .hx-nav__logo img, .hx-nav.is-compact .hx-nav__logo img { width: 96px; }
+}
 html.fx-reduced .hx-nav, html.fx-reduced .hx-nav__bar, html.fx-reduced .hx-menu { transition: none; }
 
 /* ---- Footer (Framer style) --------------------------------------------------- */
 
 html.ft-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
+/* Also out of the way while a pinned section (the sales funnel) holds the screen. */
+html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0px"]:has(> .fb-grain)) { visibility: hidden; opacity: 0; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
 
 .ft {
   padding: 0 24px 24px;
@@ -622,7 +638,7 @@ astro-island :has(> img[data-fx-noimg="box"]) {
 
 /* Nothing in a cloned section may widen the page (reveal tilts, long words,
    wide tables). `clip`, unlike `hidden`, keeps sticky pins working. */
-:is(astro-island section:not([data-fx-skip]), .ph__frame) { overflow-x: clip; }
+:is(astro-island section:not([data-fx-skip]), .ph__frame, section:has(> .sx-head), .prh) { overflow-x: clip; }
 
 /* ---- Sticky "book a demo" bars ------------------------------------------------
    Two React variants: the site-wide "Curious how it all works?" bar and the
@@ -680,4 +696,148 @@ div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-
   .fbf-stickybar-inner { border-radius: 26px !important; }
   .fbf-stickybar-inner > div:first-child { padding-left: 46px; }
   .fbf-stickybar-inner > div:first-child::before { width: 36px; height: 36px; margin-top: -18px; }
+}
+/* Small phones: room for the title on two lines at most. */
+@media (max-width: 400px) {
+  .fbf-stickybar-inner { gap: 10px !important; padding: 10px !important; }
+  .fbf-stickybar-inner > div:first-child { padding-left: 42px; min-height: 34px; }
+  .fbf-stickybar-inner > div:first-child::before { width: 32px; height: 32px; margin-top: -16px; }
+  .fbf-stickybar-sub { display: none; }
+  .fbf-stickybar-cta { padding: 10px 14px !important; }
+  .fbf-stickybar-cta svg { display: none; }
+  .fbf-stickybar-inner button[aria-label="Dismiss"] { width: 30px !important; height: 30px !important; }
+}
+
+/* ---- "Book a demo" popup (exit intent / after 45s) ---------------------------
+   Rendered by React in the browser only, so restyled here: a light card with a
+   soft blue arch glow, the brand logo, an eyebrow pill, the serif-italic
+   highlight, round checks and a pill button, as on the rest of the site. */
+[aria-label="Book a free demo"] {
+  background: rgba(10, 11, 16, 0.42) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(8px) !important;
+  font-family: Inter, Inter Fallback, system-ui, sans-serif;
+}
+[aria-label="Book a free demo"] > div {
+  position: relative;
+  width: min(460px, 100%) !important;
+  border-radius: 28px !important;
+  background: radial-gradient(120% 52% at 50% -8%, #E6EAFF 0%, rgba(238, 241, 255, 0.55) 45%, rgba(254, 254, 252, 0) 72%), #FEFEFC !important;
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 50px 100px -40px rgba(16, 24, 40, 0.6) !important;
+  scrollbar-width: none;
+}
+[aria-label="Book a free demo"] > div::-webkit-scrollbar { display: none; }
+
+/* Header: logo, pill, close. */
+[aria-label="Book a free demo"] > div > div:first-child {
+  background: none !important;
+  padding: 20px 20px 4px 26px !important;
+  overflow: visible !important;
+}
+[aria-label="Book a free demo"] > div > div:first-child::before,
+[aria-label="Book a free demo"] > div > div:first-child::after { display: none !important; }
+[aria-label="Book a free demo"] > div > div:first-child > span:nth-child(1) { display: none !important; }
+[aria-label="Book a free demo"] > div > div:first-child > span:nth-child(2) {
+  width: 132px;
+  height: 22px;
+  font-size: 0 !important;
+  background: url("/assets/madmarketing-logo.svg") left center / contain no-repeat;
+}
+[aria-label="Book a free demo"] > div > div:first-child > span:nth-child(3) {
+  padding: 6px 12px 6px 9px !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 1px #E5E5E0, 0 6px 16px -10px rgba(16, 24, 40, 0.3);
+  color: #52525B !important;
+  font-family: Inter, Inter Fallback, system-ui, sans-serif !important;
+  font-size: 10.5px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.08em !important;
+  white-space: nowrap;
+}
+[aria-label="Book a free demo"] > div > div:first-child > span:nth-child(3) svg { color: #0029FF; }
+[aria-label="Book a free demo"] > div > div:first-child > button {
+  width: 34px !important;
+  height: 34px !important;
+  margin-left: 10px !important;
+  background: #F1F1ED !important;
+  color: #0A0B10 !important;
+  font-size: 19px !important;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[aria-label="Book a free demo"] > div > div:first-child > button:hover { background: #0A0B10 !important; color: #fff !important; transform: rotate(90deg); }
+
+/* Body. */
+[aria-label="Book a free demo"] > div > div:last-child { position: relative; padding: 22px 30px 30px !important; }
+[aria-label="Book a free demo"] h2 {
+  font-family: Inter, Inter Fallback, system-ui, sans-serif !important;
+  font-size: 31px !important;
+  font-weight: 600 !important;
+  line-height: 1.06 !important;
+  letter-spacing: -0.035em !important;
+  color: #0A0B10 !important;
+}
+[aria-label="Book a free demo"] h2 > span {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.12em;
+  letter-spacing: -0.01em;
+  color: #0029FF !important;
+}
+[aria-label="Book a free demo"] h2 + p { font-size: 15px !important; line-height: 1.6 !important; color: #52525B !important; margin-top: 14px !important; }
+/* Trust row: a white pill. */
+[aria-label="Book a free demo"] h2 + p + div {
+  margin: 20px 0 22px !important;
+  padding: 8px 16px 8px 8px !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 1px #E5E5E0, 0 10px 24px -16px rgba(16, 24, 40, 0.35);
+}
+[aria-label="Book a free demo"] h2 + p + div img { width: 28px !important; height: 28px !important; margin-left: -9px !important; border-color: #fff !important; }
+[aria-label="Book a free demo"] h2 + p + div img:first-child { margin-left: 0 !important; }
+[aria-label="Book a free demo"] h2 + p + div > span:last-child { font-size: 13px !important; line-height: 1.35; color: #0A0B10 !important; }
+[aria-label="Book a free demo"] h2 + p + div > span:last-child > span { white-space: nowrap; }
+/* Checklist: round blue checks. */
+[aria-label="Book a free demo"] h2 + p + div + div { gap: 14px !important; }
+[aria-label="Book a free demo"] h2 + p + div + div > div > span:first-child {
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 50% !important;
+  background: #EEF1FF !important;
+  color: #0029FF !important;
+}
+[aria-label="Book a free demo"] h2 + p + div + div > div > span:last-child { font-size: 14px !important; color: #0A0B10 !important; }
+[aria-label="Book a free demo"] h2 + p + div + div b { font-weight: 600; }
+[aria-label="Book a free demo"] h2 + p + div + div > div > span:last-child > span { color: #6B6B74 !important; }
+/* Button: the site's blue pill. */
+[aria-label="Book a free demo"] .fbpop-cta {
+  height: 56px;
+  margin-top: 26px !important;
+  padding: 0 24px !important;
+  border-radius: 999px !important;
+  background: #0029FF !important;
+  font-weight: 600 !important;
+  font-size: 15.5px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 14px 30px -12px rgba(0, 41, 255, 0.75) !important;
+  transition: background 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+[aria-label="Book a free demo"] .fbpop-cta:hover { background: #0021D6 !important; filter: none !important; transform: translateY(-2px) !important; }
+[aria-label="Book a free demo"] .fbpop-cta svg { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+[aria-label="Book a free demo"] .fbpop-cta:hover svg { transform: translateX(3px); }
+
+@media (max-width: 480px), (max-height: 700px) {
+  [aria-label="Book a free demo"] { padding: 14px !important; }
+  [aria-label="Book a free demo"] > div { border-radius: 24px !important; }
+  [aria-label="Book a free demo"] > div > div:first-child { padding: 16px 16px 2px 20px !important; }
+  [aria-label="Book a free demo"] > div > div:first-child > span:nth-child(2) { width: 104px; }
+  [aria-label="Book a free demo"] > div > div:first-child > span:nth-child(3) { padding: 5px 10px 5px 8px !important; font-size: 9.5px !important; letter-spacing: 0.06em !important; }
+  [aria-label="Book a free demo"] > div > div:first-child > button { width: 32px !important; height: 32px !important; margin-left: 8px !important; }
+  [aria-label="Book a free demo"] > div > div:last-child { padding: 16px 20px 22px !important; }
+  [aria-label="Book a free demo"] h2 { font-size: 26px !important; }
+  [aria-label="Book a free demo"] h2 + p { font-size: 14px !important; margin-top: 10px !important; }
+  [aria-label="Book a free demo"] h2 + p + div { margin: 16px 0 18px !important; }
+  [aria-label="Book a free demo"] h2 + p + div > span:last-child { font-size: 12px !important; }
+  [aria-label="Book a free demo"] h2 + p + div + div { gap: 11px !important; }
+  [aria-label="Book a free demo"] h2 + p + div + div > div > span:last-child { font-size: 13px !important; }
+  [aria-label="Book a free demo"] .fbpop-cta { height: 52px; margin-top: 20px !important; }
 }
