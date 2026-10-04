@@ -1,6 +1,6 @@
 // Homepage hero (markup: partials/home-hero.html, styles: hero.css).
 //
-// The stage is a sticky 100vh box inside a tall section, so scroll progress q
+// The stage is a sticky 100vh box (plus --hx-tail) inside a tall section, so scroll progress q
 // (0 → 1 across the section) drives one pose:
 //   - the copy lifts away and fades,
 //   - the phone rises from just under the buttons to the middle of the screen,
@@ -56,7 +56,8 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
   const playing = new WeakMap();
 
   function measure() {
-    const vh = stage.offsetHeight;
+    const tail = parseFloat(section.style.getPropertyValue('--hx-tail')) || 0;
+    const vh = stage.offsetHeight - tail;
     const vw = stage.offsetWidth;
     const narrow = vw <= 720;
     const ph = phone.offsetHeight;
@@ -73,9 +74,14 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
     // Centre in the space below the floating nav.
     const nav = narrow ? 70 : 84;
     const endTop = Math.max(nav, nav + (vh - nav - ph) / 2);
+    // A phone taller than the screen runs off the bottom while pinned. The
+    // stage reaches that far below the screen (plus room for its shadow), so
+    // when the hero lets go the whole phone scrolls past instead of being cut.
+    const nextTail = reduced ? 0 : Math.max(0, Math.ceil(endTop + ph + 120 - vh));
+    if (nextTail !== tail) section.style.setProperty('--hx-tail', nextTail + 'px');
     const pitch = cw + (narrow ? 14 : 22);
     const top = section.getBoundingClientRect().top + window.scrollY;
-    m = { vh, vw, ph, cw, ch, copyBottom, startTop, endTop, pitch, total: pitch * cards.length, top, range: Math.max(1, section.offsetHeight - vh), narrow };
+    m = { vh, vw, ph, cw, ch, copyBottom, startTop, endTop, pitch, total: pitch * cards.length, top, sh: stage.offsetHeight, range: Math.max(1, section.offsetHeight - stage.offsetHeight), narrow };
     last = '';
   }
 
@@ -114,7 +120,7 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
   function render(dt) {
     if (!m) return;
     const y = window.scrollY;
-    const onScreen = y < m.top + m.range + m.vh && y + m.vh > m.top;
+    const onScreen = y < m.top + m.range + m.sh && y + m.vh > m.top;
     setPlaying(phoneVideo, onScreen);
     const pinned = y < m.top + m.range;
     if (pinned !== root.classList.contains('hx-pinned')) root.classList.toggle('hx-pinned', pinned);

@@ -19,19 +19,22 @@
   --cw: clamp(210px, 21vw, 330px);
   --ch: calc(var(--cw) * 1.3333);
   position: relative;
-  height: 250vh;
+  height: calc(250vh + var(--hx-tail, 0px));
   padding: 0 !important; /* the site pads every section on phones */
   background: var(--hx-bg);
   color: var(--hx-ink);
   font-family: Inter, Inter Fallback, system-ui, sans-serif;
   overflow: clip;
 }
+/* --hx-tail (hero.js): how far the phone runs below the screen when it's
+   taller than the screen; the stage reaches that far down, out of sight while
+   pinned, so the phone isn't cut off as the hero scrolls away. */
 .hx__stage {
   position: sticky;
   top: 0;
-  height: 100vh;
-  height: 100svh;
-  min-height: 600px;
+  height: calc(100vh + var(--hx-tail, 0px));
+  height: calc(100svh + var(--hx-tail, 0px));
+  min-height: calc(600px + var(--hx-tail, 0px));
   overflow: hidden;
 }
 /* The site's "book a demo" bar would cover the phone; it waits until the hero is done. */
@@ -241,7 +244,7 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   .hx {
     --pw: min(64vw, 270px);
     --cw: 168px;
-    height: 210vh;
+    height: calc(210vh + var(--hx-tail, 0px));
   }
   .hx__copy { padding-top: 104px; padding-left: 16px; padding-right: 16px; }
   .hx__title { font-size: clamp(36px, 10.4vw, 52px); margin-top: 18px; }
