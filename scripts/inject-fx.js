@@ -25,15 +25,35 @@ const BLOCKS = [
   // (scripts/build-industries.js).
   { name: 'industry-top', at: 'first-island', files: [] },
   { name: 'hero', home: true, island: 'FBHomeTop', files: ['home-hero.html'] },
-  { name: 'hiw', home: true, island: 'FBHomeMain', files: ['home-trust.html', 'home-hiw.html', 'home-portfolio.html', 'home-pricing-head.html'] },
-  // The case studies sit between the guarantee and "The real cost".
-  { name: 'bottom', home: true, island: 'FBHomeBottom', files: ['home-bottom.html'], insert: { file: 'home-projects.html', before: '<section class="cx"' } },
+  // The homepage tells one story: what it is (hero, proof), what we do, how
+  // it works, who it's for, the price (the builder island), the risk taken
+  // away, why it costs less, the results, questions, the call to action.
+  // (The sales funnel goes after "how it works" and the 3D gallery of the work
+  // before the reviews, both placed by fx.js.)
+  { name: 'hiw', home: true, island: 'FBHomeMain', files: ['home-trust.html', 'home-services.html', 'home-hiw.html', 'home-industries.html', 'home-pricing-head.html'] },
+  // The case studies sit between "The real cost" and the reviews.
+  { name: 'bottom', home: true, island: 'FBHomeBottom', files: ['home-bottom.html'], insert: { file: 'home-projects.html', before: '<section class="rv"' }, edit: homeBottom },
   { name: 'shared', inner: true, at: 'main-end', files: [] },
   // Inner pages: their own cloned sections, rebuilt (scripts/build-sections.js).
   { name: 'sections', at: 'main-end', files: [] },
   { name: 'industry-bottom', at: 'main-end', files: [] },
   { name: 'footer', at: 'main-end', files: ['footer.html'] },
 ].map((b) => ({ ...b, start: `<!-- fx:${b.name}:start -->`, end: `<!-- fx:${b.name}:end -->` }));
+// The homepage's bottom sections, as the homepage words them: three case
+// studies (Instagram growth, e-commerce, SEO) and a closing call about all of
+// it, not only social media. Inner pages keep the shared versions.
+function homeBottom(body) {
+  const keep = ['District Raleigh', 'An e-commerce brand', 'A growing website'];
+  let i = 0;
+  body = body.replace(/<article class="pj-card" style="--i:\d+;([\s\S]*?)<\/article>/g, (m, rest) => {
+    const name = (m.match(/pj-card__name">([^<]*)/) || [])[1];
+    return keep.includes(name) ? `<article class="pj-card" style="--i:${i++};${rest}</article>` : '';
+  });
+  return body
+    .replace('Ready to get social media <em>off your plate?</em>', 'Ready to hand off <em>your marketing?</em>')
+    // The builder is on this page: the second way in goes to it, not to /pricing/.
+    .replace('<a class="hx-btn hx-btn--white" href="/pricing/">Start at $99/mo</a>', '<a class="hx-btn hx-btn--white" href="#build">Build your plan</a>');
+}
 const partial = (f) => fs.readFileSync(path.join(ROOT, 'fx', 'partials', f), 'utf8').trim();
 // Inner pages: the old header sat in the flow, so keep its space under the nav.
 const NAV_SPACE = '<div class="fx-navspace" aria-hidden="true"></div>';
@@ -138,6 +158,7 @@ function block(home, shared, hero, nx, ind) {
     ...(/class="prx"/.test(hero) ? ['pricing.css'] : []),
     ...(home || shared ? SHARED_CSS : []),
     ...(nx || ind ? ['nx.css', 'ind.css'] : []),
+    ...(home ? ['nx.css', 'home.css'] : []),
     ...(ind && !shared ? ['bottom.css'] : []),
   ];
   const font = '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>';
@@ -229,6 +250,7 @@ for (const file of pages(ROOT)) {
         if (at === -1) console.warn(`no "${blk.insert.before}" in ${blk.name}`);
         else body = body.slice(0, at) + partial(blk.insert.file) + '\n' + body.slice(at);
       }
+      if (blk.edit) body = blk.edit(body);
       html = html.slice(0, k) + blk.start + body + extra + blk.end + html.slice(k);
     }
   }
