@@ -32,7 +32,7 @@ import { setupSections } from './sections.js';
 import { setupIndustry, wireBlocks } from './ind.js';
 import { startCal } from './cal.js';
 import { setupPricing } from './pricing.js';
-import { setupShop } from './shop.js';
+import { setupHome } from './home.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -126,16 +126,16 @@ function init() {
   const hiw = document.querySelector('.hw');
   if (hiw) setupHowItWorks({ section: hiw, gsap: G, lenis, reduced, finePointer });
   const portfolio = document.querySelector('.pf');
-  if (portfolio) setupPortfolio({ section: portfolio, gsap: G, lenis, reduced, finePointer });
+  if (portfolio) setupPortfolio({ section: portfolio, gsap: G, lenis, reduced, finePointer, home: page.home });
   if (document.querySelector('.ct')) setupHomeBottom({ gsap: G, lenis, reduced, narrow: isNarrow() });
   const footer = document.querySelector('footer.ft');
   if (footer) setupFooter({ footer, gsap: G, lenis, reduced });
   if (page.home) {
-    // The shop: every service, filtered by industry and more (see shop.js).
-    setupShop({ gsap: G, lenis, reduced });
+    // "What we do" (see home.js).
+    setupHome({ gsap: G, ST, reduced, narrow: isNarrow() });
     // The sales funnel follows "how it works" (the steps, then what they turn
-    // into), just before the plan builder; all outside React-owned DOM.
-    const anchor = document.querySelector('.prh') || document.querySelector('.hw') || islands.find((n) => n.getAttribute('component-export') === 'FBHomeMain');
+    // into), just before the work; all outside React-owned DOM.
+    const anchor = document.querySelector('.pf') || document.querySelector('.prh') || islands.find((n) => n.getAttribute('component-export') === 'FBHomeMain');
     if (anchor) setupFunnel({ anchor, gsap: G, lenis, reduced, narrow: isNarrow() });
   } else {
     const slug = location.pathname.replace(/^\/+|\/+$/g, '');
@@ -1093,8 +1093,8 @@ function setupGallery(curtain) {
     'section',
     'fx-gallery',
     '<div class="fx-gallery__stage"></div>' +
-      '<div class="fx-gallery__copy"><p class="fx-gallery__eyebrow">// the work</p>' +
-      '<h2 class="fx-gallery__title">Real creatives, <em>zero AI slop.</em></h2>' +
+      '<div class="fx-gallery__copy"><p class="fx-gallery__eyebrow">// the work, in 3D</p>' +
+      '<h2 class="fx-gallery__title">Content that stops <em>the scroll.</em></h2>' +
       '<div class="fx-gallery__row"><span class="fx-gallery__hint">drag to spin · scroll to explore</span>' +
       '<a class="fx-gallery__link" href="/examples/">See all examples <span aria-hidden="true">→</span></a></div></div>'
   );

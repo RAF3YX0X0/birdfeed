@@ -1,6 +1,46 @@
-/* Homepage-only rules (the shop has its own: shop.css). */
+/* The homepage's "What we do" (scripts/build-home.js). Motion in fx/home.js. */
 
-/* The original portfolio section (the work lives in the 3D gallery and on
-   /examples/). portfolio.css hides it only next to the rebuilt .pf, which
-   the homepage no longer has. */
-.hm-shop ~ astro-island[component-export="FBHomeMain"] > div > section:nth-of-type(2) { display: none !important; }
+/* ---- What we do ------------------------------------------------------------------ */
+.hm-svc__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: clamp(40px, 5vw, 64px); perspective: 1800px; }
+.hm-cat { position: relative; display: flex; flex-direction: column; padding: clamp(22px, 2.6vw, 32px); border-radius: 32px; background: #fff; box-shadow: 0 0 0 1px #E8E8E2, 0 30px 60px -44px rgba(20, 30, 70, 0.5); transform-style: preserve-3d; transition: box-shadow 0.3s ease; }
+.hm-cat:hover { box-shadow: 0 0 0 1px rgba(0, 41, 255, 0.35), 0 40px 70px -40px rgba(0, 41, 255, 0.35); }
+.hm-cat.is-lead { background: radial-gradient(90% 80% at 100% 0%, rgba(0, 41, 255, 0.5), rgba(0, 41, 255, 0) 65%), #0A0B10; color: #fff; box-shadow: 0 40px 80px -44px rgba(10, 11, 16, 0.8); }
+.hm-cat__head { display: flex; align-items: center; justify-content: space-between; }
+.hm-cat__icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #EEF1FF; color: #0029FF; }
+.hm-cat.is-lead .hm-cat__icon { background: #0029FF; color: #fff; box-shadow: 0 10px 30px -8px rgba(0, 41, 255, 0.8); }
+.hm-cat__from { font-size: 13.5px; color: #8A8B95; }
+.hm-cat__from b { font-size: 22px; font-weight: 600; letter-spacing: -0.03em; color: #0029FF; }
+.hm-cat.is-lead .hm-cat__from { color: rgba(255, 255, 255, 0.55); }
+.hm-cat.is-lead .hm-cat__from b { color: #fff; }
+.hm-cat__title { margin: 22px 0 0; font-size: clamp(28px, 2.8vw, 38px); font-weight: 600; line-height: 1.05; letter-spacing: -0.04em; color: inherit; }
+.hm-cat__line { margin: 8px 0 0; font-size: 15.5px; line-height: 1.5; color: #52525B; }
+.hm-cat.is-lead .hm-cat__line { color: rgba(255, 255, 255, 0.66); }
+.hm-cat__list { display: grid; gap: 4px; margin: 22px 0 0; padding: 14px 0 0; border-top: 1px solid #EDEDE8; list-style: none; }
+.hm-cat.is-lead .hm-cat__list { border-color: rgba(255, 255, 255, 0.1); }
+.hm-cat__list a { display: flex; align-items: center; gap: 14px; margin: 0 -12px; padding: 11px 12px; border-radius: 18px; color: inherit; text-decoration: none; transition: background-color 0.25s ease; }
+.hm-cat__list a:hover { background: #F4F5FF; }
+.hm-cat.is-lead .hm-cat__list a:hover { background: rgba(255, 255, 255, 0.06); }
+.hm-cat__ic { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 50%; background: #F4F4F0; color: #0A0B10; }
+.hm-cat.is-lead .hm-cat__ic { background: rgba(255, 255, 255, 0.08); color: #B8C4FF; }
+.hm-cat__name { flex: 1; min-width: 0; }
+.hm-cat__name b { display: block; font-size: 15.5px; font-weight: 600; letter-spacing: -0.01em; }
+.hm-cat__name small { display: block; margin-top: 2px; overflow: hidden; font-size: 13px; color: #8A8B95; white-space: nowrap; text-overflow: ellipsis; }
+.hm-cat.is-lead .hm-cat__name small { color: rgba(255, 255, 255, 0.5); }
+.hm-cat__list em { font-style: normal; font-size: 15px; font-weight: 600; color: #0A0B10; font-variant-numeric: tabular-nums; }
+.hm-cat__list em::after { content: '/mo'; margin-left: 1px; font-size: 11.5px; font-weight: 500; color: #8A8B95; }
+.hm-cat.is-lead .hm-cat__list em { color: #fff; }
+.hm-cat.is-lead .hm-cat__list em::after { color: rgba(255, 255, 255, 0.45); }
+.hm-cat__list i { display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 50%; color: #0029FF; transform: translateX(-6px); opacity: 0; transition: opacity 0.25s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.hm-cat.is-lead .hm-cat__list i { color: #8DA0FF; }
+.hm-cat__list a:hover i { opacity: 1; transform: none; }
+.hm-svc__foot { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 36px; }
+
+@media (max-width: 860px) {
+  .hm-svc__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .hm-cat { border-radius: 26px; }
+  .hm-cat__name small { white-space: normal; }
+  .hm-cat__list i { display: none; }
+}
+

@@ -2,15 +2,22 @@
 // portfolio.css, data: portfolio-data.js). Same browsing as the cloned
 // section — format tabs, industry → sub-industry filters, featured mix, load
 // more — laid out like a shop, with 3D tile hover, animated result swaps and
-// a quick-view dialog.
+// a quick-view dialog. Every piece of work names the service that made it
+// (from the format tabs' data-svc*), and on the homepage the quick view can
+// add that service to the plan builder (plan.js).
+
+import { connectPlan } from './plan.js';
 
 const PAGE = 12;
 const FORMAT_LABEL = { posts: 'post', videos: 'video', ugc: 'UGC video' };
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const plural = (n, w) => `${n.toLocaleString('en-US')} ${w}${n === 1 ? '' : 's'}`;
 
-export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer }) {
+export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, home }) {
   const formatBtns = [...section.querySelectorAll('.pf-format')];
+  // The service behind each format: { name, price, href }.
+  const SVC = Object.fromEntries(formatBtns.map((b) => [b.dataset.format, { name: b.dataset.svc, price: b.dataset.svcPrice, href: b.dataset.svcHref }]));
+  const plan = home ? connectPlan({ lenis }) : null;
   const inds = section.querySelector('.pf-inds');
   const side = section.querySelector('.pf__side');
   const grid = section.querySelector('.pf__grid');
@@ -37,8 +44,15 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer }
     const piles = Object.values(byInd);
     const mixed = posts.filter((p) => p.f);
     for (let i = 0; piles.some((pl) => i < pl.length); i++) piles.forEach((pl) => i < pl.length && mixed.push(pl[i]));
+    // A picture for each industry in the sidebar: its first featured post, or its first post.
+    const thumbs = {};
+    data.industries.forEach((ind) => {
+      const p = posts.find((x) => x.ind === ind && x.f) || posts.find((x) => x.ind === ind);
+      if (p) thumbs[ind] = p.img;
+    });
     return {
       industries: data.industries,
+      thumbs,
       posts,
       featured: mixed,
       videos: data.videos.map((v) => ({ kind: 'videos', src: v.src, poster: v.poster, ind: v.ind, sub: '', c: '', ad: !!v.ad })),
@@ -69,8 +83,12 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer }
     const src = st.format === 'videos' ? D.videos : D.posts;
     const n = (ind) => src.filter((p) => p.ind === ind).length;
     const rows = [];
+    // Top-level rows get a picture (Featured a star, All a swatch); sub-industries don't.
+    const pic = (key) => (key === 'Featured' ? '<span class="pf-ind__pic is-star" aria-hidden="true">★</span>'
+      : key === 'All' ? '<span class="pf-ind__pic is-all" aria-hidden="true"></span>'
+        : D.thumbs[key] ? `<img class="pf-ind__pic" src="${esc(D.thumbs[key])}" alt="" loading="lazy" decoding="async">` : '<span class="pf-ind__pic is-all" aria-hidden="true"></span>');
     const row = (key, label, num, pressed, cls = '') =>
-      `<button type="button" class="pf-ind${cls}" data-ind="${esc(key)}" aria-pressed="${pressed}"><span>${esc(label)}</span>${num == null ? '' : `<em class="pf-n">${num}</em>`}</button>`;
+      `<button type="button" class="pf-ind${cls}" data-ind="${esc(key)}" aria-pressed="${pressed}">${cls ? '' : pic(key)}<span class="pf-ind__l">${esc(label)}</span>${num == null ? '' : `<em class="pf-n">${num}</em>`}</button>`;
     if (st.format === 'posts') rows.push(`<li>${row('Featured', 'Featured', null, st.ind === 'Featured')}</li>`);
     rows.push(`<li>${row('All', 'All', src.length, st.ind === 'All')}</li>`);
     D.industries.forEach((ind) => {
@@ -89,6 +107,9 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer }
       rows.push(`<li>${row(ind, ind, c, st.ind === ind)}${subs}</li>`);
     });
     inds.innerHTML = rows.join('');
+    // Phones (a sideways row of chips): keep the chosen industry in view.
+    const on = inds.querySelector('.pf-ind[aria-pressed="true"]:not(.is-sub)');
+    if (on && inds.scrollWidth > inds.clientWidth) inds.scrollLeft = Math.max(0, on.offsetLeft - inds.offsetLeft - 12);
   }
 
   function renderBar() {
@@ -113,9 +134,11 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer }
     const media = item.kind === 'posts'
       ? `<img src="${esc(item.img)}" alt="" loading="lazy" decoding="async">`
       : `<video muted loop playsinline preload="none" poster="${esc(item.poster)}"><source src="${esc(item.src)}" type="video/mp4"></video><span class="pf-card__play" aria-hidden="true">▶</span>`;
+    const svc = SVC[item.kind] || {};
     return `<article class="pf-card" data-i="${i}">
       <button type="button" class="pf-card__media" aria-label="Quick view: ${esc(title)} ${esc(FORMAT_LABEL[item.kind])}">${media}<span class="pf-card__badge">${badge}</span><span class="pf-card__qv">Quick view</span></button>
       <div class="pf-card__meta"><b>${esc(title)}</b><span>${esc(meta)}</span></div>
+      ${svc.name ? `<a class="pf-card__svc" href="${esc(svc.href)}"><span>${esc(svc.name)}</span><em>from $${esc(svc.price)}/mo</em></a>` : ''}
     </article>`;
   }
 
@@ -246,6 +269,34 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer }
     facts.push(['Made by', it.kind === 'ugc' ? 'A vetted UGC creator' : 'Our creative team']);
     qv.querySelector('.pf-qv__facts').innerHTML = facts.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('');
     qv.querySelector('.pf-qv__pos').textContent = `${at + 1} / ${list.length}`;
+    // "Made with": the service, its price, and a way to get it.
+    const svc = SVC[it.kind] || {};
+    const name = qv.querySelector('.pf-qv__svc-name');
+    name.textContent = svc.name || '';
+    name.href = svc.href || '/pricing/';
+    qv.querySelector('.pf-qv__svc-price').textContent = svc.price ? `from $${svc.price}/mo` : '';
+    qv.querySelector('.pf-qv__ctas').innerHTML = (plan && svc.name
+      ? `<button type="button" class="hx-btn hx-btn--blue pf-qv__add" data-svc="${esc(svc.name)}"><span class="pf-qv__add-t">Add to plan</span><span class="pf-qv__add-on">✓ In your plan</span></button><button type="button" class="pf-qv__view">View plan →</button>`
+      : `<a class="hx-btn hx-btn--blue" href="${esc(svc.href || '/pricing/')}">Get content like this</a><a class="hx-btn hx-btn--white" href="/book-demo/">Book a demo</a>`);
+    markAdded();
+  }
+  // The quick view's add button shows whether its service is already in the plan.
+  function markAdded() {
+    const b = qv.querySelector('.pf-qv__add');
+    if (b && plan) b.classList.toggle('is-on', plan.read().includes(b.dataset.svc));
+  }
+  if (plan) {
+    qv.addEventListener('click', async (e) => {
+      const add = e.target.closest('.pf-qv__add');
+      if (add) {
+        add.classList.add('is-busy');
+        await plan.toggle(add.dataset.svc);
+        add.classList.remove('is-busy');
+        markAdded();
+        return;
+      }
+      if (e.target.closest('.pf-qv__view')) { qv.close(); plan.goTo(); }
+    });
   }
   function openQV(i) {
     at = i;
