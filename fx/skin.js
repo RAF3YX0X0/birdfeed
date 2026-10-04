@@ -80,7 +80,7 @@ function faqs(root) {
 // box. Where no calendar has loaded, show a static booking preview that links
 // to the demo page instead.
 function calendars(root) {
-  root.querySelectorAll('#my-cal-inline').forEach((box) => {
+  root.querySelectorAll('#my-cal-inline, .fx-cal-slot').forEach((box) => {
     if (box.hasAttribute('data-fx-cal') || box.querySelector('iframe') || !safe(box)) return;
     box.setAttribute('data-fx-cal', '');
     const now = new Date();

@@ -1,0 +1,130 @@
+/*
+ * Inner-page hero in the homepage's design (markup generated per page by
+ * scripts/build-heroes.js into fx/partials/heroes/, motion in fx/ph.js):
+ * centred copy over the blue arch, then the page's own visual in a frame that
+ * rises and flattens as you scroll. Media-heavy pages use the homepage hero
+ * itself (.hx.hx--page, styles in hero.css).
+ */
+.ph {
+  position: relative;
+  overflow: clip;
+  padding: 0 0 72px !important;
+  background: var(--hx-bg, #F3F2F1);
+  color: #0A0B10;
+  font-family: Geist, Inter, system-ui, sans-serif;
+}
+.ph__arch {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 46%;
+  width: max(1500px, 128vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #E6EBFB 0%, #D7E0FF 14%, #C9D5FF 34%, #BFCDFF 60%);
+  box-shadow: inset 0 40px 80px rgba(255, 255, 255, 0.75), 0 -30px 120px rgba(59, 91, 255, 0.12), 0 0 0 56px rgba(59, 91, 255, 0.04), 0 0 0 57px rgba(59, 91, 255, 0.1);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.ph__arch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0 1px, transparent 1px 18px);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 16%, rgba(0, 0, 0, 0.5) 40%, transparent 62%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 16%, rgba(0, 0, 0, 0.5) 40%, transparent 62%);
+}
+/* Melt the arch into the next section. */
+.ph::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 160px;
+  background: linear-gradient(180deg, rgba(243, 242, 241, 0), var(--hx-bg, #F3F2F1));
+  pointer-events: none;
+}
+/* No visual: the arch is a soft curve under the copy. */
+.ph--plain { padding-bottom: 96px !important; }
+.ph--plain .ph__arch { top: auto; bottom: calc(-1 * max(1500px, 128vw) + 150px); }
+
+.ph__copy {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 132px 24px 0;
+  text-align: center;
+}
+.ph__crumbs { display: flex; justify-content: center; gap: 8px; margin-bottom: 18px; font-size: 13px; color: #8A8B95; }
+.ph__crumbs a { color: #52525B; text-decoration: none; }
+.ph__crumbs a:hover { color: #3B5BFF; }
+.ph__title {
+  margin: 20px 0 0;
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+.ph__title em {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.1em;
+  letter-spacing: -0.015em;
+  color: #3B5BFF;
+  padding-right: 0.04em;
+}
+.ph__sub { max-width: 620px; margin: 22px auto 0; font-size: 17.5px; line-height: 1.55; color: #52525B; }
+.ph__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
+.ph__checks { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 24px auto 0; padding: 0; max-width: 760px; list-style: none; }
+.ph__checks li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px 7px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06);
+  font-size: 13.5px;
+  color: #26262C;
+}
+.ph__checks li::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #3B5BFF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5 9-10'/%3E%3C/svg%3E") center / 10px no-repeat;
+}
+.ph__trust { display: inline-flex; align-items: center; gap: 10px; margin: 26px 0 0; font-size: 13.5px; color: #52525B; }
+.ph__trust b { color: #0A0B10; font-weight: 600; }
+
+/* The page's own visual, in a frame that rises into the arch (fx/ph.js). */
+.ph__stage { position: relative; z-index: 1; max-width: 760px; margin: 64px auto 0; padding: 0 24px; perspective: 1600px; }
+.ph__frame {
+  position: relative;
+  padding: 18px;
+  border-radius: 34px;
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9), 0 60px 120px -50px rgba(20, 30, 80, 0.5), 0 30px 50px -30px rgba(20, 30, 80, 0.25);
+  transform-origin: 50% 0;
+  will-change: transform;
+}
+.ph__frame > * { max-width: 100%; }
+
+@media (max-width: 720px) {
+  .ph { padding-bottom: 48px !important; }
+  .ph__copy { padding: 100px 16px 0; }
+  .ph__title { font-size: clamp(34px, 9.6vw, 48px); }
+  .ph__sub { font-size: 15.5px; }
+  .ph__trust { flex-direction: column; gap: 6px; }
+  .ph__stage { margin-top: 40px; padding: 0 12px; }
+  .ph__frame { padding: 10px; border-radius: 24px; }
+  .ph__arch { width: max(1000px, 260vw); top: 40%; }
+}

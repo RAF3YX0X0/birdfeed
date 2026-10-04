@@ -25,6 +25,7 @@ import { setupTrust } from './trust.js';
 import { setupFooter } from './footer.js';
 import { setupSkin } from './skin.js';
 import { swapSharedSections } from './shared.js';
+import { setupPageHero } from './ph.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -120,6 +121,8 @@ function init() {
   const homeHero = hero && hero.classList.contains('hx') ? setupHomeHero({ section: hero, gsap: G, reduced }) : null;
   if (!reduced && homeHero) homeHero.buildIntro(intro);
   else if (!reduced && hero) buildHeroIntro(hero, intro);
+  // Inner pages' generated hero: the visual rises into the arch on scroll.
+  if (hero && hero.classList.contains('ph')) setupPageHero({ section: hero, gsap: G, reduced });
 
   if (page.home) setupGallery(curtain);
   const projects = document.querySelector('.pj');

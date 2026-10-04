@@ -484,43 +484,43 @@ astro-island .sh-builder-grid > div:last-child > div { top: 96px !important; }
    re-renders ("background: rgb(251, 250, 248)"). Our own sections are excluded. */
 
 /* Cards: white, softly shadowed, rounder; no hairline border. */
-astro-island section:not([data-fx-skip]) :is([style*="border-radius:14px"], [style*="border-radius:16px"], [style*="border-radius:18px"], [style*="border-radius:20px"], [style*="border-radius: 14px"], [style*="border-radius: 16px"], [style*="border-radius: 18px"], [style*="border-radius: 20px"]):is([style*="background:#FBFAF8"], [style*="background: rgb(251, 250, 248)"]) {
+:is(astro-island section:not([data-fx-skip]), .ph__frame) :is([style*="border-radius:14px"], [style*="border-radius:16px"], [style*="border-radius:18px"], [style*="border-radius:20px"], [style*="border-radius: 14px"], [style*="border-radius: 16px"], [style*="border-radius: 18px"], [style*="border-radius: 20px"]):is([style*="background:#FBFAF8"], [style*="background: rgb(251, 250, 248)"]) {
   background: #fff !important;
   border-color: transparent !important;
   border-radius: 24px !important;
   box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 24px 48px -36px rgba(20, 30, 70, 0.45) !important;
 }
 /* Pills and chips: white with a soft ring. */
-astro-island section:not([data-fx-skip]) :is([style*="border-radius:999px"], [style*="border-radius: 999px"]):is([style*="background:#FBFAF8"], [style*="background: rgb(251, 250, 248)"]) {
+:is(astro-island section:not([data-fx-skip]), .ph__frame) :is([style*="border-radius:999px"], [style*="border-radius: 999px"]):is([style*="background:#FBFAF8"], [style*="background: rgb(251, 250, 248)"]) {
   background: #fff !important;
   border-color: transparent !important;
   box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.08), 0 8px 20px -14px rgba(20, 30, 70, 0.35);
 }
 /* Icon tiles: from grey to the brand tint. */
-astro-island section:not([data-fx-skip]) :is([style*="border-radius:8px"], [style*="border-radius:10px"], [style*="border-radius:11px"], [style*="border-radius:12px"], [style*="border-radius: 8px"], [style*="border-radius: 10px"], [style*="border-radius: 11px"], [style*="border-radius: 12px"]):is([style*="background:#EBEAE7"], [style*="background: rgb(235, 234, 231)"]):is([style*="display:grid"], [style*="display: grid"], [style*="display:flex"], [style*="display: flex"]) {
+:is(astro-island section:not([data-fx-skip]), .ph__frame) :is([style*="border-radius:8px"], [style*="border-radius:10px"], [style*="border-radius:11px"], [style*="border-radius:12px"], [style*="border-radius: 8px"], [style*="border-radius: 10px"], [style*="border-radius: 11px"], [style*="border-radius: 12px"]):is([style*="background:#EBEAE7"], [style*="background: rgb(235, 234, 231)"]):is([style*="display:grid"], [style*="display: grid"], [style*="display:flex"], [style*="display: flex"]) {
   background: #E6EBFF !important;
   border-color: transparent !important;
   color: #3B5BFF !important;
   border-radius: 14px !important;
 }
 /* Blue buttons: pills with the brand glow. */
-astro-island section:not([data-fx-skip]) :is(a, button):is([style*="background:#3B5BFF"], [style*="background: rgb(59, 91, 255)"]) {
+:is(astro-island section:not([data-fx-skip]), .ph__frame) :is(a, button):is([style*="background:#3B5BFF"], [style*="background: rgb(59, 91, 255)"]) {
   border-radius: 999px !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 10px 24px -10px rgba(59, 91, 255, 0.8);
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
 }
-astro-island section:not([data-fx-skip]) :is(a, button):is([style*="background:#3B5BFF"], [style*="background: rgb(59, 91, 255)"]):hover { transform: translateY(-2px); background: #2F4DF0 !important; }
+:is(astro-island section:not([data-fx-skip]), .ph__frame) :is(a, button):is([style*="background:#3B5BFF"], [style*="background: rgb(59, 91, 255)"]):hover { transform: translateY(-2px); background: #2F4DF0 !important; }
 /* Section headings: the homepage scale and tracking. */
-astro-island section:not([data-fx-skip]) h2:is([style*="font-size:40px"], [style*="font-size:42px"], [style*="font-size:44px"], [style*="font-size:46px"], [style*="font-size:48px"], [style*="font-size:50px"], [style*="font-size:52px"], [style*="font-size: 40px"], [style*="font-size: 42px"], [style*="font-size: 44px"], [style*="font-size: 46px"], [style*="font-size: 48px"], [style*="font-size: 50px"], [style*="font-size: 52px"]) {
+:is(astro-island section:not([data-fx-skip]), .ph__frame) h2:is([style*="font-size:40px"], [style*="font-size:42px"], [style*="font-size:44px"], [style*="font-size:46px"], [style*="font-size:48px"], [style*="font-size:50px"], [style*="font-size:52px"], [style*="font-size: 40px"], [style*="font-size: 42px"], [style*="font-size: 44px"], [style*="font-size: 46px"], [style*="font-size: 48px"], [style*="font-size: 50px"], [style*="font-size: 52px"]) {
   font-size: clamp(34px, 4.4vw, 58px) !important;
   line-height: 1.04 !important;
   letter-spacing: -0.045em !important;
 }
-astro-island section:not([data-fx-skip]) h1 { letter-spacing: -0.045em !important; }
+:is(astro-island section:not([data-fx-skip]), .ph__frame) h1 { letter-spacing: -0.045em !important; }
 @media (max-width: 480px) {
   /* Long words ("alternatives.") must fit a phone screen at the larger size. */
-  astro-island section:not([data-fx-skip]) :is(h1, h2) { overflow-wrap: break-word; }
-  astro-island section:not([data-fx-skip]) h2:is([style*="font-size:40px"], [style*="font-size:42px"], [style*="font-size:44px"], [style*="font-size:46px"], [style*="font-size:48px"], [style*="font-size:50px"], [style*="font-size:52px"], [style*="font-size: 40px"], [style*="font-size: 42px"], [style*="font-size: 44px"], [style*="font-size: 46px"], [style*="font-size: 48px"], [style*="font-size: 50px"], [style*="font-size: 52px"]) { font-size: clamp(28px, 8.4vw, 34px) !important; letter-spacing: -0.035em !important; }
+  :is(astro-island section:not([data-fx-skip]), .ph__frame) :is(h1, h2) { overflow-wrap: break-word; }
+  :is(astro-island section:not([data-fx-skip]), .ph__frame) h2:is([style*="font-size:40px"], [style*="font-size:42px"], [style*="font-size:44px"], [style*="font-size:46px"], [style*="font-size:48px"], [style*="font-size:50px"], [style*="font-size:52px"], [style*="font-size: 40px"], [style*="font-size: 42px"], [style*="font-size: 44px"], [style*="font-size: 46px"], [style*="font-size: 48px"], [style*="font-size: 50px"], [style*="font-size: 52px"]) { font-size: clamp(28px, 8.4vw, 34px) !important; letter-spacing: -0.035em !important; }
 }
 /* No hairlines between sections; the cards carry the structure now. */
 astro-island section:not([data-fx-skip]):is([style*="border-top:1px solid #E1DFDA"], [style*="border-top: 1px solid rgb(225, 223, 218)"]) { border-top-color: transparent !important; }
@@ -530,20 +530,20 @@ astro-island section:not([data-fx-skip]):is([style*="border-bottom:1px solid #E1
    the new one is a single light page with the cards giving structure. */
 astro-island section:not([data-fx-skip]):is([style*="background:#EBEAE7"], [style*="background: rgb(235, 234, 231)"]) { background: transparent !important; }
 /* Grey cards (radius 14px and up) become white cards too. */
-astro-island section:not([data-fx-skip]) :is([style*="border-radius:14px"], [style*="border-radius:16px"], [style*="border-radius:18px"], [style*="border-radius:20px"], [style*="border-radius: 14px"], [style*="border-radius: 16px"], [style*="border-radius: 18px"], [style*="border-radius: 20px"]):is([style*="background:#EBEAE7"], [style*="background: rgb(235, 234, 231)"]):not(:has(> img:only-child)) {
+:is(astro-island section:not([data-fx-skip]), .ph__frame) :is([style*="border-radius:14px"], [style*="border-radius:16px"], [style*="border-radius:18px"], [style*="border-radius:20px"], [style*="border-radius: 14px"], [style*="border-radius: 16px"], [style*="border-radius: 18px"], [style*="border-radius: 20px"]):is([style*="background:#EBEAE7"], [style*="background: rgb(235, 234, 231)"]):not(:has(> img:only-child)) {
   background: #fff !important;
   border-color: transparent !important;
   border-radius: 24px !important;
   box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 24px 48px -36px rgba(20, 30, 70, 0.45) !important;
 }
 /* "The old way" red cards: soft tint, no hairline. */
-astro-island section:not([data-fx-skip]) [style*="border:1px solid rgba(239,68,68"], astro-island section:not([data-fx-skip]) [style*="border: 1px solid rgba(239, 68, 68"] {
+:is(astro-island section:not([data-fx-skip]), .ph__frame) [style*="border:1px solid rgba(239,68,68"], :is(astro-island section:not([data-fx-skip]), .ph__frame) [style*="border: 1px solid rgba(239, 68, 68"] {
   border-color: transparent !important;
   border-radius: 24px !important;
   box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.1);
 }
 /* Blue-dot labels ("● BENEFITS") become the dotted pill eyebrow. */
-astro-island section:not([data-fx-skip]) span:is([style*="text-transform:uppercase"], [style*="text-transform: uppercase"]):is([style*="color:#3B5BFF"], [style*="color: rgb(59, 91, 255)"]):has(> span:first-child:empty) {
+:is(astro-island section:not([data-fx-skip]), .ph__frame) span:is([style*="text-transform:uppercase"], [style*="text-transform: uppercase"]):is([style*="color:#3B5BFF"], [style*="color: rgb(59, 91, 255)"]):has(> span:first-child:empty) {
   padding: 7px 14px !important;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.85);
@@ -552,7 +552,7 @@ astro-island section:not([data-fx-skip]) span:is([style*="text-transform:upperca
   font-weight: 500 !important;
   color: #52525B !important;
 }
-astro-island section:not([data-fx-skip]) span:is([style*="text-transform:uppercase"], [style*="text-transform: uppercase"]):is([style*="color:#3B5BFF"], [style*="color: rgb(59, 91, 255)"]) > span:first-child:empty {
+:is(astro-island section:not([data-fx-skip]), .ph__frame) span:is([style*="text-transform:uppercase"], [style*="text-transform: uppercase"]):is([style*="color:#3B5BFF"], [style*="color: rgb(59, 91, 255)"]) > span:first-child:empty {
   width: 7px !important;
   height: 7px !important;
   box-shadow: 0 0 0 4px rgba(59, 91, 255, 0.15);
@@ -620,4 +620,4 @@ astro-island :has(> img[data-fx-noimg="box"]) {
 
 /* Nothing in a cloned section may widen the page (reveal tilts, long words,
    wide tables). `clip`, unlike `hidden`, keeps sticky pins working. */
-astro-island section:not([data-fx-skip]) { overflow-x: clip; }
+:is(astro-island section:not([data-fx-skip]), .ph__frame) { overflow-x: clip; }
