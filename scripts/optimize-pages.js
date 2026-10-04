@@ -72,6 +72,14 @@ function bookingEmbed(html) {
   return html.replace(/(<astro-island[^>]*component-export="BookDemo"[^>]*opts="{&quot;name&quot;:&quot;BookDemo&quot;,&quot;value&quot;:)true(})/, '$1{&quot;timeout&quot;:600}$2');
 }
 
+// Homepage: the plan builder is where the shop's "Add to plan" puts services
+// (fx/plan.js), so React takes it over once the page settles (within 1.5s)
+// instead of only when it scrolls into view. Its code is the same bundle the
+// hero island already loads.
+function homeBuilder(html) {
+  return html.replace(/(<astro-island[^>]*component-export="FBHomeMain"[^>]*client=")visible("[^>]*opts="{&quot;name&quot;:&quot;FBHomeMain&quot;,&quot;value&quot;:)true(})/, '$1idle$2{&quot;timeout&quot;:1500}$3');
+}
+
 function seo(html) {
   html = html.replace(/(<link rel="canonical" href=")([^"]+)(")/, (m, a, u, b) => a + abs(u) + b);
   html = html.replace(/(<meta (?:property|name)="(?:og:url|og:image|twitter:image)" content=")([^"]+)(")/g, (m, a, u, b) => a + abs(u) + b);
@@ -106,7 +114,7 @@ for (const f of pages(ROOT)) {
   let s = fs.readFileSync(f, 'utf8');
   const before = s;
   for (const re of TRACKERS) s = s.replace(re, () => { removed++; return ''; });
-  s = bookingEmbed(seo(lazyImages(s)));
+  s = homeBuilder(bookingEmbed(seo(lazyImages(s))));
   if (s !== before) fs.writeFileSync(f, s);
   const rel = path.relative(ROOT, path.dirname(f)).split(path.sep).join('/');
   if (!/name="robots" content="noindex/.test(s)) urls.push(rel ? `/${rel}/` : '/'); // (the login page isn't listed)

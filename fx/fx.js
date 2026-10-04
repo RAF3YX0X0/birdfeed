@@ -32,7 +32,7 @@ import { setupSections } from './sections.js';
 import { setupIndustry, wireBlocks } from './ind.js';
 import { startCal } from './cal.js';
 import { setupPricing } from './pricing.js';
-import { setupHome } from './home.js';
+import { setupShop } from './shop.js';
 
 const html = document.documentElement;
 const G = window.gsap;
@@ -131,11 +131,11 @@ function init() {
   const footer = document.querySelector('footer.ft');
   if (footer) setupFooter({ footer, gsap: G, lenis, reduced });
   if (page.home) {
-    // "What we do" and "Built for your industry" (see home.js).
-    setupHome({ gsap: G, ST, reduced, finePointer, narrow: isNarrow() });
+    // The shop: every service, filtered by industry and more (see shop.js).
+    setupShop({ gsap: G, lenis, reduced });
     // The sales funnel follows "how it works" (the steps, then what they turn
-    // into), just before the industries; all outside React-owned DOM.
-    const anchor = document.querySelector('.hm-ind') || document.querySelector('.hw') || islands.find((n) => n.getAttribute('component-export') === 'FBHomeMain');
+    // into), just before the plan builder; all outside React-owned DOM.
+    const anchor = document.querySelector('.prh') || document.querySelector('.hw') || islands.find((n) => n.getAttribute('component-export') === 'FBHomeMain');
     if (anchor) setupFunnel({ anchor, gsap: G, lenis, reduced, narrow: isNarrow() });
   } else {
     const slug = location.pathname.replace(/^\/+|\/+$/g, '');

@@ -25,12 +25,12 @@ const BLOCKS = [
   // (scripts/build-industries.js).
   { name: 'industry-top', at: 'first-island', files: [] },
   { name: 'hero', home: true, island: 'FBHomeTop', files: ['home-hero.html'] },
-  // The homepage tells one story: what it is (hero, proof), what we do, how
-  // it works, who it's for, the price (the builder island), the risk taken
-  // away, why it costs less, the results, questions, the call to action.
-  // (The sales funnel goes after "how it works" and the 3D gallery of the work
-  // before the reviews, both placed by fx.js.)
-  { name: 'hiw', home: true, island: 'FBHomeMain', files: ['home-trust.html', 'home-services.html', 'home-hiw.html', 'home-industries.html', 'home-pricing-head.html'] },
+  // The homepage tells one story: what it is (hero, proof), the shop (every
+  // service, by industry), how it works, the price (the builder island), the
+  // risk taken away, why it costs less, the results, questions, the call to
+  // action. (The sales funnel goes after "how it works" and the 3D gallery of
+  // the work before the reviews, both placed by fx.js.)
+  { name: 'hiw', home: true, island: 'FBHomeMain', files: ['home-trust.html', 'home-shop.html', 'home-hiw.html', 'home-pricing-head.html'] },
   // The case studies sit between "The real cost" and the reviews.
   { name: 'bottom', home: true, island: 'FBHomeBottom', files: ['home-bottom.html'], insert: { file: 'home-projects.html', before: '<section class="rv"' }, edit: homeBottom },
   { name: 'shared', inner: true, at: 'main-end', files: [] },
@@ -158,7 +158,7 @@ function block(home, shared, hero, nx, ind) {
     ...(/class="prx"/.test(hero) ? ['pricing.css'] : []),
     ...(home || shared ? SHARED_CSS : []),
     ...(nx || ind ? ['nx.css', 'ind.css'] : []),
-    ...(home ? ['nx.css', 'home.css'] : []),
+    ...(home ? ['nx.css', 'home.css', 'shop.css'] : []),
     ...(ind && !shared ? ['bottom.css'] : []),
   ];
   const font = '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>';
