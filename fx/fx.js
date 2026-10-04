@@ -174,6 +174,16 @@ function init() {
     }
   }, { timeout: 1500 });
 
+  // Fetch the 3D engine in the background once the page has loaded, so 3D
+  // sections further down (funnels, gallery, explainers) are ready when the
+  // visitor reaches them instead of starting the download then.
+  // (Inner pages add theirs after hydration, so don't wait to see them.)
+  if (!page.legal && !reduced) {
+    const warm = () => idle(() => import('./three/kit.js').catch(() => {}), { timeout: 4000 });
+    if (document.readyState === 'complete') warm();
+    else window.addEventListener('load', warm, { once: true });
+  }
+
   islands.forEach((island) => whenHydrated(island).then(() => afterHydrate(island)));
   setupSkin(islands);
   if ('ResizeObserver' in window) new ResizeObserver(scheduleRefresh).observe(document.body);

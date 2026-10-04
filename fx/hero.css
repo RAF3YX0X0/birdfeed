@@ -11,10 +11,13 @@
 
 /* ---- Hero stage ------------------------------------------------------------ */
 .hx {
-  --cw: clamp(176px, 15.5vw, 236px);
+  /* Big phone, like the reference: ~22% of the screen width, taller than the
+     screen on most laptops (it then sits under the nav and runs off the
+     bottom). The cards behind it are nearly as wide. */
+  --pw: clamp(250px, 22vw, 360px);
+  --ph: calc(var(--pw) * 2.05);
+  --cw: clamp(210px, 21vw, 330px);
   --ch: calc(var(--cw) * 1.3333);
-  --ph: clamp(400px, 64vh, 620px);
-  --pw: calc(var(--ph) * 0.488);
   position: relative;
   height: 250vh;
   padding: 0 !important; /* the site pads every section on phones */
@@ -236,8 +239,8 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
 /* ---- Small screens ---------------------------------------------------------- */
 @media (max-width: 720px) {
   .hx {
-    --cw: 142px;
-    --ph: clamp(360px, 54vh, 470px);
+    --pw: min(64vw, 270px);
+    --cw: 168px;
     height: 210vh;
   }
   .hx__copy { padding-top: 104px; padding-left: 16px; padding-right: 16px; }

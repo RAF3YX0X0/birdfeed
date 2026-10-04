@@ -111,6 +111,7 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
   // ---- active stage ----------------------------------------------------------
   let active = -1;
   let funnel = null;
+  const fallback = [...sec.querySelectorAll('.fx-funnel__fallback span')];
   const counted = new Set();
   function setActive(i) {
     if (i === active) return;
@@ -121,6 +122,8 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
       li.querySelector('button').setAttribute('aria-expanded', String(k === i));
     });
     if (funnel) funnel.setActive(i);
+    // The flat funnel shown until the 3D one is ready follows along too.
+    fallback.forEach((t, k) => { t.classList.toggle('is-on', k === i); t.classList.toggle('is-past', k < i); });
     // Count the stage's number up the first time it's shown.
     if (!reduced && !counted.has(i)) {
       counted.add(i);
@@ -205,7 +208,7 @@ export function setupFunnel({ anchor, gsap, lenis, reduced, narrow, stages = FUN
     } catch (err) {
       console.warn('[fx] funnel 3D unavailable', err);
     }
-  }, { rootMargin: '100% 0px' });
+  }, { rootMargin: '200% 0px' });
   lazy.observe(sec);
 
   return sec;
