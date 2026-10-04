@@ -13,17 +13,7 @@
   setTimeout(function () { if (document.getElementById('fx-nx') && !document.querySelector('section.nx')) d.classList.add('fx-nx-off'); }, 12000);
   if (reduce) { d.classList.add('fx-reduced'); return; }
 
-  // A page reached through an fx page-transition starts covered so the
-  // curtain can lift off it. A fresh load shows the page straight away (no
-  // preloader: nothing should stand between a visitor and the content).
-  var fromNav = false;
-  try {
-    fromNav = sessionStorage.getItem('fx-nav') === '1';
-    sessionStorage.removeItem('fx-nav');
-  } catch (e) {}
-  if (!fromNav) return;
-  d.classList.add('fx-cover', 'fx-from-nav');
-
-  // Failsafe: never leave the page covered if fx.js fails to run.
-  setTimeout(function () { d.classList.remove('fx-cover'); }, 2500);
+  // Pages show straight away: no preloader, no cover between pages. (Clear
+  // the flag older versions set before navigating.)
+  try { sessionStorage.removeItem('fx-nav'); } catch (e) {}
 })();

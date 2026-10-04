@@ -319,26 +319,19 @@ function setupCurtain(lenis) {
     });
   }
 
+  // Going to another page: the browser navigates as usual (with a quick
+  // cross-fade where it supports view transitions, see chrome.css) and a thin
+  // bar at the top shows it's on its way. Nothing covers the page, so a slow
+  // response can never look like the site is stuck.
+  let loadBar = null;
+  function loading() {
+    if (loadBar) return;
+    loadBar = make('div', 'fx-loadbar');
+    document.body.appendChild(loadBar);
+  }
   function leave(href) {
-    if (reduced) { location.href = href; return; }
-    curtain.classList.add('is-active');
-    G.set([light, blue], { yPercent: 100, borderTopLeftRadius: '50% 18vh', borderTopRightRadius: '50% 18vh' });
-    G.set(mark, { rotationY: -100, scale: 0.6, opacity: 0 });
-    G.set(chars, { yPercent: 110 });
-    G.set(meter, { opacity: 0 });
-    pct.v = 0;
-    showPct();
-    // The next page starts loading right away; the cover closes while it does
-    // (that page then starts covered and lifts as soon as it's ready).
-    try { sessionStorage.setItem('fx-nav', '1'); } catch (e) {}
+    loading();
     location.href = href;
-    G.timeline()
-      .to(blue, { yPercent: 0, borderTopLeftRadius: '0% 0vh', borderTopRightRadius: '0% 0vh', duration: 0.45, ease: 'expo.inOut' })
-      .to(light, { yPercent: 0, borderTopLeftRadius: '0% 0vh', borderTopRightRadius: '0% 0vh', duration: 0.45, ease: 'expo.inOut' }, '<0.05')
-      .to(mark, { rotationY: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, '-=0.3')
-      .to(chars, { yPercent: 0, duration: 0.45, ease: 'expo.out', stagger: 0.02 }, '<0.05')
-      .to(meter, { opacity: 1, duration: 0.25 }, '<')
-      .to(pct, { v: 40, duration: 0.35, ease: 'power1.out', onUpdate: showPct }, '<');
   }
 
   function isInternal(a, e) {
@@ -366,13 +359,13 @@ function setupCurtain(lenis) {
       return;
     }
     if (samePage) return;
-    e.preventDefault();
-    leave(url.href);
+    loading();
   });
 
-  // Warm the next page while the pointer is on its link.
+  // Warm the next page while the pointer is on its link. Browsers with
+  // speculation rules prerender it instead (inject-fx.js adds the rules).
   const prefetched = new Set();
-  document.addEventListener('pointerover', (e) => {
+  if (!(HTMLScriptElement.supports && HTMLScriptElement.supports('speculationrules'))) document.addEventListener('pointerover', (e) => {
     const a = e.target.closest && e.target.closest('a[href]');
     if (!a || a.target === '_blank') return;
     const url = new URL(a.href, location.href);
@@ -385,7 +378,7 @@ function setupCurtain(lenis) {
   }, { passive: true });
 
   // Back/forward cache restores the page with the curtain still down.
-  window.addEventListener('pageshow', (e) => { if (e.persisted) lift(true); });
+  window.addEventListener('pageshow', (e) => { if (!e.persisted) return; lift(true); if (loadBar) { loadBar.remove(); loadBar = null; } });
 
   // revealAt: when the hero intro starts, i.e. while the panels are mid-lift.
   return { lift: () => lift(false), leave, covered, revealAt: covered ? 0.3 : 0 };

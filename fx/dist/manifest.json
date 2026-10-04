@@ -1,8 +1,8 @@
 {
- "js": "/fx/dist/fx-GDHXVP6N.js",
+ "js": "/fx/dist/fx-VTYHO5L6.js",
  "eager": [
   "/fx/dist/c-VHNSBD2M.js"
  ],
  "vendor": "/fx/dist/vendor-08d55cd6d3.js",
- "boot": "(function(){var e=document.documentElement,t=!1;try{t=window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches}catch(c){}if(e.classList.add(\"fx\"),setTimeout(function(){document.getElementById(\"fx-nx\")&&!document.querySelector(\"section.nx\")&&e.classList.add(\"fx-nx-off\")},12e3),t){e.classList.add(\"fx-reduced\");return}var s=!1;try{s=sessionStorage.getItem(\"fx-nav\")===\"1\",sessionStorage.removeItem(\"fx-nav\")}catch(c){}s&&(e.classList.add(\"fx-cover\",\"fx-from-nav\"),setTimeout(function(){e.classList.remove(\"fx-cover\")},2500))})();"
+ "boot": "(function(){var e=document.documentElement,t=!1;try{t=window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches}catch(c){}if(e.classList.add(\"fx\"),setTimeout(function(){document.getElementById(\"fx-nx\")&&!document.querySelector(\"section.nx\")&&e.classList.add(\"fx-nx-off\")},12e3),t){e.classList.add(\"fx-reduced\");return}try{sessionStorage.removeItem(\"fx-nav\")}catch(c){}})();"
 }

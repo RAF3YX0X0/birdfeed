@@ -108,6 +108,10 @@ function sectionsFor(file) {
   return slug && fs.existsSync(f) ? fs.readFileSync(f, 'utf8').trim() : '';
 }
 
+// Chrome / Edge: prerender a page when the pointer rests on its link, so the
+// click shows it instantly.
+const SPECULATION = '<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/login/*"}},{"not":{"selector_matches":"[target=_blank], [download]"}}]},"eagerness":"moderate"}]}</script>';
+
 function block(home, shared, hero, nx) {
   const css = [
     'fx.css',
@@ -130,6 +134,7 @@ function block(home, shared, hero, nx) {
       `<script src="${manifest.vendor}" defer></script>`,
       ...manifest.eager.map((c) => `<link rel="modulepreload" href="${c}">`),
       `<script type="module" src="${manifest.js}"></script>`,
+      SPECULATION,
       END,
     ].join('\n');
   }
