@@ -1,0 +1,8 @@
+{
+ "js": "/fx/dist/fx-NML6XZCZ.js",
+ "eager": [
+  "/fx/dist/c-VHNSBD2M.js"
+ ],
+ "vendor": "/fx/dist/vendor-08d55cd6d3.js",
+ "boot": "(function(){var e=document.documentElement,t=!1;try{t=window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches}catch(r){}if(e.classList.add(\"fx\"),t){e.classList.add(\"fx-reduced\");return}var a=!1;try{a=sessionStorage.getItem(\"fx-nav\")===\"1\",sessionStorage.removeItem(\"fx-nav\")}catch(r){}a&&(e.classList.add(\"fx-cover\",\"fx-from-nav\"),setTimeout(function(){e.classList.remove(\"fx-cover\")},2500))})();"
+}

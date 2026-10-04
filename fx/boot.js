@@ -10,15 +10,17 @@
   d.classList.add('fx');
   if (reduce) { d.classList.add('fx-reduced'); return; }
 
-  // A page reached through an fx page-transition starts fully covered so the
-  // curtain can lift off it; a fresh load gets the shorter intro cover.
+  // A page reached through an fx page-transition starts covered so the
+  // curtain can lift off it. A fresh load shows the page straight away (no
+  // preloader: nothing should stand between a visitor and the content).
   var fromNav = false;
   try {
     fromNav = sessionStorage.getItem('fx-nav') === '1';
     sessionStorage.removeItem('fx-nav');
   } catch (e) {}
-  d.classList.add('fx-cover', fromNav ? 'fx-from-nav' : 'fx-from-load');
+  if (!fromNav) return;
+  d.classList.add('fx-cover', 'fx-from-nav');
 
   // Failsafe: never leave the page covered if fx.js fails to run.
-  setTimeout(function () { d.classList.remove('fx-cover'); }, 4000);
+  setTimeout(function () { d.classList.remove('fx-cover'); }, 2500);
 })();

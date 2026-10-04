@@ -78,16 +78,54 @@ function heroFor(file) {
   return slug && fs.existsSync(f) ? fs.readFileSync(f, 'utf8').trim() : '';
 }
 
+// Production build (scripts/build-fx.js): bundled, minified, content-hashed
+// files in fx/dist/. Without it, pages load the sources directly.
+const DIST = path.join(ROOT, 'fx', 'dist');
+const MANIFEST = path.join(DIST, 'manifest.json');
+const manifest = !remove && fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8')) : null;
+let esbuild = null;
+try { esbuild = require('esbuild'); } catch (e) { /* stylesheets are joined but not minified */ }
+const cssBundles = new Map();
+// A page's stylesheets as one minified file (one request instead of up to ten).
+function cssBundle(list) {
+  const key = list.join('|');
+  if (cssBundles.has(key)) return cssBundles.get(key);
+  const src = list.map((f) => fs.readFileSync(path.join(ROOT, 'fx', f), 'utf8')).join('\n');
+  const out = esbuild ? esbuild.transformSync(src, { loader: 'css', minify: true }).code : src;
+  const name = `css-${require('crypto').createHash('sha256').update(out).digest('hex').slice(0, 10)}.css`;
+  if (!fs.existsSync(path.join(DIST, name))) fs.writeFileSync(path.join(DIST, name), out);
+  cssBundles.set(key, `/fx/dist/${name}`);
+  return cssBundles.get(key);
+}
+
 function block(home, shared, hero) {
+  const css = [
+    'fx.css',
+    'chrome.css',
+    ...(home || /class="hx /.test(hero) ? ['hero.css'] : []),
+    ...(/class="ph/.test(hero) ? ['ph.css'] : []),
+    ...(/class="csx/.test(hero) ? ['cases.css'] : []),
+    ...(home || shared ? SHARED_CSS : []),
+  ];
+  const font = '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>';
+  if (manifest) {
+    return [
+      START,
+      `<link rel="stylesheet" href="${cssBundle(css)}">`,
+      font,
+      // Homepage: the hero phone's poster is the biggest thing on a phone's first screen.
+      ...(home ? ['<link rel="preload" as="image" href="/fx/media/hero-phone.webp" fetchpriority="high">'] : []),
+      `<script>${manifest.boot}</script>`,
+      `<script src="${manifest.vendor}" defer></script>`,
+      ...manifest.eager.map((c) => `<link rel="modulepreload" href="${c}">`),
+      `<script type="module" src="${manifest.js}"></script>`,
+      END,
+    ].join('\n');
+  }
   return [
     START,
-    '<link rel="stylesheet" href="/fx/fx.css">',
-    '<link rel="stylesheet" href="/fx/chrome.css">',
-    '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>',
-    ...(home || /class="hx /.test(hero) ? ['<link rel="stylesheet" href="/fx/hero.css">'] : []),
-    ...(/class="ph/.test(hero) ? ['<link rel="stylesheet" href="/fx/ph.css">'] : []),
-    ...(/class="csx/.test(hero) ? ['<link rel="stylesheet" href="/fx/cases.css">'] : []),
-    ...(home || shared ? SHARED_CSS.map((f) => `<link rel="stylesheet" href="/fx/${f}">`) : []),
+    ...css.map((f) => `<link rel="stylesheet" href="/fx/${f}">`),
+    font,
     '<script src="/fx/boot.js"></script>',
     '<script src="/fx/vendor/gsap.min.js" defer></script>',
     '<script src="/fx/vendor/ScrollTrigger.min.js" defer></script>',

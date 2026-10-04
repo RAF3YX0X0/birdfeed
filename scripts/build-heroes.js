@@ -175,7 +175,7 @@ function pageHero(d) {
 }
 
 function mediaHero(d) {
-  const media = d.media.length ? d.media : [{ type: 'img', src: '/fx/media/card-1.jpg' }];
+  const media = d.media.length ? d.media : [{ type: 'img', src: '/fx/media/card-1.webp' }];
   const phone = media.find((m) => m.type === 'video') || media[0];
   const rest = media.filter((m) => m !== phone);
   const cards = [];

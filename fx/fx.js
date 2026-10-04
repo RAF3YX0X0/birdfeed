@@ -101,9 +101,12 @@ function init() {
   const homeHero = hero && hero.classList.contains('hx') ? setupHomeHero({ section: hero, gsap: G, reduced }) : null;
   // Case studies page: a fullscreen slider in place of a hero (see cases.js).
   const cases = hero && hero.classList.contains('csx') ? setupCases({ section: hero, gsap: G, lenis, reduced }) : null;
-  if (!reduced && homeHero) homeHero.buildIntro(intro);
-  else if (!reduced && cases) cases.buildIntro(intro);
-  else if (!reduced && hero) buildHeroIntro(hero, intro);
+  // Entrance animations only play behind the page-transition curtain; on a
+  // fresh load the first screen is shown as is, instantly.
+  const animateIn = !reduced && curtain.covered;
+  if (animateIn && homeHero) homeHero.buildIntro(intro);
+  else if (animateIn && cases) cases.buildIntro(intro);
+  else if (animateIn && hero) buildHeroIntro(hero, intro);
   // Inner pages' generated hero: the visual rises into the arch on scroll.
   if (hero && hero.classList.contains('ph')) setupPageHero({ section: hero, gsap: G, reduced });
 
@@ -145,7 +148,7 @@ function init() {
     const { claimed } = mountStages({ gsap: G, lenis, targets, finePointer, narrow: isNarrow() });
     targets = targets.filter((t) => !claimed.has(t.el));
   }
-  if (!reduced) setupReveals(targets, intro);
+  if (!reduced) setupReveals(targets, intro, animateIn);
 
 
   // Inner pages: swap in the rebuilt homepage sections they share, then wire
@@ -155,6 +158,7 @@ function init() {
       if (!secs.length) return;
       const by = (c) => secs.find((s) => s.classList.contains(c));
       secs.forEach(allowSticky);
+      lazyPosters();
       const common = { gsap: G, lenis, reduced, finePointer };
       if (by('tr')) setupTrust({ section: by('tr'), ...common });
       if (by('hw')) setupHowItWorks({ section: by('hw'), ...common });
@@ -182,7 +186,10 @@ function init() {
   // sections further down (funnels, gallery, explainers) are ready when the
   // visitor reaches them instead of starting the download then.
   // (Inner pages add theirs after hydration, so don't wait to see them.)
-  if (!page.legal && !reduced) {
+  // (Not on data-saver or slow connections: there it loads only when needed.)
+  const conn = navigator.connection;
+  const slowNet = !!conn && (conn.saveData || /(^|-)(2g|3g)$/.test(conn.effectiveType || ''));
+  if (!page.legal && !reduced && !slowNet) {
     const warm = () => idle(() => import('./three/kit.js').catch(() => {}), { timeout: 4000 });
     if (document.readyState === 'complete') warm();
     else window.addEventListener('load', warm, { once: true });
@@ -190,6 +197,7 @@ function init() {
 
   islands.forEach((island) => whenHydrated(island).then(() => afterHydrate(island)));
   setupSkin(islands);
+  lazyPosters();
   if ('ResizeObserver' in window) new ResizeObserver(scheduleRefresh).observe(document.body);
 
   ST.sort();
@@ -297,11 +305,11 @@ function setupCurtain(lenis) {
       });
       // Fresh load: let the brand finish building in, fill the counter, hold.
       if (fromLoad && !fast) tl.to(pct, { v: 100, duration: 0.5, ease: 'power2.inOut', onUpdate: showPct }, 0.8).to({}, { duration: 0.2 });
-      tl.to(chars, { yPercent: -110, duration: 0.4, ease: 'power3.in', stagger: 0.015 }, fast ? 0 : '>')
+      tl.to(chars, { yPercent: -110, duration: 0.3, ease: 'power3.in', stagger: 0.01 }, fast ? 0 : '>')
         .to(mark, { rotationY: 90, scale: 0.7, opacity: 0, duration: 0.35, ease: 'power3.in' }, '<')
         .to(meter, { opacity: 0, y: -8, duration: 0.25 }, '<')
-        .to(light, { yPercent: -100, borderBottomLeftRadius: '50% 18vh', borderBottomRightRadius: '50% 18vh', duration: 0.9, ease: 'expo.inOut' }, '-=0.12')
-        .to(blue, { yPercent: -100, borderBottomLeftRadius: '50% 18vh', borderBottomRightRadius: '50% 18vh', duration: 0.9, ease: 'expo.inOut' }, '<0.09');
+        .to(light, { yPercent: -100, borderBottomLeftRadius: '50% 18vh', borderBottomRightRadius: '50% 18vh', duration: 0.65, ease: 'expo.inOut' }, '-=0.12')
+        .to(blue, { yPercent: -100, borderBottomLeftRadius: '50% 18vh', borderBottomRightRadius: '50% 18vh', duration: 0.65, ease: 'expo.inOut' }, '<0.06');
     });
   }
 
@@ -314,14 +322,13 @@ function setupCurtain(lenis) {
     G.set(meter, { opacity: 0 });
     pct.v = 0;
     showPct();
-    G.timeline({
-      onComplete() {
-        try { sessionStorage.setItem('fx-nav', '1'); } catch (e) {}
-        location.href = href;
-      },
-    })
-      .to(blue, { yPercent: 0, borderTopLeftRadius: '0% 0vh', borderTopRightRadius: '0% 0vh', duration: 0.7, ease: 'expo.inOut' })
-      .to(light, { yPercent: 0, borderTopLeftRadius: '0% 0vh', borderTopRightRadius: '0% 0vh', duration: 0.7, ease: 'expo.inOut' }, '<0.08')
+    // The next page starts loading right away; the cover closes while it does
+    // (that page then starts covered and lifts as soon as it's ready).
+    try { sessionStorage.setItem('fx-nav', '1'); } catch (e) {}
+    location.href = href;
+    G.timeline()
+      .to(blue, { yPercent: 0, borderTopLeftRadius: '0% 0vh', borderTopRightRadius: '0% 0vh', duration: 0.45, ease: 'expo.inOut' })
+      .to(light, { yPercent: 0, borderTopLeftRadius: '0% 0vh', borderTopRightRadius: '0% 0vh', duration: 0.45, ease: 'expo.inOut' }, '<0.05')
       .to(mark, { rotationY: 0, scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.6)' }, '-=0.3')
       .to(chars, { yPercent: 0, duration: 0.45, ease: 'expo.out', stagger: 0.02 }, '<0.05')
       .to(meter, { opacity: 1, duration: 0.25 }, '<')
@@ -375,7 +382,7 @@ function setupCurtain(lenis) {
   window.addEventListener('pageshow', (e) => { if (e.persisted) lift(true); });
 
   // revealAt: when the hero intro starts, i.e. while the panels are mid-lift.
-  return { lift: () => lift(false), leave, revealAt: covered ? (fromLoad ? 1.95 : 0.55) : 0 };
+  return { lift: () => lift(false), leave, covered, revealAt: covered ? 0.3 : 0 };
 }
 
 function setupProgress() {
@@ -393,6 +400,20 @@ function setupProgress() {
 // ---------------------------------------------------------------------------
 // Hero: 3D headline flip, staggered copy, tilted card wall.
 // ---------------------------------------------------------------------------
+// Video posters further down (the review videos) load as they near the screen,
+// not with the page.
+function lazyPosters() {
+  const vids = document.querySelectorAll('video[data-poster]');
+  if (!vids.length) return;
+  const io = new IntersectionObserver((list) => list.forEach((e) => {
+    if (!e.isIntersecting) return;
+    io.unobserve(e.target);
+    e.target.poster = e.target.dataset.poster;
+    e.target.removeAttribute('data-poster');
+  }), { rootMargin: '800px 0px' });
+  vids.forEach((v) => io.observe(v));
+}
+
 function findHero() {
   const first = document.querySelector('main section');
   if (!first) return null;
@@ -596,8 +617,11 @@ const TO = {
   card: { opacity: 1, y: 0, z: 0, rotationX: 0, rotationY: 0, duration: 1.2, ease: 'expo.out' },
 };
 
-function setupReveals(targets, intro) {
+function setupReveals(targets, intro, animateIn) {
   const vh = window.innerHeight;
+  // Fresh load: what's already on screen stays put (never hidden then shown);
+  // only what's further down reveals on scroll.
+  if (!animateIn) targets = targets.filter((t) => t.el.getBoundingClientRect().top >= vh * 0.92);
   // Read phase: measure every target (and let GSAP cache its transform) before
   // any style is written, so the page lays out once instead of per element.
   const rectOf = new Map();
