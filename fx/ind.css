@@ -74,13 +74,21 @@
 .ind-mo__dot { width: 8px; height: 8px; margin: 16px 0 auto; border-radius: 50%; background: #0029FF; box-shadow: 0 0 0 5px rgba(0, 41, 255, 0.15); transition: background-color 0.5s ease, box-shadow 0.5s ease; }
 .ind-mo b { margin-top: 20px; font-size: 18px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; color: #0A0B10; transition: color 0.5s ease; }
 .ind-mo__d { margin-top: 6px; font-size: 13.5px; line-height: 1.45; color: #6B6B74; transition: color 0.5s ease; }
-/* 3D (fx/ind.js adds .is-3d): the section pins and the ring turns. */
-.ind-year.is-3d { height: 420vh; }
-.ind-year.is-3d .ind-year__pin { position: sticky; top: 0; display: flex; flex-direction: column; justify-content: center; height: 100vh; height: 100svh; padding-top: 70px; box-sizing: border-box; overflow: hidden; }
-.ind-year.is-3d { padding: 0; }
-.ind-year.is-3d .ind-year__view { position: relative; height: min(52vh, 420px); margin-top: clamp(10px, 3vh, 40px); padding: 0; overflow: visible; perspective: 1500px; }
-.ind-year.is-3d .ind-year__track { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; transform: translateZ(calc(var(--r) * -1)) rotateX(-6deg) rotateY(var(--ry, 0deg)); --r: 520px; }
-.ind-year.is-3d .ind-mo { position: absolute; left: -125px; top: -150px; width: 250px; min-height: 0; height: 300px; transform: rotateY(calc(var(--i) * 30deg)) translateZ(var(--r)); backface-visibility: hidden; }
+/* 3D (fx/ind.js adds .is-3d): the section pins and the ring turns. Every
+   size follows --ch, the card height, which ind.js sets to fit the space
+   left under the heading (so short screens never cut the cards off). */
+.ind-year.is-3d { --ch: 300px; height: 420vh; padding: 0; }
+.ind-year.is-3d .ind-year__pin { position: sticky; top: 0; display: flex; flex-direction: column; justify-content: flex-start; height: 100vh; height: 100svh; padding-top: clamp(84px, 13vh, 130px); box-sizing: border-box; overflow: hidden; }
+.ind-year.is-3d .nx__title { font-size: clamp(30px, min(4.8vw, 8.5vh), 64px) !important; }
+.ind-year.is-3d .nx__lede { margin-top: min(20px, 2vh); }
+@media (max-height: 640px) { .ind-year.is-3d .nx__lede { display: none; } }
+.ind-year.is-3d .ind-year__view { position: relative; height: calc(var(--ch) + 50px); margin-top: min(36px, 4vh); padding: 0; overflow: visible; perspective: calc(var(--ch) * 5); }
+.ind-year.is-3d .ind-year__track { position: absolute; left: 50%; top: 50%; width: 0; height: 0; --r: calc(var(--ch) * 1.73); transform-style: preserve-3d; transform: translateY(calc(var(--r) * -0.1045)) translateZ(calc(var(--r) * -1)) rotateX(-6deg) rotateY(var(--ry, 0deg)); } /* (lifted by r·sin 6°, which the tilt drops the front card by) */
+.ind-year.is-3d .ind-mo { position: absolute; left: calc(var(--ch) * -0.4167); top: calc(var(--ch) * -0.5); width: calc(var(--ch) * 0.833); min-height: 0; height: var(--ch); padding: calc(var(--ch) * 0.075); transform: rotateY(calc(var(--i) * 30deg)) translateZ(var(--r)); backface-visibility: hidden; }
+.ind-year.is-3d .ind-mo__m { font-size: calc(var(--ch) * 0.19); }
+.ind-year.is-3d .ind-mo__dot { margin-top: calc(var(--ch) * 0.05); }
+.ind-year.is-3d .ind-mo b { margin-top: calc(var(--ch) * 0.06); font-size: clamp(14px, calc(var(--ch) * 0.06), 18px); }
+.ind-year.is-3d .ind-mo__d { font-size: clamp(12px, calc(var(--ch) * 0.045), 13.5px); }
 .ind-year.is-3d .ind-mo.is-on { background: radial-gradient(100% 80% at 100% 0%, #3352FF, #0029FF 65%); box-shadow: 0 40px 80px -30px rgba(0, 41, 255, 0.7); }
 .ind-year.is-3d .ind-mo.is-on :is(.ind-mo__m, b) { color: #fff; }
 .ind-year.is-3d .ind-mo.is-on .ind-mo__d { color: rgba(255, 255, 255, 0.82); }
@@ -142,9 +150,6 @@
   .ind-work__card.is-video { width: 150px; }
   .ind-plat__grid, .ind-rules__grid { grid-template-columns: 1fr; }
   .ind-plat__top { margin-bottom: 24px; }
-  .ind-year.is-3d .ind-year__track { --r: 360px; }
-  .ind-year.is-3d .ind-mo { left: -100px; top: -125px; width: 200px; height: 250px; padding: 18px; }
-  .ind-year.is-3d .ind-mo__m { font-size: 44px; }
   .ind-track__list { padding: 4px 18px; }
   .ind-track__list li { grid-template-columns: 34px minmax(0, 1fr); }
   .ind-track__bars { display: none; }

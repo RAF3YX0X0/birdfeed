@@ -68,6 +68,20 @@ function ring(sec, ST) {
     const i = clamp(Math.round(p * 11), 0, 11);
     if (i !== cur) { cur = i; months.forEach((m, k) => m.classList.toggle('is-on', k === i)); }
   };
+  // Card size: whatever fits under the heading on this screen.
+  const pin = sec.querySelector('.ind-year__pin');
+  const view = sec.querySelector('.ind-year__view');
+  const fit = () => {
+    const room = pin.clientHeight - (view.getBoundingClientRect().top - pin.getBoundingClientRect().top) - 70;
+    const max = window.innerWidth <= 760 ? 250 : 300;
+    sec.style.setProperty('--ch', `${Math.round(clamp(room, 140, max))}px`);
+  };
+  fit();
+  // Again once fonts settle the heading's height, and as the section arrives.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  window.addEventListener('load', fit, { once: true });
+  window.addEventListener('resize', fit);
+  new IntersectionObserver((list) => { if (list.some((e) => e.isIntersecting)) fit(); }).observe(sec);
   set(0);
   ST.create({ trigger: sec, start: 'top top', end: 'bottom bottom', scrub: 0.6, onUpdate: (self) => set(self.progress) });
 }
