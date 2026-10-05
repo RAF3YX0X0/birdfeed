@@ -94,7 +94,7 @@ function sharedFor(file, html) {
   // for the page); the other shared sections are general, not about the
   // service. Industry pages build their own (none of these).
   const type = (html.match(/component-export="(ServicePage|CategoryPage|IndustryPage)"/) || [])[1];
-  if (type === 'IndustryPage' || slug === 'pricing') return ''; // (pricing: scripts/build-pricing.js)
+  if (type === 'IndustryPage' || slug === 'pricing' || slug === 'about') return ''; // (pricing, about: scripts/build-pricing.js, build-about.js)
   const want = SHARED.filter(({ cls, re }) => re.test(body) && !(KEEP[slug] || []).includes(cls) && all[cls] && (!type || cls === 'ct'));
   if (!want.length) return '';
   return `<template id="fx-shared">${want.map(({ cls }) => all[cls]).join('\n')}</template>`;
@@ -156,6 +156,7 @@ function block(home, shared, hero, nx, ind) {
     ...(/class="ph/.test(hero) ? ['ph.css'] : []),
     ...(/class="csx/.test(hero) ? ['cases.css'] : []),
     ...(/class="prx"/.test(hero) ? ['pricing.css'] : []),
+    ...(/class="abx"/.test(hero) ? ['about.css'] : []),
     ...(home || shared ? SHARED_CSS : []),
     ...(nx || ind ? ['nx.css', 'ind.css'] : []),
     ...(home ? ['nx.css', 'home.css'] : []),

@@ -24,13 +24,15 @@ const ISLANDS = /component-export="(ServicePage|CategoryPage|IndustryPage|AllSer
 
 // Runs in the page (server markup): every top-level section of the page's
 // island, modelled. `skip` says why a section is left as it is.
-function extract() {
+// islandSel: which island holds the page's sections (default: the cloned
+// pages' usual ones; scripts/build-about.js passes the About page's).
+function extract(islandSel) {
   // Read the page as it was cloned: drop the rules our builds add to hide its
   // sections (else a re-run would see them as hidden).
   document.querySelectorAll('style').forEach((st) => {
     if (!st.closest('astro-island') && /astro-island\[component-export=/.test(st.textContent) && /display:\s*none/.test(st.textContent)) st.remove();
   });
-  const island = document.querySelector('astro-island[component-export$="Page"], astro-island[component-export="AllServices"]');
+  const island = document.querySelector(islandSel || 'astro-island[component-export$="Page"], astro-island[component-export="AllServices"]');
   if (!island) return null;
   const SHARED = [/publishing everywhere your customers/i, /receive full deliverables/i, /truly great content/i, /not happy with your first batch/i, /every other way costs more/i, /real businesses\.?\s*real results/i, /real results, in their/i, /ready to get social media off your plate|let.s fill your calendar|fill your calendar with booked jobs/i];
   const CTA_CARD = '.ccta-card, .fbe-cta-card, .sbcta, .pro-cta-card, .rs-cta-card';

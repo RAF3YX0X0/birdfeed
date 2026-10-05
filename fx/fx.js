@@ -33,6 +33,7 @@ import { setupIndustry, wireBlocks } from './ind.js';
 import { startCal } from './cal.js';
 import { setupPricing } from './pricing.js';
 import { setupBuilderFx } from './builder.js';
+import { setupAbout } from './about.js';
 import { setupHome } from './home.js';
 
 const html = document.documentElement;
@@ -113,7 +114,9 @@ function init() {
   const animateIn = !reduced && curtain.covered;
   if (animateIn && homeHero) homeHero.buildIntro(intro);
   else if (animateIn && cases) cases.buildIntro(intro);
-  else if (animateIn && hero && !hero.classList.contains('prx')) buildHeroIntro(hero, intro);
+  else if (animateIn && hero && !hero.classList.contains('prx') && !hero.classList.contains('abx')) buildHeroIntro(hero, intro);
+  // The About page (see about.js).
+  if (hero && hero.classList.contains('abx')) setupAbout({ hero, gsap: G, ST, reduced, intro, animateIn, finePointer });
   // The pricing page (see pricing.js).
   if (hero && hero.classList.contains('prx')) setupPricing({ hero, gsap: G, ST, lenis, reduced, intro, animateIn, finePointer });
   // The plan builder (homepage, pricing page): motion around its estimate.

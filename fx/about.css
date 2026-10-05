@@ -1,0 +1,135 @@
+/* The About page (markup: scripts/build-about.js, motion: fx/about.js):
+   a hero with a 3D stack of the layers the service is built from, the story
+   lighting up word by word, the four alternatives as a fanned 3D deck that
+   MadMarketing's card rises out of, the economics on a 3D ring, and the
+   principles. */
+
+/* ---- Hero ------------------------------------------------------------------------- */
+.abx { position: relative; overflow: clip; padding: 150px 0 90px !important; background: #FCFCF9; color: #0A0B10; font-family: Inter, Inter Fallback, system-ui, sans-serif; }
+.abx__bg { position: absolute; inset: 0; pointer-events: none; }
+.abx__bg i:first-child { position: absolute; right: -8vw; top: 46%; width: min(1000px, 84vw); aspect-ratio: 1; transform: translateY(-50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 41, 255, 0.16), rgba(0, 41, 255, 0.04) 55%, rgba(0, 41, 255, 0) 72%); }
+.abx__bg i:last-child { position: absolute; inset: 0; background-image: linear-gradient(rgba(10, 11, 16, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10, 11, 16, 0.045) 1px, transparent 1px); background-size: 64px 64px; -webkit-mask-image: radial-gradient(ellipse 60% 60% at 70% 50%, #000 20%, transparent 75%); mask-image: radial-gradient(ellipse 60% 60% at 70% 50%, #000 20%, transparent 75%); }
+.abx__in { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(24px, 4vw, 64px); max-width: 1280px; min-height: calc(100svh - 240px); margin: 0 auto; padding: 0 clamp(20px, 5vw, 48px); }
+.abx__title { margin: 22px 0 0; font-size: clamp(44px, 6vw, 88px); font-weight: 600; line-height: 1; letter-spacing: -0.05em; }
+.abx__line { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.abx__line > span { display: inline-block; }
+.abx__title em { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.1em; letter-spacing: -0.015em; color: #0029FF; }
+.abx__sub { max-width: 520px; margin: 24px 0 0; font-size: 18px; line-height: 1.6; color: #52525B; }
+.abx__sub b { color: #0A0B10; font-weight: 600; }
+.abx__ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.abx__trust { display: flex; align-items: center; gap: 10px; margin: 26px 0 0; font-size: 14px; font-weight: 500; color: #52525B; }
+.abx__stars { color: #0029FF; letter-spacing: 2px; }
+
+/* The stack: four glass layers in isometric 3D (about.js sets --gap, --rx, --rz). */
+.abx__stage { position: relative; height: min(600px, 66vh); perspective: 1600px; }
+.abx-stack { --gap: 72px; --rx: 56deg; --rz: -38deg; position: absolute; left: 50%; top: 56%; width: 0; height: 0; transform-style: preserve-3d; transform: rotateX(var(--rx)) rotateZ(var(--rz)); }
+.abx-layer { position: absolute; left: -150px; top: -150px; width: 300px; height: 300px; transform-style: preserve-3d; transform: translateZ(calc(var(--i) * var(--gap) + var(--drop, 0px))); }
+.abx-layer__face { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 22px; border-radius: 34px; background: linear-gradient(140deg, rgba(255, 255, 255, 0.92), rgba(240, 242, 252, 0.82)); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.9), 0 0 0 1px rgba(10, 11, 16, 0.07); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.abx-layer__edge { position: absolute; inset: 0; border-radius: 34px; background: #D9DBE6; transform: translateZ(-10px); box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06); }
+.abx-layer__ic { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 16px; background: #EEF1FF; color: #0029FF; }
+.abx-layer__txt b { display: block; font-size: 24px; font-weight: 600; letter-spacing: -0.03em; }
+.abx-layer__txt small { display: block; margin-top: 4px; font-size: 14px; color: #6B6B74; }
+.abx-layer__n { position: absolute; top: 22px; right: 24px; font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 34px; color: #A1A1AA; }
+.abx-layer.is-top .abx-layer__face { background: radial-gradient(120% 100% at 0% 0%, #3352FF, #0029FF 55%, #001EC0); color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25), 0 0 60px rgba(0, 41, 255, 0.35); }
+.abx-layer.is-top .abx-layer__edge { background: #0019A8; }
+.abx-layer.is-top .abx-layer__ic { background: rgba(255, 255, 255, 0.18); color: #fff; }
+.abx-layer.is-top .abx-layer__txt small { color: rgba(255, 255, 255, 0.72); }
+.abx-layer.is-top .abx-layer__n { color: rgba(255, 255, 255, 0.5); }
+.abx-stack__shadow { position: absolute; left: -170px; top: -170px; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(closest-side, rgba(20, 30, 80, 0.28), rgba(20, 30, 80, 0)); transform: translateZ(-40px); filter: blur(10px); }
+
+/* ---- Where it started ----------------------------------------------------------------- */
+.abx-story .nx__in { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.abx-story__side { position: sticky; top: 120px; }
+.abx-story__side .nx__title { margin-top: 0; text-align: left; }
+.abx-story__side .nx__eyebrow { justify-content: flex-start; }
+.abx-story__year { display: block; margin-top: 26px; font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: clamp(80px, 10vw, 150px); line-height: 1; letter-spacing: -0.02em; color: transparent; -webkit-text-stroke: 1.5px #C9CEEA; }
+.abx-story__text p { margin: 0 0 1.2em; font-size: clamp(22px, 2.3vw, 32px); font-weight: 500; line-height: 1.35; letter-spacing: -0.02em; }
+.abx-w { color: #0A0B10; opacity: 0.16; transition: opacity 0.35s ease, color 0.35s ease; }
+.abx-w.is-lit { opacity: 1; }
+.abx-story.is-static .abx-w { opacity: 1; }
+
+/* ---- The four alternatives: a pinned deck ---------------------------------------------------- */
+.abx-alts { padding: 0 !important; }
+.abx-alts__pin { position: relative; height: 320vh; }
+.abx-alts .abx-alts__stage { position: sticky; top: 0; display: flex; flex-direction: column; justify-content: center; height: 100vh; height: 100svh; min-height: 640px; padding-top: 70px; box-sizing: border-box; }
+.abx-alts .nx__head { margin-bottom: clamp(20px, 3vw, 36px); }
+.abx-deck { position: relative; height: 380px; perspective: 1600px; transform-style: preserve-3d; }
+.abx-card { position: absolute; left: 50%; top: 0; display: flex; flex-direction: column; width: 270px; height: 360px; margin-left: -135px; padding: 22px; border-radius: 28px; box-sizing: border-box; background: #fff; box-shadow: 0 0 0 1px #ECECE6, 0 40px 70px -40px rgba(20, 30, 70, 0.45); will-change: transform, opacity; }
+.abx-card__k { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8B95; }
+.abx-card__big { margin-top: 16px; font-size: 54px; font-weight: 700; line-height: 1; letter-spacing: -0.05em; color: #0A0B10; }
+.abx-card__unit { margin-top: 6px; font-size: 13.5px; color: #8A8B95; }
+.abx-card p { margin: auto 0 0; font-size: 14px; line-height: 1.55; color: #52525B; }
+.abx-card__tag { align-self: flex-start; margin-top: 14px; padding: 6px 11px; border-radius: 999px; background: #F4F4F0; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #3F3F46; }
+.abx-card__tag::before { content: '✕'; margin-right: 6px; color: #DC2626; }
+.abx-card--us { width: 380px; height: 380px; margin-left: -190px; top: -10px; padding: 28px; background: radial-gradient(120% 90% at 100% 0%, #3352FF, #0029FF 50%, #001EC0); color: #fff; box-shadow: 0 50px 90px -30px rgba(0, 41, 255, 0.6); }
+.abx-card--us .abx-card__k { color: rgba(255, 255, 255, 0.7); }
+.abx-card--us .abx-card__big { font-size: 34px; line-height: 1.05; letter-spacing: -0.04em; color: #fff; }
+.abx-card--us .abx-card__big em { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 1.12em; }
+.abx-card--us p { margin-top: 14px; color: rgba(255, 255, 255, 0.82); }
+.abx-card__chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.abx-card__chips i { padding: 6px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); font-style: normal; font-size: 12px; font-weight: 600; }
+
+/* ---- The economics: a pinned ring ----------------------------------------------------------- */
+.abx-eco { padding: 0 !important; }
+.abx-eco__pin { position: relative; height: 340vh; }
+.abx-eco .abx-eco__stage { position: sticky; top: 0; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); align-items: center; gap: clamp(24px, 4vw, 64px); height: 100vh; height: 100svh; min-height: 600px; padding-top: 70px; box-sizing: border-box; }
+.abx-eco__side .nx__title { text-align: left; }
+.abx-eco__side .nx__eyebrow { justify-content: flex-start; }
+.abx-eco__side .nx__lede { margin-left: 0; text-align: left; }
+.abx-eco__count { display: flex; align-items: baseline; gap: 8px; margin: 30px 0 0; }
+.abx-eco__count b { font-size: 64px; font-weight: 700; letter-spacing: -0.05em; color: #0029FF; font-variant-numeric: tabular-nums; }
+.abx-eco__count span { font-size: 20px; font-weight: 500; color: #A1A1AA; }
+.abx-ring { position: relative; height: 420px; perspective: 1400px; }
+.abx-ring__track { --r: 360px; --ry: 0deg; position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; transform: translateZ(calc(var(--r) * -1)) rotateY(var(--ry)); }
+.abx-face { position: absolute; left: -150px; top: -170px; width: 300px; height: 340px; display: flex; flex-direction: column; padding: 26px; border-radius: 28px; box-sizing: border-box; background: #fff; box-shadow: 0 0 0 1px #ECECE6, 0 30px 60px -40px rgba(20, 30, 70, 0.45); transform: rotateY(calc(var(--i) * 60deg)) translateZ(var(--r)); backface-visibility: hidden; opacity: 0.4; transition: opacity 0.4s ease, background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease; }
+.abx-face__n { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 54px; line-height: 1; color: #0029FF; }
+.abx-face h3 { margin: auto 0 0; font-size: 24px; font-weight: 600; line-height: 1.15; letter-spacing: -0.03em; }
+.abx-face p { margin: 12px 0 0; font-size: 14.5px; line-height: 1.6; color: #52525B; }
+.abx-face.is-on { opacity: 1; background: #0A0B10; color: #fff; box-shadow: 0 50px 90px -40px rgba(10, 11, 16, 0.6), 0 0 0 1px rgba(0, 41, 255, 0.4); }
+.abx-face.is-on .abx-face__n { color: #7088FF; }
+.abx-face.is-on p { color: rgba(255, 255, 255, 0.7); }
+
+/* ---- The principles -------------------------------------------------------------------------- */
+.abx-prin__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: clamp(40px, 5vw, 64px); perspective: 1600px; }
+.abx-pr { position: relative; display: flex; flex-direction: column; min-height: 260px; padding: clamp(24px, 3vw, 36px); border-radius: 30px; background: #fff; box-shadow: 0 0 0 1px #ECECE6, 0 30px 60px -44px rgba(20, 30, 70, 0.45); overflow: hidden; transition: box-shadow 0.3s ease; }
+.abx-pr:hover { box-shadow: 0 0 0 1px rgba(0, 41, 255, 0.35), 0 40px 70px -40px rgba(0, 41, 255, 0.35); }
+.abx-pr__n { position: absolute; right: 24px; top: 6px; font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: clamp(90px, 10vw, 140px); line-height: 1; color: #F1F1ED; transition: color 0.4s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.abx-pr:hover .abx-pr__n { color: #E4E8FF; transform: translateY(-6px); }
+.abx-pr h3 { position: relative; margin: auto 0 0; font-size: clamp(24px, 2.4vw, 32px); font-weight: 600; line-height: 1.1; letter-spacing: -0.035em; }
+.abx-pr p { position: relative; max-width: 480px; margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #52525B; }
+.abx-pr.is-lead { background: radial-gradient(90% 80% at 100% 0%, rgba(0, 41, 255, 0.45), rgba(0, 41, 255, 0) 70%), #0A0B10; color: #fff; }
+.abx-pr.is-lead .abx-pr__n { color: rgba(255, 255, 255, 0.08); }
+.abx-pr.is-lead p { color: rgba(255, 255, 255, 0.7); }
+
+/* ---- Smaller screens --------------------------------------------------------------------- */
+@media (max-width: 1080px) {
+  .abx-card { width: 230px; margin-left: -115px; }
+}
+@media (max-width: 860px) {
+  .abx { padding: 132px 0 40px !important; }
+  .abx__in { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .abx__stage { height: 430px; margin-top: 16px; }
+  .abx-stack { top: 60%; }
+  .abx-layer { left: -110px; top: -110px; width: 220px; height: 220px; }
+  .abx-layer__face, .abx-layer__edge { border-radius: 26px; }
+  .abx-layer__face { padding: 16px; }
+  .abx-layer__txt b { font-size: 18px; }
+  .abx-layer__txt small { font-size: 12px; }
+  .abx-story .nx__in { grid-template-columns: minmax(0, 1fr); }
+  .abx-story__side { position: static; }
+  .abx-story__year { font-size: 72px; margin-top: 12px; }
+  /* No pinning on phones: the deck and the ring become plain lists. */
+  .abx-alts, .abx-eco { padding: clamp(64px, 12vw, 96px) 0 !important; }
+  .abx-alts__pin, .abx-eco__pin { height: auto; }
+  .abx-alts .abx-alts__stage, .abx-eco .abx-eco__stage { position: static; display: block; height: auto; min-height: 0; padding-top: 0; }
+  .abx-deck { display: grid; gap: 12px; height: auto; perspective: none; }
+  .abx-card, .abx-card--us { position: relative; left: auto; top: auto; width: auto; height: auto; min-height: 0; margin: 0; transform: none !important; opacity: 1 !important; }
+  .abx-card p { margin-top: 14px; }
+  .abx-ring { height: auto; perspective: none; margin-top: 28px; }
+  .abx-ring__track { position: static; display: grid; gap: 12px; width: auto; height: auto; transform: none !important; }
+  .abx-face { position: relative; left: auto; top: auto; width: auto; height: auto; transform: none; opacity: 1; }
+  .abx-face h3 { margin-top: 18px; }
+  .abx-eco__count { display: none; }
+  .abx-prin__grid { grid-template-columns: minmax(0, 1fr); }
+  .abx-pr { min-height: 0; }
+}
