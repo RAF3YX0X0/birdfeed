@@ -1,29 +1,34 @@
-// Trust strip (markup: partials/home-trust.html, styles: trust.css): rating
-// cards flip in, their scores count up and their stars fill; cards tilt and
-// glow under the pointer. The platform marquee is pure CSS.
+// Trust panel (markup: partials/home-trust.html, styles: trust.css): the dark
+// panel starts tipped back in 3D and settles flat as it scrolls in; the scores
+// count up while the stars and the review-site bars fill; the tiles lean
+// towards the pointer. The logo band is pure CSS.
 
 export function setupTrust({ section, gsap: G, reduced, finePointer }) {
-  const cards = [...section.querySelectorAll('.tr-card')];
-  if (reduced) return;
+  const panel = section.querySelector('.tr__panel');
+  const rated = [...section.querySelectorAll('.tr-main, .tr-tile')];
+  if (reduced || !panel) return;
 
-  G.from(section.querySelectorAll('.tr__k, .tr__marquee'), {
-    opacity: 0, y: 24, duration: 0.9, ease: 'expo.out', stagger: 0.1, clearProps: 'transform,opacity',
-    scrollTrigger: { trigger: section, start: 'top 85%', once: true },
+  // The panel settles flat with the scroll.
+  G.fromTo(panel, { rotationX: 26, y: 70, scale: 0.93 }, {
+    rotationX: 0, y: 0, scale: 1, ease: 'none',
+    scrollTrigger: { trigger: section, start: 'top 98%', end: 'top 30%', scrub: 0.8 },
   });
 
-  cards.forEach((c) => c.style.setProperty('--fill', '0'));
-  G.set(cards, { opacity: 0, y: 60, rotationX: -35, transformOrigin: '50% 100%' });
+  // Its contents rise in once, and the numbers run.
+  const parts = section.querySelectorAll('.tr-main > *, .tr-side > *, .tr__pubs');
+  rated.forEach((el) => el.style.setProperty('--fill', '0'));
+  G.set(parts, { opacity: 0, y: 30 });
   window.ScrollTrigger.create({
-    trigger: section.querySelector('.tr__ratings'), start: 'top 85%', once: true,
+    trigger: panel, start: 'top 80%', once: true,
     onEnter: () => {
-      G.to(cards, { opacity: 1, y: 0, rotationX: 0, duration: 1, ease: 'expo.out', stagger: 0.1, clearProps: 'transform,opacity' });
-      cards.forEach((card, i) => {
-        const b = card.querySelector('.tr-card__score b');
+      G.to(parts, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: 0.06, clearProps: 'transform,opacity' });
+      rated.forEach((el, i) => {
+        const b = el.querySelector('[data-to]');
         const to = parseFloat(b.dataset.to);
         const o = { v: 0, f: 0 };
         G.to(o, {
-          v: to, f: 1, duration: 1.6, delay: 0.15 + i * 0.1, ease: 'power3.out',
-          onUpdate: () => { b.textContent = o.v.toFixed(1); card.style.setProperty('--fill', o.f.toFixed(3)); },
+          v: to, f: 1, duration: 1.8, delay: 0.2 + i * 0.12, ease: 'power3.out',
+          onUpdate: () => { b.textContent = o.v.toFixed(1); el.style.setProperty('--fill', o.f.toFixed(3)); },
           onComplete: () => { b.textContent = to.toFixed(1); },
         });
       });
@@ -31,19 +36,18 @@ export function setupTrust({ section, gsap: G, reduced, finePointer }) {
   });
 
   if (!finePointer) return;
-  cards.forEach((card) => {
-    card.addEventListener('pointermove', (e) => {
-      const r = card.getBoundingClientRect();
+  section.querySelectorAll('.tr-tile').forEach((tile) => {
+    tile.addEventListener('pointermove', (e) => {
+      const r = tile.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-      card.classList.add('is-tilting');
-      card.style.setProperty('--ry', `${((x - 0.5) * 10).toFixed(2)}deg`);
-      card.style.setProperty('--rx', `${((0.5 - y) * 10).toFixed(2)}deg`);
-      card.style.setProperty('--gx', `${(x * 100).toFixed(1)}%`);
-      card.style.setProperty('--gy', `${(y * 100).toFixed(1)}%`);
+      tile.classList.add('is-tilting');
+      tile.style.setProperty('--ry', `${((x - 0.5) * 10).toFixed(2)}deg`);
+      tile.style.setProperty('--rx', `${((0.5 - y) * 10).toFixed(2)}deg`);
     });
-    card.addEventListener('pointerleave', () => {
-      card.classList.remove('is-tilting');
-      ['--rx', '--ry', '--gx', '--gy'].forEach((k) => card.style.removeProperty(k));
+    tile.addEventListener('pointerleave', () => {
+      tile.classList.remove('is-tilting');
+      tile.style.removeProperty('--rx');
+      tile.style.removeProperty('--ry');
     });
   });
 }
