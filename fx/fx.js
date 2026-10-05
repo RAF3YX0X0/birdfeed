@@ -32,6 +32,7 @@ import { setupSections } from './sections.js';
 import { setupIndustry, wireBlocks } from './ind.js';
 import { startCal } from './cal.js';
 import { setupPricing } from './pricing.js';
+import { setupBuilderFx } from './builder.js';
 import { setupHome } from './home.js';
 
 const html = document.documentElement;
@@ -115,6 +116,8 @@ function init() {
   else if (animateIn && hero && !hero.classList.contains('prx')) buildHeroIntro(hero, intro);
   // The pricing page (see pricing.js).
   if (hero && hero.classList.contains('prx')) setupPricing({ hero, gsap: G, ST, lenis, reduced, intro, animateIn, finePointer });
+  // The plan builder (homepage, pricing page): motion around its estimate.
+  if (document.querySelector('.sh-builder-grid')) setupBuilderFx({ gsap: G, reduced, finePointer });
   // Inner pages' generated hero: the visual rises into the arch on scroll.
   if (hero && hero.classList.contains('ph')) setupPageHero({ section: hero, gsap: G, reduced });
 

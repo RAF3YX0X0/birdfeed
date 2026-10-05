@@ -159,6 +159,8 @@ function block(home, shared, hero, nx, ind) {
     ...(home || shared ? SHARED_CSS : []),
     ...(nx || ind ? ['nx.css', 'ind.css'] : []),
     ...(home ? ['nx.css', 'home.css'] : []),
+    // The plan builder's motion (fx/builder.js): the homepage and the pricing page have it.
+    ...(home || /class="prx"/.test(hero) ? ['builder.css'] : []),
     ...(ind && !shared ? ['bottom.css'] : []),
   ];
   const font = '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>';
