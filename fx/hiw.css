@@ -1,9 +1,10 @@
 /*
- * Homepage "How it works": a pinned stage. The three steps sit on the left
- * with a progress rail; on the right a tinted panel holds an app window in 3D
- * whose screen changes with the scroll (services picked → checklist done →
- * posts approved and published). Markup: fx/partials/home-hiw.html, motion:
- * fx/hiw.js. Replaces the cloned section, which is hidden below.
+ * Homepage "How it works": a pinned stage. The three steps sit on the left,
+ * each with a line that fills as you scroll through it; on the right a dark
+ * canvas holds an app window whose screen changes with the scroll (services
+ * picked → checklist done → posts approved and published), cross-fading with
+ * a blur. Markup: fx/partials/home-hiw.html, motion: fx/hiw.js. Replaces the
+ * cloned section, which is hidden below.
  */
 .hw ~ astro-island[component-export="FBHomeMain"] > div > section:first-child { display: none !important; }
 
@@ -14,15 +15,19 @@
   color: #0A0B10;
   font-family: Inter, Inter Fallback, system-ui, sans-serif;
 }
-.hw .sx-head { padding-bottom: 8px; }
+/* Header: title on the left, the intro on the right. */
+.hw .sx-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 400px); align-items: end; gap: 0 60px; max-width: 1280px; padding: 120px 24px 8px; text-align: left; }
+.hw .sx-head .sx-eyebrow { grid-column: 1; justify-content: flex-start; }
+.hw .sx-head .sx-title { grid-column: 1; margin-top: 18px; text-wrap: balance; }
+.hw .sx-head .sx-sub { grid-column: 2; grid-row: 1 / span 2; align-self: end; max-width: none; margin: 0 0 6px; }
 /* Pulled up under the heading so the centred stage doesn't leave a gap. */
-.hw__pin { position: relative; height: 330vh; margin-top: -16vh; }
+.hw__pin { position: relative; height: 330vh; margin-top: -14vh; }
 .hw__stage {
   position: sticky;
   top: 0;
   display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  gap: clamp(32px, 5vw, 72px);
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  gap: clamp(32px, 5vw, 80px);
   align-items: center;
   max-width: 1280px;
   height: 100vh;
@@ -36,30 +41,15 @@
 /* Hide the site's "book a demo" bar while the stage is pinned. */
 html.hw-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
 
-/* ---- Steps ------------------------------------------------------------------- */
+/* ---- Steps -------------------------------------------------------------------------- */
 .hw__list { position: relative; }
-.hw__rail {
-  position: absolute;
-  top: 40px;
-  bottom: 40px;
-  left: 21px;
-  width: 2px;
-  border-radius: 2px;
-  background: #E5E5E0;
-}
-.hw__rail i {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: #0029FF;
-  transform: scaleY(0);
-  transform-origin: 50% 0;
-}
-.hw__steps { position: relative; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.hw__steps { position: relative; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .hw-step__btn {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  gap: 20px;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas: 'num bar' 'txt txt';
+  align-items: center;
+  gap: 12px 14px;
   width: 100%;
   padding: 16px 0;
   border: 0;
@@ -70,86 +60,79 @@ html.hw-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
   cursor: pointer;
 }
 .hw-step__btn:focus-visible { outline: 2px solid #0029FF; outline-offset: 4px; border-radius: 16px; }
-.hw-step__num {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 0 1px #E5E5E0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #8A8B95;
-  transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
-}
-.hw-step.is-past .hw-step__num,
-.hw-step.is-active .hw-step__num { background: #0029FF; color: #fff; box-shadow: 0 0 0 1px #0029FF; }
-.hw-step.is-active .hw-step__num { box-shadow: 0 0 0 6px rgba(0, 41, 255, 0.15); }
-.hw-step__txt { display: flex; flex-direction: column; padding-top: 2px; }
-.hw-step__when {
-  font: 500 11px/1.4 Inter, Inter Fallback, system-ui, sans-serif;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #8A8B95;
-  transition: color 0.4s ease;
-}
-.hw-step.is-active .hw-step__when { color: #0029FF; }
+.hw-step__num { grid-area: num; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: #A1A1AA; font-variant-numeric: tabular-nums; transition: color 0.4s ease; }
+.hw-step.is-active .hw-step__num, .hw-step.is-past .hw-step__num { color: #0029FF; }
+/* A line per step that fills as you scroll through it (hiw.js sets --p). */
+.hw-step__bar { grid-area: bar; position: relative; height: 2px; border-radius: 2px; background: #E5E5E0; overflow: hidden; }
+.hw-step__bar i { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, #0029FF, #7088FF); transform: scaleX(var(--p, 0)); transform-origin: 0 50%; }
+.hw-step__txt { grid-area: txt; display: flex; flex-direction: column; }
+.hw-step__when { font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #A1A1AA; transition: color 0.4s ease; }
+.hw-step.is-active .hw-step__when { color: #52525B; }
 .hw-step__txt b {
-  margin-top: 4px;
-  font-size: clamp(20px, 2vw, 26px);
+  margin-top: 6px;
+  font-size: clamp(24px, 2.4vw, 34px);
   font-weight: 600;
-  letter-spacing: -0.025em;
-  color: #A3A3AB;
-  transition: color 0.4s ease;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: #0A0B10;
+  opacity: 0.28;
+  transition: opacity 0.5s ease;
 }
-.hw-step.is-active .hw-step__txt b { color: #0A0B10; }
-.hw-step.is-past .hw-step__txt b { color: #52525B; }
+.hw-step.is-active .hw-step__txt b { opacity: 1; }
+.hw-step.is-past .hw-step__txt b { opacity: 0.45; }
 .hw-step__desc {
   max-width: 400px;
   max-height: 0;
   overflow: hidden;
   opacity: 0;
   font-size: 15.5px;
-  line-height: 1.55;
+  line-height: 1.6;
   color: #52525B;
-  transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease, margin 0.4s ease;
+  filter: blur(4px);
+  transition: max-height 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease, margin 0.5s ease, filter 0.5s ease;
 }
-.hw-step.is-active .hw-step__desc { max-height: 120px; opacity: 1; margin-top: 8px; }
+.hw-step.is-active .hw-step__desc { max-height: 120px; opacity: 1; margin-top: 10px; filter: none; }
 
-/* ---- Panel + app window ------------------------------------------------------ */
+/* ---- Canvas + app window -------------------------------------------------------------- */
 .hw__panel {
   position: relative;
   height: min(640px, calc(100svh - 150px));
   min-height: 440px;
   overflow: hidden;
+  border: 1px solid transparent;
   border-radius: 34px;
-  background: linear-gradient(180deg, #F2F2EE 0%, #EBEBE6 60%, #E4E4DE 100%);
-  box-shadow: inset 0 0 0 1px rgba(0, 41, 255, 0.08);
+  /* Dark canvas inside a hairline gradient border. */
+  background:
+    linear-gradient(#0A0B10, #0A0B10) padding-box,
+    linear-gradient(140deg, rgba(112, 136, 255, 0.7), rgba(255, 255, 255, 0.08) 38%, rgba(255, 255, 255, 0.04) 62%, rgba(0, 41, 255, 0.6)) border-box;
+  box-shadow: 0 60px 120px -60px rgba(10, 11, 16, 0.6);
   perspective: 1600px;
+  isolation: isolate;
 }
-.hw__panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0 1px, transparent 1px 18px);
-  -webkit-mask-image: linear-gradient(180deg, transparent 30%, #000 100%);
-  mask-image: linear-gradient(180deg, transparent 30%, #000 100%);
-}
+/* Blue spotlight and a dot grid fading out from it. */
+.hw__glow { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(75% 55% at 50% 102%, rgba(0, 41, 255, 0.6), rgba(0, 41, 255, 0) 72%), radial-gradient(30% 40% at 85% 0%, rgba(112, 136, 255, 0.25), rgba(112, 136, 255, 0) 70%); }
+.hw__glow::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1.2px); background-size: 22px 22px; -webkit-mask-image: radial-gradient(70% 70% at 50% 55%, #000 30%, transparent 80%); mask-image: radial-gradient(70% 70% at 50% 55%, #000 30%, transparent 80%); }
+/* Top of the canvas: a "live preview" pill and the step dots. */
+.hw-hud { position: absolute; z-index: 5; top: 18px; left: 18px; right: 18px; display: flex; align-items: center; justify-content: space-between; pointer-events: none; }
+.hw-hud__live { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.07); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1); font-size: 12px; font-weight: 500; color: rgba(255, 255, 255, 0.8); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.hw-hud__live i { width: 7px; height: 7px; border-radius: 50%; background: #16A36A; box-shadow: 0 0 0 3px rgba(22, 163, 106, 0.25); animation: hw-live 1.8s ease-in-out infinite; }
+@keyframes hw-live { 50% { box-shadow: 0 0 0 6px rgba(22, 163, 106, 0); } }
+.hw-dots { display: flex; gap: 5px; }
+.hw-dots i { width: 18px; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, 0.18); transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.4s ease; }
+.hw-dots i.is-on { width: 34px; background: #fff; }
+
 .hw__screens { position: absolute; inset: 0; transform-style: preserve-3d; }
 .hw-screen {
   position: absolute;
-  top: 50%;
+  top: 52%;
   left: 50%;
-  width: min(80%, 520px);
+  width: min(78%, 500px);
   overflow: hidden;
   border-radius: 22px;
   background: #fff;
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.05), 0 50px 90px -40px rgba(20, 30, 80, 0.45), 0 20px 40px -24px rgba(20, 30, 80, 0.3);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 40px 80px -30px rgba(0, 0, 0, 0.7), 0 0 80px -20px rgba(0, 41, 255, 0.45);
   transform: translate(-50%, -50%);
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
 }
 .hw-screen + .hw-screen { opacity: 0; }
 .hw-win__bar {
@@ -157,14 +140,14 @@ html.hw-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
   display: flex;
   align-items: center;
   gap: 6px;
-  height: 40px;
+  height: 42px;
   padding: 0 16px;
-  border-bottom: 1px solid #EEEEEA;
+  border-bottom: 1px solid #F0F0EC;
 }
 .hw-win__bar i { width: 10px; height: 10px; border-radius: 50%; background: #E7E5E1; }
-.hw-win__bar span { position: absolute; left: 0; right: 0; text-align: center; font-size: 12.5px; font-weight: 500; color: #8A8B95; pointer-events: none; }
+.hw-win__bar span { position: absolute; left: 0; right: 0; text-align: center; font-size: 12.5px; font-weight: 600; color: #52525B; pointer-events: none; }
 .hw-win__body { padding: 18px 20px 20px; }
-.hw-win__label { margin: 0 0 12px; font: 500 11px/1 Inter, Inter Fallback, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: #8A8B95; }
+.hw-win__label { margin: 0 0 12px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #A1A1AA; }
 
 .hw-tick {
   position: relative;
@@ -197,36 +180,36 @@ html.hw-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
   padding: 10px 12px;
   border-radius: 14px;
   box-shadow: inset 0 0 0 1px #EEEEEA;
-  transition: background 0.35s ease, box-shadow 0.35s ease, color 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: background 0.35s ease, box-shadow 0.35s ease;
 }
-.hw-svc__ico { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: #FCFCF9; font-size: 13px; color: #52525B; transition: background 0.35s ease, color 0.35s ease; }
+.hw-svc__ico { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: #F4F4F0; font-size: 13px; color: #52525B; transition: background 0.35s ease, color 0.35s ease; }
 .hw-svc b { font-size: 14.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hw-svc em { font-style: normal; font-size: 13px; color: #8A8B95; transition: color 0.35s ease; }
-.hw-svc.is-on { background: #0029FF; color: #fff; box-shadow: 0 10px 24px -12px rgba(0, 41, 255, 0.8); transform: scale(1.015); }
-.hw-svc.is-on .hw-svc__ico { background: rgba(255, 255, 255, 0.18); color: #fff; }
-.hw-svc.is-on em { color: rgba(255, 255, 255, 0.85); }
-.hw-svc.is-on .hw-tick { background: #fff; box-shadow: none; }
-.hw-svc.is-on .hw-tick::after { border-color: #0029FF; transform: rotate(45deg) scale(1); }
+.hw-svc em { font-style: normal; font-size: 13px; font-weight: 500; color: #8A8B95; font-variant-numeric: tabular-nums; transition: color 0.35s ease; }
+.hw-svc.is-on { background: #F4F6FF; box-shadow: inset 0 0 0 1.5px #0029FF; }
+.hw-svc.is-on .hw-svc__ico { background: #0029FF; color: #fff; }
+.hw-svc.is-on em { color: #0029FF; }
+.hw-svc.is-on .hw-tick { background: #0029FF; box-shadow: none; }
+.hw-svc.is-on .hw-tick::after { transform: rotate(45deg) scale(1); }
 .hw-win__total { display: flex; align-items: baseline; justify-content: space-between; margin-top: 14px; padding-top: 14px; border-top: 1px dashed #E5E5E0; font-size: 13.5px; color: #52525B; }
-.hw-win__total b { font-size: 24px; font-weight: 600; letter-spacing: -0.03em; color: #0A0B10; font-variant-numeric: tabular-nums; }
+.hw-win__total b { font-size: 26px; font-weight: 700; letter-spacing: -0.04em; color: #0A0B10; font-variant-numeric: tabular-nums; }
 
 /* Screen 2: checklist */
 .hw-check__head { display: flex; justify-content: space-between; align-items: baseline; }
-.hw-check__count { font: 600 13px/1 Inter, Inter Fallback, system-ui, sans-serif; color: #0029FF; }
-.hw-check__bar { height: 8px; margin: 0 0 10px; border-radius: 8px; background: #EEF0F6; overflow: hidden; }
-.hw-check__bar i { display: block; width: 25%; height: 100%; border-radius: inherit; background: #0029FF; transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
-.hw-item { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 13px 2px; border-bottom: 1px solid #EEEEEA; }
+.hw-check__count { font-size: 13px; font-weight: 600; color: #0029FF; font-variant-numeric: tabular-nums; }
+.hw-check__bar { height: 6px; margin: 0 0 10px; border-radius: 6px; background: #EEF0F6; overflow: hidden; }
+.hw-check__bar i { display: block; width: 25%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #0029FF, #7088FF); transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.hw-item { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 13px 2px; border-bottom: 1px solid #F0F0EC; }
 .hw-item:last-child { border-bottom: 0; }
 .hw-item b { font-size: 14.5px; font-weight: 500; }
-.hw-item em { padding: 4px 10px; border-radius: 999px; background: #FCFCF9; font-style: normal; font-size: 12px; font-weight: 500; color: #8A8B95; transition: background 0.3s ease, color 0.3s ease; }
+.hw-item em { padding: 4px 10px; border-radius: 999px; background: #F4F4F0; font-style: normal; font-size: 12px; font-weight: 500; color: #8A8B95; transition: background 0.3s ease, color 0.3s ease; }
 .hw-item.is-done .hw-tick { background: #16A36A; box-shadow: none; }
 .hw-item.is-done .hw-tick::after { transform: rotate(45deg) scale(1); }
 .hw-item.is-done em { background: #E3F6EC; color: #16A36A; }
 
 /* Screen 3: approvals */
 .hw-post__head { display: flex; justify-content: space-between; }
-.hw-post { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 9px 0; border-bottom: 1px solid #EEEEEA; }
-.hw-post img { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; background: #FCFCF9; }
+.hw-post { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 9px 0; border-bottom: 1px solid #F0F0EC; }
+.hw-post img { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; background: #F4F4F0; }
 .hw-post span { min-width: 0; }
 .hw-post b { display: block; font-size: 14.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hw-post small { display: block; margin-top: 3px; font-size: 12px; color: #8A8B95; }
@@ -252,27 +235,30 @@ html.hw-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
 .hw-toast span { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #16A36A; font-size: 12px; }
 .hw-toast.is-on { opacity: 1; transform: none; }
 
-/* Floating status chip on the panel. */
+/* Status pill at the bottom of the canvas. */
 .hw-chip {
   position: absolute;
   z-index: 5;
-  left: 22px;
-  bottom: 22px;
+  left: 18px;
+  bottom: 18px;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 16px 13px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.9);
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  color: #fff;
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.05), 0 18px 40px -18px rgba(20, 30, 70, 0.45);
 }
-.hw-chip small { font: 500 10.5px/1 Inter, Inter Fallback, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: #8A8B95; }
-.hw-chip b { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }
+.hw-chip small { padding: 5px 9px; border-radius: 999px; background: #0029FF; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.hw-chip b { font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
 
-/* ---- Small screens ------------------------------------------------------------- */
+/* ---- Small screens ------------------------------------------------------------------ */
 @media (max-width: 900px) {
+  .hw .sx-head { display: block; padding: 88px 20px 8px; }
+  .hw .sx-head .sx-sub { margin-top: 14px; }
   .hw__pin { height: 300vh; margin-top: 0; }
   .hw__stage {
     grid-template-columns: minmax(0, 1fr);
@@ -281,17 +267,18 @@ html.hw-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
     align-items: stretch;
     padding: 78px 12px 14px;
   }
-  .hw__rail { display: none; }
-  .hw__steps { flex-direction: row; gap: 8px; }
-  .hw-step { flex: none; }
-  .hw-step.is-active { flex: 1; }
-  .hw-step__btn { grid-template-columns: 34px minmax(0, 1fr); gap: 12px; padding: 4px 0; }
-  .hw-step__num { width: 34px; height: 34px; font-size: 14px; }
-  .hw-step:not(.is-active) .hw-step__txt { display: none; }
-  .hw-step__txt b { font-size: 19px; margin-top: 2px; }
+  /* Phones: the three numbers and lines in a row, the current step's text full width under them. */
+  .hw__list { min-height: 170px; }
+  .hw__steps { position: static; flex-direction: row; gap: 10px; }
+  .hw-step { flex: 1; }
+  .hw-step__btn { gap: 6px 8px; padding: 2px 0; }
+  .hw-step__txt { display: none; }
+  .hw-step.is-active .hw-step__txt { display: flex; position: absolute; left: 0; right: 0; top: 32px; }
+  .hw-step__txt b { font-size: 21px; margin-top: 4px; }
   .hw-step__desc { font-size: 14px; }
   .hw-step.is-active .hw-step__desc { margin-top: 4px; }
-  .hw__panel { height: auto; min-height: 0; border-radius: 24px; }
+  .hw__panel { height: auto; min-height: 0; border-radius: 26px; }
+  .hw-hud { top: 12px; left: 12px; right: 12px; }
   .hw-screen { width: 90%; border-radius: 18px; }
   .hw-win__bar { height: 34px; }
   .hw-win__body { padding: 14px 14px 16px; }
@@ -301,19 +288,19 @@ html.hw-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
   .hw-item { padding: 10px 2px; }
   .hw-post { grid-template-columns: 44px minmax(0, 1fr) auto; gap: 10px; }
   .hw-post img { width: 44px; height: 44px; }
-  .hw-chip { left: 12px; bottom: 12px; padding: 9px 12px 10px; border-radius: 14px; }
-  .hw-chip b { font-size: 14.5px; }
+  .hw-chip { left: 12px; bottom: 12px; }
+  .hw-chip b { font-size: 13.5px; }
 }
 
-/* ---- Reduced motion / no FX: the three screens side by side, finished. --------- */
+/* ---- Reduced motion / no FX: the three screens side by side, finished. --------------- */
 html.fx-reduced .hw__pin, html.hx-static .hw__pin, html:not(.fx) .hw__pin { height: auto; margin-top: 0; }
 html.fx-reduced .hw__stage, html.hx-static .hw__stage, html:not(.fx) .hw__stage { position: relative; height: auto; min-height: 0; grid-template-columns: minmax(0, 1fr); padding-top: 32px; padding-bottom: 96px; }
-html.fx-reduced .hw-step__desc, html.hx-static .hw-step__desc, html:not(.fx) .hw-step__desc { max-height: none; opacity: 1; margin-top: 8px; }
+html.fx-reduced .hw-step__desc, html.hx-static .hw-step__desc, html:not(.fx) .hw-step__desc { max-height: none; opacity: 1; margin-top: 8px; filter: none; }
 html.fx-reduced .hw-step .hw-step__txt, html.hx-static .hw-step .hw-step__txt, html:not(.fx) .hw-step .hw-step__txt { display: flex; }
+html.fx-reduced .hw-step__txt b, html.hx-static .hw-step__txt b, html:not(.fx) .hw-step__txt b { opacity: 1; }
 html.fx-reduced .hw__steps, html.hx-static .hw__steps, html:not(.fx) .hw__steps { flex-direction: row; flex-wrap: wrap; }
 html.fx-reduced .hw-step, html.hx-static .hw-step, html:not(.fx) .hw-step { flex: 1 1 240px; }
-html.fx-reduced .hw__rail, html.hx-static .hw__rail, html:not(.fx) .hw__rail { display: none; }
-html.fx-reduced .hw__panel, html.hx-static .hw__panel, html:not(.fx) .hw__panel { height: auto; min-height: 0; padding: 24px; }
+html.fx-reduced .hw__panel, html.hx-static .hw__panel, html:not(.fx) .hw__panel { height: auto; min-height: 0; padding: 64px 24px 24px; }
 html.fx-reduced .hw__screens, html.hx-static .hw__screens, html:not(.fx) .hw__screens { position: relative; display: flex; flex-wrap: wrap; gap: 16px; }
-html.fx-reduced .hw-screen, html.hx-static .hw-screen, html:not(.fx) .hw-screen { position: relative; top: auto; left: auto; flex: 1 1 280px; width: auto; opacity: 1 !important; transform: none !important; }
+html.fx-reduced .hw-screen, html.hx-static .hw-screen, html:not(.fx) .hw-screen { position: relative; top: auto; left: auto; flex: 1 1 280px; width: auto; opacity: 1 !important; transform: none !important; filter: none !important; }
 html.fx-reduced .hw-chip, html.hx-static .hw-chip, html:not(.fx) .hw-chip { display: none; }

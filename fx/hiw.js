@@ -1,11 +1,12 @@
 // Homepage "How it works" (markup: partials/home-hiw.html, styles: hiw.css).
 //
 // A sticky stage inside a tall wrapper; scroll progress t (0 → 3) walks the
-// three steps. The app window in the panel swaps screens in 3D (the old one
-// tips up and back, the new one rises into place), and each screen plays its
-// little story as you scroll through its third: services get picked and the
-// total adds up, the onboarding checklist ticks off, posts get approved and
-// published.
+// three steps, each step's line filling as you go. The app window on the dark
+// canvas cross-fades between screens with a blur (the old one lifts and
+// blurs out, the new one rises in sharp), leans a little towards the pointer,
+// and each screen plays its little story as you scroll through its third:
+// services get picked and the total adds up, the onboarding checklist ticks
+// off, posts get approved and published.
 
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
 const smooth = (x) => { const t = clamp(x); return t * t * (3 - 2 * t); };
@@ -17,7 +18,8 @@ export function setupHowItWorks({ section, gsap: G, lenis, reduced, finePointer 
   const panel = section.querySelector('.hw__panel');
   const list = section.querySelector('.hw__list');
   const steps = [...section.querySelectorAll('.hw-step')];
-  const rail = section.querySelector('.hw__rail i');
+  const bars = steps.map((li) => li.querySelector('.hw-step__bar'));
+  const dots = [...section.querySelectorAll('.hw-dots i')];
   const screens = [...section.querySelectorAll('.hw-screen')];
   const chipK = section.querySelector('.hw-chip__k');
   const chipV = section.querySelector('.hw-chip__v');
@@ -79,7 +81,7 @@ export function setupHowItWorks({ section, gsap: G, lenis, reduced, finePointer 
     const k = `${step}|${v}`;
     if (k === state.chip) return;
     state.chip = k;
-    chipK.textContent = `Step ${step + 1} of 3`;
+    chipK.textContent = `Step ${step + 1}/3`;
     chipV.textContent = v;
   }
 
@@ -87,6 +89,7 @@ export function setupHowItWorks({ section, gsap: G, lenis, reduced, finePointer 
     // Finished states, all visible.
     story0(1); story1(1); story2(1);
     steps.forEach((s) => s.classList.add('is-active'));
+    bars.forEach((b) => b && b.style.setProperty('--p', '1'));
     return;
   }
 
@@ -98,8 +101,8 @@ export function setupHowItWorks({ section, gsap: G, lenis, reduced, finePointer 
     scrollTrigger: { trigger: section, start: 'top 75%', once: true },
     onComplete: () => G.set(head, { clearProps: 'transform,opacity' }),
   });
-  G.fromTo(panel, { y: 140, rotationX: 22, scale: 0.92, transformPerspective: 1400, transformOrigin: '50% 100%' }, {
-    y: 0, rotationX: 0, scale: 1, ease: 'none',
+  G.fromTo(panel, { y: 120, scale: 0.9, opacity: 0.4, transformOrigin: '50% 100%' }, {
+    y: 0, scale: 1, opacity: 1, ease: 'none',
     scrollTrigger: { trigger: pin, start: 'top bottom', end: 'top top', scrub: true },
   });
   G.fromTo(list, { x: -50, opacity: 0 }, {
@@ -156,22 +159,24 @@ export function setupHowItWorks({ section, gsap: G, lenis, reduced, finePointer 
         li.classList.toggle('is-active', i === step);
         li.classList.toggle('is-past', i < step);
       });
+      dots.forEach((d, i) => d.classList.toggle('is-on', i === step));
     }
-    rail.style.transform = `scaleY(${(t / 3).toFixed(4)})`;
+    bars.forEach((b, i) => { if (b) b.style.setProperty('--p', clamp(t - i).toFixed(4)); });
 
-    // Screen swap: around each boundary b the old screen tips away and the new
-    // one rises in.
+    // Screen swap: around each boundary b the old screen lifts and blurs out
+    // while the new one rises in and sharpens.
     const swap = (b) => smooth((t - (b - 0.14)) / 0.28);
-    const ry = -7 + lean.x * 6;
-    const rx = 5 - lean.y * 5;
+    const ry = lean.x * 4;
+    const rx = -lean.y * 4;
     screens.forEach((s, i) => {
       const enter = i === 0 ? 1 : swap(i);
       const leave = i === screens.length - 1 ? 0 : swap(i + 1);
-      let ty = 0, tz = 0, tilt = 0, op = 1;
-      if (leave > 0) { ty = -leave * 34; tz = -leave * 280; tilt = leave * 24; op = 1 - leave; }
-      else { ty = (1 - enter) * 46; tz = -(1 - enter) * 220; tilt = -(1 - enter) * 18; op = enter; }
-      s.style.transform = `translate(-50%, -50%) translate3d(0, ${ty.toFixed(2)}%, ${tz.toFixed(1)}px) rotateX(${(rx + tilt).toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+      let ty = 0, sc = 1, blur = 0, op = 1;
+      if (leave > 0) { ty = -leave * 40; sc = 1 - leave * 0.05; blur = leave * 14; op = 1 - leave; }
+      else { ty = (1 - enter) * 50; sc = 0.95 + enter * 0.05; blur = (1 - enter) * 14; op = enter; }
+      s.style.transform = `translate(-50%, -50%) translate3d(${(lean.x * 8).toFixed(2)}px, ${(ty + lean.y * 6).toFixed(2)}px, 0) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
       s.style.opacity = op.toFixed(3);
+      s.style.filter = blur > 0.2 ? `blur(${blur.toFixed(1)}px)` : '';
       s.style.visibility = op < 0.01 ? 'hidden' : '';
     });
 
