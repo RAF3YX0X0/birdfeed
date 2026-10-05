@@ -5,9 +5,7 @@
 //   - the copy lifts away and fades,
 //   - the phone rises from just under the buttons to the middle of the screen,
 //   - a strip of content cards opens out behind it, always centred on the
-//     phone, curving away like the 3D gallery and drifting sideways,
-//   - the product cards beside the copy spread out and fade (they fly in
-//     from depth on the intro and lean towards the pointer).
+//     phone, curving away like the 3D gallery and drifting sideways.
 // Everything is plain DOM written once per frame, and only while on screen.
 
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
@@ -49,9 +47,6 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
   const cards = [...strip.children];
   const phoneVideo = phone.querySelector('video');
   const cardVideos = [...strip.querySelectorAll('video')];
-  // Product cards floating beside the copy (hero.css): they fly in from
-  // depth on the intro and spread out and fade as the copy lifts away.
-  const floats = [...section.querySelectorAll('.hx-fl')].map((el) => ({ el, side: +el.dataset.side || 1 }));
 
   const root = document.documentElement;
   let m = null;
@@ -88,26 +83,6 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
     const top = section.getBoundingClientRect().top + window.scrollY;
     m = { vh, vw, ph, cw, ch, copyBottom, startTop, endTop, pitch, total: pitch * cards.length, top, sh: stage.offsetHeight, range: Math.max(1, section.offsetHeight - stage.offsetHeight), narrow };
     last = '';
-    placeFloats(vh);
-  }
-
-  // The product cards line up with the copy: the top pair level with the
-  // badge, the lower pair just under the headline; on shorter screens they
-  // shrink so all four still fit.
-  function placeFloats(vh) {
-    if (!floats.length) return;
-    const c = copy.getBoundingClientRect();
-    const at = (sel, edge) => { const e = copy.querySelector(sel); return e ? copy.offsetTop + e.getBoundingClientRect()[edge] - c.top : 0; };
-    const badge = at('.hx__badge', 'top');
-    const lines = copy.querySelectorAll('.hx__line');
-    const under = lines.length ? copy.offsetTop + lines[lines.length - 1].getBoundingClientRect().bottom - c.top : badge + 340;
-    const fs = clamp((vh - 150) / 640, 0.6, 1);
-    section.querySelector('.hx__floats').style.setProperty('--fs', fs.toFixed(3));
-    const tops = { ok: badge, plan: badge + 20 * fs, week: under + 30 * fs, pub: under + 60 * fs };
-    floats.forEach(({ el }) => {
-      const key = (el.className.match(/hx-fl--(\w+)/) || [])[1];
-      if (tops[key] != null) el.style.setProperty('--top', `${Math.round(tops[key])}px`);
-    });
   }
 
   // Sideways position of card i, wrapped so the strip loops forever.
@@ -178,23 +153,6 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
     arch.style.opacity = (clamp(ip * 1.4) * (1 - a * 0.5)).toFixed(3);
 
     layoutStrip(r, drift + q * m.pitch * 2.5, phoneY + m.ph / 2);
-
-    floats.forEach(({ el, side }, i) => {
-      const k = clamp((ip - 0.1 - i * 0.07) / 0.6);
-      const out = a;
-      el.style.transform = `translate3d(${(side * out * 180).toFixed(1)}px, ${(-out * 140 + (1 - k) * 70).toFixed(1)}px, ${(-(1 - k) * 420).toFixed(1)}px) rotateY(${(-side * (1 - k) * 46).toFixed(2)}deg)`;
-      el.style.opacity = (k * (1 - clamp(out * 1.7))).toFixed(3);
-    });
-  }
-
-  // The cards lean towards the pointer (mouse only).
-  if (!reduced && floats.length && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    stage.addEventListener('pointermove', (e) => {
-      const r = stage.getBoundingClientRect();
-      stage.style.setProperty('--mx', (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
-      stage.style.setProperty('--my', (((e.clientY - r.top) / Math.min(r.height, window.innerHeight)) * 2 - 1).toFixed(3));
-    });
-    stage.addEventListener('pointerleave', () => { stage.style.setProperty('--mx', '0'); stage.style.setProperty('--my', '0'); });
   }
 
   // Reduced motion: a still stack, with the strip flat behind the phone.
