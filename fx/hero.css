@@ -256,8 +256,10 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
 /* ---- Small screens ---------------------------------------------------------- */
 @media (max-width: 720px) {
   .hx {
-    --pw: min(64vw, 270px);
-    --cw: 168px;
+    /* About half the screen wide, and never taller than the room under the nav. */
+    --pw: min(52vw, 220px, calc((100vh - 160px) / 2.05));
+    --pw: min(52vw, 220px, calc((100svh - 160px) / 2.05));
+    --cw: min(36vw, 148px);
     height: calc(210vh + var(--hx-tail, 0px));
   }
   .hx__copy { padding-top: 104px; padding-left: 16px; padding-right: 16px; }
