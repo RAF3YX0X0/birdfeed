@@ -96,7 +96,20 @@ function deck(G, ST, narrow) {
   if (!sec || !allowSticky(sec)) return;
   const cards = [...sec.querySelectorAll('.abx-card:not(.abx-card--us)')];
   const us = sec.querySelector('.abx-card--us');
+  const stage = sec.querySelector('.abx-alts__stage');
+  const head = sec.querySelector('.nx__head');
+  // The deck scales to the room left under the heading, so on a short
+  // screen the cards still fit inside the pinned stage.
+  let ds = 1;
+  const fit = () => {
+    if (narrow()) { ds = 1; sec.style.removeProperty('--ds'); return; }
+    const room = stage.clientHeight - parseFloat(getComputedStyle(stage).paddingTop) - head.offsetHeight - parseFloat(getComputedStyle(head).marginBottom) - 40;
+    ds = clamp(room / 430, 0.5, 1);
+    sec.style.setProperty('--ds', ds.toFixed(3));
+  };
+  let last = 0;
   const set = (p) => {
+    last = p;
     if (narrow()) { [...cards, us].forEach((c) => { c.style.transform = ''; c.style.opacity = ''; c.style.filter = ''; }); return; }
     const fan = smooth(p / 0.5);
     const rise = smooth((p - 0.55) / 0.35);
@@ -104,23 +117,25 @@ function deck(G, ST, narrow) {
     cards.forEach((c, i) => {
       const k = i - 1.5;
       const x = k * w * 0.235 * fan;
-      const y = Math.abs(k) * 26 * fan - rise * 30;
+      const y = (Math.abs(k) * 26 * fan - rise * 30) * ds;
       const z = -Math.abs(k) * 50 * fan - rise * 260;
       const rz = k * 7 * fan;
       const ry = -k * 10 * fan;
       // Before they fan, the cards sit as a stack, a little offset.
       const sx = (1 - fan) * k * 8;
       const sy = (1 - fan) * k * -6;
-      c.style.transform = `translate3d(${(x + sx).toFixed(1)}px, ${(y + sy).toFixed(1)}px, ${z.toFixed(1)}px) rotateZ(${rz.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+      c.style.transform = `translate3d(${(x + sx).toFixed(1)}px, ${(y + sy).toFixed(1)}px, ${z.toFixed(1)}px) rotateZ(${rz.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale(${ds.toFixed(3)})`;
       c.style.opacity = (1 - rise * 0.55).toFixed(3);
       c.style.filter = rise > 0.02 ? `blur(${(rise * 2.5).toFixed(2)}px)` : '';
     });
-    us.style.transform = `translate3d(0, ${((1 - rise) * 420).toFixed(1)}px, ${(rise * 80).toFixed(1)}px) rotateX(${((1 - rise) * 40).toFixed(2)}deg)`;
+    us.style.transform = `translate3d(0, ${((1 - rise) * 420 * ds).toFixed(1)}px, ${(rise * 80).toFixed(1)}px) rotateX(${((1 - rise) * 40).toFixed(2)}deg) scale(${ds.toFixed(3)})`;
     us.style.opacity = clamp(rise * 1.6).toFixed(3);
   };
+  fit();
   set(0);
   ST.create({ trigger: sec.querySelector('.abx-alts__pin'), start: 'top top', end: 'bottom bottom', scrub: 0.6, onUpdate: (self) => set(self.progress) });
-  window.addEventListener('resize', () => set(0));
+  window.addEventListener('resize', () => { fit(); set(last); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { fit(); set(last); });
 }
 
 // ---- The economics: a ring of six cards ------------------------------------------------------------
