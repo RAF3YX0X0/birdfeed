@@ -43,14 +43,16 @@
 /* ---- The headline rating --------------------------------------------------------- */
 .tr-main { display: flex; flex-direction: column; align-items: flex-start; color: inherit; text-decoration: none; }
 .tr-main__score { display: flex; align-items: baseline; margin-top: 18px; line-height: 0.85; }
-.tr-main__score b { font-size: clamp(110px, 14vw, 200px); font-weight: 700; letter-spacing: -0.065em; font-variant-numeric: tabular-nums; background: linear-gradient(180deg, #FFFFFF 30%, #8DA0FF 120%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* The tight tracking pulls the last digit past the box the gradient paints, so
+   the box gets room on every side (given back with margins). */
+.tr-main__score b { padding: 0.06em 0.1em 0.08em 0.02em; margin: -0.06em -0.1em -0.08em -0.02em; font-size: clamp(110px, 14vw, 200px); font-weight: 700; letter-spacing: -0.065em; font-variant-numeric: tabular-nums; background: linear-gradient(180deg, #FFFFFF 30%, #8DA0FF 120%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .tr-main__score em { margin-left: 8px; font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: clamp(44px, 5vw, 76px); color: #7088FF; }
 .tr-stars { position: relative; display: inline-flex; width: max-content; margin-top: 18px; }
 .tr-stars__base, .tr-stars__fill { display: flex; gap: 5px; }
 .tr-stars svg { flex: none; width: 26px; height: 26px; }
-.tr-stars__base svg { fill: rgba(255, 255, 255, 0.14); }
+.tr-stars__base svg { fill: rgba(255, 255, 255, 0.24); }
 .tr-stars__fill { position: absolute; inset: 0; width: calc(var(--fill, 1) * var(--v) * 100%); overflow: hidden; }
-.tr-stars__fill svg { fill: #fff; filter: drop-shadow(0 0 10px rgba(112, 136, 255, 0.8)); }
+.tr-stars__fill svg { fill: #fff; }
 .tr-main__foot { display: flex; align-items: center; gap: 12px; margin-top: 22px; font-size: 15px; color: rgba(255, 255, 255, 0.72); }
 .tr-main__foot b { color: #fff; font-weight: 600; }
 .tr-main__faces { display: flex; }

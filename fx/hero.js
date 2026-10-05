@@ -5,7 +5,9 @@
 //   - the copy lifts away and fades,
 //   - the phone rises from just under the buttons to the middle of the screen,
 //   - a strip of content cards opens out behind it, always centred on the
-//     phone, curving away like the 3D gallery and drifting sideways.
+//     phone, curving away like the 3D gallery and drifting sideways,
+//   - the product cards beside the copy spread out and fade (they fly in
+//     from depth on the intro and lean towards the pointer).
 // Everything is plain DOM written once per frame, and only while on screen.
 
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
@@ -47,6 +49,9 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
   const cards = [...strip.children];
   const phoneVideo = phone.querySelector('video');
   const cardVideos = [...strip.querySelectorAll('video')];
+  // Product cards floating beside the copy (hero.css): they fly in from
+  // depth on the intro and spread out and fade as the copy lifts away.
+  const floats = [...section.querySelectorAll('.hx-fl')].map((el) => ({ el, side: +el.dataset.side || 1 }));
 
   const root = document.documentElement;
   let m = null;
@@ -153,6 +158,23 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
     arch.style.opacity = (clamp(ip * 1.4) * (1 - a * 0.5)).toFixed(3);
 
     layoutStrip(r, drift + q * m.pitch * 2.5, phoneY + m.ph / 2);
+
+    floats.forEach(({ el, side }, i) => {
+      const k = clamp((ip - 0.1 - i * 0.07) / 0.6);
+      const out = a;
+      el.style.transform = `translate3d(${(side * out * 180).toFixed(1)}px, ${(-out * 140 + (1 - k) * 70).toFixed(1)}px, ${(-(1 - k) * 420).toFixed(1)}px) rotateY(${(-side * (1 - k) * 46).toFixed(2)}deg)`;
+      el.style.opacity = (k * (1 - clamp(out * 1.7))).toFixed(3);
+    });
+  }
+
+  // The cards lean towards the pointer (mouse only).
+  if (!reduced && floats.length && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    stage.addEventListener('pointermove', (e) => {
+      const r = stage.getBoundingClientRect();
+      stage.style.setProperty('--mx', (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
+      stage.style.setProperty('--my', (((e.clientY - r.top) / Math.min(r.height, window.innerHeight)) * 2 - 1).toFixed(3));
+    });
+    stage.addEventListener('pointerleave', () => { stage.style.setProperty('--mx', '0'); stage.style.setProperty('--my', '0'); });
   }
 
   // Reduced motion: a still stack, with the strip flat behind the phone.
@@ -184,7 +206,7 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
     buildIntro(tl) {
       const badge = copy.querySelector('.hx__badge');
       const lines = [...copy.querySelectorAll('.hx__line')];
-      const rest = [copy.querySelector('.hx__sub'), copy.querySelector('.hx__ctas')];
+      const rest = [copy.querySelector('.hx__sub'), copy.querySelector('.hx__ctas'), copy.querySelector('.hx__facts')].filter(Boolean);
       const all = [badge, ...lines, ...rest];
       G.set(lines, { opacity: 0, yPercent: 55, rotationX: -80, transformOrigin: '50% 100%' });
       G.set([badge, ...rest], { opacity: 0, y: 28 });

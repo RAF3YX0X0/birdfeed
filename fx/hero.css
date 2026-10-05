@@ -282,3 +282,98 @@ html:not(.fx) .hx__stage { position: relative; height: auto; min-height: 0; padd
 html.fx-reduced .hx__phone,
 html.hx-static .hx__phone,
 html:not(.fx) .hx__phone { position: relative; left: auto; margin: 98px auto 0; transform: none; }
+
+/* ---- Facts under the buttons ------------------------------------------------- */
+.hx__facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin: 22px 0 0; padding: 0; list-style: none; }
+.hx__facts li { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 500; color: #3F3F46; }
+.hx__facts svg { box-sizing: content-box; padding: 3.5px; border-radius: 50%; background: var(--hx-blue, #0029FF); color: #fff; }
+
+/* ---- Floating product cards around the copy ------------------------------------------
+   The service in four glances: a post waiting for your OK, the week's
+   calendar, your plan, a reel going live. Three layers each: .hx-fl is placed
+   and scrolled away by hero.js (and flies in on the intro), .hx-fl__p leans
+   with the pointer (--mx/--my on the stage), .hx-fl__in drifts on its own. */
+.hx__floats { position: absolute; inset: 0; z-index: 3; pointer-events: none; perspective: 1400px; }
+.hx-fl { position: absolute; width: clamp(196px, 15.5vw, 238px); transform-style: preserve-3d; will-change: transform, opacity; }
+.hx-fl--ok { left: max(24px, calc(50% - 650px)); top: 138px; }
+.hx-fl--week { left: max(36px, calc(50% - 610px)); top: 508px; }
+.hx-fl--plan { right: max(24px, calc(50% - 650px)); top: 158px; }
+.hx-fl--pub { right: max(36px, calc(50% - 630px)); top: 540px; width: auto; }
+.hx-fl__p {
+  transform:
+    translate3d(calc(var(--mx, 0) * var(--depth) * 22px), calc(var(--my, 0) * var(--depth) * 16px), 0)
+    rotateY(calc(var(--mx, 0) * 9deg + var(--tilt, 0deg))) rotateX(calc(var(--my, 0) * -7deg));
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hx-fl[data-side="-1"] .hx-fl__p { --tilt: 10deg; }
+.hx-fl[data-side="1"] .hx-fl__p { --tilt: -10deg; }
+.hx-fl__in {
+  display: block;
+  padding: 12px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 30px 60px -28px rgba(20, 30, 80, 0.4), 0 10px 20px -14px rgba(20, 30, 80, 0.25);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  color: #0A0B10;
+  animation: hx-float 7s ease-in-out infinite alternate;
+}
+.hx-fl--week .hx-fl__in { animation-duration: 8.5s; animation-delay: -3s; }
+.hx-fl--plan .hx-fl__in { animation-duration: 7.8s; animation-delay: -1.5s; }
+.hx-fl--pub .hx-fl__in { animation-duration: 6.2s; animation-delay: -4s; }
+@keyframes hx-float { from { transform: translateY(-7px); } to { transform: translateY(7px); } }
+
+.hx-fl__k { display: flex; align-items: center; gap: 7px; margin: 2px 2px 10px; font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8B95; }
+.hx-fl__k i { width: 7px; height: 7px; border-radius: 50%; background: #F59E0B; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18); animation: hx-blink 1.6s ease-in-out infinite; }
+@keyframes hx-blink { 50% { opacity: 0.35; } }
+.hx-fl__meta { display: block; min-width: 0; }
+.hx-fl__meta b { display: block; font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+.hx-fl__meta small { display: block; margin-top: 1px; font-size: 12px; color: #8A8B95; }
+
+/* A post waiting for your OK; Approve ticks over to Approved on a loop. */
+.hx-fl__post { display: block; overflow: hidden; border-radius: 14px; aspect-ratio: 4 / 3.4; background: #E7E5E1; }
+.hx-fl__post img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.hx-fl--ok .hx-fl__meta { margin: 10px 2px 0; }
+.hx-fl__btns { display: flex; gap: 6px; margin-top: 10px; }
+.hx-fl__approve { position: relative; flex: 1; display: grid; height: 34px; border-radius: 999px; background: var(--hx-blue, #0029FF); color: #fff; font-size: 12.5px; font-weight: 600; overflow: hidden; animation: hx-approve-bg 6s ease-in-out infinite; }
+.hx-fl__approve b { grid-area: 1 / 1; display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-weight: 600; }
+.hx-fl__approve b:first-child { animation: hx-approve-a 6s ease-in-out infinite; }
+.hx-fl__approve b:last-child { opacity: 0; animation: hx-approve-b 6s ease-in-out infinite; }
+.hx-fl__edit { display: grid; place-items: center; height: 34px; padding: 0 14px; border-radius: 999px; background: #F1F1ED; font-size: 12.5px; font-weight: 600; color: #3F3F46; }
+@keyframes hx-approve-a { 0%, 42% { opacity: 1; transform: none; } 50%, 92% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: none; } }
+@keyframes hx-approve-b { 0%, 42% { opacity: 0; transform: translateY(10px); } 50%, 92% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(10px); } }
+@keyframes hx-approve-bg { 0%, 40% { background: #0029FF; transform: none; } 44% { transform: scale(0.94); } 50%, 92% { background: #0A0B10; transform: none; } }
+
+/* The week: posts on the days they go out. */
+.hx-fl__week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.hx-fl__week > span { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.hx-fl__week small { font-size: 10px; font-weight: 600; color: #A1A1AA; }
+.hx-fl__week i { display: block; width: 100%; aspect-ratio: 4 / 5; border-radius: 7px; background: #F1F1ED center / cover no-repeat; box-shadow: inset 0 0 0 1px rgba(10, 11, 16, 0.04); }
+.hx-fl__week i[style] { box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--hx-blue, #0029FF); }
+.hx-fl__note { display: flex; align-items: center; gap: 6px; margin: 10px 2px 2px; font-size: 12px; font-weight: 500; color: #3F3F46; }
+.hx-fl__note svg, .hx-fl__chip svg { box-sizing: content-box; padding: 2.5px; border-radius: 50%; background: var(--hx-blue, #0029FF); color: #fff; }
+
+/* Your plan: a small receipt. */
+.hx-fl--plan .hx-fl__in { padding: 14px 14px 12px; }
+.hx-fl__line { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 7px 2px; border-bottom: 1px dashed #E5E5E0; font-size: 13px; color: #3F3F46; }
+.hx-fl__line b { font-weight: 600; color: #0A0B10; font-variant-numeric: tabular-nums; }
+.hx-fl__total { display: flex; align-items: baseline; justify-content: space-between; margin: 10px 2px 0; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8B95; }
+.hx-fl__total b { font-size: 26px; font-weight: 700; letter-spacing: -0.04em; text-transform: none; color: var(--hx-blue, #0029FF); }
+.hx-fl__total small { font-size: 12px; font-weight: 500; letter-spacing: 0; color: #8A8B95; }
+.hx-fl__chip { display: inline-flex; align-items: center; gap: 6px; margin: 10px 2px 2px; padding: 5px 10px 5px 6px; border-radius: 999px; background: #EEF1FF; font-size: 11.5px; font-weight: 600; color: var(--hx-blue, #0029FF); }
+
+/* A reel going live. */
+.hx-fl--pub .hx-fl__in { display: flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; border-radius: 999px; }
+.hx-fl__tick { display: grid; place-items: center; flex: none; width: 34px; height: 34px; border-radius: 50%; background: #16A36A; color: #fff; box-shadow: 0 0 0 5px rgba(22, 163, 106, 0.15); }
+.hx-fl__tick svg { width: 14px; height: 14px; }
+.hx-fl--pub .hx-fl__meta small { white-space: nowrap; }
+
+/* Only where there's room beside the copy. */
+@media (max-width: 1099px), (max-height: 640px) {
+  .hx__floats { display: none; }
+}
+@media (max-width: 720px) {
+  .hx__facts { gap: 6px 14px; margin-top: 18px; }
+  .hx__facts li { font-size: 13px; }
+}
+html.fx-reduced .hx-fl__in, html.fx-reduced .hx-fl__approve, html.fx-reduced .hx-fl__approve b, html.fx-reduced .hx-fl__k i { animation: none; }
