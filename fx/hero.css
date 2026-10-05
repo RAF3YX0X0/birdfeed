@@ -295,18 +295,21 @@ html:not(.fx) .hx__phone { position: relative; left: auto; margin: 98px auto 0; 
    with the pointer (--mx/--my on the stage), .hx-fl__in drifts on its own. */
 .hx__floats { position: absolute; inset: 0; z-index: 3; pointer-events: none; perspective: 1400px; }
 .hx-fl { position: absolute; width: clamp(196px, 15.5vw, 238px); transform-style: preserve-3d; will-change: transform, opacity; }
-.hx-fl--ok { left: max(24px, calc(50% - 650px)); top: 138px; }
-.hx-fl--week { left: max(36px, calc(50% - 610px)); top: 508px; }
-.hx-fl--plan { right: max(24px, calc(50% - 650px)); top: 158px; }
-.hx-fl--pub { right: max(36px, calc(50% - 630px)); top: 540px; width: auto; }
+/* Heights (--top) and size (--fs) come from hero.js, lined up with the copy
+   and scaled to the screen's height; these are the fallbacks. */
+.hx-fl--ok { left: max(24px, calc(50% - 650px)); top: var(--top, 138px); }
+.hx-fl--week { left: max(36px, calc(50% - 610px)); top: var(--top, 508px); }
+.hx-fl--plan { right: max(24px, calc(50% - 650px)); top: var(--top, 158px); }
+.hx-fl--pub { right: max(36px, calc(50% - 630px)); top: var(--top, 540px); width: auto; }
 .hx-fl__p {
   transform:
     translate3d(calc(var(--mx, 0) * var(--depth) * 22px), calc(var(--my, 0) * var(--depth) * 16px), 0)
-    rotateY(calc(var(--mx, 0) * 9deg + var(--tilt, 0deg))) rotateX(calc(var(--my, 0) * -7deg));
+    rotateY(calc(var(--mx, 0) * 9deg + var(--tilt, 0deg))) rotateX(calc(var(--my, 0) * -7deg))
+    scale(var(--fs, 1));
   transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.hx-fl[data-side="-1"] .hx-fl__p { --tilt: 10deg; }
-.hx-fl[data-side="1"] .hx-fl__p { --tilt: -10deg; }
+.hx-fl[data-side="-1"] .hx-fl__p { --tilt: 10deg; transform-origin: 0 0; }
+.hx-fl[data-side="1"] .hx-fl__p { --tilt: -10deg; transform-origin: 100% 0; }
 .hx-fl__in {
   display: block;
   padding: 12px;
@@ -369,7 +372,7 @@ html:not(.fx) .hx__phone { position: relative; left: auto; margin: 98px auto 0; 
 .hx-fl--pub .hx-fl__meta small { white-space: nowrap; }
 
 /* Only where there's room beside the copy. */
-@media (max-width: 1099px), (max-height: 640px) {
+@media (max-width: 1099px), (max-height: 500px) {
   .hx__floats { display: none; }
 }
 @media (max-width: 720px) {

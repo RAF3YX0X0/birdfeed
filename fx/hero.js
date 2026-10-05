@@ -88,6 +88,26 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
     const top = section.getBoundingClientRect().top + window.scrollY;
     m = { vh, vw, ph, cw, ch, copyBottom, startTop, endTop, pitch, total: pitch * cards.length, top, sh: stage.offsetHeight, range: Math.max(1, section.offsetHeight - stage.offsetHeight), narrow };
     last = '';
+    placeFloats(vh);
+  }
+
+  // The product cards line up with the copy: the top pair level with the
+  // badge, the lower pair just under the headline; on shorter screens they
+  // shrink so all four still fit.
+  function placeFloats(vh) {
+    if (!floats.length) return;
+    const c = copy.getBoundingClientRect();
+    const at = (sel, edge) => { const e = copy.querySelector(sel); return e ? copy.offsetTop + e.getBoundingClientRect()[edge] - c.top : 0; };
+    const badge = at('.hx__badge', 'top');
+    const lines = copy.querySelectorAll('.hx__line');
+    const under = lines.length ? copy.offsetTop + lines[lines.length - 1].getBoundingClientRect().bottom - c.top : badge + 340;
+    const fs = clamp((vh - 150) / 640, 0.6, 1);
+    section.querySelector('.hx__floats').style.setProperty('--fs', fs.toFixed(3));
+    const tops = { ok: badge, plan: badge + 20 * fs, week: under + 30 * fs, pub: under + 60 * fs };
+    floats.forEach(({ el }) => {
+      const key = (el.className.match(/hx-fl--(\w+)/) || [])[1];
+      if (tops[key] != null) el.style.setProperty('--top', `${Math.round(tops[key])}px`);
+    });
   }
 
   // Sideways position of card i, wrapped so the strip loops forever.
