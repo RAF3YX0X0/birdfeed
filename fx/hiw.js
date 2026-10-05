@@ -1,29 +1,27 @@
 // Homepage "How it works" (markup: partials/home-hiw.html, styles: hiw.css).
 //
-// A sticky stage inside a tall wrapper; scroll progress t (0 → 3) walks the
-// three steps, each step's line filling as you go. The app window on the dark
-// canvas cross-fades between screens with a blur (the old one lifts and
-// blurs out, the new one rises in sharp), leans a little towards the pointer,
-// and each screen plays its little story as you scroll through its third:
-// services get picked and the total adds up, the onboarding checklist ticks
-// off, posts get approved and published.
+// A winding trail: an SVG path is laid through the three steps' dots (curving
+// across between them) and draws itself with the scroll, a glowing point at
+// its head. When it reaches a dot, the dot lights up and its step comes in —
+// the text on one side, a small live demo on the other — and the demo plays
+// its story as you keep scrolling: services get picked and the total adds up,
+// the onboarding checklist ticks off, posts get approved and published.
 
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
-const smooth = (x) => { const t = clamp(x); return t * t * (3 - 2 * t); };
 
-export function setupHowItWorks({ section, gsap: G, lenis, reduced, finePointer }) {
-  const root = document.documentElement;
-  const pin = section.querySelector('.hw__pin');
-  const stage = section.querySelector('.hw__stage');
-  const panel = section.querySelector('.hw__panel');
-  const list = section.querySelector('.hw__list');
-  const steps = [...section.querySelectorAll('.hw-step')];
-  const bars = steps.map((li) => li.querySelector('.hw-step__bar'));
-  const dots = [...section.querySelectorAll('.hw-dots i')];
-  const screens = [...section.querySelectorAll('.hw-screen')];
-  const chipK = section.querySelector('.hw-chip__k');
-  const chipV = section.querySelector('.hw-chip__v');
+export function setupHowItWorks({ section, gsap: G, reduced }) {
+  const trail = section.querySelector('.hw-trail');
+  if (!trail) return;
+  const svg = trail.querySelector('.hw-trail__svg');
+  const track = svg.querySelector('.hw-trail__track');
+  const line = svg.querySelector('.hw-trail__line');
+  const head = svg.querySelector('.hw-trail__head');
+  const glow = svg.querySelector('.hw-trail__glow');
+  const rows = [...section.querySelectorAll('.hw-row')];
+  const dots = rows.map((r) => r.querySelector('.hw-row__dot'));
+  const screens = rows.map((r) => r.querySelector('.hw-screen'));
 
+  // ---- The three demos' stories (lp: 0 → 1) ------------------------------------------------
   const svcs = [...screens[0].querySelectorAll('.hw-svc')];
   const total = screens[0].querySelector('.hw-total');
   const price = (row) => parseFloat(row.querySelector('em').textContent.replace(/[^\d.]/g, '')) || 0;
@@ -33,10 +31,8 @@ export function setupHowItWorks({ section, gsap: G, lenis, reduced, finePointer 
   const posts = [...screens[2].querySelectorAll('.hw-post em')];
   const toast = screens[2].querySelector('.hw-toast');
   const LABELS = ['Awaiting', 'Approved', 'Published'];
+  const state = { svc: '', done: -1, posts: '', toast: null, on: '', p: -1 };
 
-  const state = { key: '', step: -1, svc: '', done: -1, posts: '', toast: null, chip: '' };
-
-  // Each screen's own story, for local progress lp (0 → 1).
   function story0(lp) {
     const on = svcs.map((row) => row.hasAttribute('data-at') && lp >= parseFloat(row.getAttribute('data-at')));
     const k = on.join();
@@ -61,7 +57,7 @@ export function setupHowItWorks({ section, gsap: G, lenis, reduced, finePointer 
     const s = posts.map((_, i) => (lp >= 0.72 ? 2 : lp >= 0.1 + i * 0.18 ? 1 : 0));
     const k = s.join();
     if (k !== state.posts) {
-      const before = state.posts ? state.posts.split(',').map(Number) : [];
+      const before = state.posts ? state.posts.split(',') : [];
       state.posts = k;
       posts.forEach((em, i) => {
         if (String(s[i]) === em.getAttribute('data-s')) return;
@@ -76,115 +72,107 @@ export function setupHowItWorks({ section, gsap: G, lenis, reduced, finePointer 
     const t = lp >= 0.78;
     if (t !== state.toast) { state.toast = t; toast.classList.toggle('is-on', t); }
   }
-  function chip(step) {
-    const v = step === 0 ? `${total.textContent} plan` : step === 1 ? `${state.done} of 4 done` : state.toast ? 'Published' : 'Ready for review';
-    const k = `${step}|${v}`;
-    if (k === state.chip) return;
-    state.chip = k;
-    chipK.textContent = `Step ${step + 1}/3`;
-    chipV.textContent = v;
+  const stories = [story0, story1, story2];
+
+  // ---- The path ------------------------------------------------------------------------------
+  // Through the dots' centres, starting at the top middle and ending at the
+  // bottom middle; each stretch leaves and arrives vertically, so it swings
+  // across in an S between the steps.
+  let m = null;
+  function measure() {
+    const box = trail.getBoundingClientRect();
+    const w = trail.offsetWidth;
+    const h = trail.offsetHeight;
+    const pts = dots.map((d) => {
+      const r = d.getBoundingClientRect();
+      return { x: r.left + r.width / 2 - box.left, y: r.top + r.height / 2 - box.top };
+    });
+    const narrow = w < 700;
+    const start = { x: narrow ? pts[0].x : w / 2, y: 0 };
+    const end = { x: narrow ? pts[pts.length - 1].x : w / 2, y: h };
+    const all = [start, ...pts, end];
+    let d = `M ${start.x.toFixed(1)} ${start.y.toFixed(1)}`;
+    for (let i = 1; i < all.length; i++) {
+      const a = all[i - 1];
+      const b = all[i];
+      const k = (b.y - a.y) * 0.55;
+      d += ` C ${a.x.toFixed(1)} ${(a.y + k).toFixed(1)}, ${b.x.toFixed(1)} ${(b.y - k).toFixed(1)}, ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
+    }
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    track.setAttribute('d', d);
+    line.setAttribute('d', d);
+    const len = line.getTotalLength();
+    line.style.strokeDasharray = `${len} ${len}`;
+    // Where along the path each dot sits (as a share of its length).
+    const N = 600;
+    const samples = Array.from({ length: N + 1 }, (_, i) => line.getPointAtLength((len * i) / N));
+    const at = pts.map((p) => {
+      let best = 0, bd = Infinity;
+      samples.forEach((s, i) => { const dd = (s.x - p.x) ** 2 + (s.y - p.y) ** 2; if (dd < bd) { bd = dd; best = i; } });
+      return best / N;
+    });
+    m = { len, at };
+    state.p = -1;
   }
 
-  if (reduced) {
-    // Finished states, all visible.
-    story0(1); story1(1); story2(1);
-    steps.forEach((s) => s.classList.add('is-active'));
-    bars.forEach((b) => b && b.style.setProperty('--p', '1'));
+  // ---- Scroll: draw the path, light the dots, bring the steps in, play the demos -----------------
+  const shown = rows.map(() => false);
+  function reveal(i) {
+    if (shown[i]) return;
+    shown[i] = true;
+    const row = rows[i];
+    if (reduced || !G) return; // nothing was hidden
+    G.to(row.querySelector('.hw-row__txt'), { opacity: 1, x: 0, duration: 0.9, ease: 'expo.out', clearProps: 'transform,opacity' });
+    G.to(row.querySelector('.hw-row__demo'), { opacity: 1, x: 0, y: 0, rotationY: 0, rotationX: 0, duration: 1.1, ease: 'expo.out', delay: 0.08, clearProps: 'transform,opacity' });
+  }
+  function update(p) {
+    if (!m) return;
+    if (Math.abs(p - state.p) < 0.0004) return;
+    state.p = p;
+    const drawn = m.len * p;
+    line.style.strokeDashoffset = (m.len - drawn).toFixed(1);
+    const pt = line.getPointAtLength(Math.max(0.01, drawn));
+    head.setAttribute('cx', pt.x.toFixed(1));
+    head.setAttribute('cy', pt.y.toFixed(1));
+    glow.setAttribute('cx', pt.x.toFixed(1));
+    glow.setAttribute('cy', pt.y.toFixed(1));
+    trail.classList.toggle('is-live', p > 0.002 && p < 0.998);
+    const on = m.at.map((a) => p >= a - 0.004);
+    const k = on.join();
+    if (k !== state.on) {
+      state.on = k;
+      rows.forEach((r, i) => { r.classList.toggle('is-on', on[i]); if (on[i]) reveal(i); });
+    }
+    // Each demo plays over the stretch after its dot.
+    m.at.forEach((a, i) => stories[i](clamp((p - a) / 0.16)));
+  }
+
+  if (reduced || !G || !window.ScrollTrigger) {
+    measure();
+    update(1);
     return;
   }
 
-  // Heading flip-up, and the panel/steps rise into place as the section arrives.
-  const head = section.querySelectorAll('.sx-eyebrow, .sx-title, .sx-sub');
-  G.set(head, { opacity: 0, y: 40, rotationX: -50, transformPerspective: 900, transformOrigin: '50% 100%' });
-  G.to(head, {
-    opacity: 1, y: 0, rotationX: 0, duration: 1.1, ease: 'expo.out', stagger: 0.1,
-    scrollTrigger: { trigger: section, start: 'top 75%', once: true },
-    onComplete: () => G.set(head, { clearProps: 'transform,opacity' }),
+  // Steps start hidden, offset towards their side; they come in when their dot lights.
+  rows.forEach((row) => {
+    const side = row.dataset.side === 'r' ? 1 : -1;
+    G.set(row.querySelector('.hw-row__txt'), { opacity: 0, x: side * 40 });
+    G.set(row.querySelector('.hw-row__demo'), { opacity: 0, x: -side * 50, y: 30, rotationY: -side * 14, rotationX: 8, transformPerspective: 1200 });
   });
-  G.fromTo(panel, { y: 120, scale: 0.9, opacity: 0.4, transformOrigin: '50% 100%' }, {
-    y: 0, scale: 1, opacity: 1, ease: 'none',
-    scrollTrigger: { trigger: pin, start: 'top bottom', end: 'top top', scrub: true },
-  });
-  G.fromTo(list, { x: -50, opacity: 0 }, {
-    x: 0, opacity: 1, ease: 'none',
-    scrollTrigger: { trigger: pin, start: 'top 85%', end: 'top 20%', scrub: true },
-  });
+  const head1 = section.querySelectorAll('.sx-eyebrow, .sx-title, .sx-sub');
+  G.set(head1, { opacity: 0, y: 40 });
+  G.to(head1, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: 0.08, clearProps: 'transform,opacity', scrollTrigger: { trigger: section, start: 'top 78%', once: true } });
 
-  // Pointer lean on the window (desktop).
-  const lean = { x: 0, y: 0, tx: 0, ty: 0 };
-  if (finePointer) {
-    panel.addEventListener('pointermove', (e) => {
-      const r = panel.getBoundingClientRect();
-      lean.tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
-      lean.ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
-    });
-    panel.addEventListener('pointerleave', () => { lean.tx = 0; lean.ty = 0; });
-  }
-
-  let m = null;
-  const measure = () => {
-    const top = pin.getBoundingClientRect().top + window.scrollY;
-    m = { top, range: Math.max(1, pin.offsetHeight - stage.offsetHeight) };
-    state.key = '';
-  };
   measure();
-  window.addEventListener('resize', measure);
-  if ('ResizeObserver' in window) new ResizeObserver(measure).observe(document.body);
-
-  // Clicking a step scrolls to it.
-  steps.forEach((li, i) => li.querySelector('button').addEventListener('click', () => {
-    const y = m.top + m.range * ((i + 0.45) / 3);
-    if (lenis) lenis.scrollTo(y, { duration: 1.2 });
-    else window.scrollTo({ top: y, behavior: 'smooth' });
-  }));
-
-  function render() {
-    const y = window.scrollY;
-    const vh = window.innerHeight;
-    const pinned = y >= m.top - 1 && y <= m.top + m.range;
-    if (pinned !== root.classList.contains('hw-on')) root.classList.toggle('hw-on', pinned);
-    if (y + vh < m.top - vh * 0.5 || y > m.top + m.range + vh) return;
-
-    lean.x += (lean.tx - lean.x) * 0.08;
-    lean.y += (lean.ty - lean.y) * 0.08;
-    const t = clamp((y - m.top) / m.range) * 3;
-    const key = `${t.toFixed(4)}|${lean.x.toFixed(3)}|${lean.y.toFixed(3)}`;
-    if (key === state.key) return;
-    state.key = key;
-
-    const step = Math.min(2, Math.floor(t));
-    if (step !== state.step) {
-      state.step = step;
-      steps.forEach((li, i) => {
-        li.classList.toggle('is-active', i === step);
-        li.classList.toggle('is-past', i < step);
-      });
-      dots.forEach((d, i) => d.classList.toggle('is-on', i === step));
-    }
-    bars.forEach((b, i) => { if (b) b.style.setProperty('--p', clamp(t - i).toFixed(4)); });
-
-    // Screen swap: around each boundary b the old screen lifts and blurs out
-    // while the new one rises in and sharpens.
-    const swap = (b) => smooth((t - (b - 0.14)) / 0.28);
-    const ry = lean.x * 4;
-    const rx = -lean.y * 4;
-    screens.forEach((s, i) => {
-      const enter = i === 0 ? 1 : swap(i);
-      const leave = i === screens.length - 1 ? 0 : swap(i + 1);
-      let ty = 0, sc = 1, blur = 0, op = 1;
-      if (leave > 0) { ty = -leave * 40; sc = 1 - leave * 0.05; blur = leave * 14; op = 1 - leave; }
-      else { ty = (1 - enter) * 50; sc = 0.95 + enter * 0.05; blur = (1 - enter) * 14; op = enter; }
-      s.style.transform = `translate(-50%, -50%) translate3d(${(lean.x * 8).toFixed(2)}px, ${(ty + lean.y * 6).toFixed(2)}px, 0) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
-      s.style.opacity = op.toFixed(3);
-      s.style.filter = blur > 0.2 ? `blur(${blur.toFixed(1)}px)` : '';
-      s.style.visibility = op < 0.01 ? 'hidden' : '';
-    });
-
-    story0(clamp(t / 0.8));
-    story1(clamp((t - 1) / 0.8));
-    story2(clamp((t - 2) / 0.8));
-    chip(step);
-  }
-  render();
-  G.ticker.add(render);
+  update(0);
+  const st = window.ScrollTrigger.create({
+    trigger: trail, start: 'top 72%', end: 'bottom 72%', scrub: 0.6,
+    onUpdate: (self) => update(self.progress),
+    onRefresh: (self) => { measure(); update(self.progress); },
+  });
+  let timer = 0;
+  const remeasure = () => { clearTimeout(timer); timer = setTimeout(() => { measure(); update(st.progress); }, 120); };
+  window.addEventListener('resize', remeasure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+  if ('ResizeObserver' in window) new ResizeObserver(remeasure).observe(trail);
 }
