@@ -334,6 +334,17 @@ html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0
 .ft__rating:hover { background: #EEF1FF; color: #0029FF; }
 .ft__ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .ft__ctas .hx-btn { height: 44px; padding: 0 20px; font-size: 14px; }
+/* Contact details and social links (from the client). */
+.ft__contact { display: grid; gap: 10px; margin: 26px 0 0; padding: 0; list-style: none; font-size: 14px; color: #52525B; }
+.ft__contact li { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; }
+.ft__contact svg { flex: none; fill: none; stroke: #0029FF; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ft__contact a { color: #0A0B10; text-decoration: none; }
+.ft__contact a:hover { color: #0029FF; }
+.ft__contact .ft__wa { padding: 2px 9px; border-radius: 999px; background: #E3F6EC; color: #16A36A; font-size: 12px; font-weight: 600; }
+.ft__contact .ft__wa:hover { background: #16A36A; color: #fff; }
+.ft__social { display: flex; gap: 8px; margin-top: 18px; }
+.ft__social a { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.08); color: #0A0B10; transition: background-color 0.2s ease, color 0.2s ease; }
+.ft__social a:hover { background: #0029FF; color: #fff; }
 
 .ft__cols { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px; }
 .ft-col { display: flex; flex-direction: column; gap: 2px; }

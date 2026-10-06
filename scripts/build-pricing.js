@@ -51,9 +51,9 @@ function hero() {
     <div class="prx__copy">
       <span class="sx-eyebrow">Pricing &amp; plans</span>
       <h1 class="prx__title"><span class="prx__line"><span>Social media pricing,</span></span> <span class="prx__line"><span><em>built by you.</em></span></span></h1>
-      <p class="prx__sub">Pick the services you need, from $99 a month. Real creatives do the work, you approve everything, and every plan is month-to-month with a 14-day money-back guarantee.</p>
+      <p class="prx__sub">Pick the services you need, from $99 a month. Real creatives do the work, you approve everything, and every plan is month-to-month, and your first month is free.</p>
       <div class="prx__ctas"><a class="hx-btn hx-btn--blue" href="#build" data-prx-build>Build your plan</a><a class="hx-btn hx-btn--white" href="/book-demo/">Book a demo</a></div>
-      <ul class="prx__facts"><li>${CHECK}Month-to-month</li><li>${CHECK}Cancel anytime</li><li>${CHECK}14-day money-back</li><li>${CHECK}No % of ad spend</li></ul>
+      <ul class="prx__facts"><li>${CHECK}Month-to-month</li><li>${CHECK}Cancel anytime</li><li>${CHECK}First month free</li><li>${CHECK}No % of ad spend</li></ul>
     </div>
     <div class="prx__stage" aria-hidden="true">
       <div class="prx__tilt">
@@ -124,7 +124,7 @@ function receipt() {
     ['Onboarding and monthly meetings', 'Available on every plan'],
     ['Flat rate on ads management', 'Never a % of your ad spend'],
     ['Month-to-month', 'Cancel anytime'],
-    ['14-day money-back guarantee', 'On your first batch'],
+    ['First month free', 'On your first batch'],
   ];
   return `<section class="nx nx--stone nx--split prx-rcpt" data-fx-skip>
   <div class="nx__in">

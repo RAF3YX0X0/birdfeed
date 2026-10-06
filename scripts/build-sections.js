@@ -311,7 +311,7 @@ function extract(islandSel) {
     const short = m.items.every((it) => words(`${it.stat} ${it.title} ${it.text}`) <= 9);
     if (!m.items.length) m.kind = 'statement';
     else if (!h2 && m.items.length >= 2 && m.items.length <= 6 && short) {
-      // A heading-less strip of figures ("20,000+ / Businesses served").
+      // A heading-less strip of figures ("100+ / Businesses served").
       m.kind = 'stats';
       m.items.forEach((it) => { if (!it.stat) { it.stat = it.title; it.title = it.text; it.text = ''; } else if (!it.title) { it.title = it.text; it.text = ''; } });
     }

@@ -36,7 +36,7 @@ const I = {
 function hero() {
   const layers = [
     ['people', 'Specialists', '200+ vetted creatives'],
-    ['book', 'Playbooks', 'Refined across 20,000+ accounts'],
+    ['book', 'Playbooks', 'Refined across 100+ accounts'],
     ['bolt', 'Technology', 'Tooling for the busywork'],
     ['star', 'Your brand', 'From $99/mo, month to month'],
   ];
@@ -48,7 +48,7 @@ function hero() {
       <h1 class="abx__title" id="abx-title"><span class="abx__line"><span>We made professional</span></span> <span class="abx__line"><span>marketing <em>affordable.</em></span></span></h1>
       <p class="abx__sub"><b>The industry hasn’t caught up.</b> Great marketing used to mean agency retainers or in-house teams. Most businesses couldn’t afford either. We built the infrastructure to change that.</p>
       <div class="abx__ctas"><a class="hx-btn hx-btn--blue" href="/book-demo/">Book a demo</a><a class="hx-btn hx-btn--white" href="/pricing/">See pricing</a></div>
-      <p class="abx__trust"><span class="abx__stars" aria-hidden="true">★★★★★</span>4.6/5 from 800+ reviews · 20,000+ businesses served</p>
+      <p class="abx__trust"><span class="abx__stars" aria-hidden="true">★★★★★</span>4.6/5 from 800+ reviews · 100+ businesses served</p>
     </div>
     <div class="abx__stage" aria-hidden="true">
       <div class="abx-stack">${layers.map(([ic, name, line], i) => `
@@ -70,7 +70,7 @@ function story() {
   const words = (t) => t.split(/\s+/).map((w) => `<span class="abx-w">${esc(w)}</span>`).join(' ');
   return `<section class="nx nx--light abx-story" data-fx-skip>
   <div class="nx__in">
-    <div class="abx-story__side"><span class="nx__eyebrow">Where it started</span><h2 class="nx__title">We built this to solve a problem <em>we lived through.</em></h2><span class="abx-story__year" aria-hidden="true">2016</span></div>
+    <div class="abx-story__side"><span class="nx__eyebrow">Where it started</span><h2 class="nx__title">We built this to solve a problem <em>we lived through.</em></h2><span class="abx-story__year" aria-hidden="true">100+</span></div>
     <div class="abx-story__text">${paras.map((t) => `<p>${words(t)}</p>`).join('')}</div>
   </div>
 </section>`;
@@ -101,7 +101,7 @@ function alternatives() {
 function economics() {
   const items = [
     ['Deep specialization, not generalists', 'Every specialist is vetted for one discipline. Specialization produces better work faster, that’s what makes the price work.'],
-    ['Systems built through iteration', '20,000+ accounts across every industry build real institutional knowledge. Your account benefits from all of it.'],
+    ['Systems built through iteration', '100+ accounts across every industry build real institutional knowledge. Your account benefits from all of it.'],
     ['Infrastructure with no dead weight', 'No downtown offices, no account-management layers. What you pay funds the specialists doing the work, nothing else.'],
     ['Repeatable playbooks', 'Refined across tens of thousands of campaigns, then applied to your brand so quality never depends on a single person.'],
     ['Technology where it helps', 'Tooling speeds up the busywork so specialists spend their time on judgment and craft, not formatting and exports.'],

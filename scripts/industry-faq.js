@@ -1,8 +1,8 @@
 // Answers to the industry pages' FAQs. The original pages kept their answers
 // in component code that isn't in this build, so they're written here from
 // what the rest of the site states (plans and prices, approval before
-// posting, month-to-month, the 14-day guarantee). Used by build-industries.js.
-const COST = 'Plans start at $99/mo for 10 social posts. Add short-form video from $149/mo, UGC creator videos from $599/mo or Meta ads management at $499/mo. Every plan is month-to-month with a 14-day money-back guarantee. Build your plan above to see your exact price.';
+// posting, month-to-month, the First month free). Used by build-industries.js.
+const COST = 'Plans start at $99/mo for 10 social posts. Add short-form video from $149/mo, UGC creator videos from $599/mo or Meta ads management at $499/mo. Every plan is month-to-month, and your first month is free. Build your plan above to see your exact price.';
 
 module.exports = {
   // Car dealerships

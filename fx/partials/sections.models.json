@@ -1688,7 +1688,7 @@
     {
      "title": "Businesses served",
      "text": "",
-     "stat": "20,000+",
+     "stat": "100+",
      "icon": "<svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"#8A8B95\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z\"></path><path d=\"M4 21a8 8 0 0 1 16 0\"></path></svg>",
      "img": "",
      "href": "",
@@ -1719,9 +1719,9 @@
      "neg": false
     },
     {
-     "title": "Nearly a decade refined",
+     "title": "Open around the clock",
      "text": "",
-     "stat": "Since 2016",
+     "stat": "24/7",
      "icon": "<svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"#8A8B95\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z\"></path></svg>",
      "img": "",
      "href": "",
@@ -2011,7 +2011,7 @@
      "bullets": [
       "RSA · 15 headlines",
       "Get 30% More Leads",
-      "Trusted by 20,000+",
+      "Trusted by 100+",
       "Free Setup This Week"
      ],
      "tag": "",
@@ -3710,7 +3710,7 @@
     {
      "title": "Businesses served",
      "text": "",
-     "stat": "20,000+",
+     "stat": "100+",
      "icon": "<svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"#8A8B95\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"3\" width=\"11\" height=\"18\" rx=\"1.5\"></rect><path d=\"M19 21V8l-4-2\"></path><path d=\"M8 7h3M8 11h3M8 15h3\"></path></svg>",
      "img": "",
      "href": "",
@@ -3741,9 +3741,9 @@
      "neg": false
     },
     {
-     "title": "Refined for nearly a decade",
+     "title": "Open around the clock",
      "text": "",
-     "stat": "Since 2016",
+     "stat": "24/7",
      "icon": "<svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"#8A8B95\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z\"></path></svg>",
      "img": "",
      "href": "",
@@ -4289,7 +4289,7 @@
     {
      "title": "Businesses served",
      "text": "",
-     "stat": "20,000+",
+     "stat": "100+",
      "icon": "<svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"#8A8B95\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z\"></path><path d=\"M4 21a8 8 0 0 1 16 0\"></path></svg>",
      "img": "",
      "href": "",
@@ -5206,7 +5206,7 @@
     {
      "title": "Businesses served",
      "text": "",
-     "stat": "20,000+",
+     "stat": "100+",
      "icon": "<svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"#8A8B95\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"3\" width=\"11\" height=\"18\" rx=\"1.5\"></rect><path d=\"M19 21V8l-4-2\"></path><path d=\"M8 7h3M8 11h3M8 15h3\"></path></svg>",
      "img": "",
      "href": "",
@@ -5239,7 +5239,7 @@
     {
      "title": "The original marketing subscription",
      "text": "",
-     "stat": "Since 2016",
+     "stat": "24/7",
      "icon": "<svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"#8A8B95\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 21V4h11l-1.5 3L16 10H5\"></path></svg>",
      "img": "",
      "href": "",
@@ -5933,7 +5933,7 @@
     {
      "title": "businesses served",
      "text": "businesses served",
-     "stat": "20,000+",
+     "stat": "100+",
      "icon": "",
      "img": "",
      "href": "",
@@ -5966,7 +5966,7 @@
     {
      "title": "the original marketing subscription",
      "text": "the original marketing subscription",
-     "stat": "Since 2016",
+     "stat": "24/7",
      "icon": "",
      "img": "",
      "href": "",
@@ -7382,7 +7382,7 @@
     },
     {
      "title": "Flat rate, no contracts",
-     "text": "From $99/mo. Upgrade, downgrade, pause, or cancel anytime, and a 14-day satisfaction guarantee on every new plan.",
+     "text": "From $99/mo. Upgrade, downgrade, pause, or cancel anytime, and a free first month on every new plan.",
      "stat": "",
      "icon": "",
      "img": "",

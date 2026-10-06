@@ -133,7 +133,7 @@ function cases(list, label) {
 function faq({ eyebrow, title, lede, faqs }) {
   if (!faqs.length) return '';
   return section('ind-faq nx--faq', 'light', `
-    <div class="nx__side">${head({ eyebrow, title, lede })}<aside class="nx-faq__aside"><b>Still have questions?</b><span>A 20-minute call with our team, no pressure.</span><a href="/book-demo/">Book a free demo ${ARROW}</a></aside></div>
+    <div class="nx__side">${head({ eyebrow, title, lede })}<aside class="nx-faq__aside"><b>Still have questions?</b><span>A 30-minute call with our team, no pressure.</span><a href="/book-demo/">Book a free demo ${ARROW}</a></aside></div>
     <div class="nx__body"><div class="nx-faq__list">${faqs.map((f, i) => `
       <details class="nx-faq__item"${i === 0 ? ' open' : ''}><summary><span>${esc(f.q)}</span><i aria-hidden="true"></i></summary>${f.a ? `<div class="nx-faq__a"><p>${esc(f.a)}</p></div>` : ''}</details>`).join('')}
     </div></div>`, { split: true });

@@ -81,7 +81,7 @@ function faqs(root) {
   });
 }
 
-// The hero "Book a 20-min demo" window on city and industry pages is a Cal.com
+// The hero "Book a 30-min demo" window on city and industry pages is a Cal.com
 // embed whose loader is missing from this build, so it stays an empty white
 // box. Where no calendar has loaded, show a static booking preview that links
 // to the demo page instead.

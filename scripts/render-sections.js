@@ -151,7 +151,7 @@ function renderSection(m, i) {
   let body = LAYOUTS[m.kind](m);
   // A second group of items, in its own layout below the first.
   if (m.items2 && m.items2.length) body += `<div class="nx__more">${LAYOUTS[m.kind2]({ ...m, items: m.items2, neg: false })}</div>`;
-  const faqAside = kind === 'faq' ? `<aside class="nx-faq__aside"><b>Still have questions?</b><span>A 20-minute call with our team, no pressure.</span><a href="/book-demo/">Book a free demo ${ARROW}</a></aside>` : '';
+  const faqAside = kind === 'faq' ? `<aside class="nx-faq__aside"><b>Still have questions?</b><span>A 30-minute call with our team, no pressure.</span><a href="/book-demo/">Book a free demo ${ARROW}</a></aside>` : '';
   return `<section class="nx nx--${kind} nx--${tone}${split ? ' nx--split' : ''}${!m.title ? ' nx--headless' : ''}" data-nx-for="${m.index}" data-nx-h="${esc(m.heading.slice(0, 60))}">
   <div class="nx__in">
     <div class="nx__side">${head(m)}${faqAside}</div>

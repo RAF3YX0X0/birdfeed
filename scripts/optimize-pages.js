@@ -61,14 +61,15 @@ function lazyImages(html) {
   return out + html.slice(last);
 }
 
-// The demo page's booking calendar (Cal.com): connect to Cal and fetch its
-// script from the start, and let React take over the section within 600ms of
-// the page settling instead of whenever the browser is next idle.
+// The demo page's booking calendar (the client's Calendly, fx/cal.js): connect
+// to Calendly from the start, and let React take over the section within
+// 600ms of the page settling instead of whenever the browser is next idle.
 function bookingEmbed(html) {
   if (!/component-export="BookDemo"/.test(html) || !/my-cal-inline/.test(html)) return html;
-  if (!html.includes('<!-- cal:preconnect -->')) {
-    html = html.replace('</title>', '</title><!-- cal:preconnect --><link rel="preconnect" href="https://app.cal.com"><link rel="preconnect" href="https://feedbirdteam.cal.com"><link rel="preload" as="script" href="https://app.cal.com/embed/embed.js">');
-  }
+  // The calendar is the client's Calendly (fx/cal.js); connect to it early.
+  // (Replaces the hints for the original Cal.com calendar, if a page still has them.)
+  html = html.replace(/<!-- cal:preconnect -->(<link [^>]*>)*/, '');
+  html = html.replace('</title>', '</title><!-- cal:preconnect --><link rel="preconnect" href="https://calendly.com"><link rel="preconnect" href="https://assets.calendly.com">');
   return html.replace(/(<astro-island[^>]*component-export="BookDemo"[^>]*opts="{&quot;name&quot;:&quot;BookDemo&quot;,&quot;value&quot;:)true(})/, '$1{&quot;timeout&quot;:600}$2');
 }
 
@@ -95,9 +96,12 @@ function seo(html) {
       if (types.includes('Organization')) {
         o.url = SITE + '/';
         if (o.logo) o.logo = abs(o.logo);
-        delete o.email;
-        delete o.address;
-        delete o.sameAs;
+        // The client's own details (requirements questionnaire, 2026-10).
+        o.email = 'hello@madmediamarketing.com';
+        o.telephone = '+1-636-369-2742';
+        o.address = { '@type': 'PostalAddress', streetAddress: '2055 Craigshire Dr', addressLocality: 'St. Louis', addressRegion: 'MO', postalCode: '63146', addressCountry: 'US' };
+        o.sameAs = ['https://www.facebook.com/getmadmarketing/'];
+        o.contactPoint = { '@type': 'ContactPoint', contactType: 'customer service', email: 'hello@madmediamarketing.com', telephone: '+1-636-369-2742', availableLanguage: 'English', hoursAvailable: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], opens: '00:00', closes: '23:59' } };
       }
       Object.values(o).forEach(fix);
     };

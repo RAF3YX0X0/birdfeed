@@ -1,7 +1,7 @@
 // Page explainers: which page gets which 3D section, where it goes (the
 // section heading it sits next to), and its words, steps, live stat and data.
 // Figures are illustrative and labelled as such on the page; facts about the
-// business (founded 2016, 200+ creatives, 15+ services, 20,000+ businesses,
+// business (200+ creatives, 15+ services, 100+ businesses,
 // team in EU · US · LATAM) come from the site itself.
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -153,10 +153,10 @@ const GLOBE = {
   title: 'A remote team, <em>close to you.</em>',
   lede: 'Our creatives work across Europe, the US and Latin America, so there’s always someone on your time zone.',
   steps: [
-    { title: '2016: founded', text: 'Started to make professional marketing affordable for small businesses.' },
+    { title: 'St. Louis, Missouri', text: 'Headquartered in St. Louis, serving businesses across the US.' },
     { title: '200+ creatives', text: 'Vetted designers, writers and editors across Europe, the US and Latin America.' },
     { title: '15+ services', text: 'Social, video, ads, SEO, email and more, under one subscription.' },
-    { title: '20,000+ businesses', text: 'Served since 2016, from local shops to growing brands.' },
+    { title: '100+ businesses', text: 'Across the US, from local shops to growing brands.' },
   ],
   pin: 2,
   scene: () => import('./three/ex-globe.js'),

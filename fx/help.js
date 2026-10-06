@@ -5,7 +5,7 @@
 // once the page is idle; the panel is built the first time it's opened.
 
 const ACTIONS = [
-  { href: '/book-demo/', title: 'Book a free 20-min demo', text: 'See how it works and get your questions answered.', icon: '<path d="M4 7h16v13H4zM4 11h16M9 4v5M15 4v5"/>' },
+  { href: '/book-demo/', title: 'Book a free 30-min demo', text: 'See how it works and get your questions answered.', icon: '<path d="M4 7h16v13H4zM4 11h16M9 4v5M15 4v5"/>' },
   { href: '/pricing/', title: 'Build your plan', text: 'Pick what you need and see your price in 30 seconds.', icon: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>' },
   { href: '/examples/', title: 'See our work', text: 'Real posts, videos and campaigns we’ve made.', icon: '<path d="M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4"/>' },
   { href: '/case-studies/', title: 'Read customer stories', text: 'What changed for businesses like yours.', icon: '<path d="M5 4h11l3 3v13H5zM9 10h6M9 14h6"/>' },
