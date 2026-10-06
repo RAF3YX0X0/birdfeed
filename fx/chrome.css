@@ -280,10 +280,12 @@ html.ft-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 
 /* Also out of the way while a pinned section (the sales funnel) holds the screen. */
 html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0px"]:has(> .fb-grain)) { visibility: hidden; opacity: 0; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
 
+/* The footer card is the ink of the homepage's 3D gallery ("Content that
+   stops the scroll"): #0A0B10 lit by the same blue and pink glows. */
 .ft {
   padding: 0 24px 24px;
   background: var(--hx-bg, #FCFCF9);
-  color: #0A0B10;
+  color: #fff;
   font-family: Inter, Inter Fallback, system-ui, sans-serif;
 }
 .ft__card {
@@ -294,8 +296,11 @@ html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0
   box-sizing: border-box;
   overflow: hidden;
   border-radius: 40px;
-  background: #fff;
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 40px 80px -60px rgba(20, 30, 70, 0.45);
+  background:
+    radial-gradient(900px 520px at 50% 100%, rgba(0, 41, 255, 0.28), transparent 70%),
+    radial-gradient(600px 380px at 12% 8%, rgba(255, 92, 138, 0.1), transparent 70%),
+    #0A0B10;
+  box-shadow: 0 40px 80px -50px rgba(10, 11, 16, 0.6);
 }
 .ft__card::before {
   /* Soft blue light rising from the wordmark. */
@@ -306,7 +311,7 @@ html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0
   width: 120%;
   height: 80%;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(0, 41, 255, 0.12), transparent);
+  background: radial-gradient(closest-side, rgba(0, 41, 255, 0.22), transparent);
   transform: translateX(-50%);
   pointer-events: none;
 }
@@ -314,7 +319,7 @@ html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0
 
 .ft__top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); gap: 56px; }
 .ft__logo img { display: block; width: 150px; height: auto; }
-.ft__blurb { max-width: 330px; margin: 18px 0 0; font-size: 15px; line-height: 1.6; color: #52525B; }
+.ft__blurb { max-width: 330px; margin: 18px 0 0; font-size: 15px; line-height: 1.6; color: rgba(255, 255, 255, 0.62); }
 .ft__badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
 .ft__status, .ft__rating {
   display: inline-flex;
@@ -322,40 +327,41 @@ html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0
   gap: 8px;
   padding: 7px 12px;
   border-radius: 999px;
-  background: #F5F5F1;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
   font-size: 12.5px;
   font-weight: 500;
-  color: #52525B;
+  color: rgba(255, 255, 255, 0.66);
   text-decoration: none;
 }
-.ft__status i { width: 7px; height: 7px; border-radius: 50%; background: #16A36A; box-shadow: 0 0 0 0 rgba(22, 163, 106, 0.5); animation: ft-pulse 2.4s ease-out infinite; }
-@keyframes ft-pulse { 70% { box-shadow: 0 0 0 7px rgba(22, 163, 106, 0); } 100% { box-shadow: 0 0 0 0 rgba(22, 163, 106, 0); } }
-.ft__rating b { color: #0A0B10; }
-.ft__rating:hover { background: #EEF1FF; color: #0029FF; }
+.ft__status i { width: 7px; height: 7px; border-radius: 50%; background: #2BC48A; box-shadow: 0 0 0 0 rgba(43, 196, 138, 0.5); animation: ft-pulse 2.4s ease-out infinite; }
+@keyframes ft-pulse { 70% { box-shadow: 0 0 0 7px rgba(43, 196, 138, 0); } 100% { box-shadow: 0 0 0 0 rgba(43, 196, 138, 0); } }
+.ft__rating b { color: #fff; }
+.ft__rating:hover { background: rgba(112, 136, 255, 0.18); color: #fff; }
 .ft__ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .ft__ctas .hx-btn { height: 44px; padding: 0 20px; font-size: 14px; }
 /* Contact details and social links (from the client). */
-.ft__contact { display: grid; gap: 10px; margin: 26px 0 0; padding: 0; list-style: none; font-size: 14px; color: #52525B; }
+.ft__contact { display: grid; gap: 10px; margin: 26px 0 0; padding: 0; list-style: none; font-size: 14px; color: rgba(255, 255, 255, 0.66); }
 .ft__contact li { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; }
-.ft__contact svg { flex: none; fill: none; stroke: #0029FF; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.ft__contact a { color: #0A0B10; text-decoration: none; }
-.ft__contact a:hover { color: #0029FF; }
-.ft__contact .ft__wa { padding: 2px 9px; border-radius: 999px; background: #E3F6EC; color: #16A36A; font-size: 12px; font-weight: 600; }
+.ft__contact svg { flex: none; fill: none; stroke: #7088FF; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ft__contact a { color: #fff; text-decoration: none; }
+.ft__contact a:hover { color: #9DB0FF; }
+.ft__contact .ft__wa { padding: 2px 9px; border-radius: 999px; background: rgba(43, 196, 138, 0.16); color: #4CD8A2; font-size: 12px; font-weight: 600; }
 .ft__contact .ft__wa:hover { background: #16A36A; color: #fff; }
 .ft__social { display: flex; gap: 8px; margin-top: 18px; }
-.ft__social a { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.08); color: #0A0B10; transition: background-color 0.2s ease, color 0.2s ease; }
+.ft__social a { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: rgba(255, 255, 255, 0.07); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12); color: #fff; transition: background-color 0.2s ease, color 0.2s ease; }
 .ft__social a:hover { background: #0029FF; color: #fff; }
 
 .ft__cols { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px; }
 .ft-col { display: flex; flex-direction: column; gap: 2px; }
-.ft-col__k { margin: 0 0 10px; font: 500 11px/1.4 Inter, Inter Fallback, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: #8A8B95; }
+.ft-col__k { margin: 0 0 10px; font: 500 11px/1.4 Inter, Inter Fallback, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255, 255, 255, 0.45); }
 .ft-col a, .ft__legal a {
   position: relative;
   align-self: flex-start;
   padding: 5px 0;
   font-size: 14px;
   line-height: 1.35;
-  color: #26262C;
+  color: rgba(255, 255, 255, 0.82);
   text-decoration: none;
   transition: color 0.2s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -367,12 +373,12 @@ html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0
   bottom: 2px;
   height: 1.5px;
   border-radius: 2px;
-  background: #0029FF;
+  background: #7088FF;
   transform: scaleX(0);
   transform-origin: 100% 50%;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.ft-col a:hover, .ft__legal a:hover { color: #0029FF; }
+.ft-col a:hover, .ft__legal a:hover { color: #fff; }
 .ft-col a:hover { transform: translateX(3px); }
 .ft-col a:hover::after, .ft__legal a:hover::after { transform: scaleX(1); transform-origin: 0 50%; }
 
@@ -383,13 +389,15 @@ html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0
   margin-top: 48px;
   padding: 16px 18px 16px 22px;
   border-radius: 20px;
-  background: linear-gradient(100deg, #F2F2EE, #EBEBE6);
-  color: #0A0B10;
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  color: #fff;
   font-size: 15px;
   text-decoration: none;
   transition: background 0.3s ease;
 }
-.ft__agency span { color: #52525B; }
+.ft__agency:hover { background: linear-gradient(100deg, rgba(112, 136, 255, 0.2), rgba(255, 255, 255, 0.04)); }
+.ft__agency span { color: rgba(255, 255, 255, 0.6); }
 .ft__agency b { font-weight: 600; }
 .ft__agency i {
   display: grid;
@@ -405,27 +413,27 @@ html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0
 }
 .ft__agency:hover i { transform: translateX(4px) rotate(-45deg); }
 
-.ft__seo { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; padding-top: 24px; border-top: 1px solid #EEEEEA; }
+.ft__seo { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
 .ft-seo { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 14px; align-items: baseline; }
-.ft-seo__k { margin: 0; font: 500 11px/1.4 Inter, Inter Fallback, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: #8A8B95; }
+.ft-seo__k { margin: 0; font: 500 11px/1.4 Inter, Inter Fallback, system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255, 255, 255, 0.45); }
 .ft-seo__links { display: flex; flex-wrap: wrap; gap: 6px; }
 .ft-seo__links a {
   padding: 5px 11px;
   border-radius: 999px;
-  background: #F5F5F1;
+  background: rgba(255, 255, 255, 0.07);
   font-size: 13px;
-  color: #52525B;
+  color: rgba(255, 255, 255, 0.72);
   text-decoration: none;
   transition: background 0.2s ease, color 0.2s ease;
 }
-.ft-seo__links a:hover { background: #0A0B10; color: #fff; }
-.ft-seo__links a.is-all { background: #EEF1FF; color: #0029FF; font-weight: 600; }
+.ft-seo__links a:hover { background: #fff; color: #0A0B10; }
+.ft-seo__links a.is-all { background: rgba(112, 136, 255, 0.18); color: #9DB0FF; font-weight: 600; }
 
-.ft__bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 28px; padding: 20px 0 6px; border-top: 1px solid #EEEEEA; }
-.ft__bottom p { margin: 0; font-size: 13px; line-height: 1.5; color: #8A8B95; }
-.ft__bottom p a { color: #52525B; }
+.ft__bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 28px; padding: 20px 0 6px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+.ft__bottom p { margin: 0; font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, 0.5); }
+.ft__bottom p a { color: rgba(255, 255, 255, 0.75); }
 .ft__legal { display: flex; align-items: center; gap: 18px; }
-.ft__legal a { font-size: 13px; color: #52525B; }
+.ft__legal a { font-size: 13px; color: rgba(255, 255, 255, 0.7); }
 .ft__top-btn {
   display: grid;
   place-items: center;
@@ -433,13 +441,13 @@ html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0
   height: 38px;
   border: 0;
   border-radius: 50%;
-  background: #0A0B10;
-  color: #fff;
+  background: #fff;
+  color: #0A0B10;
   font-size: 16px;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.ft__top-btn:hover { background: #0029FF; transform: translateY(-3px); }
+.ft__top-btn:hover { background: #0029FF; color: #fff; transform: translateY(-3px); }
 
 /* Giant wordmark, cut off by the bottom of the card. */
 .ft__word {
@@ -458,10 +466,10 @@ html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0
   pointer-events: none;
 }
 /* "Marketing" in the serif italic, as in the logo. */
-.ft__word span.is-serif { background-image: linear-gradient(180deg, #0029FF 0%, #5C76FF 55%, rgba(0, 41, 255, 0.1) 100%); font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.12em; letter-spacing: -0.02em; }
+.ft__word span.is-serif { background-image: linear-gradient(180deg, #7088FF 0%, #4A63FF 55%, rgba(0, 41, 255, 0.08) 100%); font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.12em; letter-spacing: -0.02em; }
 .ft__word span {
   display: inline-block;
-  background: linear-gradient(180deg, #0A0B10 0%, #55555A 55%, rgba(10, 11, 16, 0.08) 100%);
+  background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.55) 55%, rgba(255, 255, 255, 0.04) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

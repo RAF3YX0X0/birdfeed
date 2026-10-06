@@ -2,3 +2,6 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+# Working documents from the client and design references stay local.
+/Client-Requirements-Questionnaire.*
+/vebtrack-design.md

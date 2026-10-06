@@ -4,3 +4,7 @@ server.js
 validate_clone.js
 scripts
 fx/partials
+# Working documents (client questionnaire, design references): never served.
+*.pdf
+*.docx
+*.md
