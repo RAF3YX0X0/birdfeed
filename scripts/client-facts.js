@@ -29,6 +29,18 @@ const CONTACT = [
   ['20-minute', '30-minute'],
   ['20 minutes. We', '30 minutes. We'],
   ['In 20 minutes, we', 'In 30 minutes, we'],
+  // The demo pop-up, footers, explainers and the book-demo page's own title.
+  ['FREE 20-MIN DEMO', 'FREE 30-MIN DEMO'],
+  ['20-min call', '30-min call'],
+  ['20-min meeting', '30-min meeting'],
+  ['20-Minute Demo', '30-Minute Demo'],
+  ['20 min · video call', '30 min · video call'],
+  ['20 min \\xB7 video call', '30 min \\xB7 video call'],
+  ['20 min · your strategist', '30 min · your strategist'],
+  ["See if we're a fit, 20 min", "See if we're a fit, 30 min"],
+  ['20 minutes: the platform', '30 minutes: the platform'],
+  ['"20 minutes. <em>No pressure', '"30 minutes. <em>No pressure'],
+  ["'20 minutes. <em>No pressure", "'30 minutes. <em>No pressure"],
 ];
 
 const NUMBERS = [

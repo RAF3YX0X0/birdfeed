@@ -113,7 +113,7 @@ const CALL_CARDS = [
 const CALL = {
   key: 'call',
   eyebrow: '// what happens on the call',
-  title: '20 minutes. <em>No pressure.</em>',
+  title: '30 minutes. <em>No pressure.</em>',
   lede: 'Here’s exactly what to expect when you book a call with us.',
   steps: CALL_CARDS.map((c) => ({ title: `${c.title} (${c.time})`, text: c.text })),
   pin: 1.4,

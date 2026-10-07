@@ -103,7 +103,7 @@ function calendars(root) {
       cells += `<i class="${open ? 'is-open' : ''}${pick ? ' is-pick' : ''}">${d}</i>`;
     }
     box.innerHTML = `<a class="fx-cal-preview" href="/book-demo/">
-      <span class="fx-cal-preview__head"><b>${month}</b><small>20 min · video call</small></span>
+      <span class="fx-cal-preview__head"><b>${month}</b><small>30 min · video call</small></span>
       <span class="fx-cal-preview__dow"><i>Mo</i><i>Tu</i><i>We</i><i>Th</i><i>Fr</i><i>Sa</i><i>Su</i></span>
       <span class="fx-cal-preview__grid">${cells}</span>
       <span class="fx-cal-preview__slots"><i>9:00am</i><i>10:30am</i><i class="is-pick">1:00pm</i><i>3:30pm</i></span>

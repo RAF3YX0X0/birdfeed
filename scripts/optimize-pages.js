@@ -78,7 +78,13 @@ function bookingEmbed(html) {
 // instead of only when it scrolls into view. Its code is the same bundle the
 // hero island already loads.
 function homeBuilder(html) {
-  return html.replace(/(<astro-island[^>]*component-export="FBHomeMain"[^>]*client=")visible("[^>]*opts="{&quot;name&quot;:&quot;FBHomeMain&quot;,&quot;value&quot;:)true(})/, '$1idle$2{&quot;timeout&quot;:1500}$3');
+  return html
+    .replace(/(<astro-island[^>]*component-export="FBHomeMain"[^>]*client=")visible("[^>]*opts="{&quot;name&quot;:&quot;FBHomeMain&quot;,&quot;value&quot;:)true(})/, '$1idle$2{&quot;timeout&quot;:1500}$3')
+    // The "book a demo" pop-up (45 s, or when the pointer leaves the window)
+    // lives in the original footer, inside the homepage's bottom island. Left
+    // as client:visible, that island only starts once someone scrolls to the
+    // bottom, so the pop-up never ran; start it when the page is idle.
+    .replace(/(<astro-island[^>]*component-export="FBHomeBottom"[^>]*client=")visible("[^>]*opts="{&quot;name&quot;:&quot;FBHomeBottom&quot;,&quot;value&quot;:)true(})/, '$1idle$2{&quot;timeout&quot;:4000}$3');
 }
 
 function seo(html) {
