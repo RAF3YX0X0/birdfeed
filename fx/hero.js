@@ -32,6 +32,34 @@ const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && isOpen()) { setOpen(false); burger.focus(); }
   });
+  // Desktop dropdowns: hover opens them (CSS); a click or Enter does too, for
+  // touch laptops and keyboards. One open at a time; outside click or Escape closes.
+  const dds = [...nav.querySelectorAll('.hx-dd')];
+  const closeDds = (except) => dds.forEach((d) => {
+    if (d === except) return;
+    d.classList.remove('is-open');
+    d.querySelector('.hx-dd__btn').setAttribute('aria-expanded', 'false');
+  });
+  for (const dd of dds) {
+    const btn = dd.querySelector('.hx-dd__btn');
+    btn.addEventListener('click', () => {
+      const open = !dd.classList.contains('is-open');
+      closeDds(dd);
+      dd.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+    });
+    dd.addEventListener('mouseleave', () => {
+      if (dd.contains(document.activeElement) && document.activeElement !== btn) return;
+      dd.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+    dd.addEventListener('focusout', (e) => { if (!dd.contains(e.relatedTarget)) closeDds(); });
+  }
+  document.addEventListener('pointerdown', (e) => { if (!e.target.closest('.hx-dd')) closeDds(); });
+  document.addEventListener('keydown', (e) => {
+    const open = dds.find((d) => d.classList.contains('is-open'));
+    if (e.key === 'Escape' && open) { closeDds(); open.querySelector('.hx-dd__btn').focus(); }
+  });
   const compact = () => nav.classList.toggle('is-compact', window.scrollY > 30);
   window.addEventListener('scroll', compact, { passive: true });
   compact();

@@ -267,6 +267,79 @@ astro-island footer:has(.cfooter-grid) { display: none !important; }
 }
 html.fx-reduced .hx-nav, html.fx-reduced .hx-nav__bar, html.fx-reduced .hx-menu { transition: none; }
 
+/* ---- Desktop: the menu in the bar, dropdowns on hover ------------------------
+   Logo left, Services / Company / Pricing in the middle, Log in and the CTA on
+   the right. Dropdowns open on hover (and on click or Enter, for touch
+   laptops and keyboards; fx/hero.js). Phones and small tablets keep the
+   hamburger and its panel. */
+.hx-links { display: none; }
+@media (min-width: 961px) {
+  .hx-nav { width: min(1120px, calc(100% - 48px)); }
+  .hx-nav.is-compact { width: min(1040px, calc(100% - 40px)); }
+  .hx-nav__bar { grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr); padding: 0 9px 0 24px; }
+  .hx-nav__burger, .hx-menu { display: none; }
+  .hx-nav__logo { justify-self: start; }
+  .hx-links { display: flex; align-items: center; gap: 2px; }
+}
+.hx-dd { position: relative; }
+.hx-dd__btn, .hx-links__a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--hx-ink);
+  font: 500 14.5px/1 Satoshi, Satoshi Fallback, system-ui, sans-serif;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.hx-dd__btn svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+.hx-links__a:hover, .hx-dd__btn:hover, .hx-dd.is-open .hx-dd__btn { background: rgba(10, 10, 10, 0.05); }
+.hx-dd.is-open .hx-dd__btn svg { transform: rotate(180deg); }
+.hx-dd__panel {
+  position: absolute;
+  z-index: 3;
+  top: calc(100% + 14px);
+  left: 50%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  width: 560px;
+  padding: 10px;
+  border-radius: 22px;
+  /* Solid: a blur inside the bar's own blur doesn't render, so the page showed through. */
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.06), 0 30px 60px -24px rgba(20, 30, 70, 0.32);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 8px);
+  /* Closing waits a moment, so a diagonal move from the button into the panel doesn't lose it. */
+  transition: opacity 0.2s ease 0.14s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1) 0.14s, visibility 0s linear 0.48s;
+}
+/* Keeps the pointer "inside" while it crosses the gap from the button. */
+.hx-dd__panel::before { content: ''; position: absolute; left: 0; right: 0; top: -16px; height: 16px; }
+.hx-dd__panel--narrow { grid-template-columns: minmax(0, 1fr); width: 220px; }
+.hx-dd.is-open .hx-dd__panel { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+@media (hover: hover) {
+  .hx-dd:hover .hx-dd__panel { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+  .hx-dd:hover .hx-dd__btn { background: rgba(10, 10, 10, 0.05); }
+  .hx-dd:hover .hx-dd__btn svg { transform: rotate(180deg); }
+}
+.hx-dd__panel a { display: block; padding: 12px 14px; border-radius: 14px; color: var(--hx-ink); text-decoration: none; transition: background 0.2s ease; }
+.hx-dd__panel a:hover, .hx-dd__panel a:focus-visible { background: #F5F7FA; }
+.hx-dd__panel b { display: block; font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; }
+.hx-dd__panel a span { display: block; margin-top: 3px; font-size: 13px; line-height: 1.4; color: #6B7280; }
+.hx-dd__panel a:hover b { color: var(--hx-blue); }
+.hx-dd__panel .hx-dd__all { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; margin-top: 4px; padding: 12px 14px; border-top: 1px solid #E5E7EB; border-radius: 0 0 14px 14px; color: var(--hx-blue); font-size: 14px; font-weight: 600; }
+.hx-dd__all i { font-style: normal; transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+.hx-dd__all:hover i { transform: translateX(4px); }
+html.fx-reduced .hx-dd__panel, html.fx-reduced .hx-dd__btn svg { transition: none; }
+
 /* ---- Footer (Framer style) --------------------------------------------------- */
 
 html.ft-on .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
