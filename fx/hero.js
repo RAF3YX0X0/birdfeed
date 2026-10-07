@@ -201,9 +201,11 @@ export function setupHomeHero({ section, gsap: G, reduced }) {
 
   if (reduced) {
     still();
+    root.classList.add('hx-ready');
   } else {
     measure();
     render(0);
+    root.classList.add('hx-ready');
     G.ticker.add((time, deltaMs) => render(Math.min(deltaMs, 100) / 1000));
   }
 

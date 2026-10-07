@@ -279,6 +279,11 @@ html:not(.fx) .hx { height: auto; }
 html.fx-reduced .hx__stage,
 html.hx-static .hx__stage,
 html:not(.fx) .hx__stage { position: relative; height: auto; min-height: 0; padding-bottom: 72px; }
+/* The phone and card strip are placed by script (hero.js). Until it has
+   measured, they would show in their CSS fallback spot (over the buttons),
+   then jump; hold them back, with a failsafe in case the script never runs. */
+html.fx:not(.hx-ready):not(.fx-reduced) :is(.hx__phone, .hx__strip) { opacity: 0; animation: hx-failsafe 0s linear 8s forwards; }
+@keyframes hx-failsafe { to { opacity: 1; } }
 html.fx-reduced .hx__phone,
 html.hx-static .hx__phone,
 html:not(.fx) .hx__phone { position: relative; left: auto; margin: 98px auto 0; transform: none; }
