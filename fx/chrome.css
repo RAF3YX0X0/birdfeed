@@ -882,7 +882,7 @@ div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-
   width: 132px;
   height: 22px;
   font-size: 0 !important;
-  background: url("/assets/madmarketing-logo-v2.svg") left center / contain no-repeat;
+  background: url("/assets/madmarketing-logo-v3.svg") left center / contain no-repeat;
 }
 [aria-label="Book a free demo"] > div > div:first-child > span:nth-child(3) {
   padding: 6px 12px 6px 9px !important;

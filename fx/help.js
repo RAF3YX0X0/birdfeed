@@ -32,7 +32,7 @@ export function setupHelp({ gsap: G, reduced }) {
     panel.hidden = true;
     panel.innerHTML = `
       <div class="mm-help__head">
-        <img src="/assets/madmarketing-logo-v2.svg" alt="MadMarketing" width="100" height="48">
+        <img src="/assets/madmarketing-logo-v3.svg" alt="MadMarketing" width="100" height="48">
         <button class="mm-help__x" type="button" aria-label="Close">×</button>
       </div>
       <p class="mm-help__hi">Hi there <span aria-hidden="true">👋</span><br>How can we <em>help?</em></p>
