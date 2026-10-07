@@ -83,6 +83,22 @@ function retrack(s) {
   return s.replace(/-(0?)\.0(65|55|45|35|6|5|4|3)em(?![\w-])/g, (m, zero, v) => `-${zero}.${TRACKING[v]}em`);
 }
 
+// CSS that restyles React markup by its inline colour, e.g. the estimate
+// card's [style*="0A0B10"] (dark text → white), writes the colour without
+// "#" or "rgb(", so recolor() can't see it. Same map, inside those selectors.
+const TRIPLETS = Object.fromEntries(Object.entries(MAP).map(([a, b]) => [rgbOf(a).join(', '), rgbOf(b).join(', ')]));
+function selectors(s) {
+  return s.replace(/(style\*=")([^"]*)(")/g, (m, a, inner, c) => {
+    const out = inner
+      .replace(/(^|[^#0-9a-fA-F])([0-9a-fA-F]{6})(?![0-9a-fA-F])/g, (mm, pre, hex) => {
+        const to = MAP[hex.toLowerCase()];
+        return to ? pre + (hex === hex.toUpperCase() && /[A-F]/.test(hex) ? to.toUpperCase() : to) : mm;
+      })
+      .replace(/\b\d{1,3}, \d{1,3}, \d{1,3}\b/g, (t) => TRIPLETS[t] ?? t);
+    return a + out + c;
+  });
+}
+
 /** One Satoshi preload per page (it replaced two old ones). */
 function onePreload(s) {
   const parts = s.split(PRELOAD);
@@ -132,7 +148,7 @@ for (const f of [...pages, ...fxFiles, ...generators, ...astro]) {
   const astroCss = f.startsWith(ASTRO) && f.endsWith('.css');
   // retheme.js appended the Inter faces to the Astro CSS; swap that block.
   if (astroCss) out = out.replace(/\n\/\* Inter \(variable\)[\s\S]*$/, '\n/* Satoshi (brand typeface) */\n' + FACES + '\n');
-  out = onePreload(retrack(accents(refont(recolor(out)))));
+  out = onePreload(retrack(accents(refont(selectors(recolor(out))))));
   if (out !== src) {
     fs.writeFileSync(f, out);
     edited++;
