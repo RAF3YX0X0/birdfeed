@@ -78,8 +78,8 @@ astro-island footer:has(.cfooter-grid) { display: none !important; }
 .hx-nav__burger[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
 
 .hx-nav__logo { display: flex; align-items: center; }
-.hx-nav__logo img { display: block; width: 100px; height: auto; transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
-.hx-nav.is-compact .hx-nav__logo img { width: 88px; }
+.hx-nav__logo img { display: block; width: 168px; height: auto; transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+.hx-nav.is-compact .hx-nav__logo img { width: 150px; }
 
 .hx-nav__cta {
   justify-self: end;
@@ -248,7 +248,7 @@ astro-island footer:has(.cfooter-grid) { display: none !important; }
   .hx-nav.is-compact .hx-nav__bar { height: 50px; }
   .hx-nav__cta { height: 40px; padding: 0 16px; font-size: 13.5px; }
   .hx-nav.is-compact .hx-nav__cta { height: 36px; }
-  .hx-nav__logo img, .hx-nav.is-compact .hx-nav__logo img { width: 88px; }
+  .hx-nav__logo img, .hx-nav.is-compact .hx-nav__logo img { width: 140px; }
   .hx-nav__login { display: none; } /* it's in the menu */
   .hx-menu__in { grid-template-columns: 1fr 1fr; padding: 18px 20px 20px; }
   .hx-menu__col--cta { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; gap: 4px 18px; }
@@ -258,12 +258,12 @@ astro-island footer:has(.cfooter-grid) { display: none !important; }
 @media (max-width: 400px) {
   .hx-nav__bar { padding: 0 7px 0 6px; }
   .hx-nav__cta { padding: 0 14px; font-size: 13px; }
-  .hx-nav__logo img, .hx-nav.is-compact .hx-nav__logo img { width: 80px; }
+  .hx-nav__logo img, .hx-nav.is-compact .hx-nav__logo img { width: 124px; }
   .hx-nav__bar { column-gap: 6px; }
 }
 @media (max-width: 340px) {
   .hx-nav__cta { padding: 0 12px; }
-  .hx-nav__logo img, .hx-nav.is-compact .hx-nav__logo img { width: 74px; }
+  .hx-nav__logo img, .hx-nav.is-compact .hx-nav__logo img { width: 110px; }
 }
 html.fx-reduced .hx-nav, html.fx-reduced .hx-nav__bar, html.fx-reduced .hx-menu { transition: none; }
 
@@ -324,6 +324,13 @@ html.fx-reduced .hx-nav, html.fx-reduced .hx-nav__bar, html.fx-reduced .hx-menu 
 /* Keeps the pointer "inside" while it crosses the gap from the button. */
 .hx-dd__panel::before { content: ''; position: absolute; left: 0; right: 0; top: -16px; height: 16px; }
 .hx-dd__panel--narrow { grid-template-columns: minmax(0, 1fr); width: 220px; }
+/* Services: three groups side by side. */
+.hx-dd__panel--wide { grid-template-columns: repeat(3, minmax(0, 1fr)); width: 840px; gap: 4px 6px; padding: 14px; }
+.hx-dd__group { display: flex; flex-direction: column; gap: 1px; }
+.hx-dd__k { margin: 4px 14px 6px; font: 600 11px/1.4 Satoshi, Satoshi Fallback, system-ui, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: #858C99; }
+.hx-dd__panel--wide a { padding: 9px 14px; }
+.hx-dd__panel--wide a span { margin-top: 1px; font-size: 12.5px; }
+@media (max-width: 1100px) { .hx-dd__panel--wide { width: min(840px, calc(100vw - 48px)); } }
 .hx-dd.is-open .hx-dd__panel { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
 @media (hover: hover) {
   .hx-dd:hover .hx-dd__panel { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
@@ -384,7 +391,7 @@ html.fx-hold :is(.fbf-stickybar, div[style*="position: fixed"][style*="bottom: 0
 .ft__card > * { position: relative; }
 
 .ft__top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); gap: 56px; }
-.ft__logo img { display: block; width: 210px; height: auto; }
+.ft__logo img { display: block; width: 200px; height: auto; }
 .ft__blurb { max-width: 330px; margin: 18px 0 0; font-size: 15px; line-height: 1.6; color: rgba(255, 255, 255, 0.62); }
 .ft__badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
 .ft__status, .ft__rating {
@@ -955,7 +962,7 @@ div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-
   width: 132px;
   height: 22px;
   font-size: 0 !important;
-  background: url("/assets/madmarketing-logo-v3.svg") left center / contain no-repeat;
+  background: url("/assets/madmarketing-logo-v4.svg") left center / contain no-repeat;
 }
 [aria-label="Book a free demo"] > div > div:first-child > span:nth-child(3) {
   padding: 6px 12px 6px 9px !important;

@@ -26,7 +26,7 @@ function rebrandText(s) {
     .replace(/<link rel="icon" type="image\/jpeg" href="\/assets\/feedbird-mark\.jpg">/g,
       '<link rel="icon" type="image/svg+xml" href="/assets/madmarketing-mark-v2.svg"><link rel="icon" type="image/png" sizes="32x32" href="/assets/madmarketing-icon-32-v2.png">')
     .replace(/<link rel="apple-touch-icon" href="\/assets\/feedbird-mark\.jpg">/g, '<link rel="apple-touch-icon" href="/assets/madmarketing-apple-touch-v2.png">')
-    .replace(/\/assets\/feedbird-logo\.svg/g, '/assets/madmarketing-logo-v3.svg')
+    .replace(/\/assets\/feedbird-logo\.svg/g, '/assets/madmarketing-logo-v4.svg')
     .replace(/\/assets\/feedbird-mark\.jpg/g, '/assets/madmarketing-mark-v2.png')
     .split(OLD_ICON).join(NEW_ICON)
     .replace(/\bFeedbird\b/g, 'MadMarketing')
