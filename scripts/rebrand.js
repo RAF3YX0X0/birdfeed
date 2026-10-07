@@ -24,10 +24,10 @@ const NEW_ICON = 'M2.63 5.09L2.63 20L6.30 20L6.30 10.82L9.49 19.96L12.35 19.96L1
 function rebrandText(s) {
   return s
     .replace(/<link rel="icon" type="image\/jpeg" href="\/assets\/feedbird-mark\.jpg">/g,
-      '<link rel="icon" type="image/svg+xml" href="/assets/madmarketing-mark.svg"><link rel="icon" type="image/png" sizes="32x32" href="/assets/madmarketing-icon-32.png">')
-    .replace(/<link rel="apple-touch-icon" href="\/assets\/feedbird-mark\.jpg">/g, '<link rel="apple-touch-icon" href="/assets/madmarketing-apple-touch.png">')
-    .replace(/\/assets\/feedbird-logo\.svg/g, '/assets/madmarketing-logo.svg')
-    .replace(/\/assets\/feedbird-mark\.jpg/g, '/assets/madmarketing-mark.png')
+      '<link rel="icon" type="image/svg+xml" href="/assets/madmarketing-mark-v2.svg"><link rel="icon" type="image/png" sizes="32x32" href="/assets/madmarketing-icon-32-v2.png">')
+    .replace(/<link rel="apple-touch-icon" href="\/assets\/feedbird-mark\.jpg">/g, '<link rel="apple-touch-icon" href="/assets/madmarketing-apple-touch-v2.png">')
+    .replace(/\/assets\/feedbird-logo\.svg/g, '/assets/madmarketing-logo-v2.svg')
+    .replace(/\/assets\/feedbird-mark\.jpg/g, '/assets/madmarketing-mark-v2.png')
     .split(OLD_ICON).join(NEW_ICON)
     .replace(/\bFeedbird\b/g, 'MadMarketing')
     .replace(/\bFEEDBIRD\b/g, 'MADMARKETING')

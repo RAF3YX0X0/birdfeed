@@ -26,9 +26,9 @@ const page = ({ slug, title, description, body }) => `<!doctype html>
 <meta property="og:title" content="${title} | MadMarketing">
 <meta property="og:description" content="${description}">
 <meta property="og:url" content="${SITE}/${slug}/">
-<link rel="icon" type="image/svg+xml" href="/assets/madmarketing-mark.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/madmarketing-icon-32.png">
-<link rel="apple-touch-icon" href="/assets/madmarketing-apple-touch.png">
+<link rel="icon" type="image/svg+xml" href="/assets/madmarketing-mark-v2.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/madmarketing-icon-32-v2.png">
+<link rel="apple-touch-icon" href="/assets/madmarketing-apple-touch-v2.png">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/satoshi-variable.woff2" crossorigin><style>
 @font-face { font-family: Satoshi; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/inter-latin-wght-normal.woff2) format("woff2"); }
 @font-face{font-family:Satoshi;font-style:normal;font-weight:300 900;font-display:swap;src:url(/fonts/satoshi-variable.woff2) format("woff2")}@font-face{font-family:"Satoshi Fallback";src:local("Arial");ascent-override:93.3%;descent-override:22.17%;line-gap-override:9.24%;size-adjust:108.25%}

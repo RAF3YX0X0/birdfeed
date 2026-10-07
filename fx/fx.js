@@ -285,7 +285,7 @@ function setupCurtain(lenis) {
       '<div class="fx-curtain__panel fx-curtain__panel--light">' +
       '<div class="fx-curtain__arch"></div>' +
       '<div class="fx-curtain__brand">' +
-      '<img class="fx-curtain__mark" src="/assets/madmarketing-mark.svg" alt="">' +
+      '<img class="fx-curtain__mark" src="/assets/madmarketing-mark-v2.svg" alt="">' +
       `<div class="fx-curtain__word">${letters('Mad', 'is-sans')}${letters('Marketing', 'is-serif')}</div>` +
       '</div>' +
       '<div class="fx-curtain__meter"><b class="fx-curtain__count">0</b><span>%</span><div class="fx-curtain__bar"><i></i></div></div>' +

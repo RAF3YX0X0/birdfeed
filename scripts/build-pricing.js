@@ -132,7 +132,7 @@ function receipt() {
     <div class="nx__body"><div class="prx-rcpt__printer" aria-hidden="false">
       <div class="prx-rcpt__slot" aria-hidden="true"></div>
       <div class="prx-rcpt__clip"><div class="prx-rcpt__paper">
-        <div class="prx-rcpt__head"><img src="/assets/madmarketing-logo.svg" alt="MadMarketing" width="120" height="20" loading="lazy" decoding="async"><span>Every plan</span></div>
+        <div class="prx-rcpt__head"><img src="/assets/madmarketing-logo-v2.svg" alt="MadMarketing" width="120" height="20" loading="lazy" decoding="async"><span>Every plan</span></div>
         <ul>${lines.map(([t, d]) => `<li><span><b>${esc(t)}</b><small>${esc(d)}</small></span><i>Included</i></li>`).join('')}</ul>
         <div class="prx-rcpt__total"><span>Plans from</span><b>$99<small>/mo</small></b></div>
         <div class="prx-rcpt__bar" aria-hidden="true"></div>

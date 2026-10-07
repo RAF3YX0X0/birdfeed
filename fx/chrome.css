@@ -808,7 +808,7 @@ div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-
   width: 40px;
   height: 40px;
   margin-top: -20px;
-  background: url("/assets/madmarketing-mark.svg") center / contain no-repeat;
+  background: url("/assets/madmarketing-mark-v2.svg") center / contain no-repeat;
 }
 .fbf-stickybar-title { color: #0A0A0A !important; }
 .fbf-stickybar-sub { color: #6B7280 !important; }
@@ -882,7 +882,7 @@ div[style*="position: fixed"][style*="bottom: 0px"] > .fb-grain:is([style*="max-
   width: 132px;
   height: 22px;
   font-size: 0 !important;
-  background: url("/assets/madmarketing-logo.svg") left center / contain no-repeat;
+  background: url("/assets/madmarketing-logo-v2.svg") left center / contain no-repeat;
 }
 [aria-label="Book a free demo"] > div > div:first-child > span:nth-child(3) {
   padding: 6px 12px 6px 9px !important;

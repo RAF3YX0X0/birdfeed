@@ -27,7 +27,7 @@ html.fx-cover body::after {
   inset: 0;
   z-index: 2147483000;
   background:
-    url("/assets/madmarketing-logo.svg") center calc(50% - 18px) / 264px auto no-repeat,
+    url("/assets/madmarketing-logo-v2.svg") center calc(50% - 18px) / 264px auto no-repeat,
     radial-gradient(circle 100vmax at 50% calc(70vh + 100vmax), #e5e7eb 99.7%, transparent 100%),
     var(--fx-bg);
   pointer-events: none;
