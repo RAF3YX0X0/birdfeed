@@ -5,7 +5,7 @@
 
 // One blue for every stage (the 3D tiers are off-white until they're active);
 // color3d is the 2D fallback's tier colour.
-const PALETTE = Array.from({ length: 5 }, () => ({ color: '#0029FF', color3d: '#E9E9E4' }));
+const PALETTE = Array.from({ length: 5 }, () => ({ color: '#0066FF', color3d: '#E9E9E4' }));
 
 const withColors = (stages) => stages.map((s, i) => ({ ...PALETTE[i], ...s }));
 

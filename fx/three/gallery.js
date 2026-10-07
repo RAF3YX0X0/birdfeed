@@ -2,7 +2,7 @@
 // (pinned) section is scrolled, can be dragged/flung, and tracks the pointer.
 import { THREE, createRenderer, onScreen } from './kit.js';
 
-const BG = 0x0a0b10;
+const BG = 0x0a0a0a;
 
 function loadCardTexture(src, maxSide, cornerRatio) {
   return new Promise((resolve, reject) => {

@@ -5,9 +5,9 @@
 import { allowSticky } from './funnel.js';
 
 const TYPES = {
-  post: { label: 'Posts', color: '#0029FF' },
-  reel: { label: 'Reels & short videos', color: '#0A0B10' },
-  story: { label: 'Stories', color: '#7088FF' },
+  post: { label: 'Posts', color: '#0066FF' },
+  reel: { label: 'Reels & short videos', color: '#0A0A0A' },
+  story: { label: 'Stories', color: '#4D94FF' },
 };
 // Illustrative schedule: posts Mon/Wed/Fri, reels Tue/Thu, a story Saturday,
 // Sunday off. The month starts on a Wednesday (offset 2).

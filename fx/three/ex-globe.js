@@ -51,11 +51,11 @@ export function mount({ host, tags, gsap, reduced, places }) {
   }
   const dotsGeo = new THREE.BufferGeometry();
   dotsGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  globe.add(new THREE.Points(dotsGeo, new THREE.PointsMaterial({ color: 0x3352ff, size: 0.05, sizeAttenuation: true })));
+  globe.add(new THREE.Points(dotsGeo, new THREE.PointsMaterial({ color: 0x1a75ff, size: 0.05, sizeAttenuation: true })));
 
   const pins = places.map((pl) => {
     const at = toVec(THREE, pl.lat, pl.lon, R);
-    const pin = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 16), glossy(pl.color || 0x0029ff, { emissive: pl.color || 0x0029ff, emissiveIntensity: 0.4 }));
+    const pin = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 16), glossy(pl.color || 0x0066ff, { emissive: pl.color || 0x0066ff, emissiveIntensity: 0.4 }));
     pin.position.copy(at);
     globe.add(pin);
     return { at, tag: label(tags, 'is-on', pl.name) };
@@ -66,7 +66,7 @@ export function mount({ host, tags, gsap, reduced, places }) {
       const a = toVec(THREE, places[i].lat, places[i].lon, R), b = toVec(THREE, places[j].lat, places[j].lon, R);
       const mid = a.clone().add(b).normalize().multiplyScalar(R * 1.45);
       const curve = new THREE.QuadraticBezierCurve3(a, mid, b);
-      const arc = new THREE.Mesh(new THREE.TubeGeometry(curve, 64, 0.018, 6, false), new THREE.MeshBasicMaterial({ color: 0x0a0b10 }));
+      const arc = new THREE.Mesh(new THREE.TubeGeometry(curve, 64, 0.018, 6, false), new THREE.MeshBasicMaterial({ color: 0x0a0a0a }));
       globe.add(arc);
       arcs.push(arc);
     }

@@ -23,7 +23,7 @@
   padding: 0 !important; /* the site pads every section on phones */
   background: var(--hx-bg);
   color: var(--hx-ink);
-  font-family: Inter, Inter Fallback, system-ui, sans-serif;
+  font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif;
   overflow: clip;
 }
 /* --hx-tail (hero.js): how far the phone runs below the screen when it's
@@ -59,14 +59,14 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   position: absolute;
   inset: -56px;
   border-radius: 50%;
-  border: 1px solid rgba(0, 41, 255, 0.1);
+  border: 1px solid rgba(0, 102, 255, 0.1);
 }
 .hx__arch-in {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: linear-gradient(180deg, #f1f4fb 50%, #f2f2ee 80%, #ebebe6 100%);
-  box-shadow: 0 30px 80px -40px rgba(0, 41, 255, 0.22);
+  background: linear-gradient(180deg, #f1f4fb 50%, #eef1f5 80%, #e5e7eb 100%);
+  box-shadow: 0 30px 80px -40px rgba(0, 102, 255, 0.22);
   overflow: hidden;
 }
 .hx__arch-in::after {
@@ -94,7 +94,7 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   padding: 5px 16px 5px 5px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06), 0 6px 18px -10px rgba(20, 30, 70, 0.25);
+  box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.06), 0 6px 18px -10px rgba(20, 30, 70, 0.25);
   font-size: 13.5px;
   color: var(--hx-muted);
 }
@@ -115,7 +115,7 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   font-size: clamp(40px, 6.4vw, 86px);
   font-weight: 600;
   line-height: 1.02;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.028em;
   color: var(--hx-ink);
   perspective: 1000px;
 }
@@ -127,18 +127,18 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   font-size: clamp(120px, 14.5vw, 214px);
   font-weight: 700;
   line-height: 0.86;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.036em;
 }
 .hx__price small { font-size: 0.13em; font-weight: 500; letter-spacing: -0.01em; color: var(--hx-muted); margin-right: 0.3em; vertical-align: 0.2em; }
 .hx__price sup { font-size: 0.44em; font-weight: 600; letter-spacing: -0.02em; vertical-align: 0.82em; margin-right: 0.02em; }
 .hx__title .hx__price em { font-size: 0.34em; letter-spacing: -0.01em; margin-left: 0.08em; padding-right: 0; }
 .hx__price + .hx__line { font-size: 0.62em; }
 .hx__title em {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 1.1em;
-  letter-spacing: -0.015em;
+  font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif;
+  font-style: normal;
+  font-weight: inherit;
+  font-size: 1em;
+  letter-spacing: inherit;
   color: var(--hx-blue);
   padding-right: 0.04em;
 }
@@ -170,7 +170,7 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   background: linear-gradient(145deg, #2b2c33, #0b0b0f 40%, #17181d);
   box-shadow:
     inset 0 0 0 1.5px rgba(255, 255, 255, 0.14),
-    0 0 0 1px rgba(10, 11, 16, 0.5),
+    0 0 0 1px rgba(10, 10, 10, 0.5),
     0 50px 90px -30px rgba(20, 30, 80, 0.45),
     0 22px 40px -20px rgba(20, 30, 80, 0.35);
   transform-origin: 50% 100%;
@@ -236,7 +236,7 @@ html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opac
   overflow: hidden;
   border-radius: 22px;
   background: #e4e2de;
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.05), 0 24px 44px -22px rgba(20, 30, 70, 0.35);
+  box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.05), 0 24px 44px -22px rgba(20, 30, 70, 0.35);
   opacity: 0;
   will-change: transform, opacity;
 }
@@ -285,8 +285,8 @@ html:not(.fx) .hx__phone { position: relative; left: auto; margin: 98px auto 0; 
 
 /* ---- Facts under the buttons ------------------------------------------------- */
 .hx__facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin: 22px 0 0; padding: 0; list-style: none; }
-.hx__facts li { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 500; color: #3F3F46; }
-.hx__facts svg { box-sizing: content-box; padding: 3.5px; border-radius: 50%; background: var(--hx-blue, #0029FF); color: #fff; }
+.hx__facts li { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 500; color: #1F2937; }
+.hx__facts svg { box-sizing: content-box; padding: 3.5px; border-radius: 50%; background: var(--hx-blue, #0066FF); color: #fff; }
 
 @media (max-width: 720px) {
   .hx__facts { gap: 6px 14px; margin-top: 18px; }

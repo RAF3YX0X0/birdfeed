@@ -84,7 +84,7 @@ function homeBuilder(html) {
 function seo(html) {
   html = html.replace(/(<link rel="canonical" href=")([^"]+)(")/, (m, a, u, b) => a + abs(u) + b);
   html = html.replace(/(<meta (?:property|name)="(?:og:url|og:image|twitter:image)" content=")([^"]+)(")/g, (m, a, u, b) => a + abs(u) + b);
-  if (!/name="theme-color"/.test(html)) html = html.replace('</title>', '</title><meta name="theme-color" content="#FCFCF9">');
+  if (!/name="theme-color"/.test(html)) html = html.replace('</title>', '</title><meta name="theme-color" content="#F5F7FA">');
   // Organization data: this site, not the original's (its email, office and
   // review profile aren't MadMarketing's).
   html = html.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/g, (m, a, json, b) => {

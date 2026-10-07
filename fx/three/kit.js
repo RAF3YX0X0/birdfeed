@@ -5,9 +5,9 @@ import { RoomEnvironment } from '../vendor/RoomEnvironment.js';
 export { THREE };
 
 export const COLORS = {
-  blue: 0x0029ff,
-  lilac: 0x7088ff,
-  coral: 0x0029ff,
+  blue: 0x0066ff,
+  lilac: 0x4d94ff,
+  coral: 0x0066ff,
   pearl: 0xf6f5f2,
   ink: 0x16181f,
 };
@@ -49,7 +49,7 @@ export function createRenderer({ alpha = true, maxDpr = 2 } = {}) {
   const renderer = new THREE.WebGLRenderer({ alpha, antialias: !soft, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, soft ? 1 : maxDpr));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  // Neutral tone mapping keeps the brand blue close to #0029FF.
+  // Neutral tone mapping keeps the brand blue close to #0066FF.
   renderer.toneMapping = THREE.NeutralToneMapping;
   renderer.toneMappingExposure = 1.0;
   renderer.setClearColor(0x000000, 0);

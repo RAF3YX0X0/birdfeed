@@ -38,15 +38,15 @@ export function mountFunnelSVG({ host, tagsHost, stages, reduced = false }) {
         <stop offset="0" stop-color="#CFCFC9"/><stop offset=".32" stop-color="#F8F8F4"/><stop offset=".62" stop-color="#E9E9E4"/><stop offset="1" stop-color="#C8C8C2"/>
       </linearGradient>
       <linearGradient id="${id}b" x1="0" x2="1">
-        <stop offset="0" stop-color="#0018B8"/><stop offset=".32" stop-color="#3352FF"/><stop offset=".62" stop-color="#0029FF"/><stop offset="1" stop-color="#0015A0"/>
+        <stop offset="0" stop-color="#0018B8"/><stop offset=".32" stop-color="#1A75FF"/><stop offset=".62" stop-color="#0066FF"/><stop offset="1" stop-color="#0015A0"/>
       </linearGradient>
       <linearGradient id="${id}l" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#F0F0EC"/>
+        <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EEF1F5"/>
       </linearGradient>
       <linearGradient id="${id}lb" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="#7C92FF"/><stop offset="1" stop-color="#4F68FF"/>
       </linearGradient>
-      <radialGradient id="${id}sh"><stop offset="0" stop-color="#0A0B10" stop-opacity=".22"/><stop offset="1" stop-color="#0A0B10" stop-opacity="0"/></radialGradient>
+      <radialGradient id="${id}sh"><stop offset="0" stop-color="#0A0A0A" stop-opacity=".22"/><stop offset="1" stop-color="#0A0A0A" stop-opacity="0"/></radialGradient>
     </defs>
     <ellipse class="fx-fn__shadow" cx="${CX}" cy="${BOTTOM + 34}" rx="${R_BOTTOM * 2.6}" ry="${R_BOTTOM * 0.5}" fill="url(#${id}sh)"/>
     <g class="fx-fn__body">

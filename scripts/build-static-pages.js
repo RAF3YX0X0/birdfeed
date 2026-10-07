@@ -21,7 +21,7 @@ const page = ({ slug, title, description, body }) => `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title} | MadMarketing</title>
 <meta name="description" content="${description}">
-<meta name="theme-color" content="#FCFCF9">
+<meta name="theme-color" content="#F5F7FA">
 <link rel="canonical" href="${SITE}/${slug}/">
 <meta property="og:title" content="${title} | MadMarketing">
 <meta property="og:description" content="${description}">
@@ -29,43 +29,40 @@ const page = ({ slug, title, description, body }) => `<!doctype html>
 <link rel="icon" type="image/svg+xml" href="/assets/madmarketing-mark.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/madmarketing-icon-32.png">
 <link rel="apple-touch-icon" href="/assets/madmarketing-apple-touch.png">
-<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-wght-normal.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="/fonts/instrument-serif-latin-400-italic.woff2" crossorigin>
-<style>
-@font-face { font-family: Inter; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/inter-latin-wght-normal.woff2) format("woff2"); }
-@font-face { font-family: "Inter Fallback"; src: local("Arial"); ascent-override: 90.44%; descent-override: 22.52%; line-gap-override: 0%; size-adjust: 107.12%; }
-@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url(/fonts/instrument-serif-latin-400-italic.woff2) format("woff2"); }
-body { margin: 0; background: #FCFCF9; color: #0A0B10; font-family: Inter, "Inter Fallback", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+<link rel="preload" as="font" type="font/woff2" href="/fonts/satoshi-variable.woff2" crossorigin><style>
+@font-face { font-family: Satoshi; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/inter-latin-wght-normal.woff2) format("woff2"); }
+@font-face{font-family:Satoshi;font-style:normal;font-weight:300 900;font-display:swap;src:url(/fonts/satoshi-variable.woff2) format("woff2")}@font-face{font-family:"Satoshi Fallback";src:local("Arial");ascent-override:93.3%;descent-override:22.17%;line-gap-override:9.24%;size-adjust:108.25%}
+body { margin: 0; background: #F5F7FA; color: #0A0A0A; font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 .stp { padding: 150px 24px 40px; }
 .stp__in { max-width: 1080px; margin: 0 auto; }
-.stp__k { display: inline-flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #52525B; }
-.stp__k::before { content: ''; width: 32px; height: 1px; background: #0029FF; }
-.stp h1 { margin: 22px 0 0; max-width: 820px; font-size: clamp(42px, 6vw, 84px); font-weight: 600; line-height: 1.02; letter-spacing: -0.05em; text-wrap: balance; }
-.stp h1 em { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.1em; letter-spacing: -0.015em; color: #0029FF; }
-.stp__lede { max-width: 600px; margin: 22px 0 0; font-size: 18px; line-height: 1.6; color: #52525B; }
-.stp__meta { margin: 18px 0 0; font-size: 14px; color: #8A8B95; }
+.stp__k { display: inline-flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #4B5563; }
+.stp__k::before { content: ''; width: 32px; height: 1px; background: #0066FF; }
+.stp h1 { margin: 22px 0 0; max-width: 820px; font-size: clamp(42px, 6vw, 84px); font-weight: 600; line-height: 1.02; letter-spacing: -0.031em; text-wrap: balance; }
+.stp h1 em { font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif; font-style: normal; font-weight: inherit; font-size: 1em; letter-spacing: inherit; color: #0066FF; }
+.stp__lede { max-width: 600px; margin: 22px 0 0; font-size: 18px; line-height: 1.6; color: #4B5563; }
+.stp__meta { margin: 18px 0 0; font-size: 14px; color: #858C99; }
 .stb { padding: 30px 24px 120px; }
 .stb__in { max-width: 1080px; margin: 0 auto; }
 .st-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-.st-card { padding: 26px; border-radius: 26px; background: #fff; box-shadow: 0 0 0 1px #ECECE6, 0 24px 50px -40px rgba(20, 30, 70, 0.45); }
+.st-card { padding: 26px; border-radius: 26px; background: #fff; box-shadow: 0 0 0 1px #E5E7EB, 0 24px 50px -40px rgba(20, 30, 70, 0.45); }
 .st-card b { display: block; font-size: 19px; font-weight: 600; letter-spacing: -0.02em; }
-.st-card p { margin: 8px 0 0; font-size: 15px; line-height: 1.6; color: #52525B; }
-.st-h2 { margin: 0 0 22px; font-size: clamp(28px, 3.2vw, 40px); font-weight: 600; letter-spacing: -0.04em; }
-.st-h2 em { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-weight: 400; color: #0029FF; }
-.st-apply { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px; margin-top: 56px; padding: clamp(26px, 4vw, 44px); border-radius: 32px; background: radial-gradient(80% 140% at 100% 0%, rgba(0, 41, 255, 0.5), rgba(0, 41, 255, 0) 65%), #0A0B10; color: #fff; }
-.st-apply h2 { margin: 0; font-size: clamp(26px, 3vw, 38px); font-weight: 600; letter-spacing: -0.04em; }
+.st-card p { margin: 8px 0 0; font-size: 15px; line-height: 1.6; color: #4B5563; }
+.st-h2 { margin: 0 0 22px; font-size: clamp(28px, 3.2vw, 40px); font-weight: 600; letter-spacing: -0.026em; }
+.st-h2 em { font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif; font-style: normal; font-weight: inherit; color: #0066FF; }
+.st-apply { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px; margin-top: 56px; padding: clamp(26px, 4vw, 44px); border-radius: 32px; background: radial-gradient(80% 140% at 100% 0%, rgba(0, 102, 255, 0.5), rgba(0, 102, 255, 0) 65%), #0A0A0A; color: #fff; }
+.st-apply h2 { margin: 0; font-size: clamp(26px, 3vw, 38px); font-weight: 600; letter-spacing: -0.026em; }
 .st-apply p { margin: 10px 0 0; max-width: 560px; font-size: 16px; line-height: 1.6; color: rgba(255, 255, 255, 0.72); }
-.st-btn { display: inline-flex; align-items: center; gap: 8px; height: 52px; padding: 0 24px; border-radius: 999px; background: #0029FF; color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; white-space: nowrap; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 14px 30px -12px rgba(0, 41, 255, 0.9); }
-.st-btn:hover { background: #0021D6; }
+.st-btn { display: inline-flex; align-items: center; gap: 8px; height: 52px; padding: 0 24px; border-radius: 999px; background: #0066FF; color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; white-space: nowrap; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 14px 30px -12px rgba(0, 102, 255, 0.9); }
+.st-btn:hover { background: #0052CC; }
 .st-doc > * { max-width: 760px; }
-.st-doc h2 { margin: 44px 0 0; font-size: 24px; font-weight: 600; letter-spacing: -0.03em; }
-.st-doc p, .st-doc li { font-size: 16.5px; line-height: 1.7; color: #3F3F46; }
+.st-doc h2 { margin: 44px 0 0; font-size: 24px; font-weight: 600; letter-spacing: -0.021em; }
+.st-doc p, .st-doc li { font-size: 16.5px; line-height: 1.7; color: #1F2937; }
 .st-doc ul { padding-left: 20px; }
-.st-doc code { padding: 2px 7px; border-radius: 6px; background: #F1F1ED; font-size: 14px; }
-.st-doc a { color: #0029FF; }
+.st-doc code { padding: 2px 7px; border-radius: 6px; background: #EEF1F5; font-size: 14px; }
+.st-doc a { color: #0066FF; }
 .st-table { width: 100%; margin-top: 16px; border-collapse: collapse; font-size: 15px; }
-.st-table th, .st-table td { padding: 12px 14px; border-bottom: 1px solid #ECECE6; text-align: left; vertical-align: top; color: #3F3F46; }
-.st-table th { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8B95; }
+.st-table th, .st-table td { padding: 12px 14px; border-bottom: 1px solid #E5E7EB; text-align: left; vertical-align: top; color: #1F2937; }
+.st-table th { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #858C99; }
 @media (max-width: 760px) {
   .stp { padding: 120px 20px 24px; }
   .stb { padding: 20px 20px 90px; }

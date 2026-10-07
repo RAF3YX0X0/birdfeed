@@ -20,7 +20,7 @@ export function startCal() {
       url.searchParams.set('embed_domain', location.host);
       url.searchParams.set('embed_type', 'Inline');
       url.searchParams.set('hide_gdpr_banner', '1');
-      url.searchParams.set('primary_color', '0029ff');
+      url.searchParams.set('primary_color', '0066ff');
       const frame = document.createElement('iframe');
       frame.src = url.href;
       frame.title = 'Book a call with MadMarketing';

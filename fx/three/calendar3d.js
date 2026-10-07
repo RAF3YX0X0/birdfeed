@@ -30,11 +30,11 @@ function numberTexture(n, muted) {
   const c = document.createElement('canvas');
   c.width = c.height = 128;
   const ctx = c.getContext('2d');
-  ctx.fillStyle = muted ? '#efeeeb' : '#fefefc';
+  ctx.fillStyle = muted ? '#efeeeb' : '#fdfdfe';
   ctx.fillRect(0, 0, 128, 128);
   if (n) {
-    ctx.fillStyle = muted ? '#b9b9c0' : '#52525b';
-    ctx.font = '600 34px Inter, Inter Fallback, system-ui, sans-serif';
+    ctx.fillStyle = muted ? '#b9b9c0' : '#4b5563';
+    ctx.font = '600 34px Satoshi, Satoshi Fallback, system-ui, sans-serif';
     ctx.fillText(String(n), 14, 44);
   }
   const tex = new THREE.CanvasTexture(c);
@@ -47,8 +47,8 @@ function headerTexture() {
   c.width = 1024;
   c.height = 64;
   const ctx = c.getContext('2d');
-  ctx.fillStyle = '#8a8b95';
-  ctx.font = '500 30px Inter, Inter Fallback, system-ui, sans-serif';
+  ctx.fillStyle = '#858c99';
+  ctx.font = '500 30px Satoshi, Satoshi Fallback, system-ui, sans-serif';
   ctx.textAlign = 'center';
   'MON TUE WED THU FRI SAT SUN'.split(' ').forEach((d, i) => ctx.fillText(d, (i + 0.5) * (1024 / 7), 44));
   const tex = new THREE.CanvasTexture(c);

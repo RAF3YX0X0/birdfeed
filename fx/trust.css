@@ -10,9 +10,9 @@
 .tr {
   position: relative;
   padding: 56px 24px 72px !important;
-  background: var(--hx-bg, #FCFCF9);
+  background: var(--hx-bg, #F5F7FA);
   color: #fff;
-  font-family: Inter, Inter Fallback, system-ui, sans-serif;
+  font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif;
   overflow: clip;
   perspective: 1600px;
 }
@@ -22,21 +22,21 @@
   margin: 0 auto;
   padding: clamp(28px, 4vw, 52px) clamp(22px, 4vw, 52px) clamp(24px, 3vw, 36px);
   border-radius: 40px;
-  background: #0A0B10;
-  box-shadow: 0 60px 120px -60px rgba(10, 11, 16, 0.7);
+  background: #0A0A0A;
+  box-shadow: 0 60px 120px -60px rgba(10, 10, 10, 0.7);
   overflow: hidden;
   isolation: isolate;
   transform-origin: 50% 0%;
 }
 /* Blue light behind the score, and a fine grid fading out from it. */
-.tr__glow { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(60% 90% at 18% 0%, rgba(0, 41, 255, 0.55), rgba(0, 41, 255, 0) 60%), radial-gradient(40% 60% at 100% 100%, rgba(112, 136, 255, 0.18), rgba(112, 136, 255, 0) 70%); }
+.tr__glow { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(60% 90% at 18% 0%, rgba(0, 102, 255, 0.55), rgba(0, 102, 255, 0) 60%), radial-gradient(40% 60% at 100% 100%, rgba(77, 148, 255, 0.18), rgba(77, 148, 255, 0) 70%); }
 .tr__glow::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 56px 56px; -webkit-mask-image: radial-gradient(70% 80% at 20% 10%, #000, transparent 75%); mask-image: radial-gradient(70% 80% at 20% 10%, #000, transparent 75%); }
 
 /* Ruled caps labels, light on dark. */
 .tr__k { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 11.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
-.tr__k::before { content: ''; width: 28px; height: 1px; background: #7088FF; }
+.tr__k::before { content: ''; width: 28px; height: 1px; background: #4D94FF; }
 .tr__k--c { justify-content: center; }
-.tr__k--c::after { content: ''; width: 28px; height: 1px; background: #7088FF; }
+.tr__k--c::after { content: ''; width: 28px; height: 1px; background: #4D94FF; }
 
 .tr__top { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: end; }
 
@@ -45,8 +45,8 @@
 .tr-main__score { display: flex; align-items: baseline; margin-top: 18px; line-height: 0.85; }
 /* The tight tracking pulls the last digit past the box the gradient paints, so
    the box gets room on every side (given back with margins). */
-.tr-main__score b { padding: 0.06em 0.1em 0.08em 0.02em; margin: -0.06em -0.1em -0.08em -0.02em; font-size: clamp(110px, 14vw, 200px); font-weight: 700; letter-spacing: -0.065em; font-variant-numeric: tabular-nums; background: linear-gradient(180deg, #FFFFFF 30%, #8DA0FF 120%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.tr-main__score em { margin-left: 8px; font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: clamp(44px, 5vw, 76px); color: #7088FF; }
+.tr-main__score b { padding: 0.06em 0.1em 0.08em 0.02em; margin: -0.036em -0.1em -0.08em -0.02em; font-size: clamp(110px, 14vw, 200px); font-weight: 700; letter-spacing: -0.038em; font-variant-numeric: tabular-nums; background: linear-gradient(180deg, #FFFFFF 30%, #66A3FF 120%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tr-main__score em { margin-left: 8px; font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif; font-style: normal; font-weight: inherit; font-size: clamp(44px, 5vw, 76px); color: #4D94FF; }
 .tr-stars { position: relative; display: inline-flex; width: max-content; margin-top: 18px; }
 .tr-stars__base, .tr-stars__fill { display: flex; gap: 5px; }
 .tr-stars svg { flex: none; width: 26px; height: 26px; }
@@ -56,11 +56,11 @@
 .tr-main__foot { display: flex; align-items: center; gap: 12px; margin-top: 22px; font-size: 15px; color: rgba(255, 255, 255, 0.72); }
 .tr-main__foot b { color: #fff; font-weight: 600; }
 .tr-main__faces { display: flex; }
-.tr-main__faces img { width: 32px; height: 32px; margin-left: -9px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2.5px #0A0B10; }
+.tr-main__faces img { width: 32px; height: 32px; margin-left: -9px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2.5px #0A0A0A; }
 .tr-main__faces img:first-child { margin-left: 0; }
 .tr-main__foot i { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); font-style: normal; font-size: 13px; transition: background-color 0.25s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
-.tr-main:hover .tr-main__foot i { background: #0029FF; transform: rotate(45deg); }
-.tr-main:focus-visible, .tr-tile:focus-visible { outline: 2px solid #7088FF; outline-offset: 6px; border-radius: 20px; }
+.tr-main:hover .tr-main__foot i { background: #0066FF; transform: rotate(45deg); }
+.tr-main:focus-visible, .tr-tile:focus-visible { outline: 2px solid #4D94FF; outline-offset: 6px; border-radius: 20px; }
 
 /* ---- Review-site tiles --------------------------------------------------------------- */
 .tr-side { display: grid; gap: 10px; }
@@ -84,16 +84,16 @@
   transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .tr-tile.is-tilting { transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.12s linear; }
-.tr-tile:hover { background: rgba(255, 255, 255, 0.08); box-shadow: inset 0 0 0 1px rgba(112, 136, 255, 0.5); }
-.tr-tile__mark { grid-area: mark; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px; background: #fff; color: #0A0B10; font-size: 18px; font-weight: 800; }
+.tr-tile:hover { background: rgba(255, 255, 255, 0.08); box-shadow: inset 0 0 0 1px rgba(77, 148, 255, 0.5); }
+.tr-tile__mark { grid-area: mark; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px; background: #fff; color: #0A0A0A; font-size: 18px; font-weight: 800; }
 .tr-tile__name { grid-area: name; min-width: 0; }
 .tr-tile__name b { display: block; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
 .tr-tile__name small { display: block; margin-top: 2px; font-size: 13px; color: rgba(255, 255, 255, 0.55); }
 .tr-tile__score { grid-area: score; display: flex; align-items: baseline; }
-.tr-tile__score b { font-size: 40px; font-weight: 700; line-height: 1; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+.tr-tile__score b { font-size: 40px; font-weight: 700; line-height: 1; letter-spacing: -0.031em; font-variant-numeric: tabular-nums; }
 .tr-tile__score small { margin-left: 2px; font-size: 15px; color: rgba(255, 255, 255, 0.45); }
 .tr-tile__bar { grid-area: bar; display: block; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
-.tr-tile__bar i { display: block; height: 100%; width: calc(var(--fill, 1) * var(--v) * 100%); border-radius: inherit; background: linear-gradient(90deg, #0029FF, #8DA0FF); box-shadow: 0 0 12px rgba(112, 136, 255, 0.8); }
+.tr-tile__bar i { display: block; height: 100%; width: calc(var(--fill, 1) * var(--v) * 100%); border-radius: inherit; background: linear-gradient(90deg, #0066FF, #66A3FF); box-shadow: 0 0 12px rgba(77, 148, 255, 0.8); }
 
 /* ---- Where we publish: logos along a tilted band ----------------------------------------- */
 .tr__pubs { margin-top: clamp(32px, 4vw, 52px); padding-top: clamp(24px, 3vw, 32px); border-top: 1px solid rgba(255, 255, 255, 0.08); }

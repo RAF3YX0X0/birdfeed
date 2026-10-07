@@ -31,14 +31,14 @@ export function mount({ host, gsap, reduced, cards }) {
   const items = cards.map((c, i) => {
     const g = new THREE.Group();
     const tex = textTexture((x, w, h) => {
-      x.fillStyle = '#fefefc'; x.fillRect(0, 0, w, h);
+      x.fillStyle = '#fdfdfe'; x.fillRect(0, 0, w, h);
       x.scale(1.6, 1.6);
-      x.fillStyle = '#0029ff'; x.beginPath(); x.arc(70, 76, 34, 0, Math.PI * 2); x.fill();
-      x.fillStyle = '#fff'; x.font = '700 34px Inter, Inter Fallback, system-ui, sans-serif'; x.textAlign = 'center'; x.fillText(String(i + 1), 70, 88);
-      x.textAlign = 'left'; x.fillStyle = '#8a8b95'; x.font = '500 24px Inter, Inter Fallback, system-ui, sans-serif'; x.fillText(c.time.toUpperCase(), 124, 86);
-      x.fillStyle = '#0a0b10'; x.font = '600 46px Inter, Inter Fallback, system-ui, sans-serif';
+      x.fillStyle = '#0066ff'; x.beginPath(); x.arc(70, 76, 34, 0, Math.PI * 2); x.fill();
+      x.fillStyle = '#fff'; x.font = '700 34px Satoshi, Satoshi Fallback, system-ui, sans-serif'; x.textAlign = 'center'; x.fillText(String(i + 1), 70, 88);
+      x.textAlign = 'left'; x.fillStyle = '#858c99'; x.font = '500 24px Satoshi, Satoshi Fallback, system-ui, sans-serif'; x.fillText(c.time.toUpperCase(), 124, 86);
+      x.fillStyle = '#0a0a0a'; x.font = '600 46px Satoshi, Satoshi Fallback, system-ui, sans-serif';
       wrap(x, c.title, 40, 190, 640 - 80, 54);
-      x.fillStyle = '#52525b'; x.font = '400 30px Inter, Inter Fallback, system-ui, sans-serif';
+      x.fillStyle = '#4b5563'; x.font = '400 30px Satoshi, Satoshi Fallback, system-ui, sans-serif';
       wrap(x, c.text, 40, 330, 640 - 80, 40);
     }, 1024, 832);
     const face = new THREE.MeshBasicMaterial({ map: tex });

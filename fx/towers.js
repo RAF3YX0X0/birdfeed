@@ -3,12 +3,12 @@
 // already states on the homepage's "Every other way costs more" section.
 
 const OPTIONS = [
-  { name: 'Do it yourself', price: '$0', min: 0, max: 0, ghost: true, ghostHeight: 2600, catch: 'Costs your nights and weekends', color: '#8A8B95', color3d: '#A1A1AA' },
-  { name: 'AI tools', price: '$30–150', min: 30, max: 150, catch: 'Generic, off-brand content', color: '#7088FF', color3d: '#B8C4FF' },
-  { name: 'Freelancer', price: '$500–2,500', min: 500, max: 2500, catch: 'Flaky, single-skill', color: '#3352FF', color3d: '#7088FF' },
-  { name: 'Boutique agency', price: '$1,500–5,000', min: 1500, max: 5000, catch: 'Locked-in contracts', color: '#0029FF', color3d: '#3352FF' },
-  { name: 'In-house hire', price: '$4,500+', min: 4500, max: 6000, catch: 'Costly to hire and manage', color: '#0021D6', color3d: '#0029FF' },
-  { name: 'MadMarketing', price: 'from $99', min: 99, max: 99, brand: true, catch: 'A real team, no contracts', color: '#0A0B10', color3d: '#3A3B42' },
+  { name: 'Do it yourself', price: '$0', min: 0, max: 0, ghost: true, ghostHeight: 2600, catch: 'Costs your nights and weekends', color: '#858C99', color3d: '#A1A1AA' },
+  { name: 'AI tools', price: '$30–150', min: 30, max: 150, catch: 'Generic, off-brand content', color: '#4D94FF', color3d: '#99C2FF' },
+  { name: 'Freelancer', price: '$500–2,500', min: 500, max: 2500, catch: 'Flaky, single-skill', color: '#1A75FF', color3d: '#4D94FF' },
+  { name: 'Boutique agency', price: '$1,500–5,000', min: 1500, max: 5000, catch: 'Locked-in contracts', color: '#0066FF', color3d: '#1A75FF' },
+  { name: 'In-house hire', price: '$4,500+', min: 4500, max: 6000, catch: 'Costly to hire and manage', color: '#0052CC', color3d: '#0066FF' },
+  { name: 'MadMarketing', price: 'from $99', min: 99, max: 99, brand: true, catch: 'A real team, no contracts', color: '#0A0A0A', color3d: '#3A3B42' },
 ];
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));

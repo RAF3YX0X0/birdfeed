@@ -9,9 +9,9 @@
   position: relative;
   overflow: clip;
   padding: 0 0 72px !important;
-  background: var(--hx-bg, #FCFCF9);
-  color: #0A0B10;
-  font-family: Inter, Inter Fallback, system-ui, sans-serif;
+  background: var(--hx-bg, #F5F7FA);
+  color: #0A0A0A;
+  font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif;
 }
 .ph__arch {
   position: absolute;
@@ -21,8 +21,8 @@
   width: max(1500px, 128vw);
   aspect-ratio: 1;
   border-radius: 50%;
-  background: linear-gradient(180deg, #F2F2EE 0%, #E4E4DE 14%, #DCDCD5 34%, #D6D6CF 60%);
-  box-shadow: inset 0 40px 80px rgba(255, 255, 255, 0.75), 0 -30px 120px rgba(0, 41, 255, 0.12), 0 0 0 56px rgba(0, 41, 255, 0.04), 0 0 0 57px rgba(0, 41, 255, 0.1);
+  background: linear-gradient(180deg, #EEF1F5 0%, #E2E5EA 14%, #D8DCE3 34%, #D1D5DB 60%);
+  box-shadow: inset 0 40px 80px rgba(255, 255, 255, 0.75), 0 -30px 120px rgba(0, 102, 255, 0.12), 0 0 0 56px rgba(0, 102, 255, 0.04), 0 0 0 57px rgba(0, 102, 255, 0.1);
   transform: translateX(-50%);
   pointer-events: none;
 }
@@ -44,7 +44,7 @@
   right: 0;
   bottom: 0;
   height: 160px;
-  background: linear-gradient(180deg, rgba(252, 252, 249, 0), var(--hx-bg, #FCFCF9));
+  background: linear-gradient(180deg, rgba(245, 247, 250, 0), var(--hx-bg, #F5F7FA));
   pointer-events: none;
 }
 /* No visual: the arch is a soft curve under the copy. */
@@ -59,27 +59,27 @@
   padding: 132px 24px 0;
   text-align: center;
 }
-.ph__crumbs { display: flex; justify-content: center; gap: 8px; margin-bottom: 18px; font-size: 13px; color: #8A8B95; }
-.ph__crumbs a { color: #52525B; text-decoration: none; }
-.ph__crumbs a:hover { color: #0029FF; }
+.ph__crumbs { display: flex; justify-content: center; gap: 8px; margin-bottom: 18px; font-size: 13px; color: #858C99; }
+.ph__crumbs a { color: #4B5563; text-decoration: none; }
+.ph__crumbs a:hover { color: #0066FF; }
 .ph__title {
   margin: 20px 0 0;
   font-size: clamp(40px, 6vw, 80px);
   font-weight: 600;
   line-height: 1.02;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.028em;
   text-wrap: balance;
 }
 .ph__title em {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 1.1em;
-  letter-spacing: -0.015em;
-  color: #0029FF;
+  font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif;
+  font-style: normal;
+  font-weight: inherit;
+  font-size: 1em;
+  letter-spacing: inherit;
+  color: #0066FF;
   padding-right: 0.04em;
 }
-.ph__sub { max-width: 620px; margin: 22px auto 0; font-size: 17.5px; line-height: 1.55; color: #52525B; }
+.ph__sub { max-width: 620px; margin: 22px auto 0; font-size: 17.5px; line-height: 1.55; color: #4B5563; }
 .ph__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
 .ph__checks { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 24px auto 0; padding: 0; max-width: 760px; list-style: none; }
 .ph__checks li {
@@ -89,19 +89,19 @@
   padding: 7px 14px 7px 10px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 1px rgba(10, 11, 16, 0.06);
+  box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.06);
   font-size: 13.5px;
-  color: #26262C;
+  color: #1F2937;
 }
 .ph__checks li::before {
   content: '';
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #0029FF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5 9-10'/%3E%3C/svg%3E") center / 10px no-repeat;
+  background: #0066FF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5 9-10'/%3E%3C/svg%3E") center / 10px no-repeat;
 }
-.ph__trust { display: inline-flex; align-items: center; gap: 10px; margin: 26px 0 0; font-size: 13.5px; color: #52525B; }
-.ph__trust b { color: #0A0B10; font-weight: 600; }
+.ph__trust { display: inline-flex; align-items: center; gap: 10px; margin: 26px 0 0; font-size: 13.5px; color: #4B5563; }
+.ph__trust b { color: #0A0A0A; font-weight: 600; }
 
 /* The page's own visual, in a frame that rises into the arch (fx/ph.js). */
 .ph__stage { position: relative; z-index: 1; max-width: 760px; margin: 64px auto 0; padding: 0 24px; perspective: 1600px; }

@@ -164,7 +164,7 @@ const GLOBE = {
     places: [
       { name: 'Europe', lat: 50, lon: 10 },
       { name: 'United States', lat: 39, lon: -98 },
-      { name: 'Latin America', lat: -15, lon: -60, color: 0x0a0b10 },
+      { name: 'Latin America', lat: -15, lon: -60, color: 0x0a0a0a },
     ],
   },
 };

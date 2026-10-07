@@ -48,7 +48,7 @@ function extract(islandSel) {
     const c = h.cloneNode(true);
     c.querySelectorAll('span').forEach((sp) => {
       const st = sp.getAttribute('style') || '';
-      const accent = /serif|italic|color:\s*(#3B5BFF|#0029FF|rgb\(0,\s*41)/i.test(st) || sp.hasAttribute('data-fx-accent');
+      const accent = /serif|italic|color:\s*(#3B5BFF|#0066FF|rgb\(0,\s*41)/i.test(st) || sp.hasAttribute('data-fx-accent');
       if (accent) { const em = document.createElement('em'); em.textContent = sp.textContent; sp.replaceWith(em); } else sp.replaceWith(...sp.childNodes);
     });
     c.querySelectorAll('*:not(em):not(br)').forEach((x) => x.replaceWith(...x.childNodes));

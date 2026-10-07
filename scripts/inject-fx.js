@@ -164,7 +164,7 @@ function block(home, shared, hero, nx, ind) {
     ...(home || /class="prx"/.test(hero) ? ['builder.css'] : []),
     ...(ind && !shared ? ['bottom.css'] : []),
   ];
-  const font = '<link rel="preload" href="/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>';
+  const font = '<link rel="preload" as="font" type="font/woff2" href="/fonts/satoshi-variable.woff2" crossorigin>';
   if (manifest) {
     return [
       START,

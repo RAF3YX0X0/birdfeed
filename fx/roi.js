@@ -18,10 +18,10 @@ const PROFILES = [
 ];
 
 const BARS = [
-  { label: 'people reached', color: '#7088FF', color3d: '#B8C4FF' },
-  { label: 'engage', color: '#3352FF', color3d: '#7088FF' },
-  { label: 'visit your page', color: '#0029FF', color3d: '#3352FF' },
-  { label: 'new customers', color: '#0A0B10', color3d: '#3A3B42' },
+  { label: 'people reached', color: '#4D94FF', color3d: '#99C2FF' },
+  { label: 'engage', color: '#1A75FF', color3d: '#4D94FF' },
+  { label: 'visit your page', color: '#0066FF', color3d: '#1A75FF' },
+  { label: 'new customers', color: '#0A0A0A', color3d: '#3A3B42' },
 ];
 
 const money = (n) => '$' + Math.round(n).toLocaleString('en-US');
