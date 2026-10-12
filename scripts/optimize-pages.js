@@ -87,6 +87,32 @@ function homeBuilder(html) {
     .replace(/(<astro-island[^>]*component-export="FBHomeBottom"[^>]*client=")visible("[^>]*opts="{&quot;name&quot;:&quot;FBHomeBottom&quot;,&quot;value&quot;:)true(})/, '$1idle$2{&quot;timeout&quot;:4000}$3');
 }
 
+// The homepage's own SEO, from the client's copy (2026-10), and FAQ rich
+// results for its five questions (fx/partials/home-faq.json).
+const HOME_SEO = {
+  title: 'Digital Marketing & Local SEO Agency | MADMarketing',
+  description: 'Get found, earn trust, and grow with MADMarketing. Local SEO, Google Maps optimization, paid ads, AI search visibility, and digital growth strategies.',
+};
+function homeSeo(html, file) {
+  if (path.relative(ROOT, file) !== 'index.html') return html;
+  const attr = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+  html = html
+    .replace(/<title>[^<]*<\/title>/, `<title>${HOME_SEO.title.replace(/&/g, '&amp;')}</title>`)
+    .replace(/(<meta name="description" content=")[^"]*(")/, `$1${attr(HOME_SEO.description)}$2`)
+    .replace(/(<meta (?:property|name)="(?:og|twitter):title" content=")[^"]*(")/g, `$1${attr(HOME_SEO.title)}$2`)
+    .replace(/(<meta (?:property|name)="(?:og|twitter):description" content=")[^"]*(")/g, `$1${attr(HOME_SEO.description)}$2`);
+  const faqFile = path.join(ROOT, 'fx', 'partials', 'home-faq.json');
+  if (fs.existsSync(faqFile)) {
+    const qa = JSON.parse(fs.readFileSync(faqFile, 'utf8'));
+    const ld = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: qa.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
+    const tag = `<script type="application/ld+json" id="fx-faq-ld">${JSON.stringify(ld)}</script>`;
+    html = /<script type="application\/ld\+json" id="fx-faq-ld">/.test(html)
+      ? html.replace(/<script type="application\/ld\+json" id="fx-faq-ld">[\s\S]*?<\/script>/, tag)
+      : html.replace('</head>', tag + '</head>');
+  }
+  return html;
+}
+
 function seo(html) {
   html = html.replace(/(<link rel="canonical" href=")([^"]+)(")/, (m, a, u, b) => a + abs(u) + b);
   html = html.replace(/(<meta (?:property|name)="(?:og:url|og:image|twitter:image)" content=")([^"]+)(")/g, (m, a, u, b) => a + abs(u) + b);
@@ -124,7 +150,7 @@ for (const f of pages(ROOT)) {
   let s = fs.readFileSync(f, 'utf8');
   const before = s;
   for (const re of TRACKERS) s = s.replace(re, () => { removed++; return ''; });
-  s = homeBuilder(bookingEmbed(seo(lazyImages(s))));
+  s = homeSeo(homeBuilder(bookingEmbed(seo(lazyImages(s)))), f);
   if (s !== before) fs.writeFileSync(f, s);
   const rel = path.relative(ROOT, path.dirname(f)).split(path.sep).join('/');
   if (!/name="robots" content="noindex/.test(s)) urls.push(rel ? `/${rel}/` : '/'); // (the login page isn't listed)

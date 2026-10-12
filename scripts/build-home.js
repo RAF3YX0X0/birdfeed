@@ -34,26 +34,44 @@ const byName = Object.fromEntries(DATA.services.map((s) => [s.name, s]));
 const startPrice = (s) => num(s.tiers ? s.tiers[0][1] : s.flat);
 
 // ---- What we do ------------------------------------------------------------------
+// The client's own words (homepage copy, 2026-10): six services, local SEO
+// first. Their dedicated pages (/services/local-seo/ and so on) don't exist
+// yet, so each links to the closest page the site has.
+const SERVICES = [
+  ['pin', 'Local SEO', 'Improve how your business appears across local searches, business listings, and Google Maps.', '/seo-services/'],
+  ['map', 'Google Maps SEO', 'Strengthen the accuracy, relevance, and completeness of your Google Business Profile.', '/seo-services/'],
+  ['search', 'Search Engine Optimization', 'Make your website easier to discover, understand, and use.', '/managed-seo/'],
+  ['sparkle', 'AI Search Visibility', 'Structure useful content so customers and AI-powered search experiences can understand your expertise.', '/seo-blog-posts/'],
+  ['target', 'Paid Advertising', 'Reach high-intent audiences with Google and Meta campaigns built around measurable outcomes.', '/google-ads-management/'],
+  ['cursor', 'Websites & Conversion', 'Turn visits into calls, inquiries, appointments, and sales.', '/landing-pages/'],
+];
+const GLYPH = {
+  pin: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  map: '<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+  target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+  cursor: '<path d="m4 4 7 17 2.5-7.5L21 11z"/>',
+};
+const glyph = (n, size) =>
+  GLYPH[n]
+    ? `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${GLYPH[n]}</svg>`
+    : icon(n, size);
+
 function services() {
-  const cards = DATA.cats.map((c, i) => {
-    const items = c.items.map((n) => byName[n]).filter(Boolean);
-    const from = Math.min(...items.map(startPrice));
-    const [label, line] = CATS[c.label] || [c.label, ''];
-    return `<article class="hm-cat${i === 0 ? ' is-lead' : ''}" data-ind-item>
-      <header class="hm-cat__head"><span class="hm-cat__icon">${icon(c.icon, 22)}</span><span class="hm-cat__from">from <b>$${from}</b>/mo</span></header>
-      <h3 class="hm-cat__title">${esc(label)}</h3>
+  const cards = SERVICES.map(([ic, name, line, href], i) => `<article class="hm-cat hm-cat--svc${i === 0 ? ' is-lead' : ''}" data-ind-item>
+      <header class="hm-cat__head"><span class="hm-cat__icon">${glyph(ic, 22)}</span>${i === 0 ? '<span class="hm-cat__from">Flagship</span>' : ''}</header>
+      <h3 class="hm-cat__title">${esc(name)}</h3>
       <p class="hm-cat__line">${esc(line)}</p>
-      <ul class="hm-cat__list">${items.map((s) => `<li><a href="${PAGES[s.name] || '/all-services/'}"><span class="hm-cat__ic">${icon(s.icon, 16)}</span><span class="hm-cat__name"><b>${esc(s.name)}</b><small>${esc(s.hl ? s.hl[1] : s.tag)}</small></span><em>$${startPrice(s).toLocaleString('en-US')}</em><i>${ARROW}</i></a></li>`).join('')}</ul>
-    </article>`;
-  }).join('\n');
+      <a class="hm-cat__more" href="${href}">Learn more ${ARROW}</a>
+    </article>`).join('\n');
   return `<section class="nx nx--light hm-svc" id="services" data-fx-skip>
   <div class="nx__in">
-    <header class="nx__head"><span class="nx__eyebrow">What we do</span><h2 class="nx__title">Pick only what <em>you need.</em></h2><p class="nx__lede">Twelve services, each priced on its own and run by people who do only that. Start with one, then add or drop services any month.</p></header>
-    <div class="hm-svc__grid">${cards}</div>
-    <div class="hm-svc__foot"><a class="hx-btn hx-btn--blue" href="#build">Build your plan</a><a class="hx-btn hx-btn--white" href="/all-services/">See all services</a></div>
+    <header class="nx__head"><span class="nx__eyebrow">What we do</span><h2 class="nx__title">Start where customers <em>are looking.</em></h2></header>
+    <div class="hm-svc__grid hm-svc__grid--six">${cards}</div>
+    <div class="hm-svc__foot"><a class="hx-btn hx-btn--blue" href="/all-services/">View All Digital Marketing Services</a><a class="hx-btn hx-btn--white" href="#build">Build your plan</a></div>
   </div>
 </section>`;
 }
 
 fs.writeFileSync(path.join(OUT, 'home-services.html'), services() + '\n');
-console.log(`home: ${DATA.services.length} services in ${DATA.cats.length} categories`);
+console.log(`home: what we do, ${SERVICES.length} services`);

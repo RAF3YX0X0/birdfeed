@@ -297,3 +297,29 @@ html:not(.fx) .hx__phone { position: relative; left: auto; margin: 98px auto 0; 
   .hx__facts { gap: 6px 14px; margin-top: 18px; }
   .hx__facts li { font-size: 13px; }
 }
+
+/* ---- The client's copy (2026-10): eyebrow, two-line headline ---------------- */
+.hx__badge.hx__kicker {
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #4B5563;
+}
+.hx__kicker::before, .hx__kicker::after { content: ''; flex: none; width: 34px; height: 1.5px; border-radius: 2px; background: linear-gradient(90deg, rgba(0, 102, 255, 0), #0066FF); }
+.hx__kicker::after { background: linear-gradient(90deg, #0066FF, rgba(0, 102, 255, 0)); }
+.hx__title { font-size: clamp(40px, 5.8vw, 80px); }
+.hx__title .hx__line { display: block; text-wrap: balance; }
+.hx__sub { max-width: 760px; margin-left: auto; margin-right: auto; }
+@media (max-height: 860px) and (min-width: 721px) { .hx__title { font-size: clamp(38px, 5vw, 66px); } }
+@media (max-width: 720px) {
+  .hx__badge.hx__kicker { font-size: 11px; letter-spacing: 0.16em; gap: 10px; }
+  .hx__kicker::before, .hx__kicker::after { width: 22px; }
+  .hx__title { font-size: clamp(34px, 9.6vw, 48px); }
+}

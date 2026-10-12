@@ -30,7 +30,7 @@ const BLOCKS = [
   // builder island), the risk taken away, why it costs less, the results,
   // questions, the call to action. (The sales funnel goes after "how it
   // works" and the 3D gallery before the reviews, both placed by fx.js.)
-  { name: 'hiw', home: true, island: 'FBHomeMain', files: ['home-trust.html', 'home-services.html', 'home-hiw.html', 'home-portfolio.html', 'home-pricing-head.html'] },
+  { name: 'hiw', home: true, island: 'FBHomeMain', files: ['home-statement.html', 'home-trust.html', 'home-services.html', 'home-method.html', 'home-hiw.html', 'home-portfolio.html', 'home-pricing-head.html'] },
   // The case studies sit between "The real cost" and the reviews.
   { name: 'bottom', home: true, island: 'FBHomeBottom', files: ['home-bottom.html'], insert: { file: 'home-projects.html', before: '<section class="rv"' }, edit: homeBottom },
   { name: 'shared', inner: true, at: 'main-end', files: [] },
@@ -42,7 +42,19 @@ const BLOCKS = [
 // The homepage's bottom sections, as the homepage words them: three case
 // studies (Instagram growth, e-commerce, SEO) and a closing call about all of
 // it, not only social media. Inner pages keep the shared versions.
+// The client's homepage copy (2026-10) replaces four of the shared sections on
+// the homepage only: the free trial (now the 30-day local SEO challenge), the
+// case studies (what we measure, without sample metrics, as the client asked),
+// the FAQ and the closing call. Inner pages keep the shared versions.
+const sectionOf = (body, cls) => {
+  const a = body.indexOf('<section class="' + cls + '"');
+  return a === -1 ? null : [a, body.indexOf('</section>', a) + '</section>'.length];
+};
 function homeBottom(body) {
+  for (const [cls, file] of [['gx', 'home-challenge.html'], ['pj', 'home-results.html'], ['fq', 'home-faq.html'], ['ct', 'home-cta.html']]) {
+    const at = sectionOf(body, cls);
+    if (at) body = body.slice(0, at[0]) + partial(file) + body.slice(at[1]);
+  }
   const keep = ['District Raleigh', 'An e-commerce brand', 'A growing website'];
   let i = 0;
   body = body.replace(/<article class="pj-card" style="--i:\d+;([\s\S]*?)<\/article>/g, (m, rest) => {

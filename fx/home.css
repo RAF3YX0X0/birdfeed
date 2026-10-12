@@ -44,3 +44,83 @@
   .hm-cat__list i { display: none; }
 }
 
+
+/* ---- What we do: the client's six services ----------------------------------- */
+.hm-svc__grid--six { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hm-cat--svc { min-height: 260px; }
+.hm-cat--svc .hm-cat__title { margin-top: 22px; }
+.hm-cat__more { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 22px; color: #0066FF; font-size: 14.5px; font-weight: 600; text-decoration: none; }
+.hm-cat__more svg { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+.hm-cat__more:hover svg { transform: translateX(4px); }
+.hm-cat.is-lead .hm-cat__more { color: #fff; }
+.hm-cat.is-lead .hm-cat__from { padding: 5px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); color: #fff; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+@media (max-width: 1100px) { .hm-svc__grid--six { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 860px) { .hm-svc__grid--six { grid-template-columns: minmax(0, 1fr); } .hm-cat--svc { min-height: 0; } }
+
+/* ---- "Marketing should move your business forward." ------------------------- */
+.ms { padding: clamp(110px, 13vw, 170px) 24px clamp(40px, 6vw, 80px); }
+.ms__in { max-width: 1000px; margin: 0 auto; text-align: center; }
+.ms__title { margin: 20px 0 0; font-size: clamp(34px, 4.8vw, 64px); font-weight: 600; line-height: 1.04; letter-spacing: -0.031em; text-wrap: balance; }
+.ms__title em { font-style: normal; color: #0066FF; }
+.ms__body { max-width: 780px; margin: 26px auto 0; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.55; color: #1F2937; }
+.ms__body .ms-w { opacity: var(--o, 1); transition: opacity 0.25s linear; }
+.ms__flow { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; max-width: 900px; margin: clamp(48px, 6vw, 72px) auto 0; padding: 0; list-style: none; --p: 1; }
+.ms__flow::before, .ms__flow::after { content: ''; position: absolute; top: 32px; left: 12.5%; right: 12.5%; height: 2px; border-radius: 2px; background: #E5E7EB; }
+.ms__flow::after { background: linear-gradient(90deg, #0066FF, #4D94FF); transform-origin: 0 50%; transform: scaleX(var(--p)); }
+.ms__flow li { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 14px; font-size: 15px; }
+.ms__node { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: #fff; color: #858C99; box-shadow: 0 0 0 1px #E5E7EB, 0 20px 40px -24px rgba(20, 30, 70, 0.4); transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.ms__node svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ms__flow li.is-on .ms__node { background: #0066FF; color: #fff; box-shadow: 0 0 0 6px rgba(0, 102, 255, 0.12), 0 20px 40px -16px rgba(0, 102, 255, 0.7); transform: translateY(-4px); }
+.ms__flow b { font-weight: 600; color: #0A0A0A; }
+@media (max-width: 720px) {
+  .ms { padding: 90px 16px 30px; }
+  .ms__flow { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+  .ms__flow::before, .ms__flow::after { display: none; }
+}
+
+/* ---- The MAD Method ------------------------------------------------------------ */
+.md { padding: clamp(60px, 8vw, 110px) 24px; --eb-c: rgba(255, 255, 255, 0.62); --eb-line: #4D94FF; }
+.md__in { position: relative; max-width: 1240px; margin: 0 auto; padding: clamp(40px, 5vw, 72px); overflow: hidden; border-radius: 40px; color: #fff; background: radial-gradient(70% 90% at 85% 0%, rgba(0, 102, 255, 0.45), rgba(0, 102, 255, 0) 65%), radial-gradient(50% 60% at 0% 100%, rgba(0, 102, 255, 0.18), rgba(0, 102, 255, 0) 70%), #0A0A0A; box-shadow: 0 50px 100px -60px rgba(10, 10, 10, 0.7); }
+.md__title { margin: 18px 0 0; font-size: clamp(34px, 4.6vw, 62px); font-weight: 600; line-height: 1.04; letter-spacing: -0.031em; }
+.md__title em { font-style: normal; color: #4D94FF; }
+.md__steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: clamp(36px, 5vw, 56px) 0 0; padding: 0; list-style: none; perspective: 1400px; }
+.md-step { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: clamp(300px, 30vw, 380px); padding: 28px; overflow: hidden; border-radius: 28px; background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02)); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1); transform-style: preserve-3d; transition: box-shadow 0.4s ease; }
+.md-step:hover { box-shadow: inset 0 0 0 1px rgba(77, 148, 255, 0.55), 0 30px 60px -30px rgba(0, 102, 255, 0.6); }
+.md-step__l { position: absolute; top: -0.12em; right: 0.06em; font-size: clamp(150px, 16vw, 230px); font-weight: 800; line-height: 1; letter-spacing: -0.04em; background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(77, 148, 255, 0.55) 55%, rgba(0, 102, 255, 0) 92%); -webkit-background-clip: text; background-clip: text; color: transparent; pointer-events: none; }
+.md-step__t { margin: 0; font-size: clamp(20px, 1.8vw, 24px); font-weight: 600; letter-spacing: -0.021em; }
+.md-step__k { color: #4D94FF; }
+.md-step p { margin: 10px 0 0; font-size: 15.5px; line-height: 1.6; color: rgba(255, 255, 255, 0.72); }
+.md__foot { margin: 30px 0 0; font-size: clamp(16px, 1.4vw, 19px); color: rgba(255, 255, 255, 0.66); }
+.md__foot b { color: #fff; font-weight: 600; }
+@media (max-width: 900px) {
+  .md__steps { grid-template-columns: minmax(0, 1fr); }
+  .md-step { min-height: 240px; }
+  .md__in { border-radius: 30px; }
+}
+@media (max-width: 720px) { .md { padding: 40px 12px; } .md__in { padding: 36px 22px; } }
+
+/* ---- "Built for real businesses, not vanity metrics." ----------------------- */
+.mx { padding: 0 24px clamp(90px, 10vw, 140px); }
+.mx__metrics { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; max-width: 1180px; margin: 0 auto; padding: 0; list-style: none; perspective: 1400px; }
+.mx-metric { display: flex; flex-direction: column; gap: 18px; padding: 22px; border-radius: 24px; background: #fff; box-shadow: 0 0 0 1px #E5E7EB, 0 24px 50px -40px rgba(20, 30, 70, 0.45); transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease; }
+.mx-metric:hover { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(0, 102, 255, 0.35), 0 30px 60px -36px rgba(0, 102, 255, 0.45); }
+.mx-metric__ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #EBF3FF; color: #0066FF; }
+.mx-metric__ic svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.mx-metric b { font-size: 16.5px; font-weight: 600; letter-spacing: -0.01em; }
+.mx__report { max-width: 1180px; margin: 14px auto 0; padding: clamp(24px, 3vw, 36px); border-radius: 30px; background: radial-gradient(60% 120% at 100% 0%, rgba(0, 102, 255, 0.4), rgba(0, 102, 255, 0) 60%), #0A0A0A; color: #fff; }
+.mx__report-k { margin: 0 0 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+.mx__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 0; padding: 0; list-style: none; }
+.mx__cols li { padding: 22px; border-radius: 20px; background: rgba(255, 255, 255, 0.05); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); }
+.mx__cols span { display: block; font-size: 13px; font-weight: 600; color: #4D94FF; }
+.mx__cols b { display: block; margin-top: 12px; font-size: 19px; font-weight: 600; letter-spacing: -0.015em; }
+.mx__cols p { margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: rgba(255, 255, 255, 0.7); }
+@media (max-width: 1000px) { .mx__metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 720px) {
+  .mx { padding: 0 16px 80px; }
+  .mx__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mx__cols { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---- The 30-day challenge (homepage version of the free-trial section) ----- */
+.gx__note { margin: 16px 0 0; font-size: 13px; line-height: 1.5; color: #6B7280; }
+.gx__ctas .hx-btn { height: auto; min-height: 50px; padding: 13px 26px; white-space: normal; text-align: center; line-height: 1.3; }
