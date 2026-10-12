@@ -1,12 +1,11 @@
 // The pages the homepage copy links to (client brief, 2026-10): four service
-// pages under /services/ and the free 30-day local SEO challenge with its
-// eligibility criteria and application form (/free-local-seo/). The client
+// pages under /services/. The client
 // hasn't written these pages yet: the copy follows the homepage's voice and
 // makes no claims about results, rankings or numbers. Replace it with theirs
 // when it arrives.
 //
 // Plain pages: inject-fx.js adds the navbar, footer and FX layer;
-// optimize-pages.js the SEO tags. The form posts to /api/free-local-seo.
+// optimize-pages.js the SEO tags.
 //
 //   node scripts/build-seo-pages.js   (then build-fx.js, optimize-pages.js)
 const fs = require('fs');
@@ -19,7 +18,6 @@ const EMAIL = 'hello@madmediamarketing.com';
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const ARROW = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const CHECK = '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const CROSS = '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>';
 const GLYPH = {
   pin: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
   map: '<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
@@ -317,141 +315,8 @@ const SERVICES = [
   },
 ];
 
-// ---- The free 30-day challenge, with eligibility and the application form ----
-const CHALLENGE_FAQ = [
-  ['How does the free trial work?', 'Eligible businesses receive a defined 30-day local SEO scope for no agency fee, followed by an optional proposal.'],
-  ['Is there a catch?', 'No credit card and no automatic subscription. At the end of the 30 days you get your results and a 90-day roadmap, and you decide whether to continue.'],
-  NO_GUARANTEE,
-  ['Why is eligibility limited?', 'Each challenge is real work from our team, so we take on a limited number at a time and focus on businesses where local SEO is a good fit.'],
-];
-
-const OPT = (v, l = v) => `<option value="${esc(v)}">${esc(l)}</option>`;
-const challengeBody = `<section class="sp-hero"><div class="sp-wrap sp-hero__grid">
-  <div>
-    <p class="sp-k">The MAD 30-Day Visibility Challenge</p>
-    <h1>Your first 30 days <em>are on us.</em></h1>
-    <p class="sp-lede">See what focused local SEO work looks like before you commit to a monthly plan. Eligible businesses receive a defined 30-day scope for no agency fee, followed by an optional proposal.</p>
-    <div class="sp-btns"><a class="sp-btn sp-btn--blue" href="#apply">Apply now ${ARROW}</a><a class="sp-btn sp-btn--white" href="#eligibility">Check eligibility</a></div>
-    <p class="sp-note">$0 agency fee for eligible businesses. No credit card. No automatic subscription.</p>
-  </div>
-  <aside class="sp-hero__card" aria-label="What's included">
-    <h3>What you receive</h3>
-    <ul class="sp-ticks">
-      <li><i>${CHECK}</i>A Google Business Profile audit and optimization</li>
-      <li><i>${CHECK}</i>Local competitor research</li>
-      <li><i>${CHECK}</i>Up to 10 citation submissions or corrections</li>
-      <li><i>${CHECK}</i>Baseline and follow-up visibility snapshots</li>
-      <li><i>${CHECK}</i>A 90-day roadmap</li>
-    </ul>
-  </aside>
-</div></section>
-<section class="sp-sec" id="eligibility"><div class="sp-wrap">
-  <div class="sp-head"><p class="sp-k">Eligibility</p><h2>Who the challenge <em>is for.</em></h2><p>We take on a limited number of challenges at a time, so we review every application against these criteria.</p></div>
-  <div class="sp-two">
-    <div class="sp-card"><b>You’re eligible if</b><ul class="sp-ticks">
-      <li><i>${CHECK}</i>You run a local or service-area business that serves customers in the United States</li>
-      <li><i>${CHECK}</i>You have a Google Business Profile, or are able to create and verify one</li>
-      <li><i>${CHECK}</i>You’re the owner, or are authorized to make marketing decisions for the business</li>
-      <li><i>${CHECK}</i>You can give us manager access to your profile and share basic business details</li>
-      <li><i>${CHECK}</i>Someone on your side can answer questions and approve changes during the 30 days</li>
-    </ul></div>
-    <div class="sp-card"><b>The challenge isn’t available for</b><ul class="sp-ticks sp-ticks--no">
-      <li><i>${CROSS}</i>Businesses that already completed a MADMarketing challenge (one per business or location)</li>
-      <li><i>${CROSS}</i>Current MADMarketing clients on a paid SEO plan</li>
-      <li><i>${CROSS}</i>Businesses without a real address or service area customers can be served from</li>
-      <li><i>${CROSS}</i>Categories Google restricts or doesn’t allow on Business Profiles</li>
-      <li><i>${CROSS}</i>Online-only businesses with no local customers</li>
-    </ul></div>
-  </div>
-  <p class="sp-note">Limited eligibility and capacity. Meeting the criteria doesn’t guarantee a place; we’ll let you know either way.</p>
-</div></section>
-<section class="sp-dark"><div class="sp-wrap">
-  <p class="sp-k">How it works</p>
-  <h2>From application to <em>roadmap.</em></h2>
-  <ol class="sp-steps" style="--n:4">
-    <li class="sp-step"><span class="sp-step__n" aria-hidden="true">1</span><b>Apply</b><p>Tell us about your business with the form below.</p></li>
-    <li class="sp-step"><span class="sp-step__n" aria-hidden="true">2</span><b>We review</b><p>We check eligibility and capacity, and reply by email.</p></li>
-    <li class="sp-step"><span class="sp-step__n" aria-hidden="true">3</span><b>30 days of work</b><p>Profile audit and optimization, competitor research and citations, with snapshots before and after.</p></li>
-    <li class="sp-step"><span class="sp-step__n" aria-hidden="true">4</span><b>Your roadmap</b><p>A 90-day plan and an optional proposal. Continuing is up to you.</p></li>
-  </ol>
-</div></section>
-<section class="sp-sec" id="apply"><div class="sp-wrap">
-  <div class="sp-head"><p class="sp-k">Apply</p><h2>Apply for the <em>30-Day Visibility Challenge.</em></h2><p>It takes about two minutes. We’ll only use your details to review your application and contact you about it.</p></div>
-  <form class="sp-form" id="challenge-form" novalidate>
-    <label class="sp-field"><span>Your name</span><input name="name" autocomplete="name" required maxlength="100"></label>
-    <label class="sp-field"><span>Email</span><input name="email" type="email" autocomplete="email" required maxlength="200"></label>
-    <label class="sp-field"><span>Phone <small>(optional)</small></span><input name="phone" type="tel" autocomplete="tel" maxlength="40"></label>
-    <label class="sp-field"><span>Your role</span><select name="role" required><option value="">Choose one</option>${['Owner', 'Manager', 'Marketing lead', 'Other'].map((v) => OPT(v)).join('')}</select></label>
-    <label class="sp-field"><span>Business name</span><input name="business" autocomplete="organization" required maxlength="150"></label>
-    <label class="sp-field"><span>Website <small>(optional)</small></span><input name="website" type="url" inputmode="url" placeholder="https://" maxlength="300"></label>
-    <label class="sp-field"><span>Industry</span><input name="industry" required maxlength="100" placeholder="e.g. Dental clinic, HVAC, restaurant"></label>
-    <label class="sp-field"><span>City and state</span><input name="location" required maxlength="150" placeholder="e.g. St. Louis, MO"></label>
-    <label class="sp-field"><span>How do customers reach you?</span><select name="businessType" required><option value="">Choose one</option>${['They visit our location', 'We travel to them (service area)', 'Both', 'Online only'].map((v) => OPT(v)).join('')}</select></label>
-    <label class="sp-field"><span>Google Business Profile</span><select name="gbp" required><option value="">Choose one</option>${['Yes, verified and I can manage it', 'Yes, but I don’t have access', 'No, not yet', 'Not sure'].map((v) => OPT(v)).join('')}</select></label>
-    <label class="sp-field"><span>Working with an SEO agency now?</span><select name="agency" required><option value="">Choose one</option>${['No', 'Yes', 'Yes, but ending soon'].map((v) => OPT(v)).join('')}</select></label>
-    <label class="sp-field"><span>Done a MADMarketing challenge before?</span><select name="before" required><option value="">Choose one</option>${['No', 'Yes'].map((v) => OPT(v)).join('')}</select></label>
-    <label class="sp-field sp-field--wide"><span>What would you like more of? <small>(optional)</small></span><textarea name="goals" maxlength="2000" placeholder="e.g. More calls from people nearby, more bookings for a new location…"></textarea></label>
-    <label class="sp-hp" aria-hidden="true">Leave this empty <input name="company_url" tabindex="-1" autocomplete="off"></label>
-    <label class="sp-check sp-field--wide"><input type="checkbox" name="authorized" value="yes" required> I’m the owner of this business, or authorized to make marketing decisions for it.</label>
-    <label class="sp-check sp-field--wide"><input type="checkbox" name="consent" value="yes" required> I agree that MADMarketing may contact me about this application. See the <a href="/privacy/">privacy policy</a>.</label>
-    <p class="sp-msg" role="status" hidden></p>
-    <div class="sp-form__foot">
-      <p class="sp-note" style="margin:0">Results vary; no rankings or lead volume guaranteed. Limited eligibility and capacity.</p>
-      <button class="sp-btn sp-btn--blue" type="submit">Submit application ${ARROW}</button>
-    </div>
-  </form>
-</div></section>
-<section class="sp-sec" style="padding-top:0"><div class="sp-wrap">
-  <div class="sp-head"><p class="sp-k">Questions</p><h2>Before you <em>apply.</em></h2></div>
-  <div class="sp-faq">${CHALLENGE_FAQ.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div>
-</div></section>
-${faqLd(CHALLENGE_FAQ)}
-<script>
-(function () {
-  var form = document.getElementById('challenge-form');
-  var msg = form.querySelector('.sp-msg');
-  var btn = form.querySelector('button[type=submit]');
-  function show(text, ok) { msg.hidden = false; msg.className = 'sp-msg ' + (ok ? 'sp-msg--ok' : 'sp-msg--err'); msg.textContent = text; }
-  function mailto(data) {
-    var lines = Object.keys(data).filter(function (k) { return k !== 'company_url'; }).map(function (k) { return k + ': ' + data[k]; });
-    location.href = 'mailto:${EMAIL}?subject=' + encodeURIComponent('30-Day Visibility Challenge application: ' + (data.business || '')) + '&body=' + encodeURIComponent(lines.join('\\n'));
-  }
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    if (!form.checkValidity()) { form.reportValidity(); show('Please fill in the required fields.', false); return; }
-    var data = {};
-    new FormData(form).forEach(function (v, k) { data[k] = String(v).trim(); });
-    if (data.company_url) return; // a bot filled the hidden field
-    btn.disabled = true;
-    fetch('/api/free-local-seo', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data) })
-      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, body: j }; }); })
-      .then(function (res) {
-        if (res.status === 200 && res.body.ok) { form.reset(); show('Thanks, your application is in. We’ll review it and reply by email.', true); return; }
-        if (res.body && res.body.error) { show(res.body.error, false); return; }
-        throw new Error('unavailable');
-      })
-      .catch(function () {
-        // The form service isn't set up: send it by email instead.
-        show('Opening your email app to send the application. If nothing happens, email ${EMAIL}.', true);
-        mailto(data);
-      })
-      .then(function () { btn.disabled = false; });
-  });
-})();
-</script>`;
-
-const out = [
-  ...SERVICES.map((s) => [s.slug, servicePage(s)]),
-  [
-    'free-local-seo',
-    page({
-      slug: 'free-local-seo',
-      title: 'Free Local SEO for 30 Days: The MAD Visibility Challenge | MADMarketing',
-      description: 'Apply for 30 days of local SEO with no agency fee: Google Business Profile optimization, competitor research, citations, visibility snapshots and a 90-day roadmap.',
-      body: challengeBody,
-    }),
-  ],
-];
+// The free 30-day challenge (/free-local-seo/) is the ads landing page: scripts/build-landing.js.
+const out = SERVICES.map((s) => [s.slug, servicePage(s)]);
 for (const [slug, html] of out) {
   fs.mkdirSync(path.join(ROOT, slug), { recursive: true });
   fs.writeFileSync(path.join(ROOT, slug, 'index.html'), html);

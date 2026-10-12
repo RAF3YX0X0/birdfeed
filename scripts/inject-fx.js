@@ -239,7 +239,11 @@ for (const file of pages(ROOT)) {
     const nx = home ? '' : sectionsFor(file);
     const ind = home ? null : industryFor(file);
     html = html.slice(0, i) + '\n' + block(home, !!shared, hero, !!nx, !!ind) + '\n' + html.slice(i);
+    // Ad landing pages (<html data-fx-landing>) bring their own slim nav and
+    // footer, so visitors stay on the offer.
+    const landing = /<html[^>]*\sdata-fx-landing/.test(html);
     for (const blk of BLOCKS) {
+      if (landing && (blk.name === 'nav' || blk.name === 'footer')) continue;
       if (blk.home && !home) continue;
       if (blk.inner && (home || !shared)) continue;
       if (blk.name === 'pagehero' && !hero) continue;

@@ -21,7 +21,8 @@
     sessionStorage.setItem('fx-seen', '1');
     sessionStorage.removeItem('fx-nav');
   } catch (e) {}
-  if (seen) return;
+  // Ad landing pages open straight away: no intro curtain.
+  if (seen || d.hasAttribute('data-fx-landing')) return;
   d.classList.add('fx-cover', 'fx-from-load');
   // Failsafe: never leave the page covered if fx.js fails to run.
   setTimeout(function () { d.classList.remove('fx-cover'); }, 4000);

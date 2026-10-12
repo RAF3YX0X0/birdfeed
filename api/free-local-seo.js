@@ -1,32 +1,38 @@
-// Applications for the MAD 30-Day Visibility Challenge (/free-local-seo/).
-// A Vercel serverless function: it checks the application and delivers it by
-// whichever channel is set up in the Vercel project's environment variables:
-//   RESEND_API_KEY   email it through Resend (resend.com) to APPLY_TO
-//                    (default hello@madmediamarketing.com) from APPLY_FROM
-//   FORM_WEBHOOK_URL POST it as JSON (Zapier, Make, a Google Sheet script…)
+// Applications for the MAD 30-Day Visibility Challenge (the ads landing page,
+// /free-local-seo/). A Vercel serverless function: it checks the
+// application, flags anything the qualification rules need a person to look
+// at, and delivers it through whatever is set up in the Vercel project's
+// environment variables:
+//   FORM_WEBHOOK_URL POST it as JSON to the CRM (or Zapier / Make / a Google
+//                    Sheet script), as a "New Application" with its flags
+//                    and ad attribution (UTM, gclid, fbclid);
+//   RESEND_API_KEY   email it to APPLY_TO (default hello@madmediamarketing.com)
+//                    and send the applicant the confirmation email, from
+//                    APPLY_FROM (an address on a domain verified in Resend).
 // With neither set it answers 503, and the page falls back to opening a
 // pre-filled email, so no application is lost.
 
 const TO = process.env.APPLY_TO || 'hello@madmediamarketing.com';
 const FROM = process.env.APPLY_FROM || 'MADMarketing <onboarding@resend.dev>';
 
+// name: [label, max length, required]
 const FIELDS = {
-  name: ['Name', 100, true],
-  email: ['Email', 200, true],
-  phone: ['Phone', 40, false],
-  role: ['Role', 60, true],
-  business: ['Business', 150, true],
-  website: ['Website', 300, false],
+  fullName: ['Full name', 100, true],
+  email: ['Business email', 200, true],
+  business: ['Business name', 150, true],
   industry: ['Industry', 100, true],
-  location: ['City and state', 150, true],
-  businessType: ['How customers reach them', 80, true],
-  gbp: ['Google Business Profile', 80, true],
-  agency: ['Working with an SEO agency', 40, true],
-  before: ['Done a challenge before', 10, true],
-  goals: ['Goals', 2000, false],
-  authorized: ['Authorized for the business', 5, true],
+  website: ['Website', 300, false],
+  gbpLink: ['Google Business Profile link', 500, false],
+  gbpVerified: ['Profile verified', 10, true],
+  phone: ['Phone', 40, true],
+  city: ['City', 100, true],
+  state: ['State', 100, true],
+  country: ['Country', 60, true],
+  challenge: ['Biggest local marketing challenge', 2000, false],
+  authorized: ['Owner or authorized decision-maker', 5, true],
   consent: ['Agreed to be contacted', 5, true],
 };
+const TRACKING = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid', 'referrer', 'page'];
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
@@ -51,56 +57,74 @@ function check(body) {
     out[key] = v;
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(out.email)) return { error: 'Please enter a valid email address.' };
+  if (!['Yes', 'No', 'Unsure'].includes(out.gbpVerified)) return { error: 'Please say whether your Google Business Profile is verified.' };
   if (out.authorized !== 'yes' || out.consent !== 'yes') return { error: 'Please confirm both checkboxes.' };
-  return { data: out };
+  const tracking = {};
+  for (const k of TRACKING) if (typeof body[k] === 'string' && body[k].trim()) tracking[k] = body[k].trim().slice(0, 300);
+  return { data: out, tracking };
 }
 
-// The criteria on the page that the answers can already rule out.
-function eligibility(d) {
+// The qualification rules the answers can already speak to. Nothing is
+// rejected automatically: these are notes for the person reviewing it.
+function flags(d) {
   const notes = [];
-  if (d.before === 'Yes') notes.push('Says they have done a challenge before (one per business).');
-  if (d.businessType === 'Online only') notes.push('Online-only business (no local customers).');
-  if (d.agency === 'Yes') notes.push('Currently working with an SEO agency.');
-  if (d.gbp === 'Yes, but I don’t have access') notes.push('Has a profile but no access yet.');
+  if (d.gbpVerified === 'No') notes.push('No verified Google Business Profile (required before trial activation).');
+  if (d.gbpVerified === 'Unsure') notes.push('Profile verification unknown: check before activation.');
+  if (!d.gbpLink) notes.push('No profile link given.');
+  if (d.country !== 'United States') notes.push(`Outside the US (${d.country}): confirm the market is supported.`);
+  if (!d.website) notes.push('No website (preferred, not required).');
   return notes;
 }
 
-async function deliver(d, notes) {
-  const rows = Object.entries(FIELDS).map(([k, [label]]) => [label, d[k] || '—']);
-  const text = ['New 30-Day Visibility Challenge application', '', ...rows.map(([l, v]) => `${l}: ${v}`), '', notes.length ? 'Check: ' + notes.join(' ') : 'No eligibility flags.'].join('\n');
-  const html = `<h2 style="font-family:Arial,sans-serif">New 30-Day Visibility Challenge application</h2>
-<table style="font-family:Arial,sans-serif;font-size:14px;border-collapse:collapse">${rows.map(([l, v]) => `<tr><td style="padding:6px 14px 6px 0;color:#6B7280;vertical-align:top">${esc(l)}</td><td style="padding:6px 0">${esc(v)}</td></tr>`).join('')}</table>
-<p style="font-family:Arial,sans-serif;font-size:14px">${notes.length ? '<b>Check:</b> ' + notes.map(esc).join(' ') : 'No eligibility flags.'}</p>`;
-  const sent = [];
-  if (process.env.RESEND_API_KEY) {
-    const r = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'content-type': 'application/json' },
-      body: JSON.stringify({ from: FROM, to: [TO], reply_to: d.email, subject: `Challenge application: ${d.business}`, text, html }),
-    });
-    if (!r.ok) throw new Error('email failed ' + r.status);
-    sent.push('email');
-  }
+const firstName = (n) => n.split(/\s+/)[0] || n;
+
+async function resend(payload) {
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!r.ok) throw new Error('email failed ' + r.status);
+}
+
+async function deliver(d, tracking, notes) {
   if (process.env.FORM_WEBHOOK_URL) {
     const r = await fetch(process.env.FORM_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ form: '30-day-visibility-challenge', submittedAt: new Date().toISOString(), ...d, eligibilityNotes: notes }),
+      body: JSON.stringify({ form: 'mad-30-day-visibility-challenge', status: 'New Application', submittedAt: new Date().toISOString(), ...d, ...tracking, qualificationNotes: notes }),
     });
     if (!r.ok) throw new Error('webhook failed ' + r.status);
-    sent.push('webhook');
   }
-  return sent;
+  if (process.env.RESEND_API_KEY) {
+    const rows = [...Object.entries(FIELDS).map(([k, [label]]) => [label, d[k] || '—']), ...Object.entries(tracking)];
+    const text = ['New MAD 30-Day Visibility Challenge application', '', ...rows.map(([l, v]) => `${l}: ${v}`), '', notes.length ? 'To check: ' + notes.join(' ') : 'No qualification flags.'].join('\n');
+    const html = `<h2 style="font-family:Arial,sans-serif">New 30-Day Visibility Challenge application</h2>
+<table style="font-family:Arial,sans-serif;font-size:14px;border-collapse:collapse">${rows.map(([l, v]) => `<tr><td style="padding:6px 14px 6px 0;color:#6B7280;vertical-align:top">${esc(l)}</td><td style="padding:6px 0">${esc(v)}</td></tr>`).join('')}</table>
+<p style="font-family:Arial,sans-serif;font-size:14px">${notes.length ? '<b>To check:</b> ' + notes.map(esc).join(' ') : 'No qualification flags.'}</p>`;
+    await resend({ from: FROM, to: [TO], reply_to: d.email, subject: `Challenge application: ${d.business}`, text, html });
+    // The applicant's confirmation (the client's template).
+    const hi = `Hi ${firstName(d.fullName)},`;
+    const body = 'Thanks for applying for the MAD 30-Day Visibility Challenge! Our team will review your business, Google presence and eligibility. If your business qualifies, we’ll contact you with next steps.';
+    await resend({
+      from: FROM,
+      to: [d.email],
+      reply_to: TO,
+      subject: 'We received your MAD Visibility Challenge application',
+      text: `${hi}\n\n${body}\n\nThink MAD. Grow Beyond Ordinary.\nThe MADMarketing Team\n${TO}`,
+      html: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#0A0A0A"><p>${esc(hi)}</p><p>${esc(body)}</p><p><b>Think MAD. Grow Beyond Ordinary.</b><br>The MADMarketing Team<br><a href="mailto:${TO}">${TO}</a></p></div>`,
+    }).catch((e) => console.error('confirmation not sent', e));
+  }
 }
 
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('Content-Type', 'application/json');
   if (req.method !== 'POST') {
     res.statusCode = 405;
     res.setHeader('Allow', 'POST');
     return res.end(JSON.stringify({ error: 'Use POST.' }));
   }
-  res.setHeader('Content-Type', 'application/json');
   const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
   if (limited(ip)) {
     res.statusCode = 429;
@@ -121,7 +145,7 @@ module.exports = async function handler(req, res) {
     return res.end(JSON.stringify({ unavailable: true }));
   }
   try {
-    await deliver(c.data, eligibility(c.data));
+    await deliver(c.data, c.tracking, flags(c.data));
     res.end(JSON.stringify({ ok: true }));
   } catch (e) {
     console.error(e);
@@ -130,4 +154,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._test = { check, eligibility };
+module.exports._test = { check, flags };
