@@ -56,7 +56,7 @@ const NUMBERS = [
   ['Businesses served since 2016', 'Businesses served across the US'],
   ['businesses served since 2016', 'businesses served across the US'],
   ['Since 2016 · 20,000+ businesses', 'Open 24/7 · 100+ businesses'],
-  ['200+ vetted creatives. Since 2016.', '200+ vetted creatives. Open 24/7.'],
+  ['200+ vetted creatives. Since 2016.', 'Vetted creatives. Open 24/7.'],
   ['Served since 2016, from local shops to growing brands.', 'Across the US, from local shops to growing brands.'],
   ['{title:"2016: founded",text:"Started to make professional marketing affordable for small businesses."}', '{title:"St. Louis, Missouri",text:"Headquartered in St. Louis, serving businesses across the US."}'],
   ["{ title: '2016: founded', text: 'Started to make professional marketing affordable for small businesses.' }", "{ title: 'St. Louis, Missouri', text: 'Headquartered in St. Louis, serving businesses across the US.' }"],
@@ -71,6 +71,56 @@ const NUMBERS = [
   [' since 2016', ''],
   // No company type or EU presence given: the client is in St. Louis.
   ['© 2026 MadMarketing, Inc. · US + EU', '© 2026 MadMarketing · St. Louis, MO'],
+];
+
+// The cloned original's own proof, which isn't ours: its team size ("200+
+// creatives", "fewer than 0.1% of applicants"), its rating ("4.6/5 from
+// 800+ reviews") and its Scottsdale head office. Sentences lose the claim;
+// stat blocks show a real figure instead: our biggest client's Google
+// rating (The Gentry House, 5.0 from 201 reviews) or the number of client
+// case studies (scripts/work-data.js). The compare page's facts about other
+// companies (one is based in Scottsdale) are left alone.
+const PROOF = [
+  ["MadMarketing is headquartered in Scottsdale, Arizona and runs fully remote, with 200+ team members worldwide across the Americas, Europe, and Asia. Everyone works exclusively for MadMarketing; we don't subcontract, and every marketer and creative goes through a rigorous vetting process. We accept fewer than 0.1% of applicants.",
+    'MadMarketing is headquartered in St. Louis, Missouri, and serves businesses across the US. Every marketer and creative on your account is vetted by our team.'],
+  ['We have 200+ marketers and creatives and accept fewer than 0.1% of applicants. ', ''],
+  ['200+ vetted creatives (under 0.1% of applicants) serving 100+ small businesses across the US.', 'vetted creatives serving 100+ small businesses across the US.'],
+  ['About MadMarketing: 200+ Creatives, 100+ Businesses', 'About MadMarketing: 100+ Businesses Served'],
+  ['200+ vetted marketers and creatives serving 100+ businesses across the US.', 'Vetted marketers and creatives serving 100+ businesses across the US.'],
+  ['The all-in-one marketing platform where 200+ expert creatives', 'The all-in-one marketing platform where expert creatives'],
+  ['dedicated team of 200+ real creatives', 'dedicated team of real creatives'],
+  ['dedicated team of 200+ human creatives', 'dedicated team of human creatives'],
+  ['A team of 200+ real creatives produces the work', 'A team of real creatives produces the work'],
+  ['a team of 200+ vetted marketers, designers, writers, and editors', 'a team of vetted marketers, designers, writers, and editors'],
+  ['200+ marketers, designers, and video editors', 'Marketers, designers, and video editors'],
+  ['15+ services, 200+ vetted specialists, one platform.', '15+ services and vetted specialists on one platform.'],
+  ['200+ real marketers &amp; designers', 'real marketers &amp; designers'],
+  ['200+ real marketers & designers', 'real marketers & designers'],
+  ['A 200+ person team on demand', 'A full team on demand'],
+  ['`200+ real creatives`', '`Real creatives`'],
+  ['>200+ real creatives<', '>Real creatives<'],
+  ['Rated 4.6/5 by 100+ businesses.', 'Trusted by 100+ businesses.'],
+  ['Rated 4.6/5 across 800+ reviews.', 'Real work for real clients.'],
+  ['Hand-picked, trained creatives in the EU, US and Latin America, in your time zone, fluent in your market, accountable for every post.', 'Hand-picked, trained creatives, fluent in your market, accountable for every post.'],
+  ['<dt>Real creatives on the team</dt><dd data-count="200" data-suffix="+">200+</dd>', '<dt>Client case studies</dt><dd data-count="10">10</dd>'],
+  ['<dt>Average rating, 800+ reviews</dt><dd>4.6/5</dd>', '<dt>Biggest client on Google</dt><dd>5.0★</dd>'],
+  ['4.6/5 avg rating', '5.0★ biggest client on Google'],
+  ['4.6 / 5', 'Open 24/7'],
+  ['200+ vetted creatives. Open 24/7.', 'Vetted creatives. Open 24/7.'],
+  ['200+ vetted creatives', 'Vetted creatives'],
+];
+// Stat blocks: a figure and its label are separate text in the markup and
+// separate strings in the bundles, so each is swapped whole, the same way in
+// both (a page's server markup has to match what its bundle renders).
+const TEAM = ['Real creatives on the team', 'Writers & SEO specialists', 'Marketers & specialists', 'vetted marketers & writers', 'Vetted in-house creatives', 'Vetted creatives', 'vetted marketers & creatives', 'Creatives fulfilling for you', 'real creatives, never AI slop'];
+const NODES = [
+  ['Avg rating · 800+ reviews', 'Biggest client on Google'],
+  ['· 800+ reviews', '· biggest client on Google'],
+  ['800+ reviews', 'biggest client on Google'],
+  ['avg rating', 'biggest client on Google'],
+  ['4.6/5', '5.0★'],
+  ['200+', '10'],
+  ...TEAM.map((t) => [t, 'Client case studies']),
 ];
 
 // Marketing pages only (see LEGAL below). Specific sentences first.
@@ -183,6 +233,20 @@ for (const file of files()) {
   });
   apply(CONTACT, false);
   apply(FORMS, false);
+  // Markup escapes what the bundles write plainly (& and ').
+  const markup = /\.(html|json)$/.test(rel);
+  const escHtml = (t) => t.replace(/&/g, '&amp;').replace(/'/g, '&#x27;');
+  apply(markup ? [...PROOF, ...PROOF.map(([a, b]) => [escHtml(a), escHtml(b)]).filter(([a], i) => a !== PROOF[i][0])] : PROOF, false);
+  // Legal pages keep their own trial wording, but their menu is the shared
+  // one, whose bundle already says "First month free".
+  for (const [a, b] of legal ? [...NODES, ['14-day guarantee', 'First month free']] : NODES) {
+    const re = markup ? new RegExp(`>(\\s*)${escHtml(a).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(\\s*)<`, 'g') : null;
+    const lit = markup ? null : new RegExp(`([\`"])(\\s*)${a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(\\s*)\\1`, 'g');
+    const n = (s.match(markup ? re : lit) || []).length;
+    if (!n) continue;
+    s = markup ? s.replace(re, `>$1${escHtml(b)}$2<`) : s.replace(lit, `$1$2${b}$3$1`);
+    counts.set('node: ' + a, (counts.get('node: ' + a) || 0) + n);
+  }
   apply(NUMBERS, false);
   if (!legal) apply(TRIAL, true);
   if (s !== src) { fs.writeFileSync(file, s); changed++; }

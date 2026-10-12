@@ -74,7 +74,8 @@ function cta(heading) {
       `<style>${hide.join('\n')}</style>`,
       pains.length ? B.pains(d, pains) : '',
       B.calendar(d),
-      B.work(posts, { title: `Made for <em>${B.esc(d.name)}.</em>`, lede: `Real posts our team has made for ${d.name}.` }),
+      // Our clients closest to this industry, named as what they are.
+      B.work(posts, { title: `Made for <em>${B.esc(d.work.label || d.name)}.</em>`, lede: `Real posts our team has made for ${d.work.label || d.name}.` }),
       B.platforms(d),
     ].join('\n');
     const bottom = [

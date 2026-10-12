@@ -346,3 +346,18 @@ html.fx-reduced .pj-chart__line, html:not(.fx) .pj-chart__line, html.hx-static .
 html.fx-reduced .pj-chart__area, html:not(.fx) .pj-chart__area, html.hx-static .pj-chart__area { opacity: 1; }
 html.fx-reduced .pj-bars__row i, html:not(.fx) .pj-bars__row i, html.hx-static .pj-bars__row i { clip-path: none; transition: none; }
 html.fx-reduced .pj-waffle i, html:not(.fx) .pj-waffle i, html.hx-static .pj-waffle i { transform: none; transition: none; }
+
+/* ---- The work itself: three pieces fanned out (scripts/build-work.js) ------------------- */
+.pj-board__src { margin: 16px 0 0; font-size: 11px; line-height: 1.4; color: #858C99; }
+.pj-shots { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.pj-shot { position: absolute; width: 38%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.06), 0 30px 60px -30px rgba(20, 30, 70, 0.55); opacity: 0; transition: opacity 0.6s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1); }
+.pj-shot--video { width: 32%; aspect-ratio: 9 / 16; background: #0A0A0A; }
+.pj-shots > :nth-child(1) { transform: translate(-40%, 6%) rotate(-4deg); }
+.pj-shots > :nth-child(2) { z-index: 2; transform: translateY(10%); }
+.pj-shots > :nth-child(3) { transform: translate(40%, 6%) rotate(4deg); }
+.pj-card.is-seen .pj-shot { opacity: 1; }
+.pj-card.is-seen .pj-shots > :nth-child(1) { transform: translate(-72%, 2%) rotate(-7deg); }
+.pj-card.is-seen .pj-shots > :nth-child(2) { transform: none; transition-delay: 0.1s; }
+.pj-card.is-seen .pj-shots > :nth-child(3) { transform: translate(72%, 2%) rotate(7deg); transition-delay: 0.2s; }
+@media (max-width: 900px) { .pj-shot { width: 34%; border-radius: 12px; } .pj-shot--video { width: 28%; } }
+@media (prefers-reduced-motion: reduce) { .pj-shot { opacity: 1; transition: none; } }

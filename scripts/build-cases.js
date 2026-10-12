@@ -16,8 +16,22 @@ const vm = require('vm');
 const ROOT = path.join(__dirname, '..');
 const BUNDLE_DIR = path.join(ROOT, '_astro');
 
-// ---- read the cases out of the bundle ------------------------------------------
+// ---- the cases: MADMarketing's real clients (scripts/work-data.js) ----------------
 function readCases() {
+  const { CLIENTS } = require('./work-data');
+  const meta = JSON.parse(fs.readFileSync(path.join(ROOT, 'work', 'media.json'), 'utf8'));
+  return CLIENTS.map((c) => ({
+    ...c,
+    media: c.media.map((m) => {
+      if (!meta[m.src]) throw new Error(`missing media ${m.src} (run scripts/build-work-media.py)`);
+      return m.kind === 'video' || m.kind === 'ugc' ? { ...m, poster: meta[m.src].poster } : m;
+    }),
+  }));
+}
+
+// (The cloned site's own case studies, read out of its bundle. Unused: they
+// were another agency's clients.)
+function readBundleCases() {
   for (const f of fs.readdirSync(BUNDLE_DIR).filter((n) => n.endsWith('.js'))) {
     const src = fs.readFileSync(path.join(BUNDLE_DIR, f), 'utf8');
     const start = src.indexOf('[{slug:`');
@@ -121,6 +135,6 @@ const html = `<style>${hide} { display: none !important; }</style>
 `;
 fs.writeFileSync(path.join(ROOT, 'fx', 'partials', 'heroes', 'case-studies.html'), html);
 
-const data = cases.map(({ slug, client, industry, headline, summary, services, timeline, team, metrics, quote, body }) => ({ slug, client, industry, headline, summary, services, timeline, team, metrics, quote, body }));
+const data = cases.map(({ slug, client, industry, location, site, headline, summary, services, timeline, team, metrics, quote, body, charts, media, links, sources }) => ({ slug, client, industry, location, site, headline, summary, services, timeline, team, metrics, quote: quote || null, body, charts, media: media.map(({ src, kind, poster, c }) => ({ src, kind, poster, c })), links, sources }));
 fs.writeFileSync(path.join(ROOT, 'fx', 'cases.json'), JSON.stringify(data));
 console.log(`${cases.length} case studies → fx/partials/heroes/case-studies.html, fx/cases.json`);

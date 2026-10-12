@@ -18,12 +18,12 @@ const DAYS = Array.from({ length: 30 }, (_, i) => {
   return { day: i + 1, type };
 });
 const IMAGES = [
-  '/assets/work/social-citrus.webp', '/img/ex/feat-thecups-koreanicecup.webp', '/assets/work/ugc-mic.webp',
-  '/assets/work/story-sunglasses.webp', '/img/ex/feat-manaia-surf-aerial.webp', '/assets/work/carousel-holiday.webp',
-  '/assets/work/video-plane.webp', '/img/ex/feat-lessbooze-mocktails.webp', '/assets/work/social-laundry.webp',
-  '/assets/work/ugc-handmade.webp', '/img/ex/feat-kingrilla-whatsinit.webp', '/assets/work/story-yoga.webp',
-  '/assets/work/carousel-caffeine.webp', '/img/ex/feat-millynnial-selfaware.webp', '/assets/work/ugc-sam.webp',
-  '/img/ex/feat-spinsudz-springcleaning.webp', '/assets/work/carousel-driving.webp', '/img/ex/feat-crenshaw-dreamapt.webp',
+  '/work/tiktak-moving/truck-vs-rickshaw.webp', '/work/tiktak-moving/nyc-moving-expert.webp', '/work/freshul/creator-mia.webp',
+  '/work/freshul/reel-five-reasons.webp', '/work/freshul/teaser-industry-change.webp', '/work/wezatech/aug-12.webp',
+  '/work/pink-salt/reel-benefits.webp', '/work/pink-salt/shot-pair.webp', '/work/tiktak-moving/small-moves-189.webp',
+  '/work/freshul/creator-areeba.webp', '/work/wezatech/aug-01.webp', '/work/tiktak-moving/reel-can-a-truck.webp',
+  '/work/wecreative/carousel-01.webp', '/work/wecreative/carousel-07.webp', '/work/freshul/creator-iqra.webp',
+  '/work/tiktak-moving/six-tips.webp', '/work/luxury-connection-tourism/social-01.webp', '/work/luxury-connection-tourism/brochure-mockup.webp',
 ];
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));

@@ -1,0 +1,640 @@
+{
+ "/work/freshul/teaser-industry-change.webp": {
+  "w": 1080,
+  "h": 1350,
+  "kb": 61
+ },
+ "/work/freshul/teaser-beauty-simplified.webp": {
+  "w": 1080,
+  "h": 1350,
+  "kb": 81
+ },
+ "/work/freshul/post-booking-problems.webp": {
+  "w": 1080,
+  "h": 1350,
+  "kb": 115
+ },
+ "/work/freshul/post-business-simplified.webp": {
+  "w": 1080,
+  "h": 1350,
+  "kb": 117
+ },
+ "/work/freshul/post-run-your-business.webp": {
+  "w": 1080,
+  "h": 1350,
+  "kb": 104
+ },
+ "/work/freshul/post-booking-task.webp": {
+  "w": 1080,
+  "h": 1350,
+  "kb": 46
+ },
+ "/work/freshul/post-better-beauty.webp": {
+  "w": 1080,
+  "h": 1350,
+  "kb": 40
+ },
+ "/work/freshul/banner-guess-whats-coming.webp": {
+  "w": 1600,
+  "h": 716,
+  "kb": 74
+ },
+ "/work/freshul/banner-coming-soon.webp": {
+  "w": 1600,
+  "h": 716,
+  "kb": 94
+ },
+ "/work/freshul/banner-beautiful-is-coming.webp": {
+  "w": 1600,
+  "h": 716,
+  "kb": 87
+ },
+ "/work/freshul/brochure-front.webp": {
+  "w": 682,
+  "h": 1350,
+  "kb": 69
+ },
+ "/work/freshul/brochure-back.webp": {
+  "w": 682,
+  "h": 1350,
+  "kb": 76
+ },
+ "/work/freshul/brand-guidelines.webp": {
+  "w": 1536,
+  "h": 1024,
+  "kb": 67
+ },
+ "/work/freshul/hiring-urgent.webp": {
+  "w": 954,
+  "h": 1350,
+  "kb": 109
+ },
+ "/work/freshul/polo-shirt.webp": {
+  "w": 1528,
+  "h": 1080,
+  "kb": 58
+ },
+ "/work/freshul/linkedin-cover.webp": {
+  "w": 1600,
+  "h": 400,
+  "kb": 9
+ },
+ "/work/freshul/ad-stop-scrolling.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 20.0,
+  "audio": true,
+  "poster": "/work/freshul/ad-stop-scrolling.webp",
+  "kb": 2026
+ },
+ "/work/freshul/creator-areeba.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 36.1,
+  "audio": true,
+  "poster": "/work/freshul/creator-areeba.webp",
+  "kb": 3526
+ },
+ "/work/freshul/creator-iqra.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 48.9,
+  "audio": true,
+  "poster": "/work/freshul/creator-iqra.webp",
+  "kb": 2510
+ },
+ "/work/freshul/creator-mia.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 40.8,
+  "audio": true,
+  "poster": "/work/freshul/creator-mia.webp",
+  "kb": 3220
+ },
+ "/work/freshul/reel-five-reasons.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 17.9,
+  "audio": true,
+  "poster": "/work/freshul/reel-five-reasons.webp",
+  "kb": 1163
+ },
+ "/work/freshul/reel-all-in-one-place.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 18.4,
+  "audio": false,
+  "poster": "/work/freshul/reel-all-in-one-place.webp",
+  "kb": 479
+ },
+ "/work/tiktak-moving/nyc-moving-expert.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 48
+ },
+ "/work/tiktak-moving/moving-in-manhattan.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 78
+ },
+ "/work/tiktak-moving/book-now.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 76
+ },
+ "/work/tiktak-moving/quiet-clean-ready.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 62
+ },
+ "/work/tiktak-moving/items-safely.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 87
+ },
+ "/work/tiktak-moving/quick-easy-eco.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 87
+ },
+ "/work/tiktak-moving/emotional-event.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 60
+ },
+ "/work/tiktak-moving/safe-fast-nyc.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 73
+ },
+ "/work/tiktak-moving/small-moves-189.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 80
+ },
+ "/work/tiktak-moving/truck-vs-rickshaw.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 83
+ },
+ "/work/tiktak-moving/short-on-time.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 112
+ },
+ "/work/tiktak-moving/small-medium-moves.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 38
+ },
+ "/work/tiktak-moving/six-tips.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 120
+ },
+ "/work/tiktak-moving/weekend-discount.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 41
+ },
+ "/work/tiktak-moving/customer-review.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 94
+ },
+ "/work/tiktak-moving/every-box.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 75
+ },
+ "/work/tiktak-moving/hassle-free.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 63
+ },
+ "/work/tiktak-moving/handled-with-care.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 101
+ },
+ "/work/tiktak-moving/made-easy.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 60
+ },
+ "/work/tiktak-moving/highlight-cover.webp": {
+  "w": 500,
+  "h": 500,
+  "kb": 47
+ },
+ "/work/tiktak-moving/highlight-moving.webp": {
+  "w": 500,
+  "h": 500,
+  "kb": 42
+ },
+ "/work/tiktak-moving/reel-wrap-it-right.mp4": {
+  "w": 540,
+  "h": 954,
+  "dur": 29.9,
+  "audio": true,
+  "poster": "/work/tiktak-moving/reel-wrap-it-right.webp",
+  "kb": 3598
+ },
+ "/work/tiktak-moving/reel-storage.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 50.2,
+  "audio": true,
+  "poster": "/work/tiktak-moving/reel-storage.webp",
+  "kb": 7906
+ },
+ "/work/tiktak-moving/reel-streets.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 43.2,
+  "audio": true,
+  "poster": "/work/tiktak-moving/reel-streets.webp",
+  "kb": 6266
+ },
+ "/work/tiktak-moving/reel-looking-to-move.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 24.1,
+  "audio": true,
+  "poster": "/work/tiktak-moving/reel-looking-to-move.webp",
+  "kb": 3838
+ },
+ "/work/tiktak-moving/reel-can-a-truck.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 12.0,
+  "audio": true,
+  "poster": "/work/tiktak-moving/reel-can-a-truck.webp",
+  "kb": 2481
+ },
+ "/work/tiktak-moving/reel-williamsburg.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 12.2,
+  "audio": true,
+  "poster": "/work/tiktak-moving/reel-williamsburg.webp",
+  "kb": 1470
+ },
+ "/work/wezatech/aug-01.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 48
+ },
+ "/work/wezatech/aug-02.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 51
+ },
+ "/work/wezatech/aug-03.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 44
+ },
+ "/work/wezatech/aug-04.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 43
+ },
+ "/work/wezatech/aug-05.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 60
+ },
+ "/work/wezatech/aug-06.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 39
+ },
+ "/work/wezatech/aug-07.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 59
+ },
+ "/work/wezatech/aug-08.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 45
+ },
+ "/work/wezatech/aug-09.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 42
+ },
+ "/work/wezatech/aug-10.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 41
+ },
+ "/work/wezatech/aug-11.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 55
+ },
+ "/work/wezatech/aug-12.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 48
+ },
+ "/work/wezatech/aug-13.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 72
+ },
+ "/work/wezatech/aug-14.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 74
+ },
+ "/work/wezatech/july-01.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 49
+ },
+ "/work/wezatech/july-02.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 45
+ },
+ "/work/wezatech/july-03.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 53
+ },
+ "/work/wezatech/july-04.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 57
+ },
+ "/work/wezatech/july-05.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 42
+ },
+ "/work/wezatech/july-06.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 96
+ },
+ "/work/wezatech/july-07.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 69
+ },
+ "/work/wezatech/july-08.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 68
+ },
+ "/work/wezatech/july-09.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 46
+ },
+ "/work/wezatech/july-10.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 52
+ },
+ "/work/wezatech/july-11.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 63
+ },
+ "/work/wezatech/july-12.webp": {
+  "w": 1000,
+  "h": 1000,
+  "kb": 60
+ },
+ "/work/wezatech/july-13.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 72
+ },
+ "/work/wezatech/july-14.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 86
+ },
+ "/work/wezatech/july-15.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 86
+ },
+ "/work/wezatech/calendar-cover.webp": {
+  "w": 1600,
+  "h": 900,
+  "kb": 47
+ },
+ "/work/wezatech/calendar-post-1.webp": {
+  "w": 1600,
+  "h": 900,
+  "kb": 84
+ },
+ "/work/wezatech/media-plan-cover.webp": {
+  "w": 1600,
+  "h": 900,
+  "kb": 104
+ },
+ "/work/luxury-connection-tourism/brochure-mockup.webp": {
+  "w": 1440,
+  "h": 1080,
+  "kb": 294
+ },
+ "/work/luxury-connection-tourism/brochure-outside.webp": {
+  "w": 1527,
+  "h": 1080,
+  "kb": 117
+ },
+ "/work/luxury-connection-tourism/brochure-inside.webp": {
+  "w": 1527,
+  "h": 1080,
+  "kb": 168
+ },
+ "/work/luxury-connection-tourism/grid-convenience-1.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 18
+ },
+ "/work/luxury-connection-tourism/grid-convenience-2.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 20
+ },
+ "/work/luxury-connection-tourism/grid-convenience-8.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 44
+ },
+ "/work/luxury-connection-tourism/grid-arrive.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 29
+ },
+ "/work/luxury-connection-tourism/social-01.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 91
+ },
+ "/work/luxury-connection-tourism/social-02.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 83
+ },
+ "/work/luxury-connection-tourism/social-03.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 111
+ },
+ "/work/luxury-connection-tourism/social-04.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 87
+ },
+ "/work/luxury-connection-tourism/social-07.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 72
+ },
+ "/work/pink-salt/cutout-jar-front.webp": {
+  "w": 911,
+  "h": 1350,
+  "kb": 89
+ },
+ "/work/pink-salt/cutout-two-jars.webp": {
+  "w": 1387,
+  "h": 1080,
+  "kb": 89
+ },
+ "/work/pink-salt/cutout-jar-tall.webp": {
+  "w": 674,
+  "h": 1350,
+  "kb": 89
+ },
+ "/work/pink-salt/shot-pair.webp": {
+  "w": 1600,
+  "h": 1067,
+  "kb": 50
+ },
+ "/work/pink-salt/shot-in-hand.webp": {
+  "w": 900,
+  "h": 1350,
+  "kb": 26
+ },
+ "/work/pink-salt/shot-studio.webp": {
+  "w": 900,
+  "h": 1350,
+  "kb": 94
+ },
+ "/work/pink-salt/shot-lightbox.webp": {
+  "w": 1012,
+  "h": 1350,
+  "kb": 171
+ },
+ "/work/pink-salt/shot-table.webp": {
+  "w": 1600,
+  "h": 1067,
+  "kb": 46
+ },
+ "/work/pink-salt/reel-benefits.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 22.0,
+  "audio": true,
+  "poster": "/work/pink-salt/reel-benefits.webp",
+  "kb": 575
+ },
+ "/work/wecreative/carousel-01.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 27
+ },
+ "/work/wecreative/carousel-02.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 33
+ },
+ "/work/wecreative/carousel-03.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 37
+ },
+ "/work/wecreative/carousel-04.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 33
+ },
+ "/work/wecreative/carousel-05.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 28
+ },
+ "/work/wecreative/carousel-06.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 35
+ },
+ "/work/wecreative/carousel-07.webp": {
+  "w": 1080,
+  "h": 1080,
+  "kb": 29
+ },
+ "/work/wecreative/team-gaming-activity.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 178.2,
+  "audio": true,
+  "poster": "/work/wecreative/team-gaming-activity.webp",
+  "kb": 9116
+ },
+ "/work/growzium/website-full.webp": {
+  "w": 1080,
+  "h": 5096,
+  "kb": 208
+ },
+ "/work/growzium/website-walkthrough.mp4": {
+  "w": 960,
+  "h": 540,
+  "dur": 33.4,
+  "audio": true,
+  "poster": "/work/growzium/website-walkthrough.webp",
+  "kb": 1496
+ },
+ "/work/the-gentry-house/soft-opening-hero.mp4": {
+  "w": 360,
+  "h": 640,
+  "dur": 20.4,
+  "audio": false,
+  "poster": "/work/the-gentry-house/soft-opening-reel.webp",
+  "kb": 642,
+  "derived": "soft-opening-reel.mp4, 360px, silent (homepage hero phone)"
+ },
+ "/work/the-gentry-house/soft-opening-reel.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 20.4,
+  "audio": true,
+  "poster": "/work/the-gentry-house/soft-opening-reel.webp",
+  "kb": 1927
+ },
+ "/work/freshul/ad-free-onboarding.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 25.3,
+  "audio": true,
+  "poster": "/work/freshul/ad-free-onboarding.webp",
+  "kb": 931
+ },
+ "/work/freshul/reel-partner-app.mp4": {
+  "w": 540,
+  "h": 960,
+  "dur": 31.3,
+  "audio": true,
+  "poster": "/work/freshul/reel-partner-app.webp",
+  "kb": 1342
+ }
+}

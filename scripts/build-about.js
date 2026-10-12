@@ -35,7 +35,7 @@ const I = {
 // ---- Hero: the statement, and the layers it's built on ---------------------------------------
 function hero() {
   const layers = [
-    ['people', 'Specialists', '200+ vetted creatives'],
+    ['people', 'Specialists', 'Vetted creatives'],
     ['book', 'Playbooks', 'Refined across 100+ accounts'],
     ['bolt', 'Technology', 'Tooling for the busywork'],
     ['star', 'Your brand', 'From $99/mo, month to month'],
@@ -48,7 +48,7 @@ function hero() {
       <h1 class="abx__title" id="abx-title"><span class="abx__line"><span>We made professional</span></span> <span class="abx__line"><span>marketing <em>affordable.</em></span></span></h1>
       <p class="abx__sub"><b>The industry hasn’t caught up.</b> Great marketing used to mean agency retainers or in-house teams. Most businesses couldn’t afford either. We built the infrastructure to change that.</p>
       <div class="abx__ctas"><a class="hx-btn hx-btn--blue" href="/book-demo/">Book a demo</a><a class="hx-btn hx-btn--white" href="/pricing/">See pricing</a></div>
-      <p class="abx__trust"><span class="abx__stars" aria-hidden="true">★★★★★</span>4.6/5 from 800+ reviews · 100+ businesses served</p>
+      <p class="abx__trust">100+ businesses served · 10 client case studies</p>
     </div>
     <div class="abx__stage" aria-hidden="true">
       <div class="abx-stack">${layers.map(([ic, name, line], i) => `
@@ -90,7 +90,7 @@ function alternatives() {
       <header class="nx__head"><span class="nx__eyebrow">The structural problem</span><h2 class="nx__title">Four alternatives. None of them <em>built to actually work.</em></h2><p class="nx__lede">The industry offered small businesses four options. Every one had a structural flaw that made sustainable marketing nearly impossible.</p></header>
       <div class="abx-deck">${cards.map(([k, big, unit, text, tag], i) => `
         <article class="abx-card" style="--i:${i}"><span class="abx-card__k">${esc(k)}</span><b class="abx-card__big">${esc(big)}</b><small class="abx-card__unit">${esc(unit)}</small><p>${esc(text)}</p><span class="abx-card__tag">${esc(tag)}</span></article>`).join('')}
-        <article class="abx-card abx-card--us"><span class="abx-card__k">MadMarketing</span><b class="abx-card__big">The infrastructure that <em>didn’t exist.</em></b><p>15+ services, 200+ vetted specialists, one platform. Pricing starts at $99/month and scales with your needs, no long-term contracts. Designed from the start for the businesses the industry had written off as too small to serve well.</p><span class="abx-card__chips"><i>15+ services</i><i>200+ specialists</i><i>From $99/mo</i><i>No long-term contracts</i></span></article>
+        <article class="abx-card abx-card--us"><span class="abx-card__k">MadMarketing</span><b class="abx-card__big">The infrastructure that <em>didn’t exist.</em></b><p>15+ services and vetted specialists on one platform. Pricing starts at $99/month and scales with your needs, no long-term contracts. Designed from the start for the businesses the industry had written off as too small to serve well.</p><span class="abx-card__chips"><i>15+ services</i><i>Vetted specialists</i><i>From $99/mo</i><i>No long-term contracts</i></span></article>
       </div>
     </div>
   </div>

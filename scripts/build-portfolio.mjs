@@ -2,6 +2,11 @@
 // site's own examples data, keeping only items whose media exists in this
 // build (the clone is missing some images and most videos).
 //   node scripts/build-portfolio.mjs
+
+// Superseded: the portfolio is now our clients' real work, built by
+// scripts/build-work.js. This one would bring the cloned examples back.
+console.error('scripts/build-portfolio.mjs is superseded by scripts/build-work.js');
+process.exit(1);
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';

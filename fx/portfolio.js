@@ -37,7 +37,7 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
 
   // ---- data -------------------------------------------------------------------
   function prepare(data) {
-    const posts = data.posts.map((p) => ({ kind: 'posts', img: p.img, r: p.r, ind: p.ind, sub: p.sub || '', c: p.c || '', f: !!p.f }));
+    const posts = data.posts.map((p) => ({ kind: 'posts', img: p.img, r: p.r, ind: p.ind, sub: p.sub || '', c: p.c || '', f: !!p.f, fmt: p.fmt || '' }));
     // Featured: the hand-picked ones, then the rest dealt out one industry at a time.
     const byInd = {};
     posts.filter((p) => !p.f).forEach((p) => (byInd[p.ind] = byInd[p.ind] || []).push(p));
@@ -55,8 +55,8 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
       thumbs,
       posts,
       featured: mixed,
-      videos: data.videos.map((v) => ({ kind: 'videos', src: v.src, poster: v.poster, ind: v.ind, sub: '', c: '', ad: !!v.ad })),
-      ugc: data.ugc.map((u) => ({ kind: 'ugc', src: u.src, poster: u.poster, ind: '', sub: '', c: '' })),
+      videos: data.videos.map((v) => ({ kind: 'videos', src: v.src, poster: v.poster, ind: v.ind, sub: v.sub || '', c: v.c || '', ad: !!v.ad })),
+      ugc: data.ugc.map((u) => ({ kind: 'ugc', src: u.src, poster: u.poster, ind: u.ind || '', sub: u.sub || '', c: u.c || '' })),
     };
   }
 
@@ -128,9 +128,9 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
 
   // ---- tiles ----------------------------------------------------------------------
   function tile(item, i) {
-    const title = item.kind === 'ugc' ? 'Creator video' : item.sub || item.ind;
-    const meta = item.kind === 'ugc' ? 'Filmed by a vetted creator' : item.sub ? item.ind : item.kind === 'posts' ? 'Feed post' : item.ad ? 'Video ad' : 'Video';
-    const badge = item.kind === 'posts' ? (item.r > 1.1 ? 'Post · 4:5' : 'Post · 1:1') : item.kind === 'videos' ? (item.ad ? 'Video ad' : 'Video') : 'UGC';
+    const title = item.sub || (item.kind === 'ugc' ? 'Creator video' : item.ind);
+    const meta = item.kind === 'ugc' ? 'Creator video' : item.sub ? item.ind : item.kind === 'posts' ? 'Feed post' : item.ad ? 'Video ad' : 'Video';
+    const badge = item.kind === 'posts' ? (item.fmt || (item.r > 1.1 ? 'Post · 4:5' : 'Post · 1:1')) : item.kind === 'videos' ? (item.ad ? 'Video ad' : 'Video') : 'UGC';
     const media = item.kind === 'posts'
       ? `<img src="${esc(item.img)}" alt="" loading="lazy" decoding="async">`
       : `<video muted loop playsinline preload="none" poster="${esc(item.poster)}"><source src="${esc(item.src)}" type="video/mp4"></video><span class="pf-card__play" aria-hidden="true">▶</span>`;
@@ -256,17 +256,17 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
   function fillQV() {
     const it = list[at];
     if (!it) return;
-    const title = it.kind === 'ugc' ? 'Creator video' : it.sub || it.ind;
+    const title = it.sub || (it.kind === 'ugc' ? 'Creator video' : it.ind);
     qvMedia.innerHTML = it.kind === 'posts'
-      ? `<img src="${esc(it.img)}" alt="${esc(title)} social post">`
+      ? `<img src="${esc(it.img)}" alt="${esc(it.c || title)}">`
       : `<video controls autoplay muted loop playsinline poster="${esc(it.poster)}"><source src="${esc(it.src)}" type="video/mp4"></video>`;
     qv.querySelector('.pf-qv__k').textContent = it.kind === 'ugc' ? 'UGC' : `${FORMAT_LABEL[it.kind]} · ${it.ind}`;
     qv.querySelector('.pf-qv__title').textContent = title;
     qv.querySelector('.pf-qv__cap').textContent = it.c;
-    const facts = [['Format', it.kind === 'posts' ? (it.r > 1.1 ? 'Feed post, 4:5' : 'Feed post, 1:1') : it.kind === 'videos' ? (it.ad ? 'Video ad, 9:16' : 'Video, 9:16') : 'Creator video, 9:16']];
+    const facts = [['Format', it.kind === 'posts' ? (it.fmt || (it.r > 1.1 ? 'Feed post, 4:5' : 'Feed post, 1:1')) : it.kind === 'videos' ? (it.ad ? 'Video ad' : 'Video') : 'Creator video']];
+    if (it.sub) facts.push(['Client', it.sub]);
     if (it.ind) facts.push(['Industry', it.ind]);
-    if (it.sub) facts.push(['Niche', it.sub]);
-    facts.push(['Made by', it.kind === 'ugc' ? 'A vetted UGC creator' : 'Our creative team']);
+    facts.push(['Made by', it.kind === 'ugc' ? 'A creator, for the client’s campaign' : 'Our creative team']);
     qv.querySelector('.pf-qv__facts').innerHTML = facts.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('');
     qv.querySelector('.pf-qv__pos').textContent = `${at + 1} / ${list.length}`;
     // "Made with": the service, its price, and a way to get it.

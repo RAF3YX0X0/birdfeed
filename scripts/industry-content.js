@@ -7,9 +7,10 @@
 // platforms: [name, role, [what we post…]] — most important first.
 // year: twelve [moment, detail] — January first.
 // rules / track: [title, text].
-// work: portfolio filter (scripts/build-industries.js): industry, subs, an
-//   optional caption pattern to keep (or drop) posts.
-// cases: case study slugs (fx/cases.json), with the label shown above them.
+// work: portfolio filter (scripts/build-industries.js): the industry whose
+//   real client posts to show (null: none yet), and who they were made for.
+// cases: case study slugs (fx/cases.json, scripts/work-data.js), with the
+//   label shown above them (null: no client in this industry yet).
 
 module.exports = {
   'social-media-management-for-restaurants': {
@@ -53,8 +54,8 @@ module.exports = {
       ['Local reach', 'How many people near you saw your posts this month.'],
       ['Reviews and mentions', 'New reviews, tags and guests posting about you.'],
     ],
-    work: { ind: 'Food & Drink', subs: ['Restaurants & Bars', 'Food Products', 'Beverage Products'] },
-    cases: { label: 'food and drink brands', slugs: ['a-pensive-mans-coffee', 'casa-m-spice-co', 'miss-sprinkles-gelato', 'district-raleigh'] },
+    work: { ind: 'Food Products', label: 'food brands' },
+    cases: { label: 'food brands', slugs: ['pink-salt'] },
   },
 
   'social-media-management-for-dentists': {
@@ -99,8 +100,8 @@ module.exports = {
       ['Questions in messages', 'People asking about treatments, prices or availability.'],
     ],
     // (These posts have no captions: the dental ones, picked by eye.)
-    work: { ind: 'Health & Beauty', subs: ['Medical & Dental'], only: ["86a193deb3d6","d336ca039f55","9ef5d232892a","dbf77e84631e","c11ff6eb021d","8d83cd3d5f68","855c8787a66f","92a6c5d7285f","3b23730f22a8","bfd05fa48f1c","5155d8595084"] },
-    cases: { label: 'healthcare practices', slugs: ['act-for-pain', 'psychology-in-the-park'] },
+    work: { ind: null },
+    cases: null,
   },
 
   'social-media-management-for-gyms': {
@@ -144,8 +145,8 @@ module.exports = {
       ['Saves on workout posts', 'The posts members keep and come back to.'],
       ['Tags and check-ins', 'Members posting from your gym.'],
     ],
-    work: { ind: 'Health & Beauty', subs: ['Fitness & Gym', 'Yoga & Pilates', 'Sports & Recreation'] },
-    cases: { label: 'fitness brands', slugs: ['ingrid-s-clay'] },
+    work: { ind: null },
+    cases: null,
   },
 
   'social-media-management-for-law-firms': {
@@ -189,8 +190,8 @@ module.exports = {
       ['Referral-partner engagement', 'Other professionals engaging with your LinkedIn content.'],
       ['Video views on explainers', 'Which questions people care about most.'],
     ],
-    work: { ind: 'Professional Services', subs: ['Legal Services'] },
-    cases: { label: 'professional services', slugs: ['client-b-high-acquisition-cost'] },
+    work: { ind: null },
+    cases: null,
   },
 
   'social-media-management-for-medical': {
@@ -234,8 +235,8 @@ module.exports = {
       ['Engagement on education posts', 'Which topics patients want to hear about.'],
       ['New-patient sources', 'How new patients say they found you.'],
     ],
-    work: { ind: 'Health & Beauty', subs: ['Medical & Dental', 'Physical Therapy', 'Mental Health'], not: ["86a193deb3d6","d336ca039f55","9ef5d232892a","dbf77e84631e","c11ff6eb021d","8d83cd3d5f68","855c8787a66f","92a6c5d7285f","3b23730f22a8","bfd05fa48f1c","5155d8595084","4414462cb9a2"] },
-    cases: { label: 'healthcare practices', slugs: ['act-for-pain', 'psychology-in-the-park'] },
+    work: { ind: null },
+    cases: null,
   },
 
   'social-media-management-for-real-estate': {
@@ -279,8 +280,8 @@ module.exports = {
       ['Profile visits', 'From people in your area.'],
       ['Saves and shares of listings', 'Homes people are seriously considering.'],
     ],
-    work: { ind: 'Real Estate', subs: [] },
-    cases: null,
+    work: { ind: null },
+    cases: { label: 'property and construction', slugs: ['smart-cities-uae'] },
   },
 
   'social-media-management-for-salons': {
@@ -324,8 +325,8 @@ module.exports = {
       ['Profile visits', 'From people nearby.'],
       ['New clients mentioning social', 'At the chair, or in the booking form.'],
     ],
-    work: { ind: 'Health & Beauty', subs: ['Hair & Barbers', 'Lashes & Nails', 'Skincare & Spa'] },
-    cases: { label: 'health and beauty brands', slugs: ['natures-glow-emporium'] },
+    work: { ind: 'Beauty & Grooming', label: 'beauty and grooming brands' },
+    cases: { label: 'beauty and grooming businesses', slugs: ['the-gentry-house', 'freshul'] },
   },
 
   'social-media-management-for-car-dealerships': {
@@ -369,8 +370,8 @@ module.exports = {
       ['Service bookings', 'From service and maintenance posts.'],
       ['Local reach', 'Buyers in your area who saw your inventory.'],
     ],
-    work: { ind: 'Professional Services', subs: ['Automotive'] },
-    cases: null,
+    work: { ind: 'Travel & Transport', label: 'chauffeur and car services' },
+    cases: { label: 'chauffeur and car services', slugs: ['luxury-connection-tourism'] },
   },
 
   'social-media-management-for-coaches': {
@@ -414,8 +415,8 @@ module.exports = {
       ['Comments and messages', 'Conversations with potential clients.'],
       ['Saves and shares', 'Content people keep and pass on.'],
     ],
-    work: { ind: 'Professional Services', subs: ['Coaching & Consulting'] },
-    cases: { label: 'education and professional services', slugs: ['client-c-vocational-training', 'client-b-high-acquisition-cost'] },
+    work: { ind: null },
+    cases: null,
   },
 
   'social-media-management-for-ecommerce': {
@@ -459,7 +460,7 @@ module.exports = {
       ['Email and SMS sign-ups', 'Customers you can reach again for free.'],
       ['Engagement on product Reels', 'Which products people want to see.'],
     ],
-    work: { ind: 'Products', subs: null },
-    cases: { label: 'e-commerce brands', slugs: ['client-a-ecommerce-scaling', 'client-d-mass-market-volume', 'tanseys', 'supplement-spot'] },
+    work: { ind: 'Food Products', label: 'product brands' },
+    cases: { label: 'e-commerce brands', slugs: ['she-avenue', 'pink-salt'] },
   },
 };

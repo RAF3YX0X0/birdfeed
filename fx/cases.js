@@ -283,7 +283,21 @@ function setupOverlays({ section, slides, go, current, gsap: G, reduced }) {
   function render(i) {
     const c = data && data.find((x) => x.slug === info[i].slug);
     if (!c) return false;
-    const facts = [['Industry', c.industry], ['Services', c.services.join(', ')], ['Team', c.team], ['Timeline', c.timeline]].filter((f) => f[1]);
+    const facts = [['Industry', c.industry], ['Location', c.location], ['Services', c.services.join(', ')], ['Team', c.team], ['Timeline', c.timeline]].filter((f) => f[1]);
+    const num = (n) => n.toLocaleString('en-US');
+    // Bar charts drawn from the case's own figures (each says where they're from).
+    const charts = (c.charts || []).map((ch) => {
+      const max = Math.max(...ch.rows.map((r) => r[1]));
+      return `<figure class="csx-chart">
+        <figcaption><b>${esc(ch.title)}</b>${ch.note ? `<span>${esc(ch.note)}</span>` : ''}</figcaption>
+        <ul>${ch.rows.map(([label, v]) => `<li><span>${esc(label)}</span><i style="--w:${((v / max) * 100).toFixed(1)}%"></i><b>${num(v)}</b></li>`).join('')}</ul>
+        <p class="csx-chart__src">Source: ${esc(ch.source)}</p>
+      </figure>`;
+    }).join('');
+    const media = (c.media || []).map((m) => (m.kind === 'video' || m.kind === 'ugc'
+      ? `<figure class="csx-gal__item is-video"><video controls playsinline preload="none" poster="${esc(m.poster)}"><source src="${esc(m.src)}" type="video/mp4"></video><figcaption>${esc(m.c)}</figcaption></figure>`
+      : `<figure class="csx-gal__item"><img src="${esc(m.src)}" alt="${esc(m.c)}" loading="lazy" decoding="async"><figcaption>${esc(m.c)}</figcaption></figure>`)).join('');
+    const links = (c.links || []).map(([label, href]) => `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(label)} ↗</a>`).join('');
     const words = c.headline.split(' ');
     const tail = words.length > 4 ? ` <em>${esc(words.splice(-3).join(' '))}</em>` : '';
     const prev = info[i - 1];
@@ -296,8 +310,12 @@ function setupOverlays({ section, slides, go, current, gsap: G, reduced }) {
         <p class="csx-case__lede">${esc(c.summary)}</p>
         <dl class="csx-case__facts">${facts.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
         <ul class="csx-case__metrics">${c.metrics.map((m) => `<li><b>${esc(m.value)}</b><span>${esc(m.label)}</span></li>`).join('')}</ul>
+        ${charts ? `<div class="csx-charts">${charts}</div>` : ''}
         ${(c.body || []).map((b) => `<section class="csx-case__section"><h3>${esc(b.h)}</h3>${b.p ? `<p>${esc(b.p)}</p>` : ''}${b.list ? `<ul>${b.list.map((li) => `<li>${esc(li)}</li>`).join('')}</ul>` : ''}</section>`).join('')}
         ${c.quote ? `<blockquote><p>“${esc(c.quote.text)}”</p><footer><b>${esc(c.quote.name)}</b>${c.quote.role ? `, ${esc(c.quote.role)}` : ''}</footer></blockquote>` : ''}
+        ${media ? `<section class="csx-case__section"><h3>The work</h3><div class="csx-gal">${media}</div></section>` : ''}
+        ${links ? `<p class="csx-case__links"><span>${esc(c.client)} online</span>${links}</p>` : ''}
+        ${c.sources ? `<p class="csx-case__src">${esc(c.sources)}</p>` : ''}
         <div class="csx-case__cta"><p>Want results <em>like these?</em></p><a href="/book-demo/">Book a free demo <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
         <nav class="csx-case__nav" aria-label="More case studies">
           ${prev ? `<button type="button" data-i="${i - 1}"><small>← Previous</small><span>${esc(prev.client)}</span></button>` : ''}

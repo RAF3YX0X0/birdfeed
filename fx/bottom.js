@@ -78,9 +78,10 @@ export function setupHomeBottom({ gsap: G, lenis, reduced, narrow }) {
     }
   }
 
-  // ---- reviews: video cover-flow ----------------------------------------------------------
+  // ---- reviews: video cover-flow (only if the section is the reviews reel;
+  // it's now the client roster, scripts/build-work.js) ---------------------------------------
   const rv = q('.rv');
-  if (rv) {
+  if (rv && rv.querySelector('.rv__track')) {
     const track = rv.querySelector('.rv__track');
     const vids = [...rv.querySelectorAll('.rv-vid')];
     const dots = [...rv.querySelectorAll('.rv__dots i')];

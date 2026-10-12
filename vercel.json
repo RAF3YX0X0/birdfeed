@@ -68,6 +68,16 @@
   ],
   "redirects": [
     {
+      "source": "/reviews",
+      "destination": "/case-studies/",
+      "permanent": false
+    },
+    {
+      "source": "/reviews/",
+      "destination": "/case-studies/",
+      "permanent": false
+    },
+    {
       "source": "/social-media-city",
       "destination": "/",
       "permanent": true

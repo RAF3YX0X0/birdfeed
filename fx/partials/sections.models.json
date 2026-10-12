@@ -1697,7 +1697,7 @@
      "neg": false
     },
     {
-     "title": "Avg rating · 800+ reviews",
+     "title": "Biggest client on Google",
      "text": "",
      "stat": "4.6/5",
      "icon": "<svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"#858C99\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 3v18h18\"></path><path d=\"M7 13l4-4 3 3 5-6\"></path></svg>",
@@ -1738,7 +1738,7 @@
    "cta": null,
    "note": "",
    "neg": false,
-   "coverage": 136
+   "coverage": 138
   },
   {
    "index": 2,
@@ -3760,7 +3760,7 @@
    "cta": null,
    "note": "",
    "neg": false,
-   "coverage": 133
+   "coverage": 138
   },
   {
    "index": 2,
@@ -5256,7 +5256,7 @@
    "cta": null,
    "note": "",
    "neg": false,
-   "coverage": 138
+   "coverage": 142
   },
   {
    "index": 2,
@@ -5983,7 +5983,7 @@
    "cta": null,
    "note": "",
    "neg": false,
-   "coverage": 290
+   "coverage": 311
   },
   {
    "index": 5,
@@ -6970,7 +6970,7 @@
    "items": [
     {
      "title": "A real, dedicated team",
-     "text": "200+ marketers, designers, and video editors, with a customer success manager you can actually reach.",
+     "text": "Marketers, designers, and video editors, with a customer success manager you can actually reach.",
      "stat": "",
      "icon": "<svg width=\"21\" height=\"21\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"></path><circle cx=\"9\" cy=\"7\" r=\"4\"></circle><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"></path><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"></path></svg>",
      "img": "",

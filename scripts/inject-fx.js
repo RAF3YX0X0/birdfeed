@@ -51,16 +51,13 @@ const sectionOf = (body, cls) => {
   return a === -1 ? null : [a, body.indexOf('</section>', a) + '</section>'.length];
 };
 function homeBottom(body) {
-  for (const [cls, file] of [['gx', 'home-challenge.html'], ['pj', 'home-results.html'], ['fq', 'home-faq.html'], ['ct', 'home-cta.html']]) {
+  for (const [cls, file] of [['gx', 'home-challenge.html'], ['fq', 'home-faq.html'], ['ct', 'home-cta.html']]) {
     const at = sectionOf(body, cls);
     if (at) body = body.slice(0, at[0]) + partial(file) + body.slice(at[1]);
   }
-  const keep = ['District Raleigh', 'An e-commerce brand', 'A growing website'];
-  let i = 0;
-  body = body.replace(/<article class="pj-card" style="--i:\d+;([\s\S]*?)<\/article>/g, (m, rest) => {
-    const name = (m.match(/pj-card__name">([^<]*)/) || [])[1];
-    return keep.includes(name) ? `<article class="pj-card" style="--i:${i++};${rest}</article>` : '';
-  });
+  // The real case studies (scripts/build-work.js), then what we measure.
+  const pj = sectionOf(body, 'pj');
+  if (pj) body = body.slice(0, pj[1]) + '\n' + partial('home-results.html') + body.slice(pj[1]);
   return body
     .replace('Ready to get social media <em>off your plate?</em>', 'Ready to hand off <em>your marketing?</em>')
     // The builder is on this page: the second way in goes to it, not to /pricing/.
@@ -235,7 +232,12 @@ for (const file of pages(ROOT)) {
     const i = html.indexOf('</head>');
     if (i === -1) { console.warn('no </head>:', path.relative(ROOT, file)); continue; }
     const shared = home ? '' : sharedFor(file, html);
-    const hero = home ? '' : heroFor(file);
+    let hero = home ? '' : heroFor(file);
+    // The examples page: our clients' work (the homepage's portfolio grid) in
+    // place of the cloned gallery, which showed another agency's clients.
+    if (hero && path.relative(ROOT, path.dirname(file)) === 'examples') {
+      hero += '\n<style>astro-island[component-export="ExamplesIndex"] section:not(.ct):not([data-fx-skip]) { display: none !important; }</style>\n' + partial('home-portfolio.html');
+    }
     const nx = home ? '' : sectionsFor(file);
     const ind = home ? null : industryFor(file);
     html = html.slice(0, i) + '\n' + block(home, !!shared, hero, !!nx, !!ind) + '\n' + html.slice(i);

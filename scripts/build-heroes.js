@@ -146,7 +146,7 @@ function extract(mode) {
     exportName: island.getAttribute('component-export'),
     hide: pathOf(partial ? copy : sec),
     // A "trusted by 100+" label would repeat the trust line under the buttons.
-    eyebrow: /20,000|trusted by/i.test(eyebrow) ? '' : eyebrow,
+    eyebrow: /20,000|trusted by|verified reviews/i.test(eyebrow) ? '' : eyebrow,
     title, sub, ctas, checks, note, crumbs, visualHtml, media,
   };
 }
@@ -168,7 +168,7 @@ function pageHero(d) {
     ${d.sub ? `<p class="ph__sub">${esc(d.sub)}</p>` : ''}
     ${ctasHtml(d.ctas, 'ph__ctas')}
     ${d.checks.length ? `<ul class="ph__checks">${d.checks.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>` : ''}
-    <p class="ph__trust">${FACES}<span><b>4.6/5</b> from 800+ reviews · <b>100+</b> businesses served</span></p>
+    <p class="ph__trust"><span><b>100+</b> businesses served · <b>5.0★</b> on Google for our biggest account</span></p>
   </div>
   ${d.visualHtml ? `<div class="ph__stage" aria-hidden="true"><div class="ph__frame">${d.visualHtml}</div></div>` : ''}
 </section>`;
@@ -191,7 +191,7 @@ function mediaHero(d) {
   <div class="hx__stage">
     <div class="hx__arch" aria-hidden="true"><div class="hx__arch-in"></div></div>
     <div class="hx__copy">
-      <div class="hx__badge">${FACES}<span>${d.eyebrow ? `${esc(d.eyebrow)} · ` : ''}<b>100+</b> businesses</span></div>
+      <div class="hx__badge"><span>${d.eyebrow ? `${esc(d.eyebrow)} · ` : ''}<b>100+</b> businesses</span></div>
       <h1 class="hx__title">${lines}</h1>
       ${d.sub ? `<p class="hx__sub">${esc(d.sub)}</p>` : ''}
       ${ctasHtml(d.ctas, 'hx__ctas')}
@@ -216,7 +216,10 @@ function mediaHero(d) {
     const d = await p.evaluate(extract, mode);
     if (!d) { console.log('skip (no hero):', slug); continue; }
     const hero = mode === 'media' ? mediaHero(d) : pageHero({ ...d, visualHtml: mode === 'partial' ? '' : d.visualHtml });
-    const html = `<style>${d.hide} { display: none !important; }</style>\n${hero}\n`;
+    // Parts of the cloned page that were another agency's proof (the demo
+    // page's calendar card carried one of its customers' testimonials).
+    const extra = { 'book-demo': '.bd-cal > div:first-child > div:first-child > div:nth-child(3) { display: none !important; }' }[slug] || '';
+    const html = `${extra ? `<style>${extra}</style>\n` : ''}<style>${d.hide} { display: none !important; }</style>\n${hero}\n`;
     fs.writeFileSync(path.join(OUT, slug.replace(/\//g, '__') + '.html'), html);
     console.log(mode.padEnd(8), slug.padEnd(44), `"${d.eyebrow}"`, '|', d.title.replace(/<[^>]+>/g, '').slice(0, 40), '| ctas', d.ctas.length, 'checks', d.checks.length, 'visual', d.visualHtml.length, 'media', d.media.length);
   }

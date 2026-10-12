@@ -8,3 +8,7 @@ fx/partials
 *.pdf
 *.docx
 *.md
+# The client portfolio source files (1.5GB): only optimized copies under /assets/ are served.
+Portfolio
+Portfolio-*.zip
+drive-download-*.zip

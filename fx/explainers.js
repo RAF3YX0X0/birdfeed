@@ -1,8 +1,9 @@
 // Page explainers: which page gets which 3D section, where it goes (the
 // section heading it sits next to), and its words, steps, live stat and data.
 // Figures are illustrative and labelled as such on the page; facts about the
-// business (200+ creatives, 15+ services, 100+ businesses,
-// team in EU · US · LATAM) come from the site itself.
+// business (15+ services, 100+ businesses) come from the site itself, and
+// the globe's places are where our case-study clients are
+// (scripts/work-data.js).
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -150,11 +151,11 @@ const LAYERS = {
 const GLOBE = {
   key: 'globe',
   eyebrow: '// where we work',
-  title: 'A remote team, <em>close to you.</em>',
-  lede: 'Our creatives work across Europe, the US and Latin America, so there’s always someone on your time zone.',
+  title: 'From St. Louis <em>to Dubai.</em>',
+  lede: 'Headquartered in St. Louis, with client work in the US, the UAE, Qatar and Pakistan.',
   steps: [
     { title: 'St. Louis, Missouri', text: 'Headquartered in St. Louis, serving businesses across the US.' },
-    { title: '200+ creatives', text: 'Vetted designers, writers and editors across Europe, the US and Latin America.' },
+    { title: 'Four countries', text: 'Client work for a New York mover, Dubai construction and chauffeur companies, a Doha IT firm and a Karachi app launch.' },
     { title: '15+ services', text: 'Social, video, ads, SEO, email and more, under one subscription.' },
     { title: '100+ businesses', text: 'Across the US, from local shops to growing brands.' },
   ],
@@ -162,9 +163,11 @@ const GLOBE = {
   scene: () => import('./three/ex-globe.js'),
   sceneOpts: {
     places: [
-      { name: 'Europe', lat: 50, lon: 10 },
-      { name: 'United States', lat: 39, lon: -98 },
-      { name: 'Latin America', lat: -15, lon: -60, color: 0x0a0a0a },
+      { name: 'St. Louis', lat: 38.6, lon: -90.2 },
+      { name: 'New York', lat: 40.7, lon: -74 },
+      { name: 'Dubai', lat: 25.2, lon: 55.3, color: 0x0a0a0a },
+      { name: 'Doha', lat: 25.3, lon: 51.5, color: 0x0a0a0a },
+      { name: 'Karachi', lat: 24.9, lon: 67, color: 0x0a0a0a },
     ],
   },
 };

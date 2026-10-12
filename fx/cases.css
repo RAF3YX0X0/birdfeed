@@ -407,6 +407,28 @@
 .csx-case__section ul { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
 .csx-case__section li { position: relative; padding-left: 30px; font-size: 16px; line-height: 1.6; color: #1F2937; }
 .csx-case__section li::before { content: ''; position: absolute; left: 4px; top: 0.55em; width: 10px; height: 10px; border-radius: 50%; background: #EBF3FF; box-shadow: inset 0 0 0 3px #0066FF; }
+/* Charts from the case's own figures, the work itself, links and sources. */
+.csx-charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; margin: 12px 0 0; }
+.csx-chart { margin: 0; padding: 22px 22px 18px; border-radius: 20px; background: #fff; box-shadow: 0 0 0 1px #E5E7EB, 0 18px 36px -28px rgba(16, 24, 40, 0.4); }
+.csx-chart figcaption b { display: block; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+.csx-chart figcaption span { display: block; margin-top: 3px; font-size: 12.5px; color: #6B7280; }
+.csx-chart ul { display: grid; gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; }
+.csx-chart li { display: grid; grid-template-columns: minmax(96px, 38%) 1fr auto; align-items: center; gap: 12px; font-size: 13.5px; color: #1F2937; }
+.csx-chart li i { height: 10px; border-radius: 99px; background: #EEF1F5; position: relative; overflow: hidden; }
+.csx-chart li i::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--w); border-radius: inherit; background: linear-gradient(90deg, #0066FF, #4D94FF); }
+.csx-chart li b { min-width: 34px; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+.csx-chart__src { margin: 14px 0 0; font-size: 11.5px; line-height: 1.5; color: #858C99; }
+.csx-gal { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin: 18px 0 0; }
+.csx-gal__item { margin: 0; }
+.csx-gal__item img, .csx-gal__item video { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 16px; background: #EEF1F5; box-shadow: 0 0 0 1px #E5E7EB; }
+.csx-gal__item.is-video video { aspect-ratio: 9 / 16; background: #0A0A0A; }
+.csx-gal__item figcaption { margin-top: 8px; font-size: 12.5px; line-height: 1.45; color: #4B5563; }
+.csx-case__links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 40px 0 0; }
+.csx-case__links span { margin-right: 6px; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #858C99; }
+.csx-case__links a { padding: 8px 14px; border-radius: 99px; background: #fff; box-shadow: 0 0 0 1px #E5E7EB; font-size: 13.5px; font-weight: 600; color: #0A0A0A; text-decoration: none; }
+.csx-case__links a:hover { box-shadow: 0 0 0 1px #0066FF; color: #0066FF; }
+.csx-case__src { margin: 18px 0 0; font-size: 12.5px; line-height: 1.6; color: #858C99; }
+@media (max-width: 560px) { .csx-gal { grid-template-columns: repeat(2, minmax(0, 1fr)); } .csx-chart li { grid-template-columns: minmax(80px, 40%) 1fr auto; } }
 .csx-case blockquote { margin: 44px 0 0; padding: 30px 32px; border-radius: 24px; background: #fff; box-shadow: 0 0 0 1px #E5E7EB; }
 .csx-case blockquote p { margin: 0; font-size: 22px; line-height: 1.45; letter-spacing: -0.015em; }
 .csx-case blockquote footer { margin-top: 16px; font-size: 14px; color: #6B7280; }
