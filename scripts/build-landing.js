@@ -415,7 +415,8 @@ body{margin:0;background:#fff;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallbac
 .lp-foot__svc{margin:8px 0 0;font-size:13px;color:rgba(255,255,255,.5)}
 .lp-foot a{color:rgba(255,255,255,.85);text-decoration:none}
 .lp-foot a:hover{color:#fff}
-.lp-foot__contact{display:grid;gap:10px;align-content:start}
+.lp-foot__contact,.lp-foot__nav{display:grid;gap:10px;align-content:start}
+.lp-foot__h{display:block;margin-bottom:4px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45)}
 .lp-foot__contact a{display:inline-flex;align-items:center;gap:10px}
 .lp-foot__contact svg{color:#4D94FF}
 .lp-foot__links{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1)}
@@ -512,7 +513,7 @@ const landing = `<!doctype html>
 <div class="lp-bar"><i aria-hidden="true"></i>New client offer: 30 days of local SEO work. $0 agency fee. Limited trial capacity.</div>
 <header class="lp-nav">
   <div class="lp-in">
-    <a class="lp-nav__logo" href="#top" aria-label="MADMarketing"><img src="/assets/madmarketing-logo-v4.svg" alt="MADMarketing" width="172" height="25"></a>
+    <a class="lp-nav__logo" href="/" aria-label="MADMarketing home"><img src="/assets/madmarketing-logo-v4.svg" alt="MADMarketing" width="172" height="25"></a>
     <nav class="lp-nav__links" aria-label="On this page"><a href="#how">How It Works</a><a href="#included">What’s Included</a><a href="#why">Why MAD</a><a href="#faqs">FAQs</a></nav>
     <a class="lp-btn lp-btn--blue lp-btn--sm" href="#apply" data-lp-cta="nav">Apply Now</a>
   </div>
@@ -735,7 +736,17 @@ const landing = `<!doctype html>
         <p class="lp-foot__tag">Think MAD. Grow Beyond Ordinary.</p>
         <p class="lp-foot__svc">Local SEO · Google Maps · SEO · GEO · AEO · Paid Advertising · Digital Growth</p>
       </div>
+      <nav class="lp-foot__nav" aria-label="MADMarketing website">
+        <b class="lp-foot__h">Explore MADMarketing</b>
+        <a href="/">Main website</a>
+        <a href="/services/local-seo/">Local SEO</a>
+        <a href="/services/google-maps-seo/">Google Maps SEO</a>
+        <a href="/services/ai-search-optimization/">AI Search Optimization</a>
+        <a href="/services/google-ads/">Google Ads Management</a>
+        <a href="/all-services/">All services</a>
+      </nav>
       <div class="lp-foot__contact">
+        <b class="lp-foot__h">Contact</b>
         <a href="mailto:${EMAIL}">${ic('mail', 18)}${EMAIL}</a>
         <a href="/">${ic('globe', 18)}madmediamarketing.com</a>
       </div>
