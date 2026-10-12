@@ -70,6 +70,25 @@ body{margin:0;background:#F5F7FA;color:#0A0A0A;font-family:Satoshi,"Satoshi Fall
 .sp-ticks i{flex:none;display:grid;place-items:center;width:22px;height:22px;margin-top:1px;border-radius:50%;background:#0066FF;color:#fff}
 .sp-ticks--no i{background:#F1F2F4;color:#6B7280}
 .sp-sec{padding:clamp(64px,8vw,110px) 0}
+.sp-proof{padding-top:0}
+.sp-proof__card{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(24px,3.4vw,44px);border-radius:32px;background:#0A0A0A;color:#fff;overflow:hidden}
+.sp-proof__card .sp-k{color:rgba(255,255,255,.62)}.sp-proof__card .sp-k::before{background:linear-gradient(90deg,rgba(77,148,255,0),#4D94FF)}
+.sp-proof__card h2 em{color:#4D94FF}
+.sp-proof__card>div>p{margin:16px 0 0;max-width:520px;font-size:17px;line-height:1.6;color:rgba(255,255,255,.72)}
+.sp-proof__stats{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 0;padding:0;list-style:none}
+.sp-proof__stats li{flex:1 1 140px;padding:16px 18px;border-radius:18px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.sp-proof__stats b{display:block;font-size:30px;font-weight:600;letter-spacing:-.025em;color:#4D94FF}
+.sp-proof__stats span{display:block;margin-top:6px;font-size:13px;line-height:1.4;color:rgba(255,255,255,.66)}
+.sp-proof__src{margin:16px 0 0!important;font-size:12px!important;color:rgba(255,255,255,.45)!important}
+.sp-proof__link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;color:#fff;font-weight:600;font-size:15px;text-decoration:none}
+.sp-proof__link:hover{color:#4D94FF}
+.sp-proof__shot{display:block;justify-self:center;width:min(100%,290px);height:430px;object-fit:cover;object-position:top;border-radius:22px;box-shadow:0 0 0 1px rgba(255,255,255,.14),0 40px 80px -40px rgba(0,102,255,.6)}
+.sp-proof__bars{display:grid;gap:12px;margin:0;padding:22px;border-radius:22px;background:#fff;color:#0A0A0A;list-style:none}
+.sp-proof__bars li{display:grid;grid-template-columns:minmax(96px,36%) 1fr auto;align-items:center;gap:12px;font-size:13.5px}
+.sp-proof__bars i{height:10px;border-radius:99px;background:linear-gradient(90deg,#0066FF var(--w),#EEF1F5 var(--w))}
+.sp-proof__bars b{font-variant-numeric:tabular-nums}
+.sp-proof__bars small{grid-column:1/-1;font-size:11.5px;color:#858C99}
+@media (max-width:860px){.sp-proof__card{grid-template-columns:minmax(0,1fr)}.sp-proof__shot{width:min(100%,260px);height:360px}}
 .sp-head{max-width:760px}
 .sp-head p{margin:16px 0 0;font-size:17px;line-height:1.6;color:#4B5563}
 .sp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px}
@@ -169,6 +188,46 @@ const MAD = [
   ['D', 'Data-Driven Growth', 'We measure meaningful actions, explain performance, and refine the work that matters.'],
 ];
 
+// Client work behind a service: real figures, each with its source (the
+// full stories are on /case-studies/, from scripts/work-data.js).
+const PROOF = {
+  tgh: {
+    name: 'The Gentry House', accent: 'Lake Saint Louis.',
+    line: 'A premium barbershop whose website and Google Business Profile we run. Its site answers the searches locals make, and its profile carries the services, hours, booking link and photos.',
+    stats: [['5.0★', 'on Google, from 201 reviews'], ['55', 'photos on its Google profile'], ['280', 'reviews across Google and Booksy']],
+    src: 'Google Maps and Booksy, checked 13 October 2026',
+    shot: ['/work/the-gentry-house/google-profile.webp', 408, 882, 'The Gentry House’s Google Business Profile: 5.0 from 201 reviews'],
+    href: '/case-studies/#the-gentry-house',
+  },
+  smart: {
+    name: 'Smart Cities UAE', accent: 'Dubai.',
+    line: 'A construction and fit-out company that had never run Google Ads. We set up the account and conversion tracking, and launched its first search campaigns.',
+    stats: [['4.29%', 'click-through rate, first month'], ['13.43%', 'conversion rate, first month'], ['AED 4.27', 'average cost per click']],
+    src: 'Monthly performance report, February 2025 (Google Ads and Google Analytics)',
+    bars: ['Website sessions by source, February 2025', [['Direct', 183], ['Organic search', 148], ['Paid search', 85], ['Referral', 18], ['Organic social', 12]]],
+    href: '/case-studies/#smart-cities-uae',
+  },
+};
+function proof(key) {
+  const p = PROOF[key];
+  if (!p) return '';
+  const max = p.bars ? Math.max(...p.bars[1].map((r) => r[1])) : 0;
+  const side = p.shot
+    ? `<img class="sp-proof__shot" src="${p.shot[0]}" width="${p.shot[1]}" height="${p.shot[2]}" alt="${esc(p.shot[3])}" loading="lazy" decoding="async">`
+    : `<ul class="sp-proof__bars"><li><small>${esc(p.bars[0])}</small></li>${p.bars[1].map(([l, v]) => `<li style="--w:${((v / max) * 100).toFixed(1)}%"><span>${esc(l)}</span><i></i><b>${v}</b></li>`).join('')}</ul>`;
+  return `<section class="sp-sec sp-proof"><div class="sp-wrap"><div class="sp-proof__card">
+  <div>
+    <p class="sp-k">Client work</p>
+    <h2>${esc(p.name)}, <em>${esc(p.accent)}</em></h2>
+    <p>${esc(p.line)}</p>
+    <ul class="sp-proof__stats">${p.stats.map(([b, t]) => `<li><b>${esc(b)}</b><span>${esc(t)}</span></li>`).join('')}</ul>
+    <p class="sp-proof__src">Source: ${esc(p.src)}.</p>
+    <a class="sp-proof__link" href="${p.href}">Read the case study ${ARROW}</a>
+  </div>
+  ${side}
+</div></div></section>`;
+}
+
 function servicePage(s) {
   const body = `<section class="sp-hero"><div class="sp-wrap sp-hero__grid">
   <div>
@@ -190,6 +249,7 @@ function servicePage(s) {
   <div class="sp-head"><p class="sp-k">The work</p><h2>${s.workTitle}</h2><p>${esc(s.workIntro)}</p></div>
   <div class="sp-grid">${s.included.map(([ic, t, d]) => `<div class="sp-card"><span class="sp-card__ic">${glyph(ic)}</span><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join('')}</div>
 </div></section>
+${proof(s.proof)}
 <section class="sp-dark"><div class="sp-wrap">
   <p class="sp-k">How we work</p>
   <h2>The <em>MAD Method.</em></h2>
@@ -216,6 +276,7 @@ const NO_GUARANTEE = ['Do you guarantee rankings?', 'No. Search placement is det
 const SERVICES = [
   {
     slug: 'services/local-seo',
+    proof: 'tgh',
     name: 'Local SEO',
     title: 'Local SEO Services | MADMarketing',
     description: 'Local SEO from MADMarketing: Google Business Profile optimization, consistent listings, local research and clear reporting, so nearby customers can find you.',
@@ -242,6 +303,7 @@ const SERVICES = [
   },
   {
     slug: 'services/google-maps-seo',
+    proof: 'tgh',
     name: 'Google Maps SEO',
     title: 'Google Maps SEO & Google Business Profile Optimization | MADMarketing',
     description: 'Google Maps SEO from MADMarketing: strengthen the accuracy, relevance and completeness of your Google Business Profile so more local customers choose you.',
@@ -291,6 +353,7 @@ const SERVICES = [
   },
   {
     slug: 'services/google-ads',
+    proof: 'smart',
     name: 'Google Ads',
     title: 'Google Ads Management | MADMarketing',
     description: 'Google Ads management from MADMarketing: reach high-intent searchers with campaigns built around measurable outcomes like calls, inquiries and bookings.',

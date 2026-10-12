@@ -636,5 +636,65 @@
   "audio": true,
   "poster": "/work/freshul/reel-partner-app.webp",
   "kb": 1342
+ },
+ "/work/the-gentry-house/site-home.webp": {
+  "w": 1280,
+  "h": 684,
+  "kb": 45,
+  "captured": "tghbarbershop.com, captured 13 October 2026"
+ },
+ "/work/the-gentry-house/site-services.webp": {
+  "w": 1280,
+  "h": 800,
+  "kb": 32,
+  "captured": "tghbarbershop.com, captured 13 October 2026"
+ },
+ "/work/the-gentry-house/site-pricing.webp": {
+  "w": 1280,
+  "h": 622,
+  "kb": 32,
+  "captured": "tghbarbershop.com, captured 13 October 2026"
+ },
+ "/work/the-gentry-house/site-faq.webp": {
+  "w": 1280,
+  "h": 800,
+  "kb": 47,
+  "captured": "tghbarbershop.com, captured 13 October 2026"
+ },
+ "/work/the-gentry-house/site-careers.webp": {
+  "w": 1280,
+  "h": 800,
+  "kb": 37,
+  "captured": "tghbarbershop.com/careers, captured 13 October 2026"
+ },
+ "/work/the-gentry-house/site-career-path.webp": {
+  "w": 1280,
+  "h": 800,
+  "kb": 44,
+  "captured": "tghbarbershop.com/careers, captured 13 October 2026"
+ },
+ "/work/the-gentry-house/site-phone.webp": {
+  "w": 780,
+  "h": 1500,
+  "kb": 64,
+  "captured": "tghbarbershop.com on a phone, captured 13 October 2026"
+ },
+ "/work/the-gentry-house/ad-your-next-chair.webp": {
+  "w": 480,
+  "h": 600,
+  "kb": 58,
+  "captured": "Meta Ad Library, live since 12 October 2026"
+ },
+ "/work/the-gentry-house/ad-were-hiring.webp": {
+  "w": 480,
+  "h": 600,
+  "kb": 39,
+  "captured": "Meta Ad Library, live since 12 October 2026"
+ },
+ "/work/the-gentry-house/google-profile.webp": {
+  "w": 408,
+  "h": 882,
+  "kb": 38,
+  "captured": "Google Maps listing, captured 13 October 2026"
  }
 }

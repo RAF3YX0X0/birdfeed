@@ -296,7 +296,7 @@ function setupOverlays({ section, slides, go, current, gsap: G, reduced }) {
     }).join('');
     const media = (c.media || []).map((m) => (m.kind === 'video' || m.kind === 'ugc'
       ? `<figure class="csx-gal__item is-video"><video controls playsinline preload="none" poster="${esc(m.poster)}"><source src="${esc(m.src)}" type="video/mp4"></video><figcaption>${esc(m.c)}</figcaption></figure>`
-      : `<figure class="csx-gal__item"><img src="${esc(m.src)}" alt="${esc(m.c)}" loading="lazy" decoding="async"><figcaption>${esc(m.c)}</figcaption></figure>`)).join('');
+      : `<figure class="csx-gal__item${m.shape ? ` is-${esc(m.shape)}` : ''}"><a href="${esc(m.src)}" target="_blank" rel="noopener"><img src="${esc(m.src)}" alt="${esc(m.c)}" loading="lazy" decoding="async"></a><figcaption>${esc(m.c)}</figcaption></figure>`)).join('');
     const links = (c.links || []).map(([label, href]) => `<a href="${esc(href)}" target="_blank" rel="noopener">${esc(label)} ↗</a>`).join('');
     const words = c.headline.split(' ');
     const tail = words.length > 4 ? ` <em>${esc(words.splice(-3).join(' '))}</em>` : '';

@@ -421,6 +421,15 @@ body{margin:0;background:#fff;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallbac
 .lp-foot__contact svg{color:#4D94FF}
 .lp-foot__links{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1)}
 .lp-foot__legal{margin:18px 0 0;font-size:12.5px;line-height:1.6;color:rgba(255,255,255,.45)}
+/* Client work: one real, authorized example (figures from scripts/work-data.js) */
+.lp-proof{display:grid;grid-template-columns:230px minmax(0,1fr);gap:clamp(20px,3vw,36px);align-items:center;margin-top:clamp(40px,5vw,64px);padding:18px;border-radius:30px;background:#0A0A0A;color:#fff}
+.lp-proof img{display:block;width:100%;height:240px;object-fit:cover;object-position:top;border-radius:18px}
+.lp-proof__k{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#4D94FF}
+.lp-proof__t{display:block;margin-top:10px;font-size:clamp(20px,2.2vw,28px);font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.lp-proof__stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.lp-proof__stats span{padding:10px 16px;border-radius:14px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);font-size:14px;color:rgba(255,255,255,.72)}
+.lp-proof__stats b{margin-right:6px;font-size:18px;color:#fff}
+.lp-proof__src{display:block;margin-top:14px;font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.5)}
 /* Sticky Apply (phones) */
 .lp-sticky{position:fixed;z-index:90;left:12px;right:12px;bottom:12px;display:none}
 .lp-sticky .lp-btn{width:100%}
@@ -446,6 +455,7 @@ html[data-fx-landing] .mm-help__btn{bottom:84px}
   .lp-sticky{display:block;transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .3s ease}
   .lp-sticky.is-hidden{transform:translateY(130%);opacity:0;pointer-events:none}
   .lp-foot{padding-bottom:96px}
+  .lp-proof{grid-template-columns:minmax(0,1fr)}.lp-proof img{height:200px}
 }
 @media (prefers-reduced-motion:reduce){.lp *,.lp-bar i{animation:none!important;transition:none!important}.lp-brush path,.lp-dashes path{stroke-dashoffset:0}.lp-fc--chart .lp-line{stroke-dashoffset:0}}
 `;
@@ -646,6 +656,17 @@ const landing = `<!doctype html>
     <div class="lp-doc" data-lp-on>
       <div class="lp-doc__head"><span><b>Your 30-day visibility report</b><small>What your final report includes</small></span><span class="lp-doc__logo" aria-hidden="true"></span></div>
       <ul class="lp-ticks">${REPORT.map((t) => `<li><i>${CHECK}</i>${esc(t)}</li>`).join('')}</ul>
+    </div>
+  </div>
+  <div class="lp-in">
+    <div class="lp-proof" data-lp-on>
+      <img src="/work/the-gentry-house/google-profile.webp" width="408" height="882" alt="The Gentry House’s Google Business Profile, rated 5.0 from 201 reviews" loading="lazy" decoding="async">
+      <div>
+        <span class="lp-proof__k">Client work · The Gentry House, Lake Saint Louis</span>
+        <span class="lp-proof__t">A barbershop whose website and Google Business Profile we run.</span>
+        <span class="lp-proof__stats"><span><b>5.0★</b>on Google</span><span><b>201</b>Google reviews</span><span><b>55</b>profile photos</span></span>
+        <span class="lp-proof__src">Google Maps, checked 13 October 2026. One client’s profile, shown with permission. It isn’t a promise of results.</span>
+      </div>
     </div>
   </div>
 </section>

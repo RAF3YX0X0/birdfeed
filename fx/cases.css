@@ -422,6 +422,12 @@
 .csx-gal__item { margin: 0; }
 .csx-gal__item img, .csx-gal__item video { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 16px; background: #EEF1F5; box-shadow: 0 0 0 1px #E5E7EB; }
 .csx-gal__item.is-video video { aspect-ratio: 9 / 16; background: #0A0A0A; }
+/* Screens: a website at desktop width spans two columns; a phone or a tall panel keeps its height. */
+.csx-gal { grid-auto-flow: dense; }
+.csx-gal__item a { display: block; }
+.csx-gal__item.is-wide { grid-column: span 2; }
+.csx-gal__item.is-wide img { aspect-ratio: 16 / 10; object-position: top; }
+.csx-gal__item.is-tall img { aspect-ratio: 9 / 16; object-position: top; }
 .csx-gal__item figcaption { margin-top: 8px; font-size: 12.5px; line-height: 1.45; color: #4B5563; }
 .csx-case__links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 40px 0 0; }
 .csx-case__links span { margin-right: 6px; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #858C99; }

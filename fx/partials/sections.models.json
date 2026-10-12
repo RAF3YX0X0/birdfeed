@@ -472,7 +472,7 @@
    "cta": null,
    "note": "",
    "neg": false,
-   "coverage": 99
+   "coverage": 98
   },
   {
    "index": 8,
@@ -847,7 +847,7 @@
     ],
     [
      "Who does the work",
-     "200+ real creatives",
+     "Real creatives",
      "AI tools or junior freelancers"
     ],
     [
@@ -1699,7 +1699,7 @@
     {
      "title": "Biggest client on Google",
      "text": "",
-     "stat": "4.6/5",
+     "stat": "5.0★",
      "icon": "<svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"#858C99\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 3v18h18\"></path><path d=\"M7 13l4-4 3 3 5-6\"></path></svg>",
      "img": "",
      "href": "",
@@ -1708,9 +1708,9 @@
      "neg": false
     },
     {
-     "title": "Marketers & specialists",
+     "title": "",
      "text": "",
-     "stat": "200+",
+     "stat": "Client case studies",
      "icon": "<svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" fill=\"none\" stroke=\"#858C99\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 2v4M12 18v4M2 12h4M18 12h4\"></path><circle cx=\"12\" cy=\"12\" r=\"4\"></circle></svg>",
      "img": "",
      "href": "",
@@ -1738,7 +1738,7 @@
    "cta": null,
    "note": "",
    "neg": false,
-   "coverage": 138
+   "coverage": 133
   },
   {
    "index": 2,
@@ -5942,9 +5942,9 @@
      "neg": false
     },
     {
-     "title": "vetted marketers & writers",
-     "text": "vetted marketers & writers",
-     "stat": "200+",
+     "title": "Client case studies",
+     "text": "Client case studies",
+     "stat": "10",
      "icon": "",
      "img": "",
      "href": "",
@@ -5983,7 +5983,7 @@
    "cta": null,
    "note": "",
    "neg": false,
-   "coverage": 311
+   "coverage": 325
   },
   {
    "index": 5,

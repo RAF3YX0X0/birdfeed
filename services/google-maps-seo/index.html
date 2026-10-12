@@ -48,6 +48,25 @@ body{margin:0;background:#F5F7FA;color:#0A0A0A;font-family:Satoshi,"Satoshi Fall
 .sp-ticks i{flex:none;display:grid;place-items:center;width:22px;height:22px;margin-top:1px;border-radius:50%;background:#0066FF;color:#fff}
 .sp-ticks--no i{background:#F1F2F4;color:#6B7280}
 .sp-sec{padding:clamp(64px,8vw,110px) 0}
+.sp-proof{padding-top:0}
+.sp-proof__card{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(24px,3.4vw,44px);border-radius:32px;background:#0A0A0A;color:#fff;overflow:hidden}
+.sp-proof__card .sp-k{color:rgba(255,255,255,.62)}.sp-proof__card .sp-k::before{background:linear-gradient(90deg,rgba(77,148,255,0),#4D94FF)}
+.sp-proof__card h2 em{color:#4D94FF}
+.sp-proof__card>div>p{margin:16px 0 0;max-width:520px;font-size:17px;line-height:1.6;color:rgba(255,255,255,.72)}
+.sp-proof__stats{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 0;padding:0;list-style:none}
+.sp-proof__stats li{flex:1 1 140px;padding:16px 18px;border-radius:18px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.sp-proof__stats b{display:block;font-size:30px;font-weight:600;letter-spacing:-.025em;color:#4D94FF}
+.sp-proof__stats span{display:block;margin-top:6px;font-size:13px;line-height:1.4;color:rgba(255,255,255,.66)}
+.sp-proof__src{margin:16px 0 0!important;font-size:12px!important;color:rgba(255,255,255,.45)!important}
+.sp-proof__link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;color:#fff;font-weight:600;font-size:15px;text-decoration:none}
+.sp-proof__link:hover{color:#4D94FF}
+.sp-proof__shot{display:block;justify-self:center;width:min(100%,290px);height:430px;object-fit:cover;object-position:top;border-radius:22px;box-shadow:0 0 0 1px rgba(255,255,255,.14),0 40px 80px -40px rgba(0,102,255,.6)}
+.sp-proof__bars{display:grid;gap:12px;margin:0;padding:22px;border-radius:22px;background:#fff;color:#0A0A0A;list-style:none}
+.sp-proof__bars li{display:grid;grid-template-columns:minmax(96px,36%) 1fr auto;align-items:center;gap:12px;font-size:13.5px}
+.sp-proof__bars i{height:10px;border-radius:99px;background:linear-gradient(90deg,#0066FF var(--w),#EEF1F5 var(--w))}
+.sp-proof__bars b{font-variant-numeric:tabular-nums}
+.sp-proof__bars small{grid-column:1/-1;font-size:11.5px;color:#858C99}
+@media (max-width:860px){.sp-proof__card{grid-template-columns:minmax(0,1fr)}.sp-proof__shot{width:min(100%,260px);height:360px}}
 .sp-head{max-width:760px}
 .sp-head p{margin:16px 0 0;font-size:17px;line-height:1.6;color:#4B5563}
 .sp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px}
@@ -97,7 +116,6 @@ body{margin:0;background:#F5F7FA;color:#0A0A0A;font-family:Satoshi,"Satoshi Fall
 @media(max-width:900px){.sp-hero{padding:120px 0 24px}.sp-hero__grid,.sp-two{grid-template-columns:minmax(0,1fr)}.sp-hero__card{transform:none}.sp-grid,.sp-steps{grid-template-columns:minmax(0,1fr)}.sp-dark,.sp-cta{margin-left:12px;margin-right:12px;border-radius:28px}}
 @media(max-width:640px){.sp-wrap{padding:0 16px}.sp-form{grid-template-columns:minmax(0,1fr)}}
 </style>
-
 
 <!-- fx:start -->
 <link rel="stylesheet" href="/fx/dist/css-3dd70c9a57.css">
@@ -105,7 +123,7 @@ body{margin:0;background:#F5F7FA;color:#0A0A0A;font-family:Satoshi,"Satoshi Fall
 <script>(function(){var e=document.documentElement,t=!1;try{t=window.matchMedia("(prefers-reduced-motion: reduce)").matches}catch(n){}if(e.classList.add("fx"),setTimeout(function(){document.getElementById("fx-nx")&&!document.querySelector("section.nx")&&e.classList.add("fx-nx-off")},12e3),t){e.classList.add("fx-reduced");return}var s=!1;try{s=sessionStorage.getItem("fx-seen")==="1",sessionStorage.setItem("fx-seen","1"),sessionStorage.removeItem("fx-nav")}catch(n){}s||e.hasAttribute("data-fx-landing")||(e.classList.add("fx-cover","fx-from-load"),setTimeout(function(){e.classList.remove("fx-cover")},4e3))})();</script>
 <script src="/fx/dist/vendor-08d55cd6d3.js" defer></script>
 <link rel="modulepreload" href="/fx/dist/c-VHNSBD2M.js">
-<script type="module" src="/fx/dist/fx-SYC2R7RQ.js"></script>
+<script type="module" src="/fx/dist/fx-GNV7DU64.js"></script>
 <script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/login/*"}},{"not":{"selector_matches":"[target=_blank], [download]"}}]},"eagerness":"moderate"}]}</script>
 <!-- fx:end -->
 </head>
@@ -187,6 +205,17 @@ body{margin:0;background:#F5F7FA;color:#0A0A0A;font-family:Satoshi,"Satoshi Fall
   <div class="sp-head"><p class="sp-k">The work</p><h2>A profile that’s <em>complete and accurate.</em></h2><p>Your Google Business Profile is often the first thing a customer sees. We make sure it says the right things, in the right places, and stays that way.</p></div>
   <div class="sp-grid"><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3"/></svg></span><b>Profile audit</b><p>A review of your profile against what Google asks for and what nearby competitors show.</p></div><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></span><b>Categories and services</b><p>The primary and secondary categories, services and products that match what you do.</p></div><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 8"/></svg></span><b>Photos and updates</b><p>Guidance on photos and posts that show customers what to expect.</p></div><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg></span><b>Questions and reviews</b><p>A process for answering questions and responding to reviews.</p></div><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span><b>Name, address and phone consistency</b><p>The same details on your profile, your website and key listings.</p></div><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><b>Map visibility snapshots</b><p>Where your profile appears for the searches that matter, before and after the work.</p></div></div>
 </div></section>
+<section class="sp-sec sp-proof"><div class="sp-wrap"><div class="sp-proof__card">
+  <div>
+    <p class="sp-k">Client work</p>
+    <h2>The Gentry House, <em>Lake Saint Louis.</em></h2>
+    <p>A premium barbershop whose website and Google Business Profile we run. Its site answers the searches locals make, and its profile carries the services, hours, booking link and photos.</p>
+    <ul class="sp-proof__stats"><li><b>5.0★</b><span>on Google, from 201 reviews</span></li><li><b>55</b><span>photos on its Google profile</span></li><li><b>280</b><span>reviews across Google and Booksy</span></li></ul>
+    <p class="sp-proof__src">Source: Google Maps and Booksy, checked 13 October 2026.</p>
+    <a class="sp-proof__link" href="/case-studies/#the-gentry-house">Read the case study <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+  <img class="sp-proof__shot" src="/work/the-gentry-house/google-profile.webp" width="408" height="882" alt="The Gentry House’s Google Business Profile: 5.0 from 201 reviews" loading="lazy" decoding="async">
+</div></div></section>
 <section class="sp-dark"><div class="sp-wrap">
   <p class="sp-k">How we work</p>
   <h2>The <em>MAD Method.</em></h2>

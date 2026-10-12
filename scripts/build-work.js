@@ -42,7 +42,8 @@ fs.writeFileSync(path.join(ROOT, 'fx', 'portfolio-data.js'),
 console.log(`portfolio: ${posts.length} posts, ${videos.length} videos, ${ugc.length} creator videos across ${used.length} industries`);
 
 // Media in /work that nothing uses.
-const referenced = new Set(CLIENTS.flatMap((c) => c.media.flatMap((m) => [m.src, META[m.src] && META[m.src].poster])));
+// (soft-opening-hero.mp4 is the homepage hero phone's light cut of the reel.)
+const referenced = new Set(['/work/the-gentry-house/soft-opening-hero.mp4', ...CLIENTS.flatMap((c) => c.media.flatMap((m) => [m.src, META[m.src] && META[m.src].poster]))]);
 const unused = Object.keys(META).filter((k) => !referenced.has(k));
 if (unused.length) console.log('unused in /work:', unused.join(' '));
 
@@ -78,11 +79,11 @@ ${picks.map((src) => {
 const CARDS = [
   {
     slug: 'the-gentry-house', tags: ['Our biggest account', 'Barbershop'],
-    lede: 'A premium barbershop in Lake Saint Louis, rated a perfect 5.0 on Google and on Booksy.',
-    case: [['The shop', 'Hot towel with every service, haircuts from $40, open seven days and booked online.'], ['What we made', 'Short-form video for the soft opening: the studio, the chairs and a 20%-off offer.']],
+    lede: 'Website, Google profile, Meta ads and social for a premium barbershop rated a perfect 5.0 on Google and Booksy.',
+    case: [['What we do', 'Built the website, manage the Google Business Profile, run the Meta ads and make the social content.'], ['Where it stands', '5.0 on Google from 201 reviews and 5.0 on Booksy from 79. Reviewers mention attention to detail most.']],
     stats: [['280', 'reviews across Google and Booksy'], ['5.0★', 'on Google, from 201 reviews']],
     media: (c) => `${board(c.charts[0])}
-          <div class="pj-chip pj-chip--tl"><small>Most mentioned on Google</small><b>Attention to detail</b></div>`,
+          <div class="pj-chip pj-chip--tl"><small>We run</small><b>Website · Google · Ads · Social</b></div>`,
   },
   {
     slug: 'smart-cities-uae', tags: ['Google Ads + SEO', 'Construction'],

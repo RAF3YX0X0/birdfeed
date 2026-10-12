@@ -135,6 +135,6 @@ const html = `<style>${hide} { display: none !important; }</style>
 `;
 fs.writeFileSync(path.join(ROOT, 'fx', 'partials', 'heroes', 'case-studies.html'), html);
 
-const data = cases.map(({ slug, client, industry, location, site, headline, summary, services, timeline, team, metrics, quote, body, charts, media, links, sources }) => ({ slug, client, industry, location, site, headline, summary, services, timeline, team, metrics, quote: quote || null, body, charts, media: media.map(({ src, kind, poster, c }) => ({ src, kind, poster, c })), links, sources }));
+const data = cases.map(({ slug, client, industry, location, site, headline, summary, services, timeline, team, metrics, quote, body, charts, media, links, sources }) => ({ slug, client, industry, location, site, headline, summary, services, timeline, team, metrics, quote: quote || null, body, charts, media: media.map(({ src, kind, poster, c, shape }) => ({ src, kind, poster, c, shape })), links, sources }));
 fs.writeFileSync(path.join(ROOT, 'fx', 'cases.json'), JSON.stringify(data));
 console.log(`${cases.length} case studies → fx/partials/heroes/case-studies.html, fx/cases.json`);
