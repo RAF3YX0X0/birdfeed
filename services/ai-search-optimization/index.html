@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Search Optimization | MADMarketing</title>
+<meta name="description" content="AI search optimization from MADMarketing: structure useful content so customers and AI-powered search experiences can understand your expertise.">
+<meta name="theme-color" content="#F5F7FA">
+<link rel="canonical" href="https://madmarketinghaseeb.vercel.app/services/ai-search-optimization/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Search Optimization | MADMarketing">
+<meta property="og:description" content="AI search optimization from MADMarketing: structure useful content so customers and AI-powered search experiences can understand your expertise.">
+<meta property="og:url" content="https://madmarketinghaseeb.vercel.app/services/ai-search-optimization/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Search Optimization | MADMarketing">
+<meta name="twitter:description" content="AI search optimization from MADMarketing: structure useful content so customers and AI-powered search experiences can understand your expertise.">
+<link rel="icon" type="image/svg+xml" href="/assets/madmarketing-mark-v2.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/madmarketing-icon-32-v2.png">
+<link rel="apple-touch-icon" href="/assets/madmarketing-apple-touch-v2.png">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/satoshi-variable.woff2" crossorigin>
+<style>
+@font-face{font-family:Satoshi;font-style:normal;font-weight:300 900;font-display:swap;src:url(/fonts/satoshi-variable.woff2) format("woff2")}
+@font-face{font-family:"Satoshi Fallback";src:local("Arial");ascent-override:93.3%;descent-override:22.17%;line-gap-override:9.24%;size-adjust:108.25%}
+body{margin:0;background:#F5F7FA;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallback",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.sp{--blue:#0066FF;--ink:#0A0A0A;--muted:#4B5563;--faint:#858C99;--line:#E5E7EB}
+.sp-wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.sp .sp-k{display:inline-flex;align-items:center;gap:14px;margin:0;font-size:12px!important;line-height:1.3!important;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#4B5563}
+.sp-k::before{content:'';width:34px;height:1.5px;border-radius:2px;background:linear-gradient(90deg,rgba(0,102,255,0),#0066FF)}
+.sp-dark .sp-k{color:rgba(255,255,255,.62)}.sp-dark .sp-k::before{background:linear-gradient(90deg,rgba(77,148,255,0),#4D94FF)}
+.sp h1,.sp h2{margin:0;font-weight:600;letter-spacing:-.031em;line-height:1.04;text-wrap:balance}
+.sp h1{margin-top:20px;font-size:clamp(40px,5.4vw,72px)}
+.sp h2{margin-top:16px;font-size:clamp(30px,3.6vw,48px)}
+.sp h1 em,.sp h2 em{font-style:normal;color:#0066FF}.sp-dark h2 em{color:#4D94FF}
+.sp-lede{max-width:620px;margin:22px 0 0;font-size:clamp(17px,1.4vw,19px);line-height:1.6;color:#4B5563}
+.sp-btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.sp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:12px 26px;border-radius:999px;font-size:15px;font-weight:500;text-decoration:none;text-align:center;transition:transform .3s cubic-bezier(.22,1,.36,1),background .2s ease;cursor:pointer;border:0}
+.sp-btn:hover{transform:translateY(-2px)}
+.sp-btn--blue{background:#0066FF;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 10px 24px -10px rgba(0,102,255,.8)}.sp-btn--blue:hover{background:#0052CC}
+.sp-btn--white{background:#fff;color:#0A0A0A;box-shadow:0 0 0 1px rgba(10,10,10,.08),0 8px 20px -12px rgba(20,30,70,.3)}
+.sp-hero{padding:150px 0 40px}
+.sp-hero__grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center}
+.sp-hero__card{position:relative;padding:28px;border-radius:32px;background:#fff;box-shadow:0 0 0 1px #E5E7EB,0 50px 100px -60px rgba(20,30,70,.55);transform:perspective(1400px) rotateY(-8deg) rotateX(4deg);transition:transform .8s cubic-bezier(.22,1,.36,1)}
+.sp-hero__card:hover{transform:perspective(1400px) rotateY(0) rotateX(0)}
+.sp-hero__card::before{content:'';position:absolute;inset:-40px -40px auto auto;width:220px;height:220px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,102,255,.25),transparent);z-index:-1}
+.sp-hero__card h3{margin:0 0 16px;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#858C99}
+.sp-ticks{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+.sp-ticks li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;line-height:1.45}
+.sp-ticks i{flex:none;display:grid;place-items:center;width:22px;height:22px;margin-top:1px;border-radius:50%;background:#0066FF;color:#fff}
+.sp-ticks--no i{background:#F1F2F4;color:#6B7280}
+.sp-sec{padding:clamp(64px,8vw,110px) 0}
+.sp-head{max-width:760px}
+.sp-head p{margin:16px 0 0;font-size:17px;line-height:1.6;color:#4B5563}
+.sp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px}
+.sp-card{padding:26px;border-radius:26px;background:#fff;box-shadow:0 0 0 1px #E5E7EB,0 24px 50px -40px rgba(20,30,70,.45);transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .3s ease}
+.sp-card:hover{transform:translateY(-4px);box-shadow:0 0 0 1px rgba(0,102,255,.35),0 30px 60px -36px rgba(0,102,255,.45)}
+.sp-card__ic{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:#EBF3FF;color:#0066FF}
+.sp-card b{display:block;margin-top:18px;font-size:18px;font-weight:600;letter-spacing:-.015em}
+.sp-card p{margin:8px 0 0;font-size:15px;line-height:1.6;color:#4B5563}
+.sp-dark{margin:0 24px;border-radius:40px;padding:clamp(48px,6vw,80px) 0;color:#fff;background:radial-gradient(70% 90% at 85% 0%,rgba(0,102,255,.45),rgba(0,102,255,0) 65%),#0A0A0A}
+.sp-steps{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:16px;margin:40px 0 0;padding:0;list-style:none}
+.sp-step{position:relative;overflow:hidden;min-height:220px;padding:26px;border-radius:26px;background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.02));box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);display:flex;flex-direction:column;justify-content:flex-end}
+.sp-step__n{position:absolute;top:-.1em;right:.08em;font-size:130px;font-weight:800;line-height:1;background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(77,148,255,.5) 55%,rgba(0,102,255,0) 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sp-step b{font-size:20px;font-weight:600;letter-spacing:-.015em}
+.sp-step p{margin:8px 0 0;font-size:15px;line-height:1.6;color:rgba(255,255,255,.72)}
+.sp-faq{display:grid;gap:10px;margin-top:36px;max-width:860px}
+.sp-faq details{border-radius:20px;background:#fff;box-shadow:0 0 0 1px #E5E7EB}
+.sp-faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;padding:20px 24px;font-size:17px;font-weight:600}
+.sp-faq summary::-webkit-details-marker{display:none}
+.sp-faq summary::after{content:'+';flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#F1F2F4;font-weight:500;transition:transform .3s ease}
+.sp-faq details[open] summary::after{transform:rotate(45deg);background:#0066FF;color:#fff}
+.sp-faq p{margin:0;padding:0 24px 22px;font-size:15.5px;line-height:1.65;color:#4B5563}
+.sp-cta{margin:0 24px clamp(64px,8vw,110px);padding:clamp(40px,5vw,64px);border-radius:36px;background:#fff;box-shadow:0 0 0 1px #E5E7EB,0 40px 80px -60px rgba(20,30,70,.5);text-align:center}
+.sp-cta h2{margin:0 auto;max-width:760px}
+.sp-cta p{max-width:560px;margin:16px auto 0;font-size:17px;line-height:1.6;color:#4B5563}
+.sp-cta .sp-btns{justify-content:center}
+.sp-note{margin:14px 0 0;font-size:13px;line-height:1.55;color:#6B7280}
+.sp-related{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.sp-related a{padding:8px 14px;border-radius:999px;background:#fff;box-shadow:0 0 0 1px #E5E7EB;color:#0A0A0A;font-size:14px;text-decoration:none}
+.sp-related a:hover{color:#0066FF;box-shadow:0 0 0 1px rgba(0,102,255,.4)}
+.sp-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:36px}
+.sp-two .sp-card b{margin:0 0 16px}
+/* Application form */
+.sp-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:32px;padding:clamp(24px,3vw,36px);border-radius:30px;background:#fff;box-shadow:0 0 0 1px #E5E7EB,0 40px 80px -60px rgba(20,30,70,.5)}
+.sp-field{display:flex;flex-direction:column;gap:8px}
+.sp-field--wide{grid-column:1/-1}
+.sp-field>span{font-size:14px;font-weight:600}
+.sp-field>span small{font-weight:400;color:#858C99}
+.sp-field input,.sp-field select,.sp-field textarea{width:100%;box-sizing:border-box;min-height:48px;padding:12px 16px;border:0;border-radius:14px;background:#F9FAFB;box-shadow:inset 0 0 0 1px #E2E5EA;font:inherit;font-size:15px;color:#0A0A0A}
+.sp-field textarea{min-height:110px;resize:vertical}
+.sp-field input:focus,.sp-field select:focus,.sp-field textarea:focus{outline:0;background:#fff;box-shadow:inset 0 0 0 1.5px #0066FF,0 0 0 4px rgba(0,102,255,.1)}
+.sp-check{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.5;color:#1F2937}
+.sp-check input{flex:none;width:18px;height:18px;margin-top:2px;accent-color:#0066FF}
+.sp-form__foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+.sp-msg{grid-column:1/-1;margin:0;padding:14px 18px;border-radius:16px;font-size:15px;line-height:1.5}
+.sp-msg[hidden]{display:none}.sp-msg--ok{background:#EBF3FF;color:#0040A0}.sp-msg--err{background:#FDECEC;color:#A32121}
+.sp-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media(max-width:900px){.sp-hero{padding:120px 0 24px}.sp-hero__grid,.sp-two{grid-template-columns:minmax(0,1fr)}.sp-hero__card{transform:none}.sp-grid,.sp-steps{grid-template-columns:minmax(0,1fr)}.sp-dark,.sp-cta{margin-left:12px;margin-right:12px;border-radius:28px}}
+@media(max-width:640px){.sp-wrap{padding:0 16px}.sp-form{grid-template-columns:minmax(0,1fr)}}
+</style>
+
+<!-- fx:start -->
+<link rel="stylesheet" href="/fx/dist/css-3dd70c9a57.css">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/satoshi-variable.woff2" crossorigin>
+<script>(function(){var e=document.documentElement,t=!1;try{t=window.matchMedia("(prefers-reduced-motion: reduce)").matches}catch(n){}if(e.classList.add("fx"),setTimeout(function(){document.getElementById("fx-nx")&&!document.querySelector("section.nx")&&e.classList.add("fx-nx-off")},12e3),t){e.classList.add("fx-reduced");return}var s=!1;try{s=sessionStorage.getItem("fx-seen")==="1",sessionStorage.setItem("fx-seen","1"),sessionStorage.removeItem("fx-nav")}catch(n){}s||(e.classList.add("fx-cover","fx-from-load"),setTimeout(function(){e.classList.remove("fx-cover")},4e3))})();</script>
+<script src="/fx/dist/vendor-08d55cd6d3.js" defer></script>
+<link rel="modulepreload" href="/fx/dist/c-VHNSBD2M.js">
+<script type="module" src="/fx/dist/fx-AP6M2MO4.js"></script>
+<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/login/*"}},{"not":{"selector_matches":"[target=_blank], [download]"}}]},"eagerness":"moderate"}]}</script>
+<!-- fx:end -->
+</head>
+<body>
+<main class="sp"><!-- fx:nav:start --><header class="hx-nav" data-fx-skip>
+  <div class="hx-nav__bar">
+    <button class="hx-nav__burger" type="button" aria-expanded="false" aria-controls="hx-menu" aria-label="Open menu"><span></span><span></span></button>
+    <a class="hx-nav__logo" href="/" aria-label="MadMarketing home"><img src="/assets/madmarketing-logo-v4.svg" alt="MadMarketing" width="168" height="24"></a>
+    <nav class="hx-links" aria-label="Main menu">
+      <div class="hx-dd">
+        <button class="hx-dd__btn" type="button" aria-expanded="false" aria-controls="hx-dd-services">Services<svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+        <div class="hx-dd__panel hx-dd__panel--wide" id="hx-dd-services">
+          <div class="hx-dd__group"><p class="hx-dd__k">Social media</p><a href="/social-media-management/"><b>Social media management</b><span>Posts, captions and scheduling</span></a><a href="/social-media-services/"><b>Social media marketing</b><span>Strategy and content, end to end</span></a><a href="/short-form-video/"><b>Short-form video</b><span>Reels, TikToks and Shorts</span></a><a href="/ugc-videos/"><b>UGC videos</b><span>Real creators, real product</span></a><a href="/instagram-growth/"><b>Instagram growth</b><span>Grow your following</span></a></div>
+          <div class="hx-dd__group"><p class="hx-dd__k">Ads &amp; creative</p><a href="/meta-ads-management/"><b>Meta ads</b><span>Facebook and Instagram ads</span></a><a href="/services/google-ads/"><b>Google Ads</b><span>Search campaigns that convert</span></a><a href="/ppc-services/"><b>PPC management</b><span>Paid search, managed</span></a><a href="/ad-creative/"><b>Ad creative</b><span>Scroll-stopping ad designs</span></a><a href="/conversion-tracking/"><b>Conversion tracking</b><span>Know what each ad earns</span></a><a href="/landing-pages/"><b>Landing pages</b><span>Pages built to convert</span></a></div>
+          <div class="hx-dd__group"><p class="hx-dd__k">SEO &amp; content</p><a href="/services/local-seo/"><b>Local SEO</b><span>Get found by customers nearby</span></a><a href="/services/google-maps-seo/"><b>Google Maps SEO</b><span>A complete Google Business Profile</span></a><a href="/services/ai-search-optimization/"><b>AI search visibility</b><span>Be understood by AI-powered search</span></a><a href="/seo-services/"><b>SEO services</b><span>Rank higher on Google</span></a><a href="/managed-seo/"><b>Managed SEO</b><span>Done-for-you SEO</span></a><a href="/seo-backlinks/"><b>Link building</b><span>Quality backlinks</span></a><a href="/seo-blog-posts/"><b>SEO blog writing</b><span>Articles that rank</span></a><a href="/email-design/"><b>Email design</b><span>Emails people open</span></a></div>
+          <a class="hx-dd__all" href="/all-services/">All services <i aria-hidden="true">→</i></a>
+        </div>
+      </div>
+      <div class="hx-dd">
+        <button class="hx-dd__btn" type="button" aria-expanded="false" aria-controls="hx-dd-company">Company<svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="m2.5 4.5 3.5 3.5 3.5-3.5"/></svg></button>
+        <div class="hx-dd__panel hx-dd__panel--narrow" id="hx-dd-company">
+          <a href="/about/"><b>About us</b></a>
+          <a href="/examples/"><b>Our work</b></a>
+          <a href="/case-studies/"><b>Case studies</b></a>
+          <a href="/reviews/"><b>Reviews</b></a>
+          <a href="/blog/"><b>Blog</b></a>
+        </div>
+      </div>
+      <a class="hx-links__a" href="/pricing/">Pricing</a>
+    </nav>
+    <div class="hx-nav__ctas">
+      <a class="hx-nav__login" href="/login/">Log in</a>
+      <a class="hx-nav__cta" href="/book-demo/">Book a demo</a>
+    </div>
+  </div>
+  <nav class="hx-menu" id="hx-menu" aria-label="Main menu">
+    <div class="hx-menu__in">
+      <div class="hx-menu__col">
+        <p class="hx-menu__head">Services</p>
+        <a href="/social-media-management/">Social media management</a>
+        <a href="/short-form-video/">Short-form video</a>
+        <a href="/ugc-videos/">UGC videos</a>
+        <a href="/meta-ads-management/">Meta ads</a>
+        <a href="/seo-services/">SEO</a>
+        <a href="/all-services/">All services</a>
+      </div>
+      <div class="hx-menu__col">
+        <p class="hx-menu__head">Company</p>
+        <a href="/about/">About us</a>
+        <a href="/examples/">Our work</a>
+        <a href="/case-studies/">Case studies</a>
+        <a href="/reviews/">Reviews</a>
+        <a href="/blog/">Blog</a>
+      </div>
+      <div class="hx-menu__col hx-menu__col--cta">
+        <p class="hx-menu__head">Get started</p>
+        <a href="/pricing/">Pricing</a>
+        <a href="/book-demo/">Book a demo</a>
+        <a href="/login/">Log in</a>
+      </div>
+    </div>
+  </nav>
+</header><div class="fx-navspace" aria-hidden="true"></div><!-- fx:nav:end -->
+<section class="sp-hero"><div class="sp-wrap sp-hero__grid">
+  <div>
+    <p class="sp-k">AI Search Visibility</p>
+    <h1>Be understood by <em>AI-powered search.</em></h1>
+    <p class="sp-lede">Structure useful content so customers and AI-powered search experiences can understand your expertise. Clear, well-organized information helps both people and machines describe your business accurately.</p>
+    <div class="sp-btns">
+      <a class="sp-btn sp-btn--blue" href="/free-local-seo/">Try 30 Days of Local SEO — Free <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="sp-btn sp-btn--white" href="/book-demo/">Book a call</a>
+    </div>
+    <p class="sp-note">$0 agency fee for eligible businesses. No credit card. No automatic subscription.</p>
+  </div>
+  <aside class="sp-hero__card" aria-label="What's included">
+    <h3>What's included</h3>
+    <ul class="sp-ticks"><li><i><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Answer-first content</li><li><i><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Structured data</li><li><i><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Consistent business information</li><li><i><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Technical accessibility</li><li><i><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Expertise signals</li><li><i><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Visibility checks</li></ul>
+  </aside>
+</div></section>
+<section class="sp-sec"><div class="sp-wrap">
+  <div class="sp-head"><p class="sp-k">The work</p><h2>Content that’s easy to <em>understand and cite.</em></h2><p>AI-powered search experiences summarize what they can read and trust. We focus on making your expertise clear, consistent and easy to reference.</p></div>
+  <div class="sp-grid"><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4z"/></svg></span><b>Answer-first content</b><p>Pages and articles that answer the questions customers actually ask, clearly and directly.</p></div><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 4l-4 16"/></svg></span><b>Structured data</b><p>Schema markup that describes your business, services and FAQs in a machine-readable way.</p></div><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span><b>Consistent business information</b><p>The same facts about your business across your site, profiles and listings.</p></div><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span><b>Technical accessibility</b><p>Pages that load, render and can be crawled without obstacles.</p></div><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg></span><b>Expertise signals</b><p>Author details, credentials and sources that show why your content can be trusted.</p></div><div class="sp-card"><span class="sp-card__ic"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><b>Visibility checks</b><p>Periodic checks of how your business is described in search and AI answers.</p></div></div>
+</div></section>
+<section class="sp-dark"><div class="sp-wrap">
+  <p class="sp-k">How we work</p>
+  <h2>The <em>MAD Method.</em></h2>
+  <ol class="sp-steps"><li class="sp-step"><span class="sp-step__n" aria-hidden="true">M</span><b>Market Intelligence</b><p>We study search behavior, customer needs, competitors, and opportunities before choosing a direction.</p></li><li class="sp-step"><span class="sp-step__n" aria-hidden="true">A</span><b>Attention &amp; Authority</b><p>We build visibility and credibility through search, content, advertising, and brand experiences.</p></li><li class="sp-step"><span class="sp-step__n" aria-hidden="true">D</span><b>Data-Driven Growth</b><p>We measure meaningful actions, explain performance, and refine the work that matters.</p></li></ol>
+</div></section>
+<section class="sp-sec"><div class="sp-wrap">
+  <div class="sp-head"><p class="sp-k">Questions</p><h2>Frequently asked <em>questions.</em></h2></div>
+  <div class="sp-faq"><details open><summary>What is AI search optimization?</summary><p>It’s the work of structuring your content and business information so AI-powered search experiences can understand and accurately describe your expertise.</p></details><details><summary>Is this different from SEO?</summary><p>It builds on the same foundations (useful content, clear structure, accurate information) with extra attention to how answers are summarized.</p></details><details><summary>Can you guarantee my business appears in AI answers?</summary><p>No. AI-powered search experiences decide what they show, and their answers vary. We focus on the parts you can influence and report what we did.</p></details></div>
+  <div class="sp-related" aria-label="Related"><a href="/services/local-seo/">Local SEO</a><a href="/services/google-maps-seo/">Google Maps SEO</a><a href="/services/google-ads/">Google Ads</a><a href="/pricing/">Pricing</a></div>
+</div></section>
+<section class="sp-cta">
+  <p class="sp-k">Start here</p>
+  <h2>Your business deserves to be <em>easier to find.</em></h2>
+  <p>Let’s understand your market and build a practical path to more visibility.</p>
+  <div class="sp-btns"><a class="sp-btn sp-btn--blue" href="/free-local-seo/">Start Your Free Local SEO Challenge <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="sp-btn sp-btn--white" href="/pricing/">See pricing</a></div>
+</section>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"AI Search Visibility","description":"AI search optimization from MADMarketing: structure useful content so customers and AI-powered search experiences can understand your expertise.","url":"https://madmarketinghaseeb.vercel.app/services/ai-search-optimization/","areaServed":"US","provider":{"@type":"Organization","name":"MADMarketing","url":"https://madmarketinghaseeb.vercel.app/","email":"hello@madmediamarketing.com","telephone":"+1-636-369-2742","address":{"@type":"PostalAddress","streetAddress":"2055 Craigshire Dr","addressLocality":"St. Louis","addressRegion":"MO","postalCode":"63146","addressCountry":"US"},"sameAs":["https://www.facebook.com/getmadmarketing/"],"contactPoint":{"@type":"ContactPoint","contactType":"customer service","email":"hello@madmediamarketing.com","telephone":"+1-636-369-2742","availableLanguage":"English","hoursAvailable":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"}}}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is AI search optimization?","acceptedAnswer":{"@type":"Answer","text":"It’s the work of structuring your content and business information so AI-powered search experiences can understand and accurately describe your expertise."}},{"@type":"Question","name":"Is this different from SEO?","acceptedAnswer":{"@type":"Answer","text":"It builds on the same foundations (useful content, clear structure, accurate information) with extra attention to how answers are summarized."}},{"@type":"Question","name":"Can you guarantee my business appears in AI answers?","acceptedAnswer":{"@type":"Answer","text":"No. AI-powered search experiences decide what they show, and their answers vary. We focus on the parts you can influence and report what we did."}}]}</script>
+<!-- fx:footer:start --><footer class="ft" data-fx-skip>
+  <div class="ft__card">
+    <div class="ft__top">
+      <div class="ft__brand">
+        <a class="ft__logo" href="/" aria-label="MadMarketing home"><img loading="lazy" decoding="async" src="/assets/madmarketing-logo-white-v4.svg" alt="MadMarketing" width="200" height="29"></a>
+        <p class="ft__blurb">The all-in-one marketing platform where 200+ expert creatives and software we built ourselves work as one team, shipping standout content faster, and for far less, than any agency.</p>
+        <div class="ft__badges">
+          <span class="ft__status"><i aria-hidden="true"></i>All systems operational · 99.9% uptime</span>
+          <a class="ft__rating" href="/reviews/"><b>4.6/5</b> · 800+ reviews</a>
+        </div>
+        <div class="ft__ctas">
+          <a class="hx-btn hx-btn--blue" href="/book-demo/">Book a demo</a>
+          <a class="hx-btn hx-btn--white" href="/pricing/">See pricing</a>
+        </div>
+        <ul class="ft__contact">
+          <li><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg><a href="mailto:hello@madmediamarketing.com">hello@madmediamarketing.com</a></li>
+          <li><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2"/></svg><a href="tel:+16363692742">+1 (636) 369-2742</a><a class="ft__wa" href="https://wa.me/16363692742" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>2055 Craigshire Dr, St. Louis, MO 63146</span></li>
+          <li><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Open 24/7</span></li>
+        </ul>
+        <div class="ft__social">
+          <a href="https://www.facebook.com/getmadmarketing/" target="_blank" rel="noopener" aria-label="MadMarketing on Facebook"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" stroke="none" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H7.9v3h2.6V21z"/></svg></a>
+        </div>
+      </div>
+      <nav class="ft__cols" aria-label="Footer">
+        <div class="ft-col">
+          <p class="ft-col__k">Social media</p>
+          <a href="/social-media-management/">Social Media Management Agency</a>
+          <a href="/social-media-services/">Social Media Marketing</a>
+          <a href="/short-form-video/">Short-Form Videos</a>
+          <a href="/instagram-growth/">Instagram Growth</a>
+          <a href="/ugc-videos/">UGC Videos</a>
+          <a href="/examples/">Social Media Examples</a>
+        </div>
+        <div class="ft-col">
+          <p class="ft-col__k">Ads &amp; creative</p>
+          <a href="/meta-ads-management/">Meta Ads Management</a>
+          <a href="/google-ads-management/">Google Ads Management</a>
+          <a href="/ppc-services/">PPC Management</a>
+          <a href="/ad-creative/">Ad Creative</a>
+          <a href="/conversion-tracking/">Conversion Tracking</a>
+          <a href="/landing-pages/">Landing Pages</a>
+        </div>
+        <div class="ft-col">
+          <p class="ft-col__k">SEO &amp; content</p>
+          <a href="/services/local-seo/">Local SEO</a>
+          <a href="/services/google-maps-seo/">Google Maps SEO</a>
+          <a href="/services/ai-search-optimization/">AI Search Optimization</a>
+          <a href="/free-local-seo/">Free 30-Day Local SEO</a>
+          <a href="/seo-services/">SEO Services</a>
+          <a href="/managed-seo/">Managed SEO</a>
+          <a href="/seo-backlinks/">Link Building Services</a>
+          <a href="/seo-blog-posts/">SEO Blog Writing</a>
+          <a href="/email-design/">Email Design</a>
+        </div>
+        <div class="ft-col">
+          <p class="ft-col__k">Company</p>
+          <a href="/all-services/">All Services</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/about/">About</a>
+          <a href="/reviews/">Reviews</a>
+          <a href="/case-studies/">Case Studies</a>
+          <a href="/compare/">Compare Us</a>
+          <a href="/pro/">MadMarketing Pro</a>
+          <a href="/reseller/">White-Label / Resellers</a>
+        </div>
+        <div class="ft-col">
+          <p class="ft-col__k">Resources</p>
+          <a href="/blog/">Blog</a>
+          <a href="/seo-glossary/">Marketing Glossary</a>
+          <a href="/video-demo/">Watch Demo</a>
+          <a href="/book-demo/">Book a Demo</a>
+          <a href="/refund/">Refund Policy</a>
+        </div>
+      </nav>
+    </div>
+
+    <a class="ft__agency" href="/reseller/"><span>Run an agency?</span><b>Resell MadMarketing under your own brand</b><i aria-hidden="true">→</i></a>
+
+    <div class="ft__seo">
+      <div class="ft-seo">
+        <p class="ft-seo__k">By industry</p>
+        <div class="ft-seo__links">
+          <a href="/social-media-management-for-restaurants/">Restaurants</a>
+          <a href="/social-media-management-for-real-estate/">Real Estate</a>
+          <a href="/social-media-management-for-dentists/">Dentists</a>
+          <a href="/social-media-management-for-gyms/">Gyms &amp; Fitness</a>
+          <a href="/social-media-management-for-law-firms/">Law Firms</a>
+          <a href="/social-media-management-for-salons/">Salons &amp; Spas</a>
+          <a href="/social-media-management-for-ecommerce/">E-commerce</a>
+          <a href="/social-media-management-for-medical/">Medical</a>
+          <a href="/social-media-management-for-car-dealerships/">Car Dealerships</a>
+          <a href="/social-media-management-for-coaches/">Coaches</a>
+          <a href="/home-services/">Home Services</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft__bottom">
+      <p>MadMarketing is a <a href="/social-media-management/">social media management agency</a> serving 100+ businesses across the US. © 2026 MadMarketing · St. Louis, MO</p>
+      <div class="ft__legal">
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/refund/">Refunds</a>
+        <a href="/cookie-policy/">Cookies</a>
+        <a href="/careers/">Careers</a>
+        <button type="button" class="ft__top-btn" aria-label="Back to top">↑</button>
+      </div>
+    </div>
+
+    <div class="ft__word" aria-hidden="true"><span>M</span><span>A</span><span>D</span><span class="is-serif">M</span><span class="is-serif">a</span><span class="is-serif">r</span><span class="is-serif">k</span><span class="is-serif">e</span><span class="is-serif">t</span><span class="is-serif">i</span><span class="is-serif">n</span><span class="is-serif">g</span></div>
+  </div>
+</footer><!-- fx:footer:end --></main>
+</body>
+</html>

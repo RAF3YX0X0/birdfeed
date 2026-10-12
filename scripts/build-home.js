@@ -35,14 +35,14 @@ const startPrice = (s) => num(s.tiers ? s.tiers[0][1] : s.flat);
 
 // ---- What we do ------------------------------------------------------------------
 // The client's own words (homepage copy, 2026-10): six services, local SEO
-// first. Their dedicated pages (/services/local-seo/ and so on) don't exist
-// yet, so each links to the closest page the site has.
+// first, each linking to its page (scripts/build-seo-pages.js builds the
+// /services/ ones).
 const SERVICES = [
-  ['pin', 'Local SEO', 'Improve how your business appears across local searches, business listings, and Google Maps.', '/seo-services/'],
-  ['map', 'Google Maps SEO', 'Strengthen the accuracy, relevance, and completeness of your Google Business Profile.', '/seo-services/'],
+  ['pin', 'Local SEO', 'Improve how your business appears across local searches, business listings, and Google Maps.', '/services/local-seo/'],
+  ['map', 'Google Maps SEO', 'Strengthen the accuracy, relevance, and completeness of your Google Business Profile.', '/services/google-maps-seo/'],
   ['search', 'Search Engine Optimization', 'Make your website easier to discover, understand, and use.', '/managed-seo/'],
-  ['sparkle', 'AI Search Visibility', 'Structure useful content so customers and AI-powered search experiences can understand your expertise.', '/seo-blog-posts/'],
-  ['target', 'Paid Advertising', 'Reach high-intent audiences with Google and Meta campaigns built around measurable outcomes.', '/google-ads-management/'],
+  ['sparkle', 'AI Search Visibility', 'Structure useful content so customers and AI-powered search experiences can understand your expertise.', '/services/ai-search-optimization/'],
+  ['target', 'Paid Advertising', 'Reach high-intent audiences with Google and Meta campaigns built around measurable outcomes.', '/services/google-ads/'],
   ['cursor', 'Websites & Conversion', 'Turn visits into calls, inquiries, appointments, and sales.', '/landing-pages/'],
 ];
 const GLYPH = {
