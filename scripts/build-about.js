@@ -3,14 +3,15 @@
 //   - fx/partials/heroes/about.html: the hero (the statement, and a 3D stack
 //     of the layers the service is built from),
 //   - fx/partials/industry/about.top.html: rules hiding the page's original
-//     sections, then "where it started" (text that lights up as
-//     you read), the four alternatives (a fanned 3D deck that MadMarketing's
-//     card rises out of) and the economics (a 3D ring of six cards),
+//     sections, then "who we are" (text that lights up as you read), four
+//     commitments (a fanned 3D deck that MADMarketing's card rises out of)
+//     and the six service families (a 3D ring of six cards),
 //   - fx/partials/industry/about.bottom.html, after the 3D globe (fx.js keeps
-//     placing it in the page's island): the principles, the reviews, the FAQ
+//     placing it in the page's island): the MAD Method, the clients, the FAQ
 //     and a closing call to action.
-// The words and figures are the page's own. Styles in fx/about.css, motion in
-// fx/about.js.
+// The words are MADMarketing's own: the client's homepage copy, the MAD
+// Method, and their services and rules (scripts/offer-data.js). Styles in
+// fx/about.css, motion in fx/about.js.
 //
 //   node server.js &
 //   NODE_PATH=<dir with puppeteer-core> node scripts/build-about.js
@@ -32,7 +33,9 @@ const ABOUT_ANSWERS = {
   "What if I don't like the content?": 'You review the work before anything goes live, and your feedback goes into revisions. What each plan includes is set out in your written agreement.',
   'How do I get started, and how fast will I see content?': 'Book a 30-minute call, or, if you’re a local business with a verified Google Business Profile, apply for the free 30-day challenge. After the call we send you a scope and a quote, and once you approve it in writing, we start onboarding and agree the timeline for your first deliverables with you.',
   'How do I communicate with my team?': 'With your account team, by email and on calls. Your agreement sets out who does what and how often we report to you.',
-  'What is your refund policy?': 'Billing, cancellation and refunds are set out in your written agreement before you pay anything. The free 30-day challenge has no agency fee and needs no credit card.',
+  'Who is MadMarketing, and where are you based?': 'MADMarketing is a full-service digital marketing agency headquartered in St. Louis, Missouri, leading with local SEO and Google Maps visibility for US local businesses. Every marketer and creative on your account is vetted by our team.',
+  'Is the content made by AI?': 'No. The work is made by real people on our team. Where we use AI-assisted tools, such as for drafting or workflow support, a person reviews the output, with privacy safeguards.',
+  'What is your refund policy?': 'Billing, cancellation and refunds are set out in your written agreement before you pay anything, and our Refund & Cancellation Policy explains how it works. The free 30-day challenge has no agency fee and needs no credit card.',
 };
 const B = require('./render-blocks.js');
 
@@ -46,29 +49,33 @@ const I = {
   book: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/>',
   bolt: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
   star: '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+  chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  pin: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
 };
 
-// ---- Hero: the statement, and the layers it's built on ---------------------------------------
+// ---- Hero: the statement, and the layers the work is built on (the MAD Method) -------------
 function hero() {
   const layers = [
-    ['people', 'Specialists', 'Vetted creatives'],
-    ['book', 'Playbooks', 'Refined across 100+ accounts'],
-    ['bolt', 'Technology', 'Tooling for the busywork'],
-    ['star', 'Your brand', 'Local SEO plans from $199/mo'],
+    ['search', 'Market Intelligence', 'Research before direction'],
+    ['star', 'Attention & Authority', 'Visibility and credibility'],
+    ['chart', 'Data-Driven Growth', 'Measured, explained, refined'],
+    ['pin', 'Your business', 'Easier to find, easier to choose'],
   ];
+  const marks = ['M', 'A', 'D', '✓'];
   return `<section class="abx" aria-labelledby="abx-title">
   <div class="abx__bg" aria-hidden="true"><i></i><i></i></div>
   <div class="abx__in">
     <div class="abx__copy">
-      <span class="sx-eyebrow"><i></i>Our story</span>
-      <h1 class="abx__title" id="abx-title"><span class="abx__line"><span>We made professional</span></span> <span class="abx__line"><span>marketing <em>affordable.</em></span></span></h1>
-      <p class="abx__sub"><b>The industry hasn’t caught up.</b> Great marketing used to mean agency retainers or in-house teams. Most businesses couldn’t afford either. We built the infrastructure to change that.</p>
-      <div class="abx__ctas"><a class="hx-btn hx-btn--blue" href="/book-demo/">Book a demo</a><a class="hx-btn hx-btn--white" href="/pricing/">See pricing</a></div>
+      <span class="sx-eyebrow"><i></i>About MADMarketing</span>
+      <h1 class="abx__title" id="abx-title"><span class="abx__line"><span>Think MAD.</span></span> <span class="abx__line"><span>Grow <em>beyond ordinary.</em></span></span></h1>
+      <p class="abx__sub"><b>Your next customer is already searching.</b> MADMarketing is a full-service digital marketing agency in St. Louis, leading with local SEO and Google Maps visibility for US local businesses, and helping them turn online attention into real opportunities.</p>
+      <div class="abx__ctas"><a class="hx-btn hx-btn--blue" href="/free-local-seo/">Try 30 Days of Local SEO, Free</a><a class="hx-btn hx-btn--white" href="/services/">Explore our services</a></div>
       <p class="abx__trust">100+ businesses served · 10 client case studies</p>
     </div>
     <div class="abx__stage" aria-hidden="true">
       <div class="abx-stack">${layers.map(([ic, name, line], i) => `
-        <div class="abx-layer${i === layers.length - 1 ? ' is-top' : ''}" style="--i:${i}"><div class="abx-layer__face"><span class="abx-layer__ic">${svg(I[ic], 22)}</span><span class="abx-layer__txt"><b>${name}</b><small>${line}</small></span><span class="abx-layer__n">0${i + 1}</span></div><span class="abx-layer__edge"></span></div>`).join('')}
+        <div class="abx-layer${i === layers.length - 1 ? ' is-top' : ''}" style="--i:${i}"><div class="abx-layer__face"><span class="abx-layer__ic">${svg(I[ic], 22)}</span><span class="abx-layer__txt"><b>${name}</b><small>${line}</small></span><span class="abx-layer__n">${marks[i]}</span></div><span class="abx-layer__edge"></span></div>`).join('')}
         <span class="abx-stack__shadow"></span>
       </div>
     </div>
@@ -76,61 +83,55 @@ function hero() {
 </section>`;
 }
 
-// ---- Where it started: text that lights up as you read ----------------------------------------
+// ---- Who we are: text that lights up as you read ------------------------------------------------
 function story() {
   const paras = [
-    'The founders ran a fast-growing ecommerce brand and needed marketing across every channel. What they found was an industry built to charge as much as the market would bear, agencies quoting $1,500–$3,000 per service.',
-    'Freelancers were unreliable; in-house was too expensive. None of it worked, so they built their own system: specialized talent, repeatable processes, real playbooks.',
-    'When it started producing agency-quality output at a fraction of the price, the question became obvious: why isn’t this available to everyone? That question became MadMarketing, a model designed for the businesses the industry had written off.',
+    'MADMarketing is a full-service digital marketing agency headquartered in St. Louis, Missouri. We lead with local SEO and Google Maps visibility, because that’s where customers who are ready to buy are already looking.',
+    'A good-looking website or a busy social feed isn’t the finish line. What matters is whether the right people discover your business, understand why you’re different, and take action. So we connect search visibility, paid acquisition, persuasive creative and measurement into one practical growth system.',
+    'We care about qualified traffic, calls, booked appointments, lead quality and conversion rates, not vanity metrics. And every report says what was done, what changed and what comes next.',
   ];
   const words = (t) => t.split(/\s+/).map((w) => `<span class="abx-w">${esc(w)}</span>`).join(' ');
   return `<section class="nx nx--light abx-story" data-fx-skip>
   <div class="nx__in">
-    <div class="abx-story__side"><span class="nx__eyebrow">Where it started</span><h2 class="nx__title">We built this to solve a problem <em>we lived through.</em></h2><span class="abx-story__year" aria-hidden="true">100+</span></div>
+    <div class="abx-story__side"><span class="nx__eyebrow">Who we are</span><h2 class="nx__title">Marketing should move your business <em>forward.</em></h2><span class="abx-story__year" aria-hidden="true">100+</span></div>
     <div class="abx-story__text">${paras.map((t) => `<p>${words(t)}</p>`).join('')}</div>
   </div>
 </section>`;
 }
 
-// ---- The four alternatives: a fanned deck, then MadMarketing rises out of it -----------------------
+// ---- How we work with you: four commitments (the client's commercial rules), a fanned
+// deck that MADMarketing's card rises out of ------------------------------------------------------
 function alternatives() {
   const cards = [
-    ['Do it yourself', '10–20', 'hours a week', '10–20 hours a week on marketing instead of the business. Execution is inconsistent. Most burn out within six months.', 'Unsustainable'],
-    ['Hire freelancers', '?', 'who shows up', 'Good freelancers are hard to keep. When they disappear, the work stops. No continuity, no coordination.', 'No continuity'],
-    ['Use AI tools', '≈', 'like everyone else', 'Generic output that looks like everyone else’s. You still need to brief, edit, and notice when it drifts off-brand.', 'Generic'],
-    ['Hire a traditional agency', '$5k–8k', 'multi-channel, per month', '$1,500–$3,000 per service. Multi-channel runs $5k–$8k minimum. Built for enterprise, never made sense for everyone else.', 'Built for a different tier'],
+    ['Your accounts', 'Yours', 'always', 'You own your business profiles and advertising accounts. We work through role-based access and never ask for your passwords.', 'Ownership'],
+    ['Our agreements', 'Written', 'before you pay', 'Every plan starts with a written agreement that sets out billing, cancellation, service levels and deliverables.', 'Clarity'],
+    ['Our promises', 'Honest', 'no guaranteed rankings', 'We don’t promise Google positions, AI mentions, traffic, ROAS or leads. We guarantee the agreed work and transparent reporting.', 'Transparency'],
+    ['Your free trial', '$0', 'agency fee, 30 days', 'The 30-day challenge needs no credit card and never turns into a paid subscription without your explicit approval.', 'No surprises'],
   ];
   return `<section class="nx nx--light abx-alts" data-fx-skip>
   <div class="abx-alts__pin">
     <div class="nx__in abx-alts__stage">
-      <header class="nx__head"><span class="nx__eyebrow">The structural problem</span><h2 class="nx__title">Four alternatives. None of them <em>built to actually work.</em></h2><p class="nx__lede">The industry offered small businesses four options. Every one had a structural flaw that made sustainable marketing nearly impossible.</p></header>
+      <header class="nx__head"><span class="nx__eyebrow">How we work with you</span><h2 class="nx__title">Four commitments, <em>on every account.</em></h2><p class="nx__lede">The rules we work by, whichever service you start with.</p></header>
       <div class="abx-deck">${cards.map(([k, big, unit, text, tag], i) => `
         <article class="abx-card" style="--i:${i}"><span class="abx-card__k">${esc(k)}</span><b class="abx-card__big">${esc(big)}</b><small class="abx-card__unit">${esc(unit)}</small><p>${esc(text)}</p><span class="abx-card__tag">${esc(tag)}</span></article>`).join('')}
-        <article class="abx-card abx-card--us"><span class="abx-card__k">MadMarketing</span><b class="abx-card__big">The infrastructure that <em>didn’t exist.</em></b><p>Six service families and vetted specialists with one partner. Local SEO plans start at $199 a month, and everything else is scoped and quoted to your business. Designed from the start for the businesses the industry had written off as too small to serve well.</p><span class="abx-card__chips"><i>Six service families</i><i>Vetted specialists</i><i>From $199/mo</i><i>Free 30-day challenge</i></span></article>
+        <article class="abx-card abx-card--us"><span class="abx-card__k">MADMarketing</span><b class="abx-card__big">One partner. <em>Multiple ways to grow.</em></b><p>Start with local SEO and Google Maps visibility. When your search foundations are strong, the same team supports the next chapter: paid search, social advertising, creative content, landing pages, automation and ongoing SEO.</p><span class="abx-card__chips"><i>Six service families</i><i>Local SEO from ${O.money(O.FROM)}/mo</i><i>Free 30-day challenge</i><i>St. Louis, MO</i></span></article>
       </div>
     </div>
   </div>
 </section>`;
 }
 
-// ---- How the economics work: a ring of six cards that turns with the scroll -------------------------
+// ---- What we do: the six service families on a ring that turns with the scroll ------------------
 function economics() {
-  const items = [
-    ['Deep specialization, not generalists', 'Every specialist is vetted for one discipline. Specialization produces better work faster, that’s what makes the price work.'],
-    ['Systems built through iteration', '100+ accounts across every industry build real institutional knowledge. Your account benefits from all of it.'],
-    ['Infrastructure with no dead weight', 'No downtown offices, no account-management layers. What you pay funds the specialists doing the work, nothing else.'],
-    ['Repeatable playbooks', 'Refined across tens of thousands of campaigns, then applied to your brand so quality never depends on a single person.'],
-    ['Technology where it helps', 'Tooling speeds up the busywork so specialists spend their time on judgment and craft, not formatting and exports.'],
-    ['Flat, honest pricing', 'One monthly rate per service. No ad-spend percentage, no surprise invoices, no upsell pressure on every call.'],
-  ];
+  const items = O.FAMILIES.map((f) => [f.name, `${f.tag}: ${f.services.map(([n]) => n).join(', ')}.`]);
   return `<section class="nx nx--light abx-eco" data-fx-skip>
   <div class="abx-eco__pin">
     <div class="nx__in abx-eco__stage">
       <div class="abx-eco__side">
-        <span class="nx__eyebrow">How we did it</span>
-        <h2 class="nx__title">How we made the economics <em>work.</em></h2>
-        <p class="nx__lede">Agency pricing isn’t high because the work costs that much. It’s high because of how agencies are built. We took the whole thing apart and rebuilt it around output.</p>
-        <p class="abx-eco__count" aria-hidden="true"><b>01</b><span>/ 06</span></p>
+        <span class="nx__eyebrow">What we do</span>
+        <h2 class="nx__title">Six ways we help you <em>grow.</em></h2>
+        <p class="nx__lede">Local SEO and Google Maps visibility come first. The rest is there when it makes business sense, under one partner. <a href="/services/">See every service</a>.</p>
+        <p class="abx-eco__count" aria-hidden="true"><b>01</b><span>/ 0${items.length}</span></p>
       </div>
       <div class="abx-ring"><div class="abx-ring__track">${items.map(([t, d], i) => `
         <article class="abx-face" style="--i:${i}"><span class="abx-face__n">0${i + 1}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></article>`).join('')}
@@ -140,19 +141,19 @@ function economics() {
 </section>`;
 }
 
-// ---- The principles -------------------------------------------------------------------------------
+// ---- The MAD Method, and the standard behind it ---------------------------------------------------
 function principles() {
   const items = [
-    ['Access is the product', 'Great marketing shouldn’t require a $5k/mo budget. Every product and pricing decision runs through one filter: does this make it more accessible?'],
-    ['Honest over impressive', 'If something isn’t working, we say so and fix it. If a channel is wrong for your business, we tell you. Transparency is the baseline.'],
-    ['Consistency is the mechanism', 'Marketing works through sustained presence, not bursts. Our infrastructure is built around repeatability and compounding, not one-off impact.'],
-    ['People are the product', 'Every piece of work is produced by a real specialist. Technology helps them work faster, it doesn’t replace the judgment or craft that makes it work.'],
+    ['M', 'Market Intelligence', 'We study search behavior, customer needs, competitors, and opportunities before choosing a direction.'],
+    ['A', 'Attention & Authority', 'We build visibility and credibility through search, content, advertising, and brand experiences.'],
+    ['D', 'Data-Driven Growth', 'We measure meaningful actions, explain performance, and refine the work that matters.'],
+    ['✓', 'Ethical by default', 'Genuine reviews only, legitimate link outreach, permission-based messages, and case studies only with our clients’ authorization.'],
   ];
   return `<section class="nx nx--light abx-prin" data-fx-skip>
   <div class="nx__in">
-    <header class="nx__head"><span class="nx__eyebrow">What we believe</span><h2 class="nx__title">The principles <em>behind the work.</em></h2></header>
-    <div class="abx-prin__grid">${items.map(([t, d], i) => `
-      <article class="abx-pr${i === 0 ? ' is-lead' : ''}"><span class="abx-pr__n">0${i + 1}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></article>`).join('')}
+    <header class="nx__head"><span class="nx__eyebrow">How we work</span><h2 class="nx__title">The MAD Method, <em>and the standard behind it.</em></h2></header>
+    <div class="abx-prin__grid">${items.map(([n, t, d], i) => `
+      <article class="abx-pr${i === 0 ? ' is-lead' : ''}"><span class="abx-pr__n">${n}</span><h3>${esc(t)}</h3><p>${esc(d)}</p></article>`).join('')}
     </div>
   </div>
 </section>`;
@@ -194,7 +195,7 @@ function homeSection(cls) {
   const hide = models.map((m) => `${m.path} { display: none !important; }`);
   const fq = models.find((m) => m.kind === 'faq');
   const faqs = fq ? fq.faqs.map((f) => { const q = f.q.replace(/^\d{1,2}\s*/, ''); return { q, a: ABOUT_ANSWERS[q] || answer(q) }; }) : [];
-  const ct = homeSection('ct').replace(/(<h2 class="ct__title"[^>]*>)[\s\S]*?(<\/h2>)/, '$1Stop managing your marketing and <em>start growing.</em>$2');
+  const ct = homeSection('ct').replace(/(<h2 class="ct__title"[^>]*>)[\s\S]*?(<\/h2>)/, '$1Your business deserves to be <em>easier to find.</em>$2');
 
   fs.writeFileSync(path.join(ROOT, 'fx', 'partials', 'heroes', 'about.html'), hero() + '\n');
   fs.mkdirSync(path.join(ROOT, 'fx', 'partials', 'industry'), { recursive: true });

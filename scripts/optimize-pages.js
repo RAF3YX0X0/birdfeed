@@ -122,13 +122,22 @@ const OFFER_TEXT = [
   [/, (?:dedicated team, )?no contracts\./g, '.'],
   [/(?<!\.)\.\.(?!\.)/g, '.'], // (left by an earlier version of these rules)
 ];
+const PAGE_TITLES = {
+  about: 'About MADMarketing: Local SEO & Digital Marketing in St. Louis',
+};
 const PAGE_DESCRIPTIONS = {
+  about: 'MADMarketing is a full-service digital marketing agency in St. Louis, leading with local SEO and Google Maps visibility for US local businesses.',
   examples: 'Browse real work our team made for our clients: social posts, reels, creator videos, brochures and websites, by industry and client.',
 };
 function offerText(html, file) {
   const slug = path.relative(ROOT, path.dirname(file)).split(path.sep).join('/');
   const own = PAGE_DESCRIPTIONS[slug];
   const clean = (t) => OFFER_TEXT.reduce((x, [re, to]) => x.replace(re, to), t);
+  const title = PAGE_TITLES[slug];
+  if (title) {
+    html = html.replace(/<title>[^<]*<\/title>/, `<title>${title.replace(/&/g, '&amp;')}</title>`)
+      .replace(/(<meta (?:property|name)="(?:og|twitter):title" content=")[^"]*(")/g, `$1${title.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}$2`);
+  }
   html = html.replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")([^"]*)(")/g, (m, a, t, b) => a + (own || clean(t)) + b);
   return html.replace(/(<script type="application\/ld\+json"[^>]*>)([\s\S]*?)(<\/script>)/g, (m, a, json, b) => a + clean(json) + b);
 }

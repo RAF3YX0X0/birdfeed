@@ -20,5 +20,6 @@
  "pro": "/pricing/",
  "compare": "/pricing/",
  "home-services": "/services/local-seo/",
- "video-demo": "/book-demo/"
+ "video-demo": "/book-demo/",
+ "blog": "/"
 }

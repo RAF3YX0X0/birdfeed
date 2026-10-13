@@ -60,7 +60,7 @@
 .abx-card__unit { margin-top: 6px; font-size: 13.5px; color: #858C99; }
 .abx-card p { margin: auto 0 0; font-size: 14px; line-height: 1.55; color: #4B5563; }
 .abx-card__tag { align-self: flex-start; margin-top: 14px; padding: 6px 11px; border-radius: 999px; background: #EEF1F5; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1F2937; }
-.abx-card__tag::before { content: '✕'; margin-right: 6px; color: #DC2626; }
+.abx-card__tag::before { content: '✓'; margin-right: 6px; color: #0066FF; }
 .abx-card--us { width: 380px; height: 380px; margin-left: -190px; top: -10px; padding: 28px; background: radial-gradient(120% 90% at 100% 0%, #1A75FF, #0066FF 50%, #001EC0); color: #fff; box-shadow: 0 50px 90px -30px rgba(0, 102, 255, 0.6); }
 .abx-card--us .abx-card__k { color: rgba(255, 255, 255, 0.7); }
 .abx-card--us .abx-card__big { font-size: 34px; line-height: 1.05; letter-spacing: -0.026em; color: #fff; }

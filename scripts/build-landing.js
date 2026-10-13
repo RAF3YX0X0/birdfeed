@@ -941,22 +941,22 @@ const terms = `<!doctype html>
 <style>
 @font-face{font-family:Satoshi;font-style:normal;font-weight:300 900;font-display:swap;src:url(/fonts/satoshi-variable.woff2) format("woff2")}
 body{margin:0;background:#F5F7FA;color:#0A0A0A;font-family:Satoshi,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-.tt{max-width:820px;margin:0 auto;padding:150px 24px 110px}
+.tt-in{max-width:820px;margin:0 auto;padding:150px 24px 110px}
 .tt .tt-k{display:inline-flex;align-items:center;gap:14px;margin:0;font-size:12px!important;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#4B5563}
 .tt .tt-k::before{content:'';width:34px;height:1.5px;background:linear-gradient(90deg,rgba(0,102,255,0),#0066FF)}
 .tt h1{margin:20px 0 0;font-size:clamp(36px,5vw,60px);font-weight:700;line-height:1.04;letter-spacing:-.031em}
 .tt h1 em{font-style:normal;color:#0066FF}
 .tt-meta{margin:14px 0 0;font-size:14px;color:#6B7280}
-.tt h2{margin:44px 0 0;font-size:22px;font-weight:700;letter-spacing:-.02em}
-.tt p{margin:12px 0 0;font-size:16.5px;line-height:1.7;color:#1F2937}
-.tt a{color:#0066FF}
+.tt-in>h2{margin:44px 0 0;font-size:22px;font-weight:700;letter-spacing:-.02em}
+.tt-in>p{margin:12px 0 0;font-size:16.5px;line-height:1.7;color:#1F2937}
+.tt-in>p a{color:#0066FF}
 .tt-cta{margin-top:48px;padding:28px;border-radius:24px;background:#fff;box-shadow:0 0 0 1px #E5E7EB}
 .tt-cta a.btn{display:inline-flex;margin-top:14px;padding:14px 24px;border-radius:999px;background:#0066FF;color:#fff;font-weight:600;text-decoration:none}
-@media(max-width:720px){.tt{padding:120px 16px 80px}}
+@media(max-width:720px){.tt-in{padding:120px 16px 80px}}
 </style>
 </head>
 <body>
-<main class="tt">
+<main class="tt"><div class="tt-in">
   <p class="tt-k">Trial terms</p>
   <h1>The MAD 30-Day <em>Visibility Challenge.</em></h1>
   <p class="tt-meta">Last updated October 13, 2026</p>
@@ -965,7 +965,7 @@ ${TERMS.map(([h, ps]) => `  <h2>${esc(h)}</h2>\n${ps.map((p) => `  <p>${esc(p)}<
   <p>Questions about these terms? Email <a href="mailto:${EMAIL}">${EMAIL}</a>, or write to MADMarketing, 2055 Craigshire Dr, St. Louis, MO 63146, United States.</p>
   <p>${DISCLAIMER}</p>
   <div class="tt-cta"><p style="margin:0"><b>Ready to apply?</b> It takes about two minutes.</p><a class="btn" href="/free-local-seo/#apply">Apply for the free trial</a></div>
-</main>
+</div></main>
 </body>
 </html>
 `;

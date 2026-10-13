@@ -68,6 +68,21 @@
   ],
   "redirects": [
     {
+      "source": "/blog/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/video-demo/",
       "destination": "/book-demo/",
       "permanent": true
