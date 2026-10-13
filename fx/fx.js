@@ -44,6 +44,10 @@ const exportsOf = new Set(islands.map((n) => n.getAttribute('component-export'))
 const page = {
   home: exportsOf.has('FBHomeTop'),
   legal: exportsOf.has('LegalPage'),
+  // The only pages that draw in 3D: the homepage's gallery and the explainers
+  // on /about/ and /book-demo/ (fx/explainers.js). Everywhere else there is
+  // nothing to warm the engine up for.
+  threeD: exportsOf.has('FBHomeTop') || /^\/(about|book-demo)\/?$/.test(location.pathname),
 };
 
 // ---------------------------------------------------------------------------
@@ -204,7 +208,7 @@ function init() {
   // (Not on data-saver or slow connections: there it loads only when needed.)
   const conn = navigator.connection;
   const slowNet = !!conn && (conn.saveData || /(^|-)(2g|3g)$/.test(conn.effectiveType || ''));
-  if (!page.legal && !reduced && !slowNet) {
+  if (page.threeD && !reduced && !slowNet) {
     const warm = () => idle(() => import('./three/kit.js').catch(() => {}), { timeout: 4000 });
     if (document.readyState === 'complete') warm();
     else window.addEventListener('load', warm, { once: true });

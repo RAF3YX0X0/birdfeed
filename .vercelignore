@@ -44,3 +44,20 @@ Stats.zip
 More Content
 Before and After.png
 WhatsApp *.zip
+
+# Hash-named leftovers from the clone, loose in the project root. The crawl
+# never requests any of them; the 16-character names are the clone's, ours are
+# words. 12MB.
+/????????????????.webp
+/????????????????.png
+/Free Offer refrence showcase.png
+/icon.png
+/MadMarketing Brand Styleboard Mockup.png
+/MADMarketing Landing page refrence.png
+/MADMarketing Logo.png
+# (og-banner.png stays: it is the og:image in every page's meta tags, which
+# browsers never fetch but Facebook, LinkedIn and WhatsApp do.)
+/viz-email-hero.jpg
+/viz-sfv-1.jpg
+/viz-sfv-2.jpg
+/viz-sfv-3.jpg

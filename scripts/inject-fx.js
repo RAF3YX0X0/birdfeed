@@ -82,6 +82,9 @@ const SHARED = [
 ];
 // Pages whose own subject is one of these sections keep their original.
 const KEEP = { reviews: ['rv'], 'case-studies': ['pj'] };
+// Pages that still hydrate the cloned React sections: their 3D explainer
+// (fx/explainer.js) anchors itself to text those sections render.
+const REACT_PAGES = new Set(['about', 'book-demo']);
 const LEGAL = ['privacy', 'refund', 'terms'];
 const SHARED_CSS = ['projects.css', 'trust.css', 'hiw.css', 'portfolio.css', 'bottom.css'];
 const sectionsOf = (file) => {
@@ -254,18 +257,25 @@ for (const file of pages(ROOT)) {
     html = html.slice(0, i) + '\n' + block(home, !!shared, hero, !!nx, !!ind) + '\n' + html.slice(i);
     // Ad landing pages (<html data-fx-landing>) bring their own slim nav and
     // footer, so visitors stay on the offer.
-    // Nothing of the cloned examples island is shown, so don't let React mount
-    // it: the attribute Astro looks for is renamed, which leaves the markup in
-    // place for hydration-safety but stops the component ever running.
-    if (isExamples) html = html.replace(/<astro-island([^>]*?)\sclient="/g, '<astro-island$1 data-fx-noclient="');
-    // An island whose component chunk isn't in _astro can never hydrate: the
-    // request just 404s and React gives up, leaving the server-rendered markup
-    // that is already on screen. Don't make the request at all.
+    // The cloned React sections are hidden on every page — our own sections
+    // replaced them — so there is nothing for React to render. Leaving the
+    // islands to hydrate anyway cost 99 requests and 21MB across the site, in
+    // chunks, that agency's images and its review posters. Renaming the two
+    // attributes Astro reads leaves the markup exactly where it is (so nothing
+    // can mismatch) while stopping the component ever being fetched or run.
+    //
+    // REACT_PAGES are the exceptions: on these the 3D explainer finds its place
+    // by matching text that the cloned sections render, so switching them off
+    // would drop the explainer. Verified by snapshotting every page with the
+    // islands on and off and comparing what each one shows.
+    const slug = path.relative(ROOT, path.dirname(file)).split(path.sep)[0];
+    const keepReact = REACT_PAGES.has(slug);
     html = html.replace(/<astro-island\b[^>]*>/g, (tag) => {
       const url = (tag.match(/component-url="([^"]+)"/) || [])[1];
-      if (!url || fs.existsSync(path.join(ROOT, url.replace(/^\//, '')))) return tag;
-      // Renaming the client directive isn't enough: the element fetches its
-      // own component-url, so that goes too.
+      // An island whose chunk isn't in _astro can never hydrate in any case:
+      // the request simply 404s. Those go quiet even on the React pages.
+      const dead = !url || !fs.existsSync(path.join(ROOT, url.replace(/^\//, '')));
+      if (keepReact && !dead) return tag;
       return tag.replace(/\sclient="/, ' data-fx-noclient="').replace(/\scomponent-url="/, ' data-fx-nourl="');
     });
     const landing = /<html[^>]*\sdata-fx-landing/.test(html);

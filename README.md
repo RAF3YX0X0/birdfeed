@@ -1,113 +1,130 @@
-# MadMarketing website
+# MADMarketing website
 
-The MadMarketing website: a static build that started as a clone of [feedbird.com](https://feedbird.com/), rebranded to MadMarketing (`node scripts/rebrand.js`) and redesigned through the FX layer below.
-
-All libraries, interactive components, stylesheets, custom typography, images, video reviews, portfolio showcases, and subpages have been fully mirrored and re-wired to work locally and offline.
-
----
-
-## 🚀 Quick Start
-
-To run the cloned website locally:
+The MADMarketing site: a static build, deployed on Vercel. It began as a clone of
+feedbird.com and has been rebuilt around MADMarketing's own services, prices, clients
+and case studies. Nothing of the original agency's content is published any more; what
+remains of the clone is the page shell and a set of hidden React sections that our own
+sections sit in front of.
 
 ```bash
-# Start the local server
-node server.js
-# Or
-npm start
+npm start          # the local dev server on http://localhost:3000
 ```
 
-Then open your browser and navigate to:
-**[http://localhost:3000](http://localhost:3000)**
+The dev server is for local work only. It is in `.vercelignore`, because deploying it
+would make Vercel run the site as a function instead of serving static files.
 
 ---
 
-## 📦 What Has Been Cloned
+## Where things live
 
-### 1. **Complete Design & Styles**
-- Full **Astro & Tailwind** styling bundled in `_astro/BareLayout.D1AS6OLU.css` and modular inline styles.
-- Custom brand styling tokens (`--fb-bg: #f3f2f1`, `--fb-primary: #3b5bff`, `--fb-card: #fbfaf8`, grain textures, rayfans, and contour overlays).
-- Full mobile responsiveness with custom mobile slider arrows (`slider-arrows.js`).
+| Folder | What it is | Deployed |
+|---|---|---|
+| `index.html`, `about/`, `services/`, … | the pages themselves, one `index.html` each | yes |
+| `fx/` | our own design layer: section markup (`fx/partials/`), styles, behaviour, 3D scenes (`fx/three/`) | `fx/dist` and assets, not `fx/partials` |
+| `fx/dist/` | the built, minified, content-hashed CSS and JS the pages load | yes |
+| `scripts/` | every generator and build step (see below) | no |
+| `work/` | our clients' real media: posts, reels, site shots, and the `.preview.mp4` copies | yes |
+| `assets/` | MADMarketing's logos, marks and icons | yes |
+| `_astro/` | the clone's compiled React chunks | only the ones still loaded |
+| `fonts/` | Satoshi, self-hosted | yes |
+| `px/`, `img/`, `ugc/`, `vx/` | the original agency's media | **no** — see "What is not deployed" |
+| `Portfolio/`, `Stats/` | the client's source material (≈1.7GB), kept locally | no |
 
-### 2. **Typography & Web Fonts**
-All self-hosted WOFF2 fonts located in `/fonts/`:
-- **Geist Sans**: 400, 500, 600, 700, 800 Normal
-- **JetBrains Mono**: 400, 500, 600 Normal
+### What is not deployed, and why
 
-### 3. **Assets & Media (100% Downloaded & Re-linked)**
-- **Branding & Logos**: `/assets/feedbird-logo.svg`, `/assets/feedbird-mark.jpg`.
-- **Work Showcase Assets**: All 15 webp showcase graphics in `/assets/work/`.
-- **Featured Samples**: All 8 high-res previews in `/img/ex/`.
-- **Case Studies**: All original imagery in `/img/`.
-- **Portfolio Showcase**: All **407** high-resolution example showcase images in `/px/`.
-- **Client Video Testimonials**: All 8 video review posters (`/reviews/*.webp`) and MP4 video files (`/reviews/*.mp4`).
-- **Demo Videos**: Product walkthrough video (`/vx/feedbird-demo.mp4`) and UGC assets in `/ugc/`.
+`.vercelignore` keeps about 265MB of material out of every deployment. None of it is
+guesswork: a crawler visits all 35 pages, scrolls each one, works every portfolio
+filter, opens a quick view and the case-study overlay, and records every URL the site
+actually asks for. Anything excluded is absent from that list.
 
-### 4. **Astro Islands & Interactive React Components**
-All compiled React client islands (`FBHomeTop`, `FBHomeMain`, `FBHomeBottom`, etc.) stored in `_astro/`:
-- **Navigation Mega-menus**: Interactive "Services" and "Company" multi-column dropdowns.
-- **Interactive Pricing Calculator**: Real-time service selection, dynamic pricing updates, add-on toggles, and plan generation.
-- **Interactive Portfolio Gallery**: Category tabs (Social Media, Short-Form Videos, UGC, Ad Creative, etc.) with responsive masonry/grid previews.
-- **Video Players**: Interactive modal video player with custom play controls.
-- **FAQ Accordions**: Expandable and collapsible question drawers.
-- **Sticky Conversion Bar**: Dynamic sticky bar responding to viewport scroll.
+- `ugc/` and `vx/` (201MB) belong to a video-demo component no page loads.
+- `px/` (52MB) and `img/` were only ever fetched by the cloned examples gallery, which
+  no longer runs.
+- Hash-named images loose in the project root (12MB) are clone leftovers.
+- Eleven `_astro` chunks belong to pages that were retired and redirected.
+- The client's working documents and source media.
 
-### 5. **Complete Multi-Page Routing (50+ Pages)**
-All subpages are fully replicated with complete content, meta tags, and layouts:
-- **Core Pages**: `/pricing/`, `/examples/`, `/reviews/`, `/about/`, `/compare/`, `/case-studies/`, `/book-demo/`, `/reseller/`, `/pro/`, `/all-services/`, `/video-demo/`
-- **Service Pages**: `/social-media-management/`, `/short-form-video/`, `/instagram-growth/`, `/ugc-videos/`, `/ad-creative/`, `/ppc-services/`, `/meta-ads-management/`, `/google-ads-management/`, `/seo-services/`, `/seo-blog-posts/`, `/seo-backlinks/`, `/managed-seo/`, `/email-design/`, `/conversion-tracking/`, `/landing-pages/`
-- **Industry Pages**: Restaurants, Real Estate, Dentists, Gyms, Law Firms, Salons, E-commerce, Medical, Car Dealerships, Coaches, Home Services.
-- **City landing pages**: removed (old /social-media-city/ URLs redirect to the homepage, see vercel.json).
-- **Legal & Info**: `/privacy/`, `/terms/`, `/refund/`, `/blog/`, `/seo-glossary/`.
+`og-banner.png` stays, even though no browser requests it: it is the `og:image` in
+every page's meta tags, which Facebook, LinkedIn and WhatsApp fetch.
+
+They all stay in the repository. Removing them from the working tree would not shrink
+it, because git keeps the history either way.
 
 ---
 
-## ✨ 3D, Motion & Transitions (FX layer)
+## The build
 
-An additive effects layer lives in `/fx/` and is injected into every page's `<head>`. It never edits the compiled React islands: effects only write inline transform/opacity (restored when they finish) and `data-fx-*` attributes, and every canvas and overlay is appended to `<body>`.
-
-| What | Where |
-|---|---|
-| Homepage hero: floating pill nav that tightens on scroll (hamburger menu, Contact us), blue arch, and a phone playing a reel that rises to the centre as you scroll while a curved strip of video and image cards opens out behind it. Markup lives in `fx/partials/home-hero.html` and is injected by `scripts/inject-fx.js`; the cloned header and hero stay in the page (hidden) so React hydrates normally | `fx/hero.js`, `fx/hero.css`, `fx/media/` |
-| Homepage case studies: one big card per case study (client, challenge, what we did, results) stacked with sticky scrolling — each new one slides up over the last, which sinks back and dims; stats count up and each card's results visual (growth chart, ROAS bars, content waffle, client quote) animates in as it lands | `fx/projects.js`, `fx/projects.css`, `fx/partials/home-projects.html` |
-| Theme: black and white with one blue (#0029FF) on #FCFCF9, Inter everywhere (with an "Inter Fallback" face) and Instrument Serif italic for highlighted words; applied to pages, bundles and FX layer together by `node scripts/retheme.js` | `scripts/retheme.js`, `fonts/inter-*` |
-| Brand: MadMarketing logo set (wordmark, white wordmark, square mark, favicons, share image), the preloader (light panel and arch, the mark flipping in, the name rising letter by letter, a percentage counter, panels lifting with a rounded edge) and both sticky "book a demo" bars restyled as white glass pills | `assets/madmarketing-*`, `og-banner.png`, `fx/fx.js` (setupCurtain), `fx/fx.css`, `fx/chrome.css`, `scripts/rebrand.js` |
-| Inner-page heroes in the homepage design, generated from each page's own hero by `node scripts/build-heroes.js` (needs the site on :3000 and puppeteer-core): centred copy over the blue arch with the page's visual rising into place on scroll, or the homepage phone + card strip on video pages. The originals stay in the DOM, hidden | `fx/ph.js`, `fx/ph.css`, `fx/partials/heroes/`, `scripts/build-heroes.js` |
-| Homepage trust strip: drifting marquee of the platforms we publish to, and rating cards (reviews, Clutch, Sortlist) whose scores count up and stars fill, with 3D tilt and pointer glow | `fx/trust.js`, `fx/trust.css`, `fx/partials/home-trust.html` |
-| Homepage "How it works": pinned stage with the three steps on a progress rail and a 3D app window that changes as you scroll — services get picked and the plan total adds up, the onboarding checklist ticks off, posts go from awaiting to approved to published. Steps are clickable; replaces the cloned section (hidden, so React hydrates as usual) | `fx/hiw.js`, `fx/hiw.css`, `fx/partials/home-hiw.html` |
-| Homepage portfolio as a shop: sticky filter sidebar (format, industry → sub-industry, with counts), removable filter pills, grid-size toggle, product-style tiles with 3D tilt + glare and hover-to-play video, load more with progress, and a quick-view dialog with prev/next. Data is generated from the site's examples bundle by `node scripts/build-portfolio.mjs`, keeping only items whose media exists | `fx/portfolio.js`, `fx/portfolio.css`, `fx/portfolio-data.js`, `fx/partials/home-portfolio.html` |
-| Homepage, pricing down: new pricing heading over the (restyled) React plan builder; rebuilt Pro strip + money-back guarantee (3D "Day 14" seal and 14-day track driven by scroll), cost comparison (price bars that grow, MadMarketing highlighted), reviews (3D cover-flow of video reviews with drag/keys and sound on click, plus drifting columns of 24 text reviews), FAQ (sticky heading, animated accordion) and final CTA (light arch card, counting stats). Content comes from the site itself | `fx/bottom.js`, `fx/bottom.css`, `fx/partials/home-pricing-head.html`, `fx/partials/home-bottom.html` |
-| Homepage footer, Framer style: big white card with brand block, status and rating pills, CTAs and five link columns; the reseller link as a pill; industry links as chips; bottom bar with legal links and back-to-top; a giant gradient wordmark whose letters stand up as you reach the bottom | `fx/footer.js`, `fx/footer.css`, `fx/partials/home-footer.html` |
-| 3D helix gallery of portfolio work on the homepage — pinned, scroll-driven, drag to spin, click to open `/examples/` | `fx/three/gallery.js` |
-| Tilted 3D card wall with pointer parallax (home + service heroes) | `fx/fx.js` → `bindWall` |
-| Landing page: card groups staged in 3D like the helix gallery — curved arcs that turn with the scroll and can be dragged, a pinned ring for "how it works", a cover-flow review row, a vertical drum of text reviews, and the hero wall bent into a cylinder | `fx/stage.js` |
-| Landing page: "From scroll to sale" 3D sales funnel — five clean matte tiers; the active stage lifts and turns blue as the section pins while scrolling walks through each stage in plain language | `fx/funnel.js`, `fx/three/funnel3d.js` |
-| Industry & service pages: the funnel retold per page (restaurants → "From scroll to reservation", email → "From inbox to income", ads → "From ad to customer"…) | `fx/funnel-data.js` |
-| Pricing: 3D ROI estimator — pick a business, budget and customer value; bars show reach → customers with an illustrative return | `fx/roi.js`, `fx/three/bars3d.js` |
-| Compare: 3D cost towers for each way of getting social media done | `fx/towers.js`, `fx/three/towers3d.js` |
-| Social media management: "A month of content, handled" — 3D calendar whose days flip to reveal posts as you scroll | `fx/calendar.js`, `fx/three/calendar3d.js` |
-| Page explainers (shared shell `fx/explainer.js`, content in `fx/explainers.js`): SEO "Climb to page one", conversion tracking "Follow the customer", short-form video "Win the first 3 seconds", Instagram "Real followers actually engage", book a demo call ring, reseller white-label layers, About globe | `fx/three/ex-*.js`, `fx/three/base.js` |
-| Branded 3D curtain on load and between pages, Lenis smooth scroll, scroll progress bar | `fx/fx.js` |
-| 3D scroll reveals for headings, copy, cards and media; hover tilt + glare on cards; magnetic CTAs; cursor ring; count-up stats; flip-in on tab/filter swaps | `fx/fx.js` |
-
-Libraries are vendored in `fx/vendor/` (GSAP 3.15 + ScrollTrigger, Lenis 1.3, Three.js r186), so the site still works offline. Three.js is loaded on demand, after first paint.
+Run from the project root. Order matters where a step reads what an earlier one wrote.
 
 ```bash
-node scripts/inject-fx.js           # add / refresh the FX tags in all pages (idempotent)
-node scripts/inject-fx.js --remove  # strip the FX layer again
+# 1. Content and sections (each writes partials under fx/partials/ or whole pages)
+node scripts/build-previews.js       # work/*.preview.mp4 — needs ffmpeg on PATH
+node scripts/build-work.js           # portfolio data, case cards, client roster
+node scripts/build-cases.js          # the case-studies slider
+node scripts/build-home.js           # what we sell, the plans, the real cost
+node scripts/build-stats.js          # "Real accounts, real numbers"
+node scripts/build-service-pages.js  # the nine service pages, /services/, /pricing/
+node scripts/build-legal-pages.js    # /privacy/, /terms/, /refund/
+node scripts/build-landing.js        # /free-local-seo/ and /trial-terms/
+node scripts/build-static-pages.js   # /careers/, /cookie-policy/
+
+# 2. Steps that render the live site, so the server above must be running
+node scripts/build-heroes.js         # inner-page heroes
+node scripts/build-industries.js     # the ten industry pages
+node scripts/build-about.js          # /about/
+
+# 3. Always last, in this order
+node scripts/build-fx.js             # bundles fx/ into fx/dist (needs esbuild)
+node scripts/optimize-pages.js       # injects the FX layer, titles, SEO, sitemap
 ```
 
-**Accessibility & fallbacks:** with `prefers-reduced-motion` there is no curtain, smooth scroll or reveal animation, and the 3D scenes render as still images. Touch devices get no cursor, tilt or magnetic effects. If a script fails, the page shows as normal after at most 4 seconds.
+Editing anything under `fx/` has no effect on the pages until `build-fx.js` and
+`optimize-pages.js` have run.
+
+### The single sources
+
+Change these rather than the generated output:
+
+- `scripts/offer-data.js` — every service, plan and price.
+- `scripts/work-data.js` — every client, case study and piece of media.
+- `scripts/stats-data.js` — the delivered figures, with the rules that keep them honest.
+- `scripts/industry-content.js`, `industry-faq.js` — the industry pages.
 
 ---
 
-## 🛠️ Verification Suite
+## How a page is put together
 
-A built-in verification suite validates all local assets and subpage routes:
+Each page is still the cloned HTML. `scripts/inject-fx.js` adds our stylesheet and
+script to `<head>` and splices our own sections into the body between
+`<!-- fx:name:start -->` markers. The clone's own sections stay in the DOM, hidden by
+CSS, so nothing has to be cut out of markup we don't control.
 
-```bash
-npm run validate
-```
+Those hidden React sections are not hydrated. They render nothing visible, so letting
+them boot cost 99 requests and 21MB across the site in chunks, the other agency's
+images and its review posters. `inject-fx.js` renames the two attributes Astro reads,
+which leaves the markup exactly where it is while stopping the component ever being
+fetched or run. Two pages are exceptions, listed as `REACT_PAGES` in that file: on
+`/about/` and `/book-demo/` the 3D explainer finds its place by matching text those
+sections render.
 
-All 98 homepage assets/links and 29 primary routes pass with `200 OK` and 0 failures.
-"# birdfeed" 
+Every change of this kind was checked by snapshotting all 35 pages before and after —
+what each one shows, its height, its text length, its broken images — and comparing.
+
+## Speed
+
+- Page weight and request count are measured per page, not assumed.
+- The 3D engine (~730KB) is fetched only on the three pages that draw in 3D, and only
+  after load, on idle, and never on a metered or slow connection.
+- Portfolio and case-card videos play a silent 10-second 400px preview
+  (`scripts/build-previews.js`), about 220KB instead of up to 9MB. The full file backs
+  the quick-view player and the case studies.
+- Video tiles carry their poster as a real image, so a picture is on screen before the
+  clip has buffered, and they start one after another rather than all at once.
+- `vercel.json` sets long cache lifetimes for `/fonts/`, `/_astro/`, `/fx/dist/`,
+  `/assets/`, `/img/`, `/work/` and `/reviews/`, and keeps `work/media.json` fresh.
+
+## Still to do
+
+See the client questions parked in the project's notes: GA4 and Meta Pixel IDs and a
+consent banner, the form's delivery (a Resend key or a CRM webhook — see
+`api/free-local-seo.js`), a live-chat tool, and a lawyer's review of the legal pages.
