@@ -54,8 +54,8 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
       thumbs,
       posts,
       featured: mixed,
-      videos: data.videos.map((v) => ({ kind: 'videos', src: v.src, poster: v.poster, ind: v.ind, sub: v.sub || '', c: v.c || '', ad: !!v.ad })),
-      ugc: data.ugc.map((u) => ({ kind: 'ugc', src: u.src, poster: u.poster, ind: u.ind || '', sub: u.sub || '', c: u.c || '' })),
+      videos: data.videos.map((v) => ({ kind: 'videos', src: v.src, prev: v.prev || v.src, poster: v.poster, ind: v.ind, sub: v.sub || '', c: v.c || '', ad: !!v.ad })),
+      ugc: data.ugc.map((u) => ({ kind: 'ugc', src: u.src, prev: u.prev || u.src, poster: u.poster, ind: u.ind || '', sub: u.sub || '', c: u.c || '' })),
     };
   }
 
@@ -132,7 +132,10 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
     const badge = item.kind === 'posts' ? (item.fmt || (item.r > 1.1 ? 'Post · 4:5' : 'Post · 1:1')) : item.kind === 'videos' ? (item.ad ? 'Video ad' : 'Video') : 'UGC';
     const media = item.kind === 'posts'
       ? `<img src="${esc(item.img)}" alt="" loading="lazy" decoding="async">`
-      : `<video muted loop playsinline preload="none" poster="${esc(item.poster)}"><source src="${esc(item.src)}" type="video/mp4"></video><span class="pf-card__play" aria-hidden="true">▶</span>`;
+      // The poster is a plain image so a picture is there straight away:
+      // the video file is megabytes and would otherwise leave the tile grey
+      // while it buffers. The video fades in over it once it is running.
+      : `<img class="pf-card__poster" src="${esc(item.poster)}" alt="" loading="eager" fetchpriority="high" decoding="async"><video muted loop playsinline preload="none" poster="${esc(item.poster)}"><source src="${esc(item.prev || item.src)}" type="video/mp4"></video><span class="pf-card__play" aria-hidden="true">▶</span>`;
     const svc = SVC[item.kind] || {};
     return `<article class="pf-card" data-i="${i}">
       <button type="button" class="pf-card__media" aria-label="Quick view: ${esc(title)} ${esc(FORMAT_LABEL[item.kind])}">${media}<span class="pf-card__badge">${badge}</span><span class="pf-card__qv">Quick view</span></button>
@@ -153,8 +156,50 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
   // only while they're actually on screen, so a filter with dozens of clips
   // doesn't pull them all down at once. The posts grid is left alone, and so
   // is a visitor who has asked for reduced motion.
+  // A tile reveals its video (over the poster) the moment it really starts.
+  // Media events don't bubble, so this listens in the capture phase.
+  grid.addEventListener('playing', (e) => {
+    const card = e.target.closest && e.target.closest('.pf-card');
+    if (card) card.classList.add('is-playing');
+  }, true);
+
   let playing = null;
   const autoOn = () => (st.format === 'videos' || st.format === 'ugc') && !reduced;
+
+  // The clips are megabytes and the posters kilobytes, so starting every clip
+  // at once starves the posters and the tiles sit grey. Each tile waits for its
+  // own poster to be on screen, and the clips start one after another rather
+  // than all together, so the first tile is moving while the rest arrive.
+  const queue = [];
+  let working = false;
+  function posterReady(card) {
+    const img = card.querySelector('.pf-card__poster');
+    if (!img || img.complete) return Promise.resolve();
+    return new Promise((done) => {
+      let over = false;
+      const fin = () => { if (!over) { over = true; done(); } };
+      img.addEventListener('load', fin, { once: true });
+      img.addEventListener('error', fin, { once: true });
+      setTimeout(fin, 1200);
+    });
+  }
+  async function pump() {
+    if (working) return;
+    working = true;
+    while (queue.length) {
+      const card = queue.shift();
+      const v = card.querySelector('video');
+      if (!v || !card.isConnected || !autoOn()) continue;
+      await posterReady(card);
+      v.preload = 'auto';
+      const pr = v.play();
+      if (pr && pr.catch) pr.catch(() => {});
+      // Give this one a head start before the next claims bandwidth.
+      await new Promise((r) => setTimeout(r, 150));
+    }
+    working = false;
+  }
+
   function autoPlay() {
     const wanted = autoOn();
     if (!playing) {
@@ -163,13 +208,17 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
           const v = e.target.querySelector('video');
           if (!v) return;
           if (e.isIntersecting) {
-            v.preload = 'auto';
-            const p = v.play();
-            if (p && p.catch) p.catch(() => {});
-          } else v.pause();
+            if (!queue.includes(e.target)) queue.push(e.target);
+            pump();
+          } else {
+            const at = queue.indexOf(e.target);
+            if (at > -1) queue.splice(at, 1);
+            v.pause();
+          }
         });
-      }, { rootMargin: '200px 0px' });
+      }, { rootMargin: '300px 0px' });
     }
+    queue.length = 0;
     playing.disconnect();
     if (!wanted) return;
     // Every card in the grid, not just the ones just added by "load more".

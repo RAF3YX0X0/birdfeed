@@ -198,6 +198,14 @@
 }
 .pf-card:hover .pf-card__media img,
 .pf-card:hover .pf-card__media video { transform: scale(1.05); }
+/* A video tile shows its poster image first (it is kilobytes, the clip is
+   megabytes), and the video fades in over it once it is actually running, so
+   the tile is never an empty grey box while the file buffers. */
+.pf-card__poster { z-index: 1; }
+.pf-card__media video { z-index: 2; opacity: 0; transition: opacity 0.35s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+.pf-card.is-playing .pf-card__media video { opacity: 1; }
+.pf-card__play { z-index: 3; }
+html:not(.fx) .pf-card__media video, html.fx-reduced .pf-card__media video { opacity: 1; }
 .pf-card__media::after {
   /* Glare that follows the pointer. */
   content: '';

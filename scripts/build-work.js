@@ -11,6 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 const { INDUSTRIES, CLIENTS } = require('./work-data');
+const { previewOf } = require('./build-previews');
 
 const ROOT = path.join(__dirname, '..');
 const META = JSON.parse(fs.readFileSync(path.join(ROOT, 'work', 'media.json'), 'utf8'));
@@ -29,8 +30,9 @@ for (const c of CLIENTS) {
     if (m.grid === 0 || !c.ind) continue;
     const info = meta(m.src);
     const base = { ind: c.ind, sub: c.client, c: m.c, f: m.f ? 1 : 0 };
-    if (m.kind === 'video') videos.push({ src: m.src, poster: info.poster, ad: m.ad ? 1 : 0, ...base });
-    else if (m.kind === 'ugc') ugc.push({ src: m.src, poster: info.poster, ...base });
+    // prev: the light looping copy the grid tile plays (scripts/build-previews.js).
+    if (m.kind === 'video') videos.push({ src: m.src, prev: previewOf(m.src), poster: info.poster, ad: m.ad ? 1 : 0, ...base });
+    else if (m.kind === 'ugc') ugc.push({ src: m.src, prev: previewOf(m.src), poster: info.poster, ...base });
     else posts.push({ img: m.src, r: +(info.h / info.w).toFixed(2), fmt: m.fmt || '', ...base });
   }
 }
