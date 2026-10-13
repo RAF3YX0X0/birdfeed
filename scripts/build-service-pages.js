@@ -235,6 +235,8 @@ const method = () => `<section class="sp-dark"><div class="sp-wrap">
 </div></section>`;
 
 const TRIAL_NOTE = '$0 agency fee for eligible businesses. No credit card. No automatic subscription.';
+// $0 is set as a chip (.fee0 in fx/chrome.css); the rest of the note is escaped.
+const feeNote = (t) => esc(t).replace('$0', '<b class="fee0">$0</b>');
 const BTN = {
   challenge: `<a class="sp-btn sp-btn--blue" href="/free-local-seo/">Try 30 Days of Local SEO — Free ${ARROW}</a>`,
   call: `<a class="sp-btn sp-btn--blue" href="/book-demo/">Book a call ${ARROW}</a>`,
@@ -403,7 +405,7 @@ function servicePage(s) {
     <h1>${s.h1}</h1>
     <p class="sp-lede">${esc(s.lede)}</p>
     <div class="sp-btns">${btns}</div>
-    <p class="sp-note">${esc(note)}</p>
+    <p class="sp-note">${feeNote(note)}</p>
   </div>
   <aside class="sp-hero__card" aria-label="What's included">
     <h3>What's included</h3>
@@ -673,7 +675,7 @@ function servicesIndex() {
   <h1>Start where customers <em>are looking.</em></h1>
   <p class="sp-lede">MADMarketing is a full-service digital marketing agency, leading with local SEO and Google Maps visibility for US local businesses. Start with the service you need and expand when it makes business sense.</p>
   <div class="sp-btns">${BTN.challenge}${BTN.pricing}</div>
-  <p class="sp-note">${esc(TRIAL_NOTE)}</p>
+  <p class="sp-note">${feeNote(TRIAL_NOTE)}</p>
 </div></section>
 ${O.FAMILIES.map((f, i) => {
     const pages = O.PAGES.filter((p) => p.family === f.key);

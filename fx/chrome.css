@@ -182,6 +182,22 @@ astro-island footer:has(.cfooter-grid) { display: none !important; }
   box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.08), 0 8px 20px -12px rgba(20, 30, 70, 0.3);
 }
 
+/* ---- The free trial's price --------------------------------------------------
+   "$0" is the whole point of the offer, so wherever it appears in a line of
+   small print it is set as a blue chip instead of another grey word. The
+   landing page carries the same rule in its own stylesheet. */
+.fee0 {
+  display: inline-block;
+  padding: 0.1em 0.42em;
+  border-radius: 0.5em;
+  background: #0066FF;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.12em;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
 /* ---- Shared section heading (projects, how it works, …) ------------------- */
 .sx-head { max-width: 860px; margin: 0 auto; padding: 120px 24px 56px; text-align: center; }
 /* ---- Section labels ---------------------------------------------------------

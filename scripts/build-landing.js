@@ -105,12 +105,6 @@ const MAD = [
   ['A', 'Attention & Authority', 'We help your business become easier to discover and more credible through accurate information, relevant content, and stronger local search foundations.'],
   ['D', 'Data-Driven Growth', 'We track what matters, explain the results, and use real insights to recommend the next steps.'],
 ];
-const STEPS = [
-  ['form', 'Apply', 'Tell us about your business and the area you serve. We’ll review your eligibility and local SEO opportunities.'],
-  ['audit', 'Get Your Visibility Audit', 'Our team assesses your Google Business Profile, website, citations, and local competitors.'],
-  ['gear', 'We Get to Work', 'Over 30 days, we complete the agreed optimization tasks, citation actions, and visibility tracking.'],
-  ['report', 'Review Your Results', 'Receive a report showing what was completed, what changed, what remains in progress, and what we recommend next.'],
-];
 const WHO = [
   ['scissors', 'Barbershops and hair salons'],
   ['sparkle', 'Cleaning and facility services'],
@@ -304,10 +298,13 @@ body{margin:0;background:#fff;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallbac
 .lp-ic{display:grid;place-items:center;width:50px;height:50px;border-radius:16px;background:#EBF3FF;color:#0066FF}
 .lp-inc b{display:block;margin-top:20px;font-size:18px;font-weight:700;letter-spacing:-.015em;line-height:1.25}
 .lp-inc p{margin:8px 0 0;font-size:15px;line-height:1.6;color:#4B5563}
+.fee0{display:inline-block;padding:.1em .42em;border-radius:.5em;background:#0066FF;color:#fff;font-weight:800;font-size:1.12em;letter-spacing:-.02em;line-height:1.25}
+.lp-bar .fee0,.lp-final__big .fee0{background:#4D94FF;color:#0A0A0A}
 .lp-price{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;margin-top:22px;padding:clamp(26px,3vw,40px);border-radius:30px;color:#fff;background:radial-gradient(70% 140% at 100% 0%,rgba(0,102,255,.55),rgba(0,102,255,0) 60%),#0A0A0A}
 .lp-price__k{margin:0;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6)}
-.lp-price__v{margin:6px 0 0;font-size:clamp(30px,3.6vw,46px);font-weight:800;letter-spacing:-.03em}
-.lp-price__v b{color:#4D94FF}
+.lp-price__v{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 16px;margin:10px 0 0;letter-spacing:-.02em}
+.lp-price__v span{font-size:clamp(22px,2.4vw,34px);font-weight:700;color:rgba(255,255,255,.92)}
+.lp-price__v b{font-size:clamp(64px,8vw,104px);font-weight:900;line-height:.86;letter-spacing:-.05em;color:#4D94FF;text-shadow:0 10px 40px rgba(77,148,255,.55)}
 .lp-price p{margin:8px 0 0;font-size:15px;color:rgba(255,255,255,.72)}
 /* Why local SEO matters */
 .lp-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:center}
@@ -339,15 +336,6 @@ body{margin:0;background:#fff;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallbac
 .lp-tag{margin:34px 0 0;font-size:clamp(20px,2.2vw,28px);font-weight:800;letter-spacing:-.02em}
 .lp-tag em{font-style:normal;color:#4D94FF}
 /* How it works */
-.lp-steps{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:48px 0 0;padding:0;list-style:none}
-.lp-steps::before{content:'';position:absolute;left:12%;right:12%;top:34px;height:2px;background:repeating-linear-gradient(90deg,#C6DAFF 0 8px,transparent 8px 16px)}
-.lp-steps li{position:relative;text-align:center}
-.lp-steps__ic{position:relative;display:grid;place-items:center;width:68px;height:68px;margin:0 auto;border-radius:22px;background:#fff;color:#0066FF;box-shadow:0 0 0 1px #E5E7EB,0 20px 40px -24px rgba(0,102,255,.55)}
-.lp-steps__n{display:block;margin-top:20px;font-size:12.5px;font-weight:700;letter-spacing:.14em;color:#0066FF}
-.lp-steps b{display:block;margin-top:6px;font-size:19px;font-weight:700;letter-spacing:-.015em}
-.lp-steps p{margin:8px auto 0;max-width:260px;font-size:15px;line-height:1.6;color:#4B5563}
-.lp-after{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px 24px;margin-top:44px;padding:22px 26px;border-radius:22px;background:#F5F7FA;text-align:center}
-.lp-after p{margin:0;max-width:600px;font-size:15.5px;line-height:1.55;color:#1F2937}
 /* Who */
 .lp-who{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:40px 0 0;padding:0;list-style:none}
 .lp-who li{display:flex;align-items:center;gap:16px;padding:20px 22px;border-radius:22px;background:#fff;box-shadow:0 0 0 1px #E5E7EB;font-size:16px;font-weight:600;line-height:1.35;transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .3s ease}
@@ -453,7 +441,7 @@ ${SITE_FOOTER_CSS}
 .lp-sticky .lp-btn{width:100%}
 html[data-fx-landing] .mm-help__btn{bottom:84px}
 /* Responsive */
-@media (max-width:1100px){.lp-nav__links{display:none}.lp-inc,.lp-who,.lp-plans,.lp-mad{grid-template-columns:repeat(2,minmax(0,1fr))}.lp-steps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:36px}.lp-steps::before{display:none}}
+@media (max-width:1100px){.lp-nav__links{display:none}.lp-inc,.lp-who,.lp-plans,.lp-mad{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:960px){.lp-hero__grid,.lp-split,.lp-apply,.lp-faq{grid-template-columns:minmax(0,1fr)}.lp-vis{min-height:500px;max-width:560px;width:100%;margin:0 auto}.lp-final{grid-template-columns:minmax(0,1fr);margin:0 12px;border-radius:30px}.lp-doc{transform:none}}
 @media (max-width:720px){
   .lp-in{padding:0 16px}
@@ -464,7 +452,7 @@ html[data-fx-landing] .mm-help__btn{bottom:84px}
   .lp-nav__ctas .lp-btn{white-space:nowrap}
   @media (max-width:560px){.lp-nav__logo img{width:116px}.lp-nav__ctas{gap:6px}.lp-nav .lp-btn{padding:8px 12px;font-size:12.5px}}
   .lp-trust{grid-template-columns:minmax(0,1fr)}.lp-trust div+div{border-left:0;border-top:1px solid #E5E7EB}.lp-trust div{padding:16px 20px}
-  .lp-inc,.lp-who,.lp-plans,.lp-mad,.lp-steps,.lp-ben,.lp-ba,.lp-step{grid-template-columns:minmax(0,1fr)}
+  .lp-inc,.lp-who,.lp-plans,.lp-mad,.lp-ben,.lp-ba,.lp-step{grid-template-columns:minmax(0,1fr)}
   .lp-mad li{min-height:240px}
   .lp-fee{padding:18px 20px;gap:4px 16px}.lp-fee span{padding-left:16px}
   .lp-ctas .lp-btn{width:100%}
@@ -541,11 +529,11 @@ const landing = `<!doctype html>
 <script type="application/ld+json">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: FAQ.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) })}</script>
 </head>
 <body>
-<div class="lp-bar"><i aria-hidden="true"></i>New client offer: 30 days of local SEO work. $0 agency fee. Limited trial capacity.</div>
+<div class="lp-bar"><i aria-hidden="true"></i>New client offer: 30 days of local SEO work. <b class="fee0">$0</b> agency fee. Limited trial capacity.</div>
 <header class="lp-nav">
   <div class="lp-in">
     <a class="lp-nav__logo" href="/" aria-label="MADMarketing home"><img src="/assets/madmarketing-logo-v4.svg" alt="MADMarketing" width="172" height="25"></a>
-    <nav class="lp-nav__links" aria-label="On this page"><a href="#how">How It Works</a><a href="#included">What’s Included</a><a href="#why">Why MAD</a><a href="#faqs">FAQs</a></nav>
+    <nav class="lp-nav__links" aria-label="On this page"><a href="#included">What’s Included</a><a href="#why">Why MAD</a><a href="#faqs">FAQs</a></nav>
     <div class="lp-nav__ctas">
       <a class="lp-btn lp-btn--white lp-btn--sm" href="/book-demo/" data-lp-cta="nav-demo">Book a Demo</a>
       <a class="lp-btn lp-btn--blue lp-btn--sm" href="#apply" data-lp-cta="nav">Apply Now</a>
@@ -605,7 +593,7 @@ const landing = `<!doctype html>
     <div class="lp-price">
       <div>
         <p class="lp-price__k">Your trial price</p>
-        <p class="lp-price__v"><b>$0</b> agency fee</p>
+        <p class="lp-price__v"><b>$0</b><span>agency fee</span></p>
         <p>No credit card. No hidden agency fee. No automatic paid renewal.</p>
       </div>
       <a class="lp-btn lp-btn--blue" href="#apply" data-lp-cta="offer">Check If My Business Qualifies ${ARROW}</a>
@@ -615,6 +603,32 @@ const landing = `<!doctype html>
 </section>
 
 <section class="lp-sec lp-sec--soft">
+  <div class="lp-in lp-split">
+    <div>
+      <p class="lp-k">Transparent results</p>
+      <h2>No Mystery. No Empty Promises. <em>Just Work You Can See.</em></h2>
+      <p class="lp-p">Throughout your challenge, we document the work completed. Your final report includes everything we did and what we recommend next.</p>
+      <p class="lp-promise">We guarantee the agreed work and transparent reporting, not a specific Google ranking.</p>
+    </div>
+    <div class="lp-doc" data-lp-on>
+      <div class="lp-doc__head"><span><b>Your 30-day visibility report</b><small>What your final report includes</small></span><span class="lp-doc__logo" aria-hidden="true"></span></div>
+      <ul class="lp-ticks">${REPORT.map((t) => `<li><i>${CHECK}</i>${esc(t)}</li>`).join('')}</ul>
+    </div>
+  </div>
+  <div class="lp-in">
+    <div class="lp-proof" data-lp-on>
+      <img src="/work/the-gentry-house/google-profile.webp" width="408" height="882" alt="The Gentry House’s Google Business Profile, rated 5.0 from 201 reviews" loading="lazy" decoding="async">
+      <div>
+        <span class="lp-proof__k">Client work · The Gentry House, Lake Saint Louis</span>
+        <span class="lp-proof__t">A barbershop whose website and Google Business Profile we run.</span>
+        <span class="lp-proof__stats"><span><b>5.0★</b>on Google</span><span><b>201</b>Google reviews</span><span><b>55</b>profile photos</span></span>
+        <span class="lp-proof__src">Google Maps, checked 13 October 2026. One client’s profile, shown with permission. It isn’t a promise of results.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lp-sec">
   <div class="lp-in lp-split">
     <div>
       <p class="lp-k">Why local SEO matters</p>
@@ -643,21 +657,8 @@ const landing = `<!doctype html>
   </div>
 </section>
 
-<section class="lp-sec" id="how">
-  <div class="lp-in lp-center">
-    <div class="lp-head">
-      <p class="lp-k">How the challenge works</p>
-      <h2>Four Simple Steps. <em>One Smarter Start.</em></h2>
-    </div>
-    <ol class="lp-steps">${STEPS.map(([i, t, d], n) => `<li><span class="lp-steps__ic">${ic(i, 28)}</span><span class="lp-steps__n">STEP 0${n + 1}</span><b>${esc(t)}</b><p>${esc(d)}</p></li>`).join('')}</ol>
-    <div class="lp-after">
-      <p>If you want continued help, choose a monthly growth plan. If not, your free trial ends without an automatic charge.</p>
-      <a class="lp-btn lp-btn--blue" href="#apply" data-lp-cta="how">Start My Free Application ${ARROW}</a>
-    </div>
-  </div>
-</section>
 
-<section class="lp-sec lp-sec--soft">
+<section class="lp-sec">
   <div class="lp-in">
     <div class="lp-head">
       <p class="lp-k">Who is this for?</p>
@@ -669,31 +670,6 @@ const landing = `<!doctype html>
   </div>
 </section>
 
-<section class="lp-sec">
-  <div class="lp-in lp-split">
-    <div>
-      <p class="lp-k">Transparent results</p>
-      <h2>No Mystery. No Empty Promises. <em>Just Work You Can See.</em></h2>
-      <p class="lp-p">Throughout your challenge, we document the work completed. Your final report includes everything we did and what we recommend next.</p>
-      <p class="lp-promise">We guarantee the agreed work and transparent reporting, not a specific Google ranking.</p>
-    </div>
-    <div class="lp-doc" data-lp-on>
-      <div class="lp-doc__head"><span><b>Your 30-day visibility report</b><small>What your final report includes</small></span><span class="lp-doc__logo" aria-hidden="true"></span></div>
-      <ul class="lp-ticks">${REPORT.map((t) => `<li><i>${CHECK}</i>${esc(t)}</li>`).join('')}</ul>
-    </div>
-  </div>
-  <div class="lp-in">
-    <div class="lp-proof" data-lp-on>
-      <img src="/work/the-gentry-house/google-profile.webp" width="408" height="882" alt="The Gentry House’s Google Business Profile, rated 5.0 from 201 reviews" loading="lazy" decoding="async">
-      <div>
-        <span class="lp-proof__k">Client work · The Gentry House, Lake Saint Louis</span>
-        <span class="lp-proof__t">A barbershop whose website and Google Business Profile we run.</span>
-        <span class="lp-proof__stats"><span><b>5.0★</b>on Google</span><span><b>201</b>Google reviews</span><span><b>55</b>profile photos</span></span>
-        <span class="lp-proof__src">Google Maps, checked 13 October 2026. One client’s profile, shown with permission. It isn’t a promise of results.</span>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="lp-sec lp-sec--soft">
   <div class="lp-in">
@@ -765,7 +741,7 @@ const landing = `<!doctype html>
       <p class="lp-k">Ready to do something MAD?</p>
       <h2>Let’s Make Your Business <em>Easier to Find.</em></h2>
       <p class="lp-p">Stop guessing about your local search presence. Let our team show you what smarter optimization looks like.</p>
-      <p class="lp-final__big">30 days. Real work. $0 agency fee.</p>
+      <p class="lp-final__big">30 days. Real work. <b class="fee0">$0</b> agency fee.</p>
       <ul class="lp-final__checks"><li><i>${CHECK}</i>No credit card</li><li><i>${CHECK}</i>No automatic subscription</li><li><i>${CHECK}</i>Limited trial capacity</li></ul>
     </div>
     <a class="lp-btn lp-btn--blue" href="#apply" data-lp-cta="final">Check My Eligibility ${ARROW}</a>

@@ -107,7 +107,7 @@ function challenge({ href = '/free-local-seo/', label = 'Apply for the free 30-d
     <span class="pk-free__k">Free entry offer</span>
     <${headingTag} class="pk-free__t">${esc(c.name)}</${headingTag}>
     <span class="pk-free__p">${esc(c.who)}</span>
-    <ul class="pk-free__terms">${c.terms.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
+    <ul class="pk-free__terms">${c.terms.map((t) => `<li>${esc(t).replace('$0', '<b class="fee0">$0</b>')}</li>`).join('')}</ul>
     <a class="pk-btn pk-btn--blue" href="${href}">${esc(label)} ${ARROW}</a>
   </div>
   <ul class="pk-list" aria-label="What the trial includes">${c.items.map(tick).join('')}</ul>
