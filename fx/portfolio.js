@@ -6,7 +6,6 @@
 // (from the format tabs' data-svc*), and on the homepage the quick view can
 // add that service to the plan builder (plan.js).
 
-import { connectPlan } from './plan.js';
 
 const PAGE = 12;
 const FORMAT_LABEL = { posts: 'post', videos: 'video', ugc: 'UGC video' };
@@ -17,7 +16,7 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
   const formatBtns = [...section.querySelectorAll('.pf-format')];
   // The service behind each format: { name, price, href }.
   const SVC = Object.fromEntries(formatBtns.map((b) => [b.dataset.format, { name: b.dataset.svc, price: b.dataset.svcPrice, href: b.dataset.svcHref }]));
-  const plan = home ? connectPlan({ lenis }) : null;
+  const plan = null; // (the plan builder is gone: plans are fixed, scripts/offer-data.js)
   const inds = section.querySelector('.pf-inds');
   const side = section.querySelector('.pf__side');
   const grid = section.querySelector('.pf__grid');
@@ -138,7 +137,7 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
     return `<article class="pf-card" data-i="${i}">
       <button type="button" class="pf-card__media" aria-label="Quick view: ${esc(title)} ${esc(FORMAT_LABEL[item.kind])}">${media}<span class="pf-card__badge">${badge}</span><span class="pf-card__qv">Quick view</span></button>
       <div class="pf-card__meta"><b>${esc(title)}</b><span>${esc(meta)}</span></div>
-      ${svc.name ? `<a class="pf-card__svc" href="${esc(svc.href)}"><span>${esc(svc.name)}</span><em>from $${esc(svc.price)}/mo</em></a>` : ''}
+      ${svc.name ? `<a class="pf-card__svc" href="${esc(svc.href)}"><span>${esc(svc.name)}</span><em>${svc.price ? `from $${esc(svc.price)}/mo` : 'See the service →'}</em></a>` : ''}
     </article>`;
   }
 
@@ -274,10 +273,10 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
     const name = qv.querySelector('.pf-qv__svc-name');
     name.textContent = svc.name || '';
     name.href = svc.href || '/pricing/';
-    qv.querySelector('.pf-qv__svc-price').textContent = svc.price ? `from $${svc.price}/mo` : '';
+    qv.querySelector('.pf-qv__svc-price').textContent = svc.price ? `from $${svc.price}/mo` : 'Quoted to your scope';
     qv.querySelector('.pf-qv__ctas').innerHTML = (plan && svc.name
       ? `<button type="button" class="hx-btn hx-btn--blue pf-qv__add" data-svc="${esc(svc.name)}"><span class="pf-qv__add-t">Add to plan</span><span class="pf-qv__add-on">✓ In your plan</span></button><button type="button" class="pf-qv__view">View plan →</button>`
-      : `<a class="hx-btn hx-btn--blue" href="${esc(svc.href || '/pricing/')}">Get content like this</a><a class="hx-btn hx-btn--white" href="/book-demo/">Book a demo</a>`);
+      : `<a class="hx-btn hx-btn--blue" href="${esc(svc.href || '/pricing/')}">Get content like this</a><a class="hx-btn hx-btn--white" href="/book-demo/">Book a call</a>`);
     markAdded();
   }
   // The quick view's add button shows whether its service is already in the plan.

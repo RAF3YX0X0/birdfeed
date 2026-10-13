@@ -109,6 +109,18 @@ const PROOF = [
   ['200+ vetted creatives. Open 24/7.', 'Vetted creatives. Open 24/7.'],
   ['200+ vetted creatives', 'Vetted creatives'],
 ];
+// The cloned site's own terms (month-to-month, cancel from a dashboard,
+// its product platform) on the pages that still carry them, as the client's
+// rules have it: every plan starts with a written agreement (scripts/offer-data.js).
+const OFFER = [
+  ['None. Plans are month-to-month, and the demo is completely free with no obligation to sign up.', 'None. The call is free, with no obligation. If you go ahead, your plan starts with a written agreement.'],
+  ['Most clients are onboarded within a few days of the call, and your first batch of content typically arrives within 5–7 business days of submitting your brief.', 'After the call we send you a scope and a quote. Once you approve it in writing, we start onboarding and agree the timeline for your first deliverables with you.'],
+  ['One of our demo specialists. They run these calls every day, know the product inside out, and can pull up real examples from your industry on the spot.', 'A member of our team, who can walk you through real examples of our work and answer your questions.'],
+  ["We learn about your business and goals, walk you through how MadMarketing works with a live look at the platform, show examples from your industry, and recommend the right services. It's a conversation, not a hard pitch.", "We learn about your business and goals, walk you through how MADMarketing works, show examples of our work, and recommend the right services. It's a conversation, not a hard pitch."],
+  ['No contracts, cancel anytime', 'A written agreement first'],
+  ['Month-to-month. Pause or cancel from your dashboard in one click.', 'Every plan starts with a written agreement that sets out billing, cancellation and deliverables.'],
+];
+
 // Stat blocks: a figure and its label are separate text in the markup and
 // separate strings in the bundles, so each is swapped whole, the same way in
 // both (a page's server markup has to match what its bundle renders).
@@ -236,7 +248,8 @@ for (const file of files()) {
   // Markup escapes what the bundles write plainly (& and ').
   const markup = /\.(html|json)$/.test(rel);
   const escHtml = (t) => t.replace(/&/g, '&amp;').replace(/'/g, '&#x27;');
-  apply(markup ? [...PROOF, ...PROOF.map(([a, b]) => [escHtml(a), escHtml(b)]).filter(([a], i) => a !== PROOF[i][0])] : PROOF, false);
+  const LIST = [...PROOF, ...OFFER];
+  apply(markup ? [...LIST, ...LIST.map(([a, b]) => [escHtml(a), escHtml(b)]).filter(([a], i) => a !== LIST[i][0])] : LIST, false);
   // Legal pages keep their own trial wording, but their menu is the shared
   // one, whose bundle already says "First month free".
   for (const [a, b] of legal ? [...NODES, ['14-day guarantee', 'First month free']] : NODES) {

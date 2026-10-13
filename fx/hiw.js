@@ -1,6 +1,6 @@
 // Homepage "How it works" (markup: partials/home-hiw.html, styles: hiw.css).
 //
-// A winding trail: an SVG path is laid through the three steps' dots (curving
+// A winding trail: an SVG path is laid through the steps' dots (curving
 // across between them) and draws itself with the scroll, a glowing point at
 // its head. When it reaches a dot, the dot lights up and its step comes in —
 // the text on one side, a small live demo on the other — and the demo plays
@@ -21,58 +21,73 @@ export function setupHowItWorks({ section, gsap: G, reduced }) {
   const dots = rows.map((r) => r.querySelector('.hw-row__dot'));
   const screens = rows.map((r) => r.querySelector('.hw-screen'));
 
-  // ---- The three demos' stories (lp: 0 → 1) ------------------------------------------------
-  const svcs = [...screens[0].querySelectorAll('.hw-svc')];
-  const total = screens[0].querySelector('.hw-total');
-  const price = (row) => parseFloat(row.querySelector('em').textContent.replace(/[^\d.]/g, '')) || 0;
-  const items = [...screens[1].querySelectorAll('.hw-item')];
-  const count = screens[1].querySelector('.hw-check__count');
-  const bar = screens[1].querySelector('.hw-check__bar i');
-  const posts = [...screens[2].querySelectorAll('.hw-post em')];
-  const toast = screens[2].querySelector('.hw-toast');
-  const LABELS = ['Awaiting', 'Approved', 'Published'];
-  const state = { svc: '', done: -1, posts: '', toast: null, on: '', p: -1 };
-
-  function story0(lp) {
-    const on = svcs.map((row) => row.hasAttribute('data-at') && lp >= parseFloat(row.getAttribute('data-at')));
-    const k = on.join();
-    if (k === state.svc) return;
-    state.svc = k;
-    let sum = 0;
-    svcs.forEach((row, i) => { row.classList.toggle('is-on', on[i]); if (on[i]) sum += price(row); });
-    total.textContent = `$${sum}/mo`;
-  }
-  function story1(lp) {
-    const n = Math.min(4, 1 + Math.floor(clamp(lp) * 3.6));
-    if (n === state.done) return;
-    state.done = n;
-    items.forEach((it, i) => {
-      it.classList.toggle('is-done', i < n);
-      it.querySelector('em').textContent = i < n ? 'Done' : 'To do';
-    });
-    count.textContent = `${n} / 4`;
-    bar.style.width = `${n * 25}%`;
-  }
-  function story2(lp) {
-    const s = posts.map((_, i) => (lp >= 0.72 ? 2 : lp >= 0.1 + i * 0.18 ? 1 : 0));
-    const k = s.join();
-    if (k !== state.posts) {
-      const before = state.posts ? state.posts.split(',') : [];
-      state.posts = k;
-      posts.forEach((em, i) => {
-        if (String(s[i]) === em.getAttribute('data-s')) return;
-        em.setAttribute('data-s', s[i]);
-        em.textContent = LABELS[s[i]];
-        if (before.length && !reduced) {
-          em.classList.add('is-bump');
-          setTimeout(() => em.classList.remove('is-bump'), 260);
+  // ---- The demos' stories (lp: 0 → 1), one per screen by its kind ------------------------
+  // pick: rows switch on as they're reached and their prices add up;
+  // check: a checklist ticks off; status: rows move through their states.
+  const state = { on: '', p: -1 };
+  const makers = {
+    pick(screen) {
+      const svcs = [...screen.querySelectorAll('.hw-svc')];
+      const total = screen.querySelector('.hw-total');
+      const suffix = total.hasAttribute('data-suffix') ? total.getAttribute('data-suffix') : '/mo';
+      const price = (row) => parseFloat(row.querySelector('em').textContent.replace(/[^\d.]/g, '')) || 0;
+      let key = '';
+      return (lp) => {
+        const on = svcs.map((row) => row.hasAttribute('data-at') && lp >= parseFloat(row.getAttribute('data-at')));
+        const k = on.join();
+        if (k === key) return;
+        key = k;
+        let sum = 0;
+        svcs.forEach((row, i) => { row.classList.toggle('is-on', on[i]); if (on[i]) sum += price(row); });
+        total.textContent = `$${sum}${suffix}`;
+      };
+    },
+    check(screen) {
+      const items = [...screen.querySelectorAll('.hw-item')];
+      const count = screen.querySelector('.hw-check__count');
+      const bar = screen.querySelector('.hw-check__bar i');
+      const N = items.length;
+      let done = -1;
+      return (lp) => {
+        const n = Math.min(N, 1 + Math.floor(clamp(lp) * (N - 0.4)));
+        if (n === done) return;
+        done = n;
+        items.forEach((it, i) => {
+          it.classList.toggle('is-done', i < n);
+          it.querySelector('em').textContent = i < n ? 'Done' : 'To do';
+        });
+        count.textContent = `${n} / ${N}`;
+        bar.style.width = `${(n / N) * 100}%`;
+      };
+    },
+    status(screen) {
+      const posts = [...screen.querySelectorAll('.hw-post em')];
+      const toast = screen.querySelector('.hw-toast');
+      const LABELS = (screen.getAttribute('data-labels') || 'Awaiting|Approved|Published').split('|');
+      let key = '';
+      let shown = null;
+      return (lp) => {
+        const st = posts.map((_, i) => (lp >= 0.72 ? 2 : lp >= 0.1 + i * 0.18 ? 1 : 0));
+        const k = st.join();
+        if (k !== key) {
+          const first = !key;
+          key = k;
+          posts.forEach((em, i) => {
+            if (String(st[i]) === em.getAttribute('data-s')) return;
+            em.setAttribute('data-s', st[i]);
+            em.textContent = LABELS[st[i]];
+            if (!first && !reduced) {
+              em.classList.add('is-bump');
+              setTimeout(() => em.classList.remove('is-bump'), 260);
+            }
+          });
         }
-      });
-    }
-    const t = lp >= 0.78;
-    if (t !== state.toast) { state.toast = t; toast.classList.toggle('is-on', t); }
-  }
-  const stories = [story0, story1, story2];
+        const t = lp >= 0.78;
+        if (t !== shown) { shown = t; toast.classList.toggle('is-on', t); }
+      };
+    },
+  };
+  const stories = screens.map((sc) => (makers[sc.getAttribute('data-story')] || (() => () => {}))(sc));
 
   // ---- The path ------------------------------------------------------------------------------
   // Through the dots' centres, starting at the top middle and ending at the

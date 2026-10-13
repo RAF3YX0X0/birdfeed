@@ -58,10 +58,7 @@ function homeBottom(body) {
   // The real case studies (scripts/build-work.js), then what we measure.
   const pj = sectionOf(body, 'pj');
   if (pj) body = body.slice(0, pj[1]) + '\n' + partial('home-results.html') + body.slice(pj[1]);
-  return body
-    .replace('Ready to get social media <em>off your plate?</em>', 'Ready to hand off <em>your marketing?</em>')
-    // The builder is on this page: the second way in goes to it, not to /pricing/.
-    .replace('<a class="hx-btn hx-btn--white" href="/pricing/">Start at $99/mo</a>', '<a class="hx-btn hx-btn--white" href="#build">Build your plan</a>');
+  return body;
 }
 const partial = (f) => fs.readFileSync(path.join(ROOT, 'fx', 'partials', f), 'utf8').trim();
 // Inner pages: the old header sat in the flow, so keep its space under the nav.
@@ -103,7 +100,7 @@ function sharedFor(file, html) {
   // for the page); the other shared sections are general, not about the
   // service. Industry pages build their own (none of these).
   const type = (html.match(/component-export="(ServicePage|CategoryPage|IndustryPage)"/) || [])[1];
-  if (type === 'IndustryPage' || slug === 'pricing' || slug === 'about') return ''; // (pricing, about: scripts/build-pricing.js, build-about.js)
+  if (type === 'IndustryPage' || slug === 'about') return ''; // (about: scripts/build-about.js)
   const want = SHARED.filter(({ cls, re }) => re.test(body) && !(KEEP[slug] || []).includes(cls) && all[cls] && (!type || cls === 'ct'));
   if (!want.length) return '';
   return `<template id="fx-shared">${want.map(({ cls }) => all[cls]).join('\n')}</template>`;
@@ -164,13 +161,13 @@ function block(home, shared, hero, nx, ind) {
     ...(home || /class="hx /.test(hero) ? ['hero.css'] : []),
     ...(/class="ph/.test(hero) ? ['ph.css'] : []),
     ...(/class="csx/.test(hero) ? ['cases.css'] : []),
-    ...(/class="prx"/.test(hero) ? ['pricing.css'] : []),
     ...(/class="abx"/.test(hero) ? ['about.css'] : []),
     ...(home || shared ? SHARED_CSS : []),
     ...(nx || ind ? ['nx.css', 'ind.css'] : []),
+    ...(ind ? ['packages.css'] : []),
     ...(home ? ['nx.css', 'home.css'] : []),
-    // The plan builder's motion (fx/builder.js): the homepage and the pricing page have it.
-    ...(home || /class="prx"/.test(hero) ? ['builder.css'] : []),
+    // The plans (scripts/offer-render.js): the homepage shows them.
+    ...(home ? ['packages.css'] : []),
     ...(ind && !shared ? ['bottom.css'] : []),
   ];
   const font = '<link rel="preload" as="font" type="font/woff2" href="/fonts/satoshi-variable.woff2" crossorigin>';

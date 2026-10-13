@@ -6,9 +6,9 @@
 
 const ACTIONS = [
   { href: '/book-demo/', title: 'Book a free 30-min demo', text: 'See how it works and get your questions answered.', icon: '<path d="M4 7h16v13H4zM4 11h16M9 4v5M15 4v5"/>' },
-  { href: '/pricing/', title: 'Build your plan', text: 'Pick what you need and see your price in 30 seconds.', icon: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>' },
+  { href: '/pricing/', title: 'See plans and pricing', text: 'Local SEO plans, and a custom plan for more.', icon: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>' },
   { href: '/examples/', title: 'See our work', text: 'Real posts, videos and campaigns we’ve made.', icon: '<path d="M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4"/>' },
-  { href: '/case-studies/', title: 'Read customer stories', text: 'What changed for businesses like yours.', icon: '<path d="M5 4h11l3 3v13H5zM9 10h6M9 14h6"/>' },
+  { href: '/case-studies/', title: 'Read our case studies', text: 'The work and the figures, client by client.', icon: '<path d="M5 4h11l3 3v13H5zM9 10h6M9 14h6"/>' },
 ];
 const svg = (d, size = 20) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 
@@ -37,7 +37,7 @@ export function setupHelp({ gsap: G, reduced }) {
       </div>
       <p class="mm-help__hi">Hi there <span aria-hidden="true">👋</span><br>How can we <em>help?</em></p>
       <ul class="mm-help__list">${ACTIONS.map((a) => `<li><a href="${a.href}"><span class="mm-help__aico">${svg(a.icon)}</span><span><b>${a.title}</b><small>${a.text}</small></span>${svg('<path d="M9 6l6 6-6 6"/>', 16)}</a></li>`).join('')}</ul>
-      <p class="mm-help__foot">Done-for-you social media <span>from $99/mo</span></p>`;
+      <p class="mm-help__foot">Local SEO plans <span>from $199/mo</span></p>`;
     document.body.appendChild(panel);
     panel.querySelector('.mm-help__x').addEventListener('click', () => toggle(false));
   }

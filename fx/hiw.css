@@ -106,6 +106,8 @@
 .hw-post { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid #EEF1F5; }
 .hw-post img { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; background: #EEF1F5; }
 .hw-post span { min-width: 0; }
+.hw-post__ico { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 12px; background: #EBF3FF; color: #0066FF; font-style: normal; font-size: 18px; font-weight: 600; }
+.hw-win__label--gap { margin-top: 14px !important; }
 .hw-post b { display: block; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hw-post small { display: block; margin-top: 3px; font-size: 12px; color: #858C99; }
 .hw-post em { padding: 5px 11px; border-radius: 999px; font-style: normal; font-size: 12px; font-weight: 500; background: #FFF4DE; color: #B7791F; transition: background 0.3s ease, color 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -133,4 +135,10 @@
   .hw-row__demo, .hw-row[data-side="r"] .hw-row__demo { justify-self: stretch; }
   .hw-screen { width: 100%; border-radius: 18px; }
   .hw-svc b, .hw-item b, .hw-post b { font-size: 13.5px; }
+}
+
+/* The plan names in step 1 wrap rather than cut off on narrow screens. */
+@media (max-width: 600px) {
+  .hw-svc b { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.25; }
+  .hw-svc em { white-space: nowrap; }
 }

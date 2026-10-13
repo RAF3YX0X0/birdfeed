@@ -219,7 +219,9 @@ function mediaHero(d) {
     // Parts of the cloned page that were another agency's proof (the demo
     // page's calendar card carried one of its customers' testimonials).
     const extra = { 'book-demo': '.bd-cal > div:first-child > div:first-child > div:nth-child(3) { display: none !important; }' }[slug] || '';
-    const html = `${extra ? `<style>${extra}</style>\n` : ''}<style>${d.hide} { display: none !important; }</style>\n${hero}\n`;
+    // Industry pages: their pricing block has its own anchor (scripts/build-industries.js).
+    const linked = slug.startsWith('social-media-management-for-') ? hero.replace(/href="#pricing"/g, 'href="#plans-pricing"') : hero;
+    const html = `${extra ? `<style>${extra}</style>\n` : ''}<style>${d.hide} { display: none !important; }</style>\n${linked}\n`;
     fs.writeFileSync(path.join(OUT, slug.replace(/\//g, '__') + '.html'), html);
     console.log(mode.padEnd(8), slug.padEnd(44), `"${d.eyebrow}"`, '|', d.title.replace(/<[^>]+>/g, '').slice(0, 40), '| ctas', d.ctas.length, 'checks', d.checks.length, 'visual', d.visualHtml.length, 'media', d.media.length);
   }

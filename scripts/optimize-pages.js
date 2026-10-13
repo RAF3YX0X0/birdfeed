@@ -73,10 +73,9 @@ function bookingEmbed(html) {
   return html.replace(/(<astro-island[^>]*component-export="BookDemo"[^>]*opts="{&quot;name&quot;:&quot;BookDemo&quot;,&quot;value&quot;:)true(})/, '$1{&quot;timeout&quot;:600}$2');
 }
 
-// Homepage: the plan builder is where the shop's "Add to plan" puts services
-// (fx/plan.js), so React takes it over once the page settles (within 1.5s)
-// instead of only when it scrolls into view. Its code is the same bundle the
-// hero island already loads.
+// Homepage: React takes the main island over once the page settles (within
+// 1.5s) instead of only when it scrolls into view. Its code is the same
+// bundle the hero island already loads.
 function homeBuilder(html) {
   return html
     .replace(/(<astro-island[^>]*component-export="FBHomeMain"[^>]*client=")visible("[^>]*opts="{&quot;name&quot;:&quot;FBHomeMain&quot;,&quot;value&quot;:)true(})/, '$1idle$2{&quot;timeout&quot;:1500}$3')
@@ -113,6 +112,27 @@ function homeSeo(html, file) {
   return html;
 }
 
+const ORG_DESCRIPTION = 'MADMarketing is a full-service digital marketing agency leading with local SEO and Google Maps visibility for US local businesses. Local SEO plans from $199 a month.';
+// Page descriptions written for the original's offer: its price and terms
+// come out (the plans are on /pricing/, from scripts/offer-data.js).
+const OFFER_TEXT = [
+  [/ from \$99\/mo:/g, ':'],
+  [/ from \$99\/mo/g, ''],
+  [/\. (?:Dedicated team, )?[Nn]o contracts\./g, '.'],
+  [/, (?:dedicated team, )?no contracts\./g, '.'],
+  [/(?<!\.)\.\.(?!\.)/g, '.'], // (left by an earlier version of these rules)
+];
+const PAGE_DESCRIPTIONS = {
+  examples: 'Browse real work our team made for our clients: social posts, reels, creator videos, brochures and websites, by industry and client.',
+};
+function offerText(html, file) {
+  const slug = path.relative(ROOT, path.dirname(file)).split(path.sep).join('/');
+  const own = PAGE_DESCRIPTIONS[slug];
+  const clean = (t) => OFFER_TEXT.reduce((x, [re, to]) => x.replace(re, to), t);
+  html = html.replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")([^"]*)(")/g, (m, a, t, b) => a + (own || clean(t)) + b);
+  return html.replace(/(<script type="application\/ld\+json"[^>]*>)([\s\S]*?)(<\/script>)/g, (m, a, json, b) => a + clean(json) + b);
+}
+
 function seo(html) {
   html = html.replace(/(<link rel="canonical" href=")([^"]+)(")/, (m, a, u, b) => a + abs(u) + b);
   html = html.replace(/(<meta (?:property|name)="(?:og:url|og:image|twitter:image)" content=")([^"]+)(")/g, (m, a, u, b) => a + abs(u) + b);
@@ -129,6 +149,11 @@ function seo(html) {
         o.url = SITE + '/';
         if (o.logo) o.logo = abs(o.logo);
         // The client's own details (requirements questionnaire, 2026-10).
+        // The client's positioning (Services & Packages, 2026-10), in place of
+        // the original's "affordable social media management from $99/mo".
+        delete o.alternateName;
+        delete o.priceRange;
+        o.description = ORG_DESCRIPTION;
         o.email = 'hello@madmediamarketing.com';
         o.telephone = '+1-636-369-2742';
         o.address = { '@type': 'PostalAddress', streetAddress: '2055 Craigshire Dr', addressLocality: 'St. Louis', addressRegion: 'MO', postalCode: '63146', addressCountry: 'US' };
@@ -150,7 +175,7 @@ for (const f of pages(ROOT)) {
   let s = fs.readFileSync(f, 'utf8');
   const before = s;
   for (const re of TRACKERS) s = s.replace(re, () => { removed++; return ''; });
-  s = homeSeo(homeBuilder(bookingEmbed(seo(lazyImages(s)))), f);
+  s = homeSeo(offerText(homeBuilder(bookingEmbed(seo(lazyImages(s)))), f), f);
   if (s !== before) fs.writeFileSync(f, s);
   const rel = path.relative(ROOT, path.dirname(f)).split(path.sep).join('/');
   if (!/name="robots" content="noindex/.test(s)) urls.push(rel ? `/${rel}/` : '/'); // (the login page isn't listed)

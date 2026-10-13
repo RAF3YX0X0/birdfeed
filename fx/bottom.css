@@ -8,9 +8,7 @@
 
 /* ---- Hide what was rebuilt ------------------------------------------------------ */
 /* Main island: keep only the pricing builder (3rd); its heading is replaced. */
-.prh ~ astro-island[component-export="FBHomeMain"] > div > section:nth-of-type(n+4) { display: none !important; }
-.prh ~ astro-island[component-export="FBHomeMain"] > div > section:nth-of-type(3) { padding-top: 8px !important; background: transparent !important; }
-.prh ~ astro-island[component-export="FBHomeMain"] > div > section:nth-of-type(3) > div > div:first-child { display: none !important; }
+.prh ~ astro-island[component-export="FBHomeMain"] > div > section:nth-of-type(n+3) { display: none !important; }
 /* Bottom island: reviews, FAQ and CTA are rebuilt; the reseller strip and footer stay. */
 .ct ~ astro-island[component-export="FBHomeBottom"] > div > section:nth-of-type(-n+3) { display: none !important; }
 
@@ -22,6 +20,9 @@
   font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif;
 }
 .prh .sx-head { padding-top: 110px; padding-bottom: 40px; }
+.prh__body { box-sizing: border-box; max-width: 1240px; margin: 0 auto; padding: 0 24px 30px; }
+.prh__note { margin: 22px 0 0; font-size: 14px; line-height: 1.6; text-align: center; color: #6B7280; }
+.prh__note a { display: inline-flex; align-items: center; gap: 6px; margin-left: 6px; font-weight: 600; color: #0066FF; text-decoration: none; }
 
 
 /* ---- Guarantee + Pro ------------------------------------------------------------- */

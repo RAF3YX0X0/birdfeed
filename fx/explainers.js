@@ -1,7 +1,7 @@
 // Page explainers: which page gets which 3D section, where it goes (the
 // section heading it sits next to), and its words, steps, live stat and data.
 // Figures are illustrative and labelled as such on the page; facts about the
-// business (15+ services, 100+ businesses) come from the site itself, and
+// business (six service families, 100+ businesses) come from the site itself, and
 // the globe's places are where our case-study clients are
 // (scripts/work-data.js).
 
@@ -156,7 +156,7 @@ const GLOBE = {
   steps: [
     { title: 'St. Louis, Missouri', text: 'Headquartered in St. Louis, serving businesses across the US.' },
     { title: 'Four countries', text: 'Client work for a New York mover, Dubai construction and chauffeur companies, a Doha IT firm and a Karachi app launch.' },
-    { title: '15+ services', text: 'Social, video, ads, SEO, email and more, under one subscription.' },
+    { title: 'Six service families', text: 'Search, AI visibility, paid ads, social and creative, web, and automation.' },
     { title: '100+ businesses', text: 'Across the US, from local shops to growing brands.' },
   ],
   pin: 2,
@@ -172,17 +172,8 @@ const GLOBE = {
   },
 };
 
-const PRICING = [/pricing\s*&\s*plans/i, /real results/i];
 const PAGES = {
-  'seo-services': { anchors: [/why businesses pick us/i, ...PRICING], def: SEO },
-  'managed-seo': { anchors: [/from kickoff/i, ...PRICING], def: SEO },
-  'seo-blog-posts': { anchors: PRICING, def: SEO },
-  'seo-backlinks': { anchors: [/real links on real sites/i, /frequently asked/i], def: SEO },
-  'conversion-tracking': { anchors: [/everything we set up/i, ...PRICING], def: TRACK },
-  'short-form-video': { anchors: [/every video has one job/i, ...PRICING], def: HOOK },
-  'instagram-growth': { anchors: [/fake followers/i, ...PRICING], def: GROWTH },
   'book-demo': { anchors: [/see how it works/i], position: 'after', def: CALL },
-  reseller: { anchors: [/sell more/i, /real results/i], def: LAYERS },
   about: { anchors: [/principles behind/i, /real results/i], def: GLOBE },
 };
 

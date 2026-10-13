@@ -68,6 +68,226 @@
   ],
   "redirects": [
     {
+      "source": "/video-demo/",
+      "destination": "/book-demo/",
+      "permanent": true
+    },
+    {
+      "source": "/video-demo",
+      "destination": "/book-demo/",
+      "permanent": true
+    },
+    {
+      "source": "/all-services",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/all-services/",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/social-media-management",
+      "destination": "/services/social-media-marketing/",
+      "permanent": true
+    },
+    {
+      "source": "/social-media-management/",
+      "destination": "/services/social-media-marketing/",
+      "permanent": true
+    },
+    {
+      "source": "/social-media-services",
+      "destination": "/services/social-media-marketing/",
+      "permanent": true
+    },
+    {
+      "source": "/social-media-services/",
+      "destination": "/services/social-media-marketing/",
+      "permanent": true
+    },
+    {
+      "source": "/short-form-video",
+      "destination": "/services/social-media-marketing/",
+      "permanent": true
+    },
+    {
+      "source": "/short-form-video/",
+      "destination": "/services/social-media-marketing/",
+      "permanent": true
+    },
+    {
+      "source": "/ugc-videos",
+      "destination": "/services/social-media-marketing/",
+      "permanent": true
+    },
+    {
+      "source": "/ugc-videos/",
+      "destination": "/services/social-media-marketing/",
+      "permanent": true
+    },
+    {
+      "source": "/ad-creative",
+      "destination": "/services/social-media-marketing/",
+      "permanent": true
+    },
+    {
+      "source": "/ad-creative/",
+      "destination": "/services/social-media-marketing/",
+      "permanent": true
+    },
+    {
+      "source": "/meta-ads-management",
+      "destination": "/services/meta-ads/",
+      "permanent": true
+    },
+    {
+      "source": "/meta-ads-management/",
+      "destination": "/services/meta-ads/",
+      "permanent": true
+    },
+    {
+      "source": "/google-ads-management",
+      "destination": "/services/google-ads/",
+      "permanent": true
+    },
+    {
+      "source": "/google-ads-management/",
+      "destination": "/services/google-ads/",
+      "permanent": true
+    },
+    {
+      "source": "/ppc-services",
+      "destination": "/services/google-ads/",
+      "permanent": true
+    },
+    {
+      "source": "/ppc-services/",
+      "destination": "/services/google-ads/",
+      "permanent": true
+    },
+    {
+      "source": "/conversion-tracking",
+      "destination": "/services/google-ads/",
+      "permanent": true
+    },
+    {
+      "source": "/conversion-tracking/",
+      "destination": "/services/google-ads/",
+      "permanent": true
+    },
+    {
+      "source": "/landing-pages",
+      "destination": "/services/web-design/",
+      "permanent": true
+    },
+    {
+      "source": "/landing-pages/",
+      "destination": "/services/web-design/",
+      "permanent": true
+    },
+    {
+      "source": "/seo-services",
+      "destination": "/services/seo/",
+      "permanent": true
+    },
+    {
+      "source": "/seo-services/",
+      "destination": "/services/seo/",
+      "permanent": true
+    },
+    {
+      "source": "/managed-seo",
+      "destination": "/services/seo/",
+      "permanent": true
+    },
+    {
+      "source": "/managed-seo/",
+      "destination": "/services/seo/",
+      "permanent": true
+    },
+    {
+      "source": "/seo-blog-posts",
+      "destination": "/services/seo/",
+      "permanent": true
+    },
+    {
+      "source": "/seo-blog-posts/",
+      "destination": "/services/seo/",
+      "permanent": true
+    },
+    {
+      "source": "/seo-backlinks",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/seo-backlinks/",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/instagram-growth",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/instagram-growth/",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/email-design",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/email-design/",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/reseller",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/reseller/",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/pro",
+      "destination": "/pricing/",
+      "permanent": true
+    },
+    {
+      "source": "/pro/",
+      "destination": "/pricing/",
+      "permanent": true
+    },
+    {
+      "source": "/compare",
+      "destination": "/pricing/",
+      "permanent": true
+    },
+    {
+      "source": "/compare/",
+      "destination": "/pricing/",
+      "permanent": true
+    },
+    {
+      "source": "/home-services",
+      "destination": "/services/local-seo/",
+      "permanent": true
+    },
+    {
+      "source": "/home-services/",
+      "destination": "/services/local-seo/",
+      "permanent": true
+    },
+    {
       "source": "/reviews",
       "destination": "/case-studies/",
       "permanent": false

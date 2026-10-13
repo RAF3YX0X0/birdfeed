@@ -23,45 +23,17 @@ const SWAPS = [
 // Every CTA variant opens with a small "// begin" eyebrow.
 const hasEyebrow = (sec, re) => [...sec.querySelectorAll('div, p, span')].some((n) => !n.children.length && re.test(n.textContent));
 
-// Service pages whose original closing line was the general one get their own.
-const OWN_CTA = {
-  '/short-form-video/': 'Ready for videos that <em>stop the scroll?</em>',
-  '/instagram-growth/': 'Ready to grow with <em>the right followers?</em>',
-  '/social-media-management/': 'Ready to hand off <em>your social media?</em>',
-};
-
-// Carry the original CTA's words over into the rebuilt one: its headline (the
-// last few words in the serif accent), subtitle, buttons and small print.
+// The rebuilt CTA keeps the page's own headline (the last few words in the
+// accent colour). Its subtitle, buttons, small print and figures are ours:
+// the originals described the cloned site's old offer and prices.
 function adapt(cls, sec, orig) {
   if (cls !== 'ct') return;
-  const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const esc = (t) => t.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
   const h2 = orig.querySelector('h2');
-  const own = OWN_CTA[location.pathname];
-  if (own && h2 && /off your plate/i.test(h2.textContent)) {
-    // The page's original closing line is the general one: use its own.
-    sec.querySelector('.ct__title').innerHTML = own;
-  } else if (h2) {
-    const words = h2.textContent.replace(/\s+/g, ' ').trim().split(' ');
-    const k = words.length > 4 ? 3 : 1;
-    sec.querySelector('.ct__title').innerHTML = `${esc(words.slice(0, -k).join(' '))} <em>${esc(words.slice(-k).join(' '))}</em>`;
-  }
-  const p = [...orig.querySelectorAll('p')].find((n) => n.textContent.trim().length > 30);
-  if (p) sec.querySelector('.ct__sub').textContent = p.textContent.trim();
-  const links = [...orig.querySelectorAll('a[href]')].filter((a) => a.textContent.trim());
-  sec.querySelectorAll('.ct__ctas a').forEach((a, i) => {
-    if (!links[i]) return;
-    a.href = links[i].getAttribute('href');
-    a.textContent = links[i].textContent.replace(/[→↗]/g, '').trim();
-  });
-  const note = [...orig.querySelectorAll('div, p, span')].find((n) => !n.children.length && /cancel anytime|money.back|guarantee/i.test(n.textContent) && n.textContent.length < 120);
-  if (note) sec.querySelector('.ct__note').textContent = note.textContent.replace(/^\s*\$\s*/, '').trim();
-  // Stats: same figures, but some pages label them their own way.
-  const leaves = [...orig.querySelectorAll('div, p, span, b, strong')].filter((n) => !n.children.length);
-  sec.querySelectorAll('.ct__stats dd').forEach((dd) => {
-    const val = leaves.find((n) => n.textContent.trim() === dd.textContent.trim());
-    const lab = val && val.nextElementSibling;
-    if (lab && lab.textContent.trim()) dd.previousElementSibling.textContent = lab.textContent.trim();
-  });
+  if (!h2 || /off your plate/i.test(h2.textContent)) return;
+  const words = h2.textContent.replace(/\s+/g, ' ').trim().split(' ');
+  const k = words.length > 4 ? 3 : 1;
+  sec.querySelector('.ct__title').innerHTML = `${esc(words.slice(0, -k).join(' '))} <em>${esc(words.slice(-k).join(' '))}</em>`;
 }
 const reactOwned = (el) => Object.keys(el).some((k) => k.startsWith('__reactFiber$'));
 // Its heading, or (for the heading-less trust strip) its visible text; plain

@@ -18,6 +18,22 @@ const fs = require('fs');
 const path = require('path');
 const puppeteer = require('puppeteer-core');
 const { extract } = require('./build-sections.js');
+const O = require('./offer-data');
+
+// Answers about the offer, from the client's services and pricing
+// (scripts/offer-data.js). The cloned page's own answers described another
+// company's prices, services and terms; the rest of its answers still apply.
+const PLAN_LINE = O.PLANS.map((p) => `${p.name} is ${O.money(p.price)} a month`).join(', ');
+const ABOUT_ANSWERS = {
+  'How much does MadMarketing cost?': `Our local SEO plans are priced per month: ${PLAN_LINE}. Everything beyond local SEO, from paid ads and social media to websites and automation, is quoted to your scope as ${O.FULL_GROWTH.name}. Eligible local businesses can start with the free 30-day challenge.`,
+  'What services do you offer?': `Six families of services: ${O.FAMILIES.map((f) => `${f.name} (${f.services.map(([n]) => n).join(', ')})`).join('; ')}. Start with the one you need and add more when it makes business sense.`,
+  'Which social channels do you support?': 'We set your channels in your channel strategy, from Instagram, Facebook and TikTok to LinkedIn, YouTube and your Google Business Profile.',
+  'Is there a contract?': 'Each monthly plan starts with a written agreement that sets out billing, cancellation, service levels and deliverables, so you know the terms before you start. The free 30-day challenge never turns into a paid subscription without your explicit approval.',
+  "What if I don't like the content?": 'You review the work before anything goes live, and your feedback goes into revisions. What each plan includes is set out in your written agreement.',
+  'How do I get started, and how fast will I see content?': 'Book a 30-minute call, or, if you’re a local business with a verified Google Business Profile, apply for the free 30-day challenge. After the call we send you a scope and a quote, and once you approve it in writing, we start onboarding and agree the timeline for your first deliverables with you.',
+  'How do I communicate with my team?': 'With your account team, by email and on calls. Your agreement sets out who does what and how often we report to you.',
+  'What is your refund policy?': 'Billing, cancellation and refunds are set out in your written agreement before you pay anything. The free 30-day challenge has no agency fee and needs no credit card.',
+};
 const B = require('./render-blocks.js');
 
 const ROOT = path.join(__dirname, '..');
@@ -38,7 +54,7 @@ function hero() {
     ['people', 'Specialists', 'Vetted creatives'],
     ['book', 'Playbooks', 'Refined across 100+ accounts'],
     ['bolt', 'Technology', 'Tooling for the busywork'],
-    ['star', 'Your brand', 'From $99/mo, month to month'],
+    ['star', 'Your brand', 'Local SEO plans from $199/mo'],
   ];
   return `<section class="abx" aria-labelledby="abx-title">
   <div class="abx__bg" aria-hidden="true"><i></i><i></i></div>
@@ -90,7 +106,7 @@ function alternatives() {
       <header class="nx__head"><span class="nx__eyebrow">The structural problem</span><h2 class="nx__title">Four alternatives. None of them <em>built to actually work.</em></h2><p class="nx__lede">The industry offered small businesses four options. Every one had a structural flaw that made sustainable marketing nearly impossible.</p></header>
       <div class="abx-deck">${cards.map(([k, big, unit, text, tag], i) => `
         <article class="abx-card" style="--i:${i}"><span class="abx-card__k">${esc(k)}</span><b class="abx-card__big">${esc(big)}</b><small class="abx-card__unit">${esc(unit)}</small><p>${esc(text)}</p><span class="abx-card__tag">${esc(tag)}</span></article>`).join('')}
-        <article class="abx-card abx-card--us"><span class="abx-card__k">MadMarketing</span><b class="abx-card__big">The infrastructure that <em>didn’t exist.</em></b><p>15+ services and vetted specialists on one platform. Pricing starts at $99/month and scales with your needs, no long-term contracts. Designed from the start for the businesses the industry had written off as too small to serve well.</p><span class="abx-card__chips"><i>15+ services</i><i>Vetted specialists</i><i>From $99/mo</i><i>No long-term contracts</i></span></article>
+        <article class="abx-card abx-card--us"><span class="abx-card__k">MadMarketing</span><b class="abx-card__big">The infrastructure that <em>didn’t exist.</em></b><p>Six service families and vetted specialists with one partner. Local SEO plans start at $199 a month, and everything else is scoped and quoted to your business. Designed from the start for the businesses the industry had written off as too small to serve well.</p><span class="abx-card__chips"><i>Six service families</i><i>Vetted specialists</i><i>From $199/mo</i><i>Free 30-day challenge</i></span></article>
       </div>
     </div>
   </div>
@@ -177,7 +193,7 @@ function homeSection(cls) {
 
   const hide = models.map((m) => `${m.path} { display: none !important; }`);
   const fq = models.find((m) => m.kind === 'faq');
-  const faqs = fq ? fq.faqs.map((f) => { const q = f.q.replace(/^\d{1,2}\s*/, ''); return { q, a: answer(q) }; }) : [];
+  const faqs = fq ? fq.faqs.map((f) => { const q = f.q.replace(/^\d{1,2}\s*/, ''); return { q, a: ABOUT_ANSWERS[q] || answer(q) }; }) : [];
   const ct = homeSection('ct').replace(/(<h2 class="ct__title"[^>]*>)[\s\S]*?(<\/h2>)/, '$1Stop managing your marketing and <em>start growing.</em>$2');
 
   fs.writeFileSync(path.join(ROOT, 'fx', 'partials', 'heroes', 'about.html'), hero() + '\n');

@@ -11,9 +11,6 @@
 import { mountStages } from './stage.js';
 import { setupFunnel, allowSticky } from './funnel.js';
 import { funnelFor } from './funnel-data.js';
-import { setupROI } from './roi.js';
-import { setupTowers } from './towers.js';
-import { setupCalendar } from './calendar.js';
 import { mountExplainer } from './explainer.js';
 import { explainerFor } from './explainers.js';
 import { setupHomeHero } from './hero.js';
@@ -31,8 +28,6 @@ import { setupHelp } from './help.js';
 import { setupSections } from './sections.js';
 import { setupIndustry, wireBlocks } from './ind.js';
 import { startCal } from './cal.js';
-import { setupPricing } from './pricing.js';
-import { setupBuilderFx } from './builder.js';
 import { setupAbout } from './about.js';
 import { setupHome } from './home.js';
 
@@ -114,13 +109,9 @@ function init() {
   const animateIn = !reduced && curtain.covered;
   if (animateIn && homeHero) homeHero.buildIntro(intro);
   else if (animateIn && cases) cases.buildIntro(intro);
-  else if (animateIn && hero && !hero.classList.contains('prx') && !hero.classList.contains('abx')) buildHeroIntro(hero, intro);
+  else if (animateIn && hero && !hero.classList.contains('abx')) buildHeroIntro(hero, intro);
   // The About page (see about.js).
   if (hero && hero.classList.contains('abx')) setupAbout({ hero, gsap: G, ST, reduced, intro, animateIn, finePointer });
-  // The pricing page (see pricing.js).
-  if (hero && hero.classList.contains('prx')) setupPricing({ hero, gsap: G, ST, lenis, reduced, intro, animateIn, finePointer });
-  // The plan builder (homepage, pricing page): motion around its estimate.
-  if (document.querySelector('.sh-builder-grid')) setupBuilderFx({ gsap: G, reduced, finePointer });
   // Inner pages' generated hero: the visual rises into the arch on scroll.
   if (hero && hero.classList.contains('ph')) setupPageHero({ section: hero, gsap: G, reduced });
 
@@ -148,13 +139,8 @@ function init() {
     const cfg = funnelFor(location.pathname);
     const common = { gsap: G, lenis, reduced, narrow: isNarrow() };
     if (cfg) placeInIsland([/pricing\s*&\s*plans/i, /real results/i], (anchor) => setupFunnel({ anchor, ...common, stages: cfg.stages, copy: cfg.copy }));
-    // Pricing: the estimator has a slot among the page's own sections.
-    const roiSlot = document.getElementById('fx-roi-slot');
-    if (slug === 'pricing') roiSlot ? setupROI({ anchor: roiSlot, ...common }) : placeInIsland([/money back|first batch/i], (anchor) => setupROI({ anchor, ...common }));
-    if (slug === 'social-media-management') placeInIsland([/everything done for you/i, /real results/i], (anchor) => setupCalendar({ anchor, ...common }));
     const ex = explainerFor(location.pathname);
     if (ex) placeInIsland(ex.anchors, (anchor) => mountExplainer({ anchor, position: ex.position, def: ex.def, ...common }));
-    if (slug === 'compare') placeInIsland([/why teams switch/i, /real results/i], (anchor) => setupTowers({ anchor, ...common }));
   }
 
   let targets = scanReveals(hero);

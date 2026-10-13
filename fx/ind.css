@@ -157,3 +157,8 @@
 @media (prefers-reduced-motion: reduce) {
   .ind-work__track { animation: none; }
 }
+
+/* ---- Pricing (where the plan builder was): quoted to scope ---------------------------- */
+.ind-price .nx__lede { max-width: 720px; }
+.ind-price .pk-full { margin-top: 32px; }
+.ind-price__more { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }

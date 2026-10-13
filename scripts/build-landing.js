@@ -15,6 +15,7 @@
 // The form posts to api/free-local-seo.js.
 const fs = require('fs');
 const path = require('path');
+const O = require('./offer-data');
 
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://madmarketinghaseeb.vercel.app';
@@ -104,11 +105,8 @@ const REPORT = [
   'Follow-up visibility snapshot',
   'Next-step growth recommendations',
 ];
-const PLANS = [
-  ['MAD Local', '$199', 'Essential Google Business Profile and local listing management.'],
-  ['MAD Local Growth', '$349', 'Ongoing Google Maps optimization, citations, website SEO improvements, and competitor monitoring.'],
-  ['MAD Search Authority', '$599', 'Advanced local and website SEO, content optimization, and AI-search readiness.'],
-];
+// The plans and their prices: scripts/offer-data.js (the client's rate card).
+const PLANS = O.PLANS.map((p) => [p.name, O.money(p.price), p.short]);
 const RULES = [
   ['Legitimate local business', 'Required'],
   ['Verified Google Business Profile', 'Required before trial activation'],
@@ -764,7 +762,7 @@ const landing = `<!doctype html>
         <a href="/services/google-maps-seo/">Google Maps SEO</a>
         <a href="/services/ai-search-optimization/">AI Search Optimization</a>
         <a href="/services/google-ads/">Google Ads Management</a>
-        <a href="/all-services/">All services</a>
+        <a href="/services/">All services</a>
       </nav>
       <div class="lp-foot__contact">
         <b class="lp-foot__h">Contact</b>
