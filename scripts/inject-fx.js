@@ -92,6 +92,13 @@ const sectionsOf = (file) => {
   });
   return out;
 };
+// One shared section's markup by class, for pages that need it placed
+// statically rather than swapped in over a cloned one.
+function sharedSection(cls) {
+  const all = Object.assign({}, ...['home-trust.html', 'home-hiw.html', 'home-portfolio.html', 'home-projects.html', 'home-bottom.html'].map(sectionsOf));
+  return all[cls] || '';
+}
+
 function sharedFor(file, html) {
   const slug = path.relative(ROOT, path.dirname(file)).split(path.sep)[0];
   if (!slug || LEGAL.includes(slug)) return '';
@@ -232,14 +239,35 @@ for (const file of pages(ROOT)) {
     let hero = home ? '' : heroFor(file);
     // The examples page: our clients' work (the homepage's portfolio grid) in
     // place of the cloned gallery, which showed another agency's clients.
-    if (hero && path.relative(ROOT, path.dirname(file)) === 'examples') {
-      hero += '\n<style>astro-island[component-export="ExamplesIndex"] section:not(.ct):not([data-fx-skip]) { display: none !important; }</style>\n' + partial('home-portfolio.html');
+    // The cloned gallery was only hidden with CSS, so its island still
+    // hydrated and then fetched all 407 of that agency's images — 51MB and
+    // 724 requests on the first screen, none of it ever seen. isExamples also
+    // switches the island off below; the only part of it still on show was the
+    // closing call, so that goes in here instead.
+    const isExamples = path.relative(ROOT, path.dirname(file)) === 'examples';
+    if (hero && isExamples) {
+      hero += '\n<style>astro-island[component-export="ExamplesIndex"] { display: none !important; }</style>\n'
+        + partial('home-portfolio.html') + '\n' + sharedSection('ct');
     }
     const nx = home ? '' : sectionsFor(file);
     const ind = home ? null : industryFor(file);
     html = html.slice(0, i) + '\n' + block(home, !!shared, hero, !!nx, !!ind) + '\n' + html.slice(i);
     // Ad landing pages (<html data-fx-landing>) bring their own slim nav and
     // footer, so visitors stay on the offer.
+    // Nothing of the cloned examples island is shown, so don't let React mount
+    // it: the attribute Astro looks for is renamed, which leaves the markup in
+    // place for hydration-safety but stops the component ever running.
+    if (isExamples) html = html.replace(/<astro-island([^>]*?)\sclient="/g, '<astro-island$1 data-fx-noclient="');
+    // An island whose component chunk isn't in _astro can never hydrate: the
+    // request just 404s and React gives up, leaving the server-rendered markup
+    // that is already on screen. Don't make the request at all.
+    html = html.replace(/<astro-island\b[^>]*>/g, (tag) => {
+      const url = (tag.match(/component-url="([^"]+)"/) || [])[1];
+      if (!url || fs.existsSync(path.join(ROOT, url.replace(/^\//, '')))) return tag;
+      // Renaming the client directive isn't enough: the element fetches its
+      // own component-url, so that goes too.
+      return tag.replace(/\sclient="/, ' data-fx-noclient="').replace(/\scomponent-url="/, ' data-fx-nourl="');
+    });
     const landing = /<html[^>]*\sdata-fx-landing/.test(html);
     for (const blk of BLOCKS) {
       if (landing && (blk.name === 'nav' || blk.name === 'footer')) continue;

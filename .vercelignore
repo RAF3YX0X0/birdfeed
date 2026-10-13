@@ -12,6 +12,32 @@ fx/partials
 Portfolio
 Portfolio-*.zip
 drive-download-*.zip
+# Media left over from the cloned site that nothing on any page asks for. A
+# crawl of all 35 pages (every portfolio filter, quick view and overlay opened)
+# records zero requests for either: /ugc/ and /vx/ belong to a video-demo
+# component whose chunk is never loaded. 201MB off every deployment. They stay
+# in the repo, since git keeps the history either way.
+ugc
+vx
+# The cloned examples gallery's images (/px/) and the stock photos behind its
+# broken /img/ex/ references. The gallery's island no longer hydrates, so the
+# crawl records zero requests for either, and /examples/ went from 724 requests
+# and 56MB on the first screen to 29 and 2.4MB.
+px
+img
+# Chunks for pages that were retired and redirected (compare, pro, reseller,
+# reviews, category); the same crawl never loads them.
+_astro/fb-category-data.Ces8phR0-mm-b1.js
+_astro/fb-category.CeUhbH1g-mm-c2-r2768d1-b8.js
+_astro/fb-compare.DI8T_zJ_-mm-c2-r70a7cb-b8.js
+_astro/fb-legal.oXllBhf1-mm-c2-r35a242-b8.js
+_astro/fb-pricing.C4xirES3-mm-c2-r8ad58d-b8.js
+_astro/fb-pro.C_WwRSK1-mm-c2-r92a006-b8.js
+_astro/fb-reseller.N1EDpSDD-mm-c2-r1087ef-b8.js
+_astro/fb-reviews.Beq3fcD--mm-c2-r4ff548-b8.js
+_astro/fb-service.DtFb22zE-mm-c2-ra8b42f-b8.js
+_astro/fb-services.BHpMtJO6-mm-c2-rf0c4fc-b8.js
+_astro/fb-video-demo.DPilZle_-mm-c2-rcca901-b8.js
 # Client performance exports: the figures are published, the screenshots aren't.
 Stats
 Stats.zip
