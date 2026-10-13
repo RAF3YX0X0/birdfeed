@@ -80,7 +80,7 @@ function shots(c, picks) {
 ${picks.map((src) => {
     const m = c.media.find((x) => x.src === src);
     return m.kind === 'video'
-      ? `            <video class="pj-shot pj-shot--video" muted loop playsinline preload="none" poster="${esc(meta(src).poster)}" data-pj-play aria-label="${esc(m.c)}"><source src="${esc(src)}" type="video/mp4"></video>`
+      ? `            <video class="pj-shot pj-shot--video" muted loop playsinline preload="none" poster="${esc(meta(src).poster)}" data-pj-play aria-label="${esc(m.c)}"><source src="${esc(previewOf(src))}" type="video/mp4"></video>`
       : `            <img class="pj-shot" src="${esc(src)}" alt="${esc(m.c)}" loading="lazy" decoding="async">`;
   }).join('\n')}
           </div>`;
