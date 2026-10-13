@@ -1,32 +1,27 @@
-# This is a static site. server.js is only the local dev server (npm start);
-# deploying it makes Vercel run it as a function, which can't see the assets.
+# What Vercel must not upload. The site is static: every other folder here is
+# served at its own path, so nothing listed below may be referenced by a page.
+# Checked by crawling all 35 pages (scrolling each, working every portfolio
+# filter, opening a quick view and the case overlay) and recording every URL
+# actually requested — nothing excluded appears in that list.
+
+# The local dev server: deploying it would make Vercel run the site as a
+# function, which can't see the static assets.
 server.js
-validate_clone.js
+
+# Sources and tooling, not the built site.
 scripts
 fx/partials
-# Working documents (client questionnaire, design references): never served.
-*.pdf
-*.docx
 *.md
-# The client portfolio source files (1.5GB): only optimized copies under /assets/ are served.
-Portfolio
-Portfolio-*.zip
-drive-download-*.zip
-# Media left over from the cloned site that nothing on any page asks for. A
-# crawl of all 35 pages (every portfolio filter, quick view and overlay opened)
-# records zero requests for either: /ugc/ and /vx/ belong to a video-demo
-# component whose chunk is never loaded. 201MB off every deployment. They stay
-# in the repo, since git keeps the history either way.
-ugc
-vx
-# The cloned examples gallery's images (/px/) and the stock photos behind its
-# broken /img/ex/ references. The gallery's island no longer hydrates, so the
-# crawl records zero requests for either, and /examples/ went from 724 requests
-# and 56MB on the first screen to 29 and 2.4MB.
-px
-img
+
+# Everything the client sent us (see .gitignore) and the clone's leftovers:
+# the other agency's images and videos, and the pages' hash-named media. The
+# cloned sections that referenced them are hidden and no longer hydrate, so
+# nothing asks for any of it. ~370MB.
+_client
+_legacy
+
 # Chunks for pages that were retired and redirected (compare, pro, reseller,
-# reviews, category); the same crawl never loads them.
+# reviews, category); no page loads them.
 _astro/fb-category-data.Ces8phR0-mm-b1.js
 _astro/fb-category.CeUhbH1g-mm-c2-r2768d1-b8.js
 _astro/fb-compare.DI8T_zJ_-mm-c2-r70a7cb-b8.js
@@ -38,26 +33,6 @@ _astro/fb-reviews.Beq3fcD--mm-c2-r4ff548-b8.js
 _astro/fb-service.DtFb22zE-mm-c2-ra8b42f-b8.js
 _astro/fb-services.BHpMtJO6-mm-c2-rf0c4fc-b8.js
 _astro/fb-video-demo.DPilZle_-mm-c2-rcca901-b8.js
-# Client performance exports: the figures are published, the screenshots aren't.
-Stats
-Stats.zip
-More Content
-Before and After.png
-WhatsApp *.zip
 
-# Hash-named leftovers from the clone, loose in the project root. The crawl
-# never requests any of them; the 16-character names are the clone's, ours are
-# words. 12MB.
-/????????????????.webp
-/????????????????.png
-/Free Offer refrence showcase.png
-/icon.png
-/MadMarketing Brand Styleboard Mockup.png
-/MADMarketing Landing page refrence.png
-/MADMarketing Logo.png
-# (og-banner.png stays: it is the og:image in every page's meta tags, which
-# browsers never fetch but Facebook, LinkedIn and WhatsApp do.)
-/viz-email-hero.jpg
-/viz-sfv-1.jpg
-/viz-sfv-2.jpg
-/viz-sfv-3.jpg
+# (og-banner.png stays at the root: no browser asks for it, but it is the
+# og:image every social preview uses.)

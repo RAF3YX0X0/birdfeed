@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "validate": "node validate_clone.js"
+    "validate": "node scripts/validate_clone.js"
   },
   "keywords": [
     "feedbird",

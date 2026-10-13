@@ -17,38 +17,44 @@ would make Vercel run the site as a function instead of serving static files.
 
 ## Where things live
 
+The root holds only the site itself: one folder per URL, plus the folders the pages
+fetch from. Everything that isn't served lives in one of two places, `_client/` or
+`_legacy/`.
+
 | Folder | What it is | Deployed |
 |---|---|---|
-| `index.html`, `about/`, `services/`, … | the pages themselves, one `index.html` each | yes |
+| `index.html`, `about/`, `services/`, … | the pages themselves, one `index.html` per URL | yes |
 | `fx/` | our own design layer: section markup (`fx/partials/`), styles, behaviour, 3D scenes (`fx/three/`) | `fx/dist` and assets, not `fx/partials` |
 | `fx/dist/` | the built, minified, content-hashed CSS and JS the pages load | yes |
-| `scripts/` | every generator and build step (see below) | no |
-| `work/` | our clients' real media: posts, reels, site shots, and the `.preview.mp4` copies | yes |
-| `assets/` | MADMarketing's logos, marks and icons | yes |
+| `work/` | our clients' real media: posts, reels, site shots, and the `.preview.mp4` copies the grids play | yes |
+| `assets/`, `fonts/` | MADMarketing's logos and marks; Satoshi, self-hosted | yes |
 | `_astro/` | the clone's compiled React chunks | only the ones still loaded |
-| `fonts/` | Satoshi, self-hosted | yes |
-| `px/`, `img/`, `ugc/`, `vx/` | the original agency's media | **no** — see "What is not deployed" |
-| `Portfolio/`, `Stats/` | the client's source material (≈1.7GB), kept locally | no |
+| `api/` | the challenge application endpoint | yes |
+| `scripts/` | every generator and build step, plus `validate_clone.js` | no |
+| `_client/` | what the client sent: `portfolio/` (≈1.7GB of source media), `stats/` (the exports behind the published figures), `brief/`, `references/`, `more-content/` | no — gitignored, local only |
+| `_legacy/` | the cloned agency's media: `px/`, `img/`, `ugc/`, `vx/`, `lp/`, `reviews/` and the hash-named page images | no — in the repo, never deployed |
+
+Loose files at the root are only the ones that have to be there: `index.html`,
+`robots.txt`, `sitemap.xml`, `og-banner.png`, `slider-arrows.js` (served at that
+path), `server.js`, and the config files.
 
 ### What is not deployed, and why
 
-`.vercelignore` keeps about 265MB of material out of every deployment. None of it is
-guesswork: a crawler visits all 35 pages, scrolls each one, works every portfolio
-filter, opens a quick view and the case-study overlay, and records every URL the site
-actually asks for. Anything excluded is absent from that list.
+`.vercelignore` keeps about 2GB out of every deployment, leaving 79MB in 369 files.
+None of it is guesswork: a crawler visits all 35 pages, scrolls each one, works every
+portfolio filter, opens a quick view and the case-study overlay, and records every URL
+the site actually asks for. Anything excluded is absent from that list, and the check
+is re-run after every change of this kind.
 
-- `ugc/` and `vx/` (201MB) belong to a video-demo component no page loads.
-- `px/` (52MB) and `img/` were only ever fetched by the cloned examples gallery, which
-  no longer runs.
-- Hash-named images loose in the project root (12MB) are clone leftovers.
-- Eleven `_astro` chunks belong to pages that were retired and redirected.
-- The client's working documents and source media.
+The cloned sections that referenced `_legacy/` are hidden and no longer hydrate, and
+`scripts/optimize-pages.js` strips the `src` and `poster` from their media, so nothing
+asks for any of it.
 
 `og-banner.png` stays, even though no browser requests it: it is the `og:image` in
 every page's meta tags, which Facebook, LinkedIn and WhatsApp fetch.
 
-They all stay in the repository. Removing them from the working tree would not shrink
-it, because git keeps the history either way.
+Both folders stay in the repository. Removing them from the working tree would not
+shrink it, because git keeps the history either way.
 
 ---
 

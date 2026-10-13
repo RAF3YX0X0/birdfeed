@@ -41,6 +41,35 @@ function pages(dir, out = []) {
 
 const abs = (u) => (/^https?:/.test(u) ? u : SITE + (u.startsWith('/') ? u : '/' + u));
 
+// Media belonging to the clone, inside sections that are hidden and no longer
+// hydrate. The browser still fetched the review posters and enough of each
+// video to read its metadata — 16 requests a page for something nobody sees.
+// The folders are the clone's alone: ours live in /work/ and /assets/.
+const CLONE_MEDIA = /^\/(reviews|px|img|lp|ugc|vx)\//;
+function quietCloneMedia(html) {
+  // A poster that is only ever decoration for a hidden video.
+  html = html.replace(/<video\b[^>]*>/g, (tag) => {
+    let out = tag;
+    const poster = (out.match(/\sposter="([^"]*)"/) || [])[1];
+    const src = (out.match(/\ssrc="([^"]*)"/) || [])[1];
+    const theirs = (poster && CLONE_MEDIA.test(poster)) || (src && CLONE_MEDIA.test(src));
+    if (poster && CLONE_MEDIA.test(poster)) out = out.replace(/\sposter="[^"]*"/, '');
+    // The clone's own players carry the file on the element and ask for its
+    // metadata up front, so the preload they set has to be overridden.
+    if (src && CLONE_MEDIA.test(src)) out = out.replace(/\ssrc="[^"]*"/, ` data-fx-src="${src}"`);
+    if (theirs) out = out.replace(/\spreload="[^"]*"/, '');
+    // Without this a video fetches its metadata the moment the page loads.
+    if (!/\spreload=/.test(out)) out = out.replace(/^<video\b/, '<video preload="none"');
+    return out;
+  });
+  // <source> inside those videos, and the clone's own images.
+  html = html.replace(/<source\b([^>]*)\ssrc="([^"]*)"([^>]*)>/g, (tag, a, src, b) =>
+    (CLONE_MEDIA.test(src) ? `<source${a} data-fx-src="${src}"${b}>` : tag));
+  html = html.replace(/<img\b([^>]*)\ssrc="([^"]*)"([^>]*)>/g, (tag, a, src, b) =>
+    (CLONE_MEDIA.test(src) && !/\sloading="lazy"/.test(tag) ? `<img${a} src="${src}"${b} loading="lazy" decoding="async">` : tag));
+  return html;
+}
+
 function lazyImages(html) {
   // Split off the first-screen blocks, lazy-load images everywhere else.
   const keep = [];
@@ -184,7 +213,7 @@ for (const f of pages(ROOT)) {
   let s = fs.readFileSync(f, 'utf8');
   const before = s;
   for (const re of TRACKERS) s = s.replace(re, () => { removed++; return ''; });
-  s = homeSeo(offerText(homeBuilder(bookingEmbed(seo(lazyImages(s)))), f), f);
+  s = homeSeo(offerText(homeBuilder(bookingEmbed(seo(quietCloneMedia(lazyImages(s))))), f), f);
   if (s !== before) fs.writeFileSync(f, s);
   const rel = path.relative(ROOT, path.dirname(f)).split(path.sep).join('/');
   if (!/name="robots" content="noindex/.test(s)) urls.push(rel ? `/${rel}/` : '/'); // (the login page isn't listed)
