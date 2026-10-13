@@ -37,7 +37,11 @@ function chromeSection(head) {
 // Buttons, the footer itself, and the footer's own media queries ("Smaller
 // screens" in chrome.css is the footer's). Plus the one button rule that lives
 // in another section's media query.
+// The colour tokens live above chrome.css's first section header, and the
+// buttons are defined in terms of them, so they come along too.
+const CHROME_TOKENS = CHROME.slice(CHROME.indexOf(':root {'), CHROME.indexOf('}', CHROME.indexOf(':root {')) + 1);
 const SITE_FOOTER_CSS = [
+  CHROME_TOKENS,
   chromeSection('Buttons'),
   chromeSection('Footer (Framer style)'),
   chromeSection('Smaller screens'),
@@ -125,10 +129,8 @@ const REPORT = [
 const PLANS = O.PLANS.map((p) => [p.name, O.money(p.price), p.short]);
 const RULES = [
   ['Legitimate local business', 'Required'],
-  ['Verified Google Business Profile', 'Required before trial activation'],
   ['Authorized decision-maker', 'Required'],
   ['Supported service market', 'Required'],
-  ['Google Business Profile manager access', 'Required before work begins'],
   ['Website', 'Preferred'],
   ['Suspended profile', 'Manual review'],
   ['Capacity', 'Admission subject to available slots'],
@@ -136,7 +138,7 @@ const RULES = [
 const FAQ = [
   ['Is the trial really free?', 'Yes. Eligible businesses receive the agreed 30-day Local SEO work for $0 agency fees. No credit card is required. Any optional third-party paid tools or services must be separately approved and paid for by the business in advance.'],
   ['Will you get my business to #1 on Google?', 'No. No agency can honestly guarantee a particular Google ranking. We optimize your local search foundations and document progress.'],
-  ['Do I need a website?', 'A website is helpful but not mandatory for the basic trial. Your business must have an existing verified Google Business Profile and meet our eligibility requirements.'],
+  ['Do I need a website?', 'A website is helpful but not mandatory for the basic trial. Your business needs to be a legitimate local business and meet our eligibility requirements.'],
   ['What are local citations?', 'Business information listings or mentions on relevant websites and directories. Consistent business information helps customers find accurate details and supports a well-maintained local presence.'],
   ['How long does SEO take?', 'Results vary and may take weeks or months. The 30-day trial demonstrates real work, establishes a useful baseline, and identifies future opportunities.'],
   ['What happens after 30 days?', 'You receive a report and an optional proposal. You can subscribe to an ongoing plan or stop. There is no automatic paid renewal.'],
@@ -425,6 +427,9 @@ body{margin:0;background:#fff;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallbac
 .lp-final__checks i{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#0066FF;color:#fff}
 /* Footer */
 ${SITE_FOOTER_CSS}
+/* On the site the footer follows a section with its own bottom padding; here
+   the closing call ends flush, so the footer brings its own gap. */
+.ft{margin-top:clamp(40px,5vw,72px)}
 .lp-foot-legal{max-width:1280px;margin:0 auto;padding:0 56px 28px;font-size:12.5px;line-height:1.6;color:#6B7280}
 @media (max-width:900px){.lp-foot-legal{padding:0 20px 24px}}
 /* Client work: one real, authorized example (figures from scripts/work-data.js) */
@@ -553,7 +558,7 @@ const landing = `<!doctype html>
           <a class="lp-btn lp-btn--blue" href="#apply" data-lp-cta="hero">Apply for My Free 30-Day Trial ${ARROW}</a>
           <a class="lp-btn lp-btn--white" href="/book-demo/" data-lp-cta="hero-demo">Book a Demo ${ARROW}</a>
         </div>
-        <p class="lp-note">Available to eligible businesses with an existing verified Google Business Profile. Results and rankings vary.</p>
+        <p class="lp-note">Available to eligible local businesses. Results and rankings vary.</p>
         <div class="lp-fee">
           <b>$0</b><span>Agency fee<small>for 30 days</small></span>
           <p>Try our 30-Day Local Visibility Challenge. No credit card required. No automatic subscription. No obligation to continue.</p>
@@ -706,8 +711,8 @@ const landing = `<!doctype html>
         </div>
         <div class="lp-step" data-step="2" hidden>
           <label class="lp-field lp-field--wide"><span>Google Maps / Business Profile link <small>(optional)</small></span><input name="gbpLink" type="url" inputmode="url" placeholder="https://maps.google.com/…" maxlength="500"></label>
-          <fieldset class="lp-field lp-field--wide" style="border:0;margin:0;padding:0"><span style="font-size:14px;font-weight:600">Is your Google Business Profile verified?</span>
-            <div class="lp-radios">${['Yes', 'No', 'Unsure'].map((v) => `<label><input type="radio" name="gbpVerified" value="${v}" required><span>${v}</span></label>`).join('')}</div></fieldset>
+          <fieldset class="lp-field lp-field--wide" style="border:0;margin:0;padding:0"><span style="font-size:14px;font-weight:600">Is your Google Business Profile verified? <small style="font-weight:500;color:#6B7280">(optional)</small></span>
+            <div class="lp-radios">${['Yes', 'No', 'Unsure'].map((v) => `<label><input type="radio" name="gbpVerified" value="${v}"><span>${v}</span></label>`).join('')}</div></fieldset>
           <label class="lp-field"><span>Phone number</span><input name="phone" type="tel" autocomplete="tel" required maxlength="40"></label>
           <label class="lp-field"><span>City</span><input name="city" autocomplete="address-level2" required maxlength="100"></label>
           <label class="lp-field"><span>State</span><input name="state" autocomplete="address-level1" required maxlength="100"></label>
@@ -899,7 +904,7 @@ function landingClient(EMAIL) {
 const TERMS = [
   ['The offer', ['The MAD 30-Day Visibility Challenge (the “trial”) is a defined 30-day scope of local SEO work that MADMarketing provides to accepted businesses for $0 in agency fees.', 'The trial includes: a Google Business Profile audit and optimization; local SEO and competitor analysis; up to 10 local citation actions (submissions or corrections); baseline and follow-up local search visibility snapshots using comparable searches, locations and reporting methods; review growth recommendations; and a personalized 90-day growth roadmap.']],
   ['Price and payment', ['There is no agency fee for the trial and no credit card is required. The trial does not renew automatically into a paid plan.', 'Any optional third-party paid tools or services must be approved by you in advance and are paid for separately by your business.']],
-  ['Eligibility and acceptance', ['The trial is available to legitimate local storefront or service-area businesses in markets we support, applying through an owner or authorized decision-maker.', 'An existing verified Google Business Profile is required before the trial is activated, and manager access to it is required before work begins. A website is preferred but not required. Suspended profiles are reviewed individually.', 'Every application is reviewed for business legitimacy, profile status, location, eligibility, scope and team capacity. Admission is subject to available slots, and we may decline any application. One trial per business or location.']],
+  ['Eligibility and acceptance', ['The trial is available to legitimate local storefront or service-area businesses in markets we support, applying through an owner or authorized decision-maker.', 'A Google Business Profile and a website are preferred but not required. Suspended profiles are reviewed individually. Where the agreed work covers your Google Business Profile, we need manager access to it in order to carry that work out.', 'Every application is reviewed for business legitimacy, profile status, location, eligibility, scope and team capacity. Admission is subject to available slots, and we may decline any application. One trial per business or location.']],
   ['Access and ownership', ['If you’re accepted, you grant MADMarketing appropriate manager access to your Google Business Profile. You keep ownership of your profile and can remove our access at any time. Never share your Google password with us or anyone else.']],
   ['No guarantees', ['We guarantee the agreed work and transparent reporting, not a specific outcome. Google ranking positions, traffic increases and new leads are not guaranteed. Results vary by market, competition, relevance and other factors, and may take weeks or months.', 'Directory publication and indexing are controlled by third parties, so we can’t guarantee that a submitted or corrected listing will be accepted, published or indexed.']],
   ['Ethical practices', ['We follow legitimate review practices. We do not create fake reviews or manipulated engagement.']],

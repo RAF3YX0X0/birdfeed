@@ -23,7 +23,7 @@ const FIELDS = {
   industry: ['Industry', 100, true],
   website: ['Website', 300, false],
   gbpLink: ['Google Business Profile link', 500, false],
-  gbpVerified: ['Profile verified', 10, true],
+  gbpVerified: ['Profile verified', 10, false],
   phone: ['Phone', 40, true],
   city: ['City', 100, true],
   state: ['State', 100, true],
@@ -57,7 +57,8 @@ function check(body) {
     out[key] = v;
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(out.email)) return { error: 'Please enter a valid email address.' };
-  if (!['Yes', 'No', 'Unsure'].includes(out.gbpVerified)) return { error: 'Please say whether your Google Business Profile is verified.' };
+  // Optional since the verified-profile rule was dropped: blank is fine.
+  if (out.gbpVerified && !['Yes', 'No', 'Unsure'].includes(out.gbpVerified)) return { error: 'Please choose one of the Google Business Profile options.' };
   if (out.authorized !== 'yes' || out.consent !== 'yes') return { error: 'Please confirm both checkboxes.' };
   const tracking = {};
   for (const k of TRACKING) if (typeof body[k] === 'string' && body[k].trim()) tracking[k] = body[k].trim().slice(0, 300);
@@ -68,8 +69,9 @@ function check(body) {
 // rejected automatically: these are notes for the person reviewing it.
 function flags(d) {
   const notes = [];
-  if (d.gbpVerified === 'No') notes.push('No verified Google Business Profile (required before trial activation).');
-  if (d.gbpVerified === 'Unsure') notes.push('Profile verification unknown: check before activation.');
+  if (d.gbpVerified === 'No') notes.push('No verified Google Business Profile.');
+  if (d.gbpVerified === 'Unsure') notes.push('Profile verification unknown.');
+  if (!d.gbpVerified) notes.push('Profile verification not answered.');
   if (!d.gbpLink) notes.push('No profile link given.');
   if (d.country !== 'United States') notes.push(`Outside the US (${d.country}): confirm the market is supported.`);
   if (!d.website) notes.push('No website (preferred, not required).');
