@@ -20,6 +20,7 @@ import { setupHowItWorks } from './hiw.js';
 import { setupPortfolio } from './portfolio.js';
 import { setupHomeBottom } from './bottom.js';
 import { setupTrust } from './trust.js';
+import { setupStats } from './stats.js';
 import { setupFooter } from './footer.js';
 import { setupSkin } from './skin.js';
 import { swapSharedSections } from './shared.js';
@@ -124,6 +125,8 @@ function init() {
   if (hiw) setupHowItWorks({ section: hiw, gsap: G, lenis, reduced, finePointer });
   const portfolio = document.querySelector('.pf');
   if (portfolio) setupPortfolio({ section: portfolio, gsap: G, lenis, reduced, finePointer, home: page.home });
+  const stats = document.querySelector('.st3');
+  if (stats) setupStats({ section: stats, gsap: G, reduced });
   if (document.querySelector('.ct')) setupHomeBottom({ gsap: G, lenis, reduced, narrow: isNarrow() });
   const footer = document.querySelector('footer.ft');
   if (footer) setupFooter({ footer, gsap: G, lenis, reduced });
@@ -174,6 +177,7 @@ function init() {
       if (by('tr')) setupTrust({ section: by('tr'), ...common });
       if (by('hw')) setupHowItWorks({ section: by('hw'), ...common });
       if (by('pf')) setupPortfolio({ section: by('pf'), ...common });
+      if (by('st3')) setupStats({ section: by('st3'), gsap: G, reduced });
       if (by('pj')) setupProjects({ section: by('pj'), ...common });
       if (['gx', 'cx', 'rv', 'ct'].some(by)) setupHomeBottom({ ...common, narrow: isNarrow() });
       ST.refresh();

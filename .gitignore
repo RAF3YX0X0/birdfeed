@@ -14,3 +14,10 @@ Thumbs.db
 /Portfolio/
 /Portfolio-*.zip
 /drive-download-*.zip
+# Client performance exports (Google Ads screenshots, case study): numbers are
+# read from them and written into scripts/stats-data.js; the files stay local.
+/Stats/
+/Stats.zip
+/More Content/
+/Before and After.png
+/WhatsApp *.zip

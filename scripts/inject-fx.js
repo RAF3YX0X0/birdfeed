@@ -26,11 +26,12 @@ const BLOCKS = [
   { name: 'industry-top', at: 'first-island', files: [] },
   { name: 'hero', home: true, island: 'FBHomeTop', files: ['home-hero.html'] },
   // The homepage tells one story: what it is (hero, proof), what we do, how
-  // it works, the work (browse it by format and industry), the price (the
+  // it works, the results by service (the portfolio grid it replaced still
+  // lives on /examples/, and is linked from there), the price (the
   // builder island), the risk taken away, why it costs less, the results,
   // questions, the call to action. (The sales funnel goes after "how it
   // works" and the 3D gallery before the reviews, both placed by fx.js.)
-  { name: 'hiw', home: true, island: 'FBHomeMain', files: ['home-statement.html', 'home-trust.html', 'home-services.html', 'home-method.html', 'home-hiw.html', 'home-portfolio.html', 'home-pricing-head.html'] },
+  { name: 'hiw', home: true, island: 'FBHomeMain', files: ['home-statement.html', 'home-trust.html', 'home-services.html', 'home-method.html', 'home-hiw.html', 'home-stats.html', 'home-pricing-head.html'] },
   // The case studies sit between "The real cost" and the reviews.
   { name: 'bottom', home: true, island: 'FBHomeBottom', files: ['home-bottom.html'], insert: { file: 'home-projects.html', before: '<section class="rv"' }, edit: homeBottom },
   { name: 'shared', inner: true, at: 'main-end', files: [] },
@@ -165,7 +166,7 @@ function block(home, shared, hero, nx, ind) {
     ...(home || shared ? SHARED_CSS : []),
     ...(nx || ind ? ['nx.css', 'ind.css'] : []),
     ...(ind ? ['packages.css'] : []),
-    ...(home ? ['nx.css', 'home.css'] : []),
+    ...(home ? ['nx.css', 'home.css', 'stats.css'] : []),
     // The plans (scripts/offer-render.js): the homepage shows them.
     ...(home ? ['packages.css'] : []),
     ...(ind && !shared ? ['bottom.css'] : []),
