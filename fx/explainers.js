@@ -164,9 +164,8 @@ const GLOBE = {
   sceneOpts: {
     places: [
       { name: 'St. Louis', lat: 38.6, lon: -90.2 },
-      { name: 'New York', lat: 40.7, lon: -74 },
-      { name: 'Dubai', lat: 25.2, lon: 55.3, color: 0x0a0a0a },
-      { name: 'Doha', lat: 25.3, lon: 51.5, color: 0x0a0a0a },
+      { name: 'Dubai', lat: 25.2, lon: 55.3, color: 0x0a0a0a, anchor: '-10%, 40%' },
+      { name: 'Doha', lat: 25.3, lon: 51.5, color: 0x0a0a0a, anchor: 'calc(-100% - 12px), -60%' },
       { name: 'Karachi', lat: 24.9, lon: 67, color: 0x0a0a0a },
     ],
   },

@@ -42,8 +42,7 @@ fs.writeFileSync(path.join(ROOT, 'fx', 'portfolio-data.js'),
 console.log(`portfolio: ${posts.length} posts, ${videos.length} videos, ${ugc.length} creator videos across ${used.length} industries`);
 
 // Media in /work that nothing uses.
-// (soft-opening-hero.mp4 is the homepage hero phone's light cut of the reel.)
-const referenced = new Set(['/work/the-gentry-house/soft-opening-hero.mp4', ...CLIENTS.flatMap((c) => c.media.flatMap((m) => [m.src, META[m.src] && META[m.src].poster]))]);
+const referenced = new Set([...CLIENTS.flatMap((c) => c.media.flatMap((m) => [m.src, META[m.src] && META[m.src].poster]))]);
 const unused = Object.keys(META).filter((k) => !referenced.has(k));
 if (unused.length) console.log('unused in /work:', unused.join(' '));
 

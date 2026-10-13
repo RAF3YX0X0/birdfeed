@@ -34,7 +34,7 @@ export function mount({ host, tags, gsap, reduced, places }) {
         const w = p.at.clone().applyMatrix4(globe.matrixWorld);
         const facing = w.clone().normalize().dot(cam.clone().normalize()) > 0.1;
         p.tag.style.opacity = facing ? '1' : '0';
-        ctx.pin(p.tag, w.multiplyScalar(1.08));
+        ctx.pin(p.tag, w.multiplyScalar(1.08), p.anchor);
       });
     },
   });
@@ -58,7 +58,8 @@ export function mount({ host, tags, gsap, reduced, places }) {
     const pin = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 16), glossy(pl.color || 0x0066ff, { emissive: pl.color || 0x0066ff, emissiveIntensity: 0.4 }));
     pin.position.copy(at);
     globe.add(pin);
-    return { at, tag: label(tags, 'is-on', pl.name) };
+    // Neighbouring places (Dubai, Doha) put their labels on different sides.
+    return { at, anchor: pl.anchor, tag: label(tags, 'is-on', pl.name) };
   });
   const arcs = [];
   for (let i = 0; i < places.length; i++) {

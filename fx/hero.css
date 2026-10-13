@@ -1,6 +1,8 @@
 /*
- * Homepage hero: floating pill nav, blue arch, phone playing a reel that rises
- * to the centre on scroll while a strip of content cards opens out behind it.
+ * Homepage hero: the client's copy beside an animated local-search scene (a
+ * search being typed, pins dropping on a map, the business's result card and
+ * the actions customers take), over slowly drifting colour. The scene tilts
+ * with the pointer and leans back as the hero scrolls away.
  * Markup: fx/partials/home-hero.html (injected before the FBHomeTop island,
  * whose own header and hero are hidden below). Motion: fx/hero.js.
  */
@@ -9,317 +11,241 @@
 .hx ~ astro-island[component-export="FBHomeTop"] > div > header,
 .hx ~ astro-island[component-export="FBHomeTop"] .fbf-hero { display: none !important; }
 
-/* ---- Hero stage ------------------------------------------------------------ */
+/* ---- Stage ---------------------------------------------------------------------- */
 .hx {
-  /* Big phone, like the reference: ~22% of the screen width, taller than the
-     screen on most laptops (it then sits under the nav and runs off the
-     bottom). The cards behind it are nearly as wide. */
-  --pw: clamp(250px, 22vw, 360px);
-  --ph: calc(var(--pw) * 2.05);
-  --cw: clamp(210px, 21vw, 330px);
-  --ch: calc(var(--cw) * 1.3333);
   position: relative;
-  height: calc(250vh + var(--hx-tail, 0px));
   padding: 0 !important; /* the site pads every section on phones */
   background: var(--hx-bg);
   color: var(--hx-ink);
   font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif;
   overflow: clip;
 }
-/* --hx-tail (hero.js): how far the phone runs below the screen when it's
-   taller than the screen; the stage reaches that far down, out of sight while
-   pinned, so the phone isn't cut off as the hero scrolls away. */
 .hx__stage {
-  position: sticky;
-  top: 0;
-  height: calc(100vh + var(--hx-tail, 0px));
-  height: calc(100svh + var(--hx-tail, 0px));
-  min-height: calc(600px + var(--hx-tail, 0px));
-  overflow: hidden;
-}
-/* The site's "book a demo" bar would cover the phone; it waits until the hero is done. */
-html.hx-pinned .fbf-stickybar { visibility: hidden; opacity: 0; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
-
-/* A huge circle holding the copy: only its lower edge shows, curving just
-   under the buttons. hero.js sets its top from the copy height; the value
-   here is the no-JS fallback. */
-.hx__arch {
-  position: absolute;
-  z-index: 0;
-  top: calc(660px - max(1600px, 132vw));
-  left: 50%;
-  width: max(1600px, 132vw);
-  aspect-ratio: 1;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-.hx__arch::before {
-  /* A faint outer ring, like a second contour line. */
-  content: '';
-  position: absolute;
-  inset: -56px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 102, 255, 0.1);
-}
-.hx__arch-in {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: linear-gradient(180deg, #f1f4fb 50%, #eef1f5 80%, #e5e7eb 100%);
-  box-shadow: 0 30px 80px -40px rgba(0, 102, 255, 0.22);
-  overflow: hidden;
-}
-.hx__arch-in::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0 1px, transparent 1px 18px);
-  -webkit-mask-image: linear-gradient(180deg, transparent 76%, #000 100%);
-  mask-image: linear-gradient(180deg, transparent 76%, #000 100%);
-}
-
-.hx__copy {
   position: relative;
-  z-index: 3;
-  max-width: 980px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  align-items: center;
+  gap: clamp(28px, 4vw, 64px);
+  box-sizing: border-box;
+  max-width: 1280px;
+  min-height: 100vh;
+  min-height: 100svh;
   margin: 0 auto;
-  padding: 136px 24px 0;
-  text-align: center;
-  will-change: transform, opacity;
+  padding: 128px 32px 72px;
 }
-.hx__badge {
+
+/* ---- Background: drifting colour and a faint dot grid ------------------------------ */
+.hx__bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hx-orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.55; will-change: transform; }
+.hx-orb--a { width: 46vw; height: 46vw; max-width: 640px; max-height: 640px; right: -8vw; top: -10vw; background: radial-gradient(closest-side, rgba(0, 102, 255, 0.55), rgba(0, 102, 255, 0)); animation: hx-drift-a 18s ease-in-out infinite alternate; }
+.hx-orb--b { width: 34vw; height: 34vw; max-width: 480px; max-height: 480px; left: -10vw; bottom: -6vw; background: radial-gradient(closest-side, rgba(77, 148, 255, 0.45), rgba(77, 148, 255, 0)); animation: hx-drift-b 22s ease-in-out infinite alternate; }
+.hx-orb--c { width: 22vw; height: 22vw; max-width: 320px; max-height: 320px; left: 38%; top: 46%; background: radial-gradient(closest-side, rgba(0, 82, 204, 0.3), rgba(0, 82, 204, 0)); animation: hx-drift-c 16s ease-in-out infinite alternate; }
+@keyframes hx-drift-a { to { transform: translate3d(-6vw, 5vw, 0) scale(1.12); } }
+@keyframes hx-drift-b { to { transform: translate3d(7vw, -4vw, 0) scale(1.08); } }
+@keyframes hx-drift-c { to { transform: translate3d(-5vw, -6vw, 0) scale(1.2); } }
+.hx__dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(10, 10, 10, 0.12) 1px, transparent 1.4px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(70% 70% at 70% 45%, #000, transparent 75%);
+  mask-image: radial-gradient(70% 70% at 70% 45%, #000, transparent 75%);
+  animation: hx-dots 40s linear infinite;
+}
+@keyframes hx-dots { to { background-position: 26px 52px; } }
+
+/* ---- Copy --------------------------------------------------------------------------- */
+.hx__copy { position: relative; z-index: 3; text-align: left; will-change: transform, opacity; }
+.hx__badge.hx__kicker {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 5px 16px 5px 5px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.06), 0 6px 18px -10px rgba(20, 30, 70, 0.25);
-  font-size: 13.5px;
-  color: var(--hx-muted);
-}
-.hx__badge b { color: var(--hx-ink); font-weight: 600; }
-.hx__faces { display: inline-flex; }
-.hx__faces img {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  object-fit: cover;
-  background: #ddd;
-}
-.hx__faces img + img { margin-left: -9px; }
-
-.hx__title {
-  margin: 22px 0 0;
-  font-size: clamp(40px, 6.4vw, 86px);
-  font-weight: 600;
-  line-height: 1.02;
-  letter-spacing: -0.028em;
-  color: var(--hx-ink);
-  perspective: 1000px;
-}
-.hx__line { display: inline-block; }
-/* The price leads, huge: "from $99/mo". */
-.hx__price {
-  display: block;
-  margin-bottom: 0.1em;
-  font-size: clamp(120px, 14.5vw, 214px);
-  font-weight: 700;
-  line-height: 0.86;
-  letter-spacing: -0.036em;
-}
-.hx__price small { font-size: 0.13em; font-weight: 500; letter-spacing: -0.01em; color: var(--hx-muted); margin-right: 0.3em; vertical-align: 0.2em; }
-.hx__price sup { font-size: 0.44em; font-weight: 600; letter-spacing: -0.02em; vertical-align: 0.82em; margin-right: 0.02em; }
-.hx__title .hx__price em { font-size: 0.34em; letter-spacing: -0.01em; margin-left: 0.08em; padding-right: 0; }
-.hx__price + .hx__line { font-size: 0.62em; }
-.hx__title em {
-  font-family: Satoshi, Satoshi Fallback, system-ui, sans-serif;
-  font-style: normal;
-  font-weight: inherit;
-  font-size: 1em;
-  letter-spacing: inherit;
-  color: var(--hx-blue);
-  padding-right: 0.04em;
-}
-.hx__sub {
-  max-width: 560px;
-  margin: 22px auto 0;
-  font-size: 17px;
-  line-height: 1.55;
-  color: var(--hx-muted);
-}
-.hx__ctas { display: flex; justify-content: center; gap: 12px; margin-top: 30px; }
-/* Phone: positioned by hero.js (translateY from below the buttons to centre). */
-.hx__phone {
-  position: absolute;
-  z-index: 4;
-  top: 0;
-  left: 50%;
-  width: var(--pw);
-  height: var(--ph);
-  transform: translate3d(-50%, 76vh, 0);
-  perspective: 1600px;
-  will-change: transform;
-}
-.hx__phone-in {
-  position: relative;
-  height: 100%;
-  padding: 9px;
-  border-radius: calc(var(--pw) * 0.17);
-  background: linear-gradient(145deg, #2b2c33, #0b0b0f 40%, #17181d);
-  box-shadow:
-    inset 0 0 0 1.5px rgba(255, 255, 255, 0.14),
-    0 0 0 1px rgba(10, 10, 10, 0.5),
-    0 50px 90px -30px rgba(20, 30, 80, 0.45),
-    0 22px 40px -20px rgba(20, 30, 80, 0.35);
-  transform-origin: 50% 100%;
-}
-.hx__screen {
-  position: relative;
-  height: 100%;
-  overflow: hidden;
-  border-radius: calc(var(--pw) * 0.17 - 9px);
-  background: #15161b;
-}
-.hx__screen video { display: block; width: 100%; height: 100%; object-fit: cover; }
-.hx__island {
-  position: absolute;
-  top: 19px;
-  left: 50%;
-  width: 31%;
-  height: calc(var(--pw) * 0.085);
-  border-radius: 999px;
-  background: #000;
-  transform: translateX(-50%);
-}
-.hx__ui {
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 46%;
-  padding: 0 12px 16px 14px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 10px;
-  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.55));
-  color: #fff;
-  font-size: 11.5px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-  pointer-events: none;
-}
-.hx__ui-foot { display: flex; flex-direction: column; gap: 3px; min-width: 0; order: -1; }
-.hx__ui-foot b { font-weight: 600; font-size: 12.5px; }
-.hx__ui-foot span { opacity: 0.9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hx__ui-side { display: flex; flex-direction: column; align-items: center; gap: 12px; font-size: 10.5px; font-weight: 500; }
-.hx__ui-side span { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-.hx__ui-side svg { width: 24px; height: 24px; fill: #fff; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35)); }
-
-/* Card strip: centred on the phone; hero.js places and drifts the cards. */
-.hx__strip {
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  left: 50%;
-  width: 0;
-  height: var(--ch);
-  transform: translate3d(0, 80vh, 0);
-  perspective: 1500px;
-  pointer-events: none;
-}
-.hx-card {
-  position: absolute;
-  top: 0;
-  left: calc(var(--cw) / -2);
-  width: var(--cw);
-  height: var(--ch);
-  overflow: hidden;
-  border-radius: 22px;
-  background: #e4e2de;
-  box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.05), 0 24px 44px -22px rgba(20, 30, 70, 0.35);
-  opacity: 0;
-  will-change: transform, opacity;
-}
-.hx-card img,
-.hx-card video { display: block; width: 100%; height: 100%; object-fit: cover; }
-
-
-/* Short laptop screens: tighter top so the phone still peeks under the arch. */
-@media (min-width: 721px) and (max-height: 760px) {
-  .hx__copy { padding-top: 112px; }
-  .hx__title { margin-top: 18px; font-size: clamp(40px, 5.6vw, 72px); }
-  .hx__price { font-size: clamp(96px, 19vh, 160px); }
-  .hx__sub { margin-top: 16px; }
-  .hx__ctas { margin-top: 24px; }
-}
-
-/* ---- Small screens ---------------------------------------------------------- */
-@media (max-width: 720px) {
-  .hx {
-    /* About half the screen wide, and never taller than the room under the nav. */
-    --pw: min(52vw, 220px, calc((100vh - 160px) / 2.05));
-    --pw: min(52vw, 220px, calc((100svh - 160px) / 2.05));
-    --cw: min(36vw, 148px);
-    height: calc(210vh + var(--hx-tail, 0px));
-  }
-  .hx__copy { padding-top: 104px; padding-left: 16px; padding-right: 16px; }
-  .hx__title { font-size: clamp(36px, 10.4vw, 52px); margin-top: 18px; }
-  .hx__price { font-size: clamp(92px, 29vw, 140px); }
-  .hx__line { display: block; }
-  .hx__sub { font-size: 15.5px; margin-top: 16px; }
-  .hx__ctas { margin-top: 22px; }
-  .hx__arch { width: max(900px, 240vw); }
-  .hx-card { border-radius: 16px; }
-}
-
-/* ---- Reduced motion / no FX: a static stack (copy, phone, strip). ----------- */
-html.fx-reduced .hx,
-html.hx-static .hx,
-html:not(.fx) .hx { height: auto; }
-html.fx-reduced .hx__stage,
-html.hx-static .hx__stage,
-html:not(.fx) .hx__stage { position: relative; height: auto; min-height: 0; padding-bottom: 72px; }
-/* The phone and card strip are placed by script (hero.js). Until it has
-   measured, they would show in their CSS fallback spot (over the buttons),
-   then jump; hold them back, with a failsafe in case the script never runs. */
-html.fx:not(.hx-ready):not(.fx-reduced) :is(.hx__phone, .hx__strip) { opacity: 0; animation: hx-failsafe 0s linear 8s forwards; }
-@keyframes hx-failsafe { to { opacity: 1; } }
-html.fx-reduced .hx__phone,
-html.hx-static .hx__phone,
-html:not(.fx) .hx__phone { position: relative; left: auto; margin: 98px auto 0; transform: none; }
-
-/* ---- Facts under the buttons ------------------------------------------------- */
-.hx__facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin: 22px 0 0; padding: 0; list-style: none; }
-.hx__facts li { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 500; color: #1F2937; }
-.hx__facts svg { box-sizing: content-box; padding: 3.5px; border-radius: 50%; background: var(--hx-blue, #0066FF); color: #fff; }
-
-@media (max-width: 720px) {
-  .hx__facts { gap: 6px 14px; margin-top: 18px; }
-  .hx__facts li { font-size: 13px; }
-}
-
-/* ---- The client's copy (2026-10): eyebrow, two-line headline ---------------- */
-.hx__badge.hx__kicker {
   gap: 14px;
   margin: 0;
-  padding: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
   font-size: 12.5px;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #4B5563;
 }
-.hx__kicker::before, .hx__kicker::after { content: ''; flex: none; width: 34px; height: 1.5px; border-radius: 2px; background: linear-gradient(90deg, rgba(0, 102, 255, 0), #0066FF); }
-.hx__kicker::after { background: linear-gradient(90deg, #0066FF, rgba(0, 102, 255, 0)); }
-.hx__title { font-size: clamp(40px, 5.8vw, 80px); }
+.hx__kicker::before { content: ''; flex: none; width: 34px; height: 1.5px; border-radius: 2px; background: linear-gradient(90deg, rgba(0, 102, 255, 0), #0066FF); }
+.hx__title {
+  margin: 22px 0 0;
+  font-size: clamp(40px, 4.9vw, 74px);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.028em;
+  color: var(--hx-ink);
+  perspective: 1000px;
+}
 .hx__title .hx__line { display: block; text-wrap: balance; }
-.hx__sub { max-width: 760px; margin-left: auto; margin-right: auto; }
-@media (max-height: 860px) and (min-width: 721px) { .hx__title { font-size: clamp(38px, 5vw, 66px); } }
+.hx__title em {
+  font-style: normal;
+  font-weight: inherit;
+  color: var(--hx-blue);
+  background: linear-gradient(90deg, #0066FF, #4D94FF 45%, #0052CC 70%, #0066FF);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hx-shine 7s ease-in-out infinite;
+}
+@keyframes hx-shine { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.hx__sub { max-width: 580px; margin: 22px 0 0; font-size: 17px; line-height: 1.6; color: var(--hx-muted, #4B5563); }
+.hx__ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.hx__facts { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 22px 0 0; padding: 0; list-style: none; }
+.hx__facts li { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 500; color: #1F2937; }
+.hx__facts svg { box-sizing: content-box; padding: 3.5px; border-radius: 50%; background: var(--hx-blue, #0066FF); color: #fff; }
+
+/* ---- The scene ---------------------------------------------------------------------- */
+.hx-scene { position: relative; z-index: 2; perspective: 1400px; }
+.hx-scene__tilt { position: relative; transform-style: preserve-3d; will-change: transform; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.hx-scene__note { margin: 14px 0 0; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; color: #9CA3AF; }
+.hx-win {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.06), 0 50px 100px -50px rgba(20, 30, 80, 0.55), 0 20px 40px -30px rgba(0, 102, 255, 0.35);
+  transform: translateZ(0);
+}
+.hx-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 18px 0;
+  padding: 13px 18px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 0 0 1px #E5E7EB, 0 10px 24px -16px rgba(20, 30, 70, 0.4);
+  color: #6B7280;
+  font-size: 16px;
+}
+.hx-search__q { color: #0A0A0A; font-weight: 500; white-space: nowrap; }
+.hx-caret { width: 2px; height: 1.15em; margin-left: -6px; background: #0066FF; animation: hx-caret 1s steps(1) infinite; }
+@keyframes hx-caret { 50% { opacity: 0; } }
+
+.hx-map { position: relative; height: clamp(220px, 23vw, 300px); margin: 14px 18px 0; border-radius: 18px; overflow: hidden; background: #EEF2F7; }
+.hx-map__art { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hx-map__park { fill: #D9F0DF; }
+.hx-map__water { fill: #CFE3FF; }
+.hx-map__roads path { fill: none; stroke: #fff; stroke-width: 9; stroke-linecap: round; }
+.hx-map__streets path { fill: none; stroke: #fff; stroke-width: 3; opacity: 0.85; }
+
+/* Pins drop in one after another; the business's own pin pulses. */
+.hx-pin { position: absolute; left: var(--x); top: var(--y); width: 26px; height: 34px; margin: -34px 0 0 -13px; opacity: 0; transform: translateY(-40px) scale(0.6); }
+.hx-pin i { position: absolute; inset: 0; background: #9CA3AF; clip-path: path('M13 34S1 22 1 13a12 12 0 0 1 24 0c0 9-12 21-12 21z'); }
+.hx-pin i::after { content: ''; position: absolute; left: 8.5px; top: 8.5px; width: 9px; height: 9px; border-radius: 50%; background: #fff; }
+.hx-pin--you { z-index: 2; width: 36px; height: 46px; margin: -46px 0 0 -18px; }
+.hx-pin--you i { background: #0066FF; clip-path: path('M18 46S2 30 2 18a16 16 0 0 1 32 0c0 12-16 28-16 28z'); filter: drop-shadow(0 8px 10px rgba(0, 102, 255, 0.45)); }
+.hx-pin--you i::after { left: 12px; top: 12px; width: 12px; height: 12px; }
+.hx-pin--you b { position: absolute; left: 50%; bottom: -2px; width: 18px; height: 8px; margin-left: -9px; border-radius: 50%; border: 2px solid rgba(0, 102, 255, 0.55); opacity: 0; }
+.hx-scene.is-pins .hx-pin { animation: hx-pin-drop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--d) * 0.16s) forwards; }
+.hx-scene.is-pins .hx-pin--you b { animation: hx-ring 2.2s ease-out 1s infinite; }
+.hx-scene.is-pins .hx-pin--you b + b { animation-delay: 2.1s; }
+@keyframes hx-pin-drop { to { opacity: 1; transform: none; } }
+@keyframes hx-ring { 0% { opacity: 0.9; transform: scale(1); } 100% { opacity: 0; transform: scale(4.2); } }
+
+/* The result card rises; its stars fill in turn. */
+.hx-result {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 14px;
+  align-items: center;
+  margin: 14px 18px 18px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #F3F5F8;
+  box-shadow: 0 0 0 1px #E5E7EB;
+  transition: background 0.5s ease, box-shadow 0.6s ease;
+}
+/* Between searches the slot waits as a grey skeleton; the card's content rises into it. */
+.hx-result > * { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+.hx-scene.is-result .hx-result { background: #fff; box-shadow: 0 0 0 1.5px #0066FF, 0 18px 36px -22px rgba(0, 102, 255, 0.6); }
+.hx-scene.is-result .hx-result > * { opacity: 1; transform: none; }
+.hx-scene.is-result .hx-result > :nth-child(2) { transition-delay: 0.08s; }
+.hx-scene.is-result .hx-result > :nth-child(3) { transition-delay: 0.16s; }
+.hx-result__logo { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: #0066FF; color: #fff; font-weight: 800; font-size: 20px; }
+.hx-result__txt b { display: block; font-size: 16px; font-weight: 700; }
+.hx-result__txt small { display: block; margin-top: 2px; font-size: 12.5px; color: #16A34A; font-weight: 600; }
+.hx-stars { display: inline-flex; gap: 3px; margin-top: 4px; }
+.hx-stars i { width: 13px; height: 13px; background: #E5E7EB; clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); transition: background 0.3s ease; }
+.hx-scene.is-result .hx-stars i { background: #FBBC04; }
+.hx-scene.is-result .hx-stars i:nth-child(1) { transition-delay: 0.35s; }
+.hx-scene.is-result .hx-stars i:nth-child(2) { transition-delay: 0.45s; }
+.hx-scene.is-result .hx-stars i:nth-child(3) { transition-delay: 0.55s; }
+.hx-scene.is-result .hx-stars i:nth-child(4) { transition-delay: 0.65s; }
+.hx-scene.is-result .hx-stars i:nth-child(5) { transition-delay: 0.75s; }
+.hx-result__acts { grid-column: 1 / -1; display: flex; gap: 8px; margin-top: 8px; }
+.hx-result__acts i { flex: 1; padding: 8px 6px; border-radius: 999px; background: #EBF3FF; color: #0052CC; font-style: normal; font-size: 12.5px; font-weight: 600; text-align: center; }
+
+/* Notifications: what customers do next, floating beside the card. */
+.hx-ping {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 10px 10px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.06), 0 24px 40px -22px rgba(20, 30, 80, 0.5);
+  font-size: 13px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate3d(0, 16px, 60px) scale(0.92);
+  transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.hx-ping b { display: block; font-weight: 700; }
+.hx-ping small { display: block; color: #6B7280; font-size: 11.5px; }
+.hx-ping__ic { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: #0066FF; color: #fff; }
+.hx-ping--a { left: -42px; top: 34%; }
+.hx-ping--b { right: -34px; top: 52%; }
+.hx-ping--c { left: -18px; bottom: 6%; }
+.hx-ping.is-on { opacity: 1; transform: translate3d(0, 0, 60px); }
+
+/* ---- Before the script runs, and without motion ------------------------------------------ */
+html.fx-reduced .hx-orb, html.fx-reduced .hx__dots, html.fx-reduced .hx__title em, html.fx-reduced .hx-caret { animation: none; }
+html:not(.fx) .hx-pin, html.fx-reduced .hx-pin { opacity: 1; transform: none; }
+html:not(.fx) .hx-result > *, html.fx-reduced .hx-result > *, html:not(.fx) .hx-ping, html.fx-reduced .hx-ping { opacity: 1; transform: none; transition: none; }
+html:not(.fx) .hx-result, html.fx-reduced .hx-result { background: #fff; box-shadow: 0 0 0 1.5px #0066FF; }
+html:not(.fx) .hx-stars i, html.fx-reduced .hx-stars i { background: #FBBC04; }
+@media (prefers-reduced-motion: reduce) {
+  .hx-orb, .hx__dots, .hx__title em { animation: none; }
+}
+
+/* ---- Smaller screens ------------------------------------------------------------------------ */
+@media (min-width: 721px) and (max-height: 760px) {
+  .hx__stage { padding-top: 108px; }
+  .hx__title { font-size: clamp(38px, 4.4vw, 62px); }
+  .hx__sub { margin-top: 16px; }
+}
+@media (max-width: 1080px) {
+  .hx__stage { grid-template-columns: minmax(0, 1fr); padding-top: 120px; text-align: center; }
+  .hx__copy { text-align: center; }
+  .hx__badge.hx__kicker::after { content: ''; flex: none; width: 34px; height: 1.5px; border-radius: 2px; background: linear-gradient(90deg, #0066FF, rgba(0, 102, 255, 0)); }
+  .hx__sub { margin-left: auto; margin-right: auto; }
+  .hx__ctas, .hx__facts { justify-content: center; }
+  .hx-scene { width: min(100%, 560px); margin: 8px auto 0; }
+}
 @media (max-width: 720px) {
+  .hx__stage { gap: 24px; padding: 104px 16px 56px; }
   .hx__badge.hx__kicker { font-size: 11px; letter-spacing: 0.16em; gap: 10px; }
-  .hx__kicker::before, .hx__kicker::after { width: 22px; }
+  .hx__kicker::before, .hx__badge.hx__kicker::after { width: 22px; }
   .hx__title { font-size: clamp(34px, 9.6vw, 48px); }
+  .hx__sub { font-size: 15.5px; margin-top: 16px; }
+  .hx__ctas .hx-btn { width: 100%; }
+  .hx__facts { gap: 6px 14px; margin-top: 18px; }
+  .hx__facts li { font-size: 13px; }
+  .hx-search { margin: 12px 12px 0; padding: 11px 14px; font-size: 14.5px; }
+  .hx-map { margin: 10px 12px 0; height: 200px; }
+  .hx-result { margin: 10px 12px 12px; }
+  .hx-ping { padding: 8px 10px 8px 8px; font-size: 12px; }
+  .hx-ping small { display: none; }
+  .hx-ping__ic { width: 28px; height: 28px; }
+  .hx-ping--a { left: -6px; top: 26%; }
+  .hx-ping--b { right: -6px; top: 50%; }
+  .hx-ping--c { left: 8px; bottom: 30%; }
 }

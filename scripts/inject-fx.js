@@ -177,7 +177,6 @@ function block(home, shared, hero, nx, ind) {
       `<link rel="stylesheet" href="${cssBundle(css)}">`,
       font,
       // Homepage: the hero phone's poster is the biggest thing on a phone's first screen.
-      ...(home ? ['<link rel="preload" as="image" href="/fx/media/hero-phone.webp" fetchpriority="high">'] : []),
       `<script>${manifest.boot}</script>`,
       `<script src="${manifest.vendor}" defer></script>`,
       ...manifest.eager.map((c) => `<link rel="modulepreload" href="${c}">`),

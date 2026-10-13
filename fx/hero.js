@@ -1,12 +1,9 @@
-// Homepage hero (markup: partials/home-hero.html, styles: hero.css).
+// Homepage hero (markup: partials/home-hero.html, styles: hero.css), and the
+// site-wide pill nav.
 //
-// The stage is a sticky 100vh box (plus --hx-tail) inside a tall section, so scroll progress q
-// (0 → 1 across the section) drives one pose:
-//   - the copy lifts away and fades,
-//   - the phone rises from just under the buttons to the middle of the screen,
-//   - a strip of content cards opens out behind it, always centred on the
-//     phone, curving away like the 3D gallery and drifting sideways.
-// Everything is plain DOM written once per frame, and only while on screen.
+// The hero: the client's copy beside an animated local-search scene, looping
+// while it's on screen; the scene tilts with the pointer and leans back as
+// the hero scrolls away.
 
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -65,166 +62,125 @@ const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) 
   compact();
 })();
 
+
+// ---- The hero's scene ------------------------------------------------------------------------
+// One loop, while the hero is on screen: a search is typed, pins drop on the
+// map, the business's result card rises with its stars, then what customers
+// do next pops up beside it; then it clears and the next search begins.
 export function setupHomeHero({ section, gsap: G, reduced }) {
-  const stage = section.querySelector('.hx__stage');
-  const copy = section.querySelector('.hx__copy');
-  const arch = section.querySelector('.hx__arch');
-  const phone = section.querySelector('.hx__phone');
-  const phoneIn = section.querySelector('.hx__phone-in');
-  const strip = section.querySelector('.hx__strip');
-  const cards = [...strip.children];
-  const phoneVideo = phone.querySelector('video');
-  const cardVideos = [...strip.querySelectorAll('video')];
-
   const root = document.documentElement;
-  let m = null;
-  let drift = 0;
-  let last = '';
-  const intro = { p: 1 }; // 0 → 1 over the entrance (buildIntro)
-  const playing = new WeakMap();
-
-  function measure() {
-    const tail = parseFloat(section.style.getPropertyValue('--hx-tail')) || 0;
-    const vh = stage.offsetHeight - tail;
-    const vw = stage.offsetWidth;
-    const narrow = vw <= 720;
-    const ph = phone.offsetHeight;
-    const cw = cards[0].offsetWidth;
-    const ch = cards[0].offsetHeight;
-    const copyBottom = copy.offsetTop + copy.offsetHeight;
-    // The arch's lower edge curves just under the buttons; the phone starts
-    // below it (even if that's below the fold on a short screen).
-    const short = vh < 760;
-    const archGap = narrow ? 44 : short ? 40 : 64;
-    const archSize = arch.offsetWidth;
-    arch.style.top = `${Math.round(copyBottom + archGap - archSize)}px`;
-    const startTop = copyBottom + archGap + (narrow || short ? 24 : 34);
-    // Centre in the space below the floating nav.
-    const nav = narrow ? 70 : 84;
-    const endTop = Math.max(nav, nav + (vh - nav - ph) / 2);
-    // A phone taller than the screen runs off the bottom while pinned. The
-    // stage reaches that far below the screen (plus room for its shadow), so
-    // when the hero lets go the whole phone scrolls past instead of being cut.
-    const nextTail = reduced ? 0 : Math.max(0, Math.ceil(endTop + ph + 120 - vh));
-    if (nextTail !== tail) section.style.setProperty('--hx-tail', nextTail + 'px');
-    const pitch = cw + (narrow ? 14 : 22);
-    const top = section.getBoundingClientRect().top + window.scrollY;
-    m = { vh, vw, ph, cw, ch, copyBottom, startTop, endTop, pitch, total: pitch * cards.length, top, sh: stage.offsetHeight, range: Math.max(1, section.offsetHeight - stage.offsetHeight), narrow };
-    last = '';
-  }
-
-  // Sideways position of card i, wrapped so the strip loops forever.
-  const slotX = (i, offset) => {
-    const t = m.total;
-    return ((((i * m.pitch - offset + t / 2) % t) + t) % t) - t / 2;
-  };
-
-  function setPlaying(video, on) {
-    if (!video || playing.get(video) === on) return;
-    playing.set(video, on);
-    if (on) {
-      if (video.preload !== 'auto') video.preload = 'auto';
-      const p = video.play();
-      if (p && p.catch) p.catch(() => playing.delete(video));
-    } else video.pause();
-  }
-
-  function layoutStrip(r, offset, centreY) {
-    strip.style.transform = `translate3d(0, ${(centreY - m.ch / 2).toFixed(1)}px, 0)`;
-    const half = m.vw / 2;
-    cards.forEach((card, i) => {
-      const x = slotX(i, offset) * lerp(0.3, 1, r);
-      const d = clamp(Math.abs(x) / half, 0, 1.4);
-      const s = Math.sign(x);
-      // Convex curve, as if wrapped round a drum behind the phone.
-      const rot = reduced ? 0 : s * d * 22;
-      const z = reduced ? 0 : -d * d * 170;
-      const y = (1 - r) * 50;
-      card.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateY(${rot.toFixed(2)}deg) scale(${lerp(0.82, 1, r).toFixed(3)})`;
-      card.style.opacity = (r * clamp(1.5 - d, 0.35, 1)).toFixed(3);
-    });
-  }
-
-  function render(dt) {
-    if (!m) return;
-    const y = window.scrollY;
-    const onScreen = y < m.top + m.range + m.sh && y + m.vh > m.top;
-    setPlaying(phoneVideo, onScreen);
-    const pinned = y < m.top + m.range;
-    if (pinned !== root.classList.contains('hx-pinned')) root.classList.toggle('hx-pinned', pinned);
-    if (!onScreen) { cardVideos.forEach((v) => setPlaying(v, false)); return; }
-
-    const q = clamp((y - m.top) / m.range);
-    const a = easeInOut(clamp(q / 0.62));
-    const r = easeOut(clamp((q - 0.16) / 0.44));
-    const ip = intro.p;
-    if (r > 0.01) drift += dt * (m.narrow ? 24 : 34);
-    cardVideos.forEach((v) => setPlaying(v, r > 0.05));
-
-    const key = `${q.toFixed(4)}|${ip.toFixed(4)}|${r > 0.01 ? drift.toFixed(1) : 0}`;
-    if (key === last) return;
-    last = key;
-
-    const phoneY = lerp(m.startTop, m.endTop, a);
-    phone.style.transform = `translate3d(-50%, ${phoneY.toFixed(1)}px, 0)`;
-    // The phone stands up out of the page as it rises (and on the intro).
-    phoneIn.style.transform = `translateY(${((1 - ip) * 160).toFixed(1)}px) rotateX(${(lerp(18, 0, a) + (1 - ip) * 30).toFixed(2)}deg) scale(${lerp(0.94, 1, a).toFixed(3)})`;
-    phoneIn.style.opacity = clamp(ip * 1.6).toFixed(3);
-
-    const fade = 1 - clamp((q - 0.03) / 0.3);
-    copy.style.transform = `translate3d(0, ${(-a * 130).toFixed(1)}px, 0) scale(${(1 - a * 0.06).toFixed(3)})`;
-    copy.style.opacity = fade.toFixed(3);
-    copy.style.visibility = fade < 0.02 ? 'hidden' : '';
-
-    // The arch lifts away with the copy as the phone takes over.
-    arch.style.transform = `translate3d(-50%, ${(-a * (m.copyBottom + 80) + (1 - ip) * 60).toFixed(1)}px, 0) scale(${lerp(0.96, 1, ip).toFixed(4)})`;
-    arch.style.opacity = (clamp(ip * 1.4) * (1 - a * 0.5)).toFixed(3);
-
-    layoutStrip(r, drift + q * m.pitch * 2.5, phoneY + m.ph / 2);
-  }
-
-  // Reduced motion: a still stack, with the strip flat behind the phone.
-  function still() {
-    measure();
-    if (phoneVideo) { phoneVideo.removeAttribute('autoplay'); phoneVideo.pause(); }
-    layoutStrip(1, 0, phone.offsetTop + m.ph / 2);
-  }
-
-  let resizeTimer = 0;
-  const remeasure = () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => (reduced ? still() : measure()), 120);
-  };
-  window.addEventListener('resize', remeasure);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
-  if ('ResizeObserver' in window) new ResizeObserver(remeasure).observe(copy);
+  const copy = section.querySelector('.hx__copy');
+  const scene = section.querySelector('.hx-scene');
+  const tilt = section.querySelector('.hx-scene__tilt');
+  const q = section.querySelector('.hx-search__q');
+  const pings = [...section.querySelectorAll('.hx-ping')];
+  const queries = (q.getAttribute('data-queries') || '').split('|').filter(Boolean);
 
   if (reduced) {
-    still();
+    q.textContent = queries[0] || '';
+    scene.classList.add('is-pins', 'is-result');
+    pings.forEach((p) => p.classList.add('is-on'));
     root.classList.add('hx-ready');
-  } else {
-    measure();
-    render(0);
-    root.classList.add('hx-ready');
-    G.ticker.add((time, deltaMs) => render(Math.min(deltaMs, 100) / 1000));
+    return { buildIntro() {} };
   }
+
+  // ---- The loop (timeouts, cancelled while the hero is off screen) ---------------------
+  let timers = [];
+  let running = false;
+  let n = 0;
+  const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+  const clear = () => { timers.forEach(clearTimeout); timers = []; };
+  function type(text, done) {
+    let i = 0;
+    const step = () => {
+      q.textContent = text.slice(0, ++i);
+      if (i < text.length) later(step, 55 + Math.random() * 45);
+      else later(done, 350);
+    };
+    step();
+  }
+  function erase(done) {
+    const step = () => {
+      q.textContent = q.textContent.slice(0, -1);
+      if (q.textContent) later(step, 22);
+      else later(done, 250);
+    };
+    step();
+  }
+  function cycle() {
+    const text = queries[n++ % queries.length];
+    type(text, () => {
+      scene.classList.add('is-pins');
+      later(() => scene.classList.add('is-result'), 1200);
+      pings.forEach((p, i) => later(() => p.classList.add('is-on'), 2300 + i * 900));
+      later(() => {
+        pings.forEach((p) => p.classList.remove('is-on'));
+        scene.classList.remove('is-result');
+        later(() => {
+          scene.classList.remove('is-pins');
+          erase(cycle);
+        }, 500);
+      }, 6800);
+    });
+  }
+  function start() { if (!running) { running = true; cycle(); } }
+  function stop() {
+    if (!running) return;
+    running = false;
+    clear();
+    q.textContent = '';
+    scene.classList.remove('is-pins', 'is-result');
+    pings.forEach((p) => p.classList.remove('is-on'));
+  }
+
+  // ---- Pointer tilt and the scroll lean ---------------------------------------------------
+  const fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  let px = 0;
+  let py = 0;
+  if (fine) {
+    section.addEventListener('pointermove', (e) => {
+      const r = scene.getBoundingClientRect();
+      px = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width / 1.2)));
+      py = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height / 1.2)));
+    });
+    section.addEventListener('pointerleave', () => { px = 0; py = 0; });
+  }
+  let visible = false;
+  let last = '';
+  function render() {
+    if (!visible) return;
+    const r = section.getBoundingClientRect();
+    const out = clamp(-r.top / Math.max(1, r.height)); // 0 at rest → 1 scrolled past
+    const key = `${px.toFixed(3)}|${py.toFixed(3)}|${out.toFixed(3)}`;
+    if (key === last) return;
+    last = key;
+    tilt.style.transform = `translate3d(0, ${(out * -60).toFixed(1)}px, 0) rotateX(${(out * 22 - py * 6).toFixed(2)}deg) rotateY(${(px * 9 - 4).toFixed(2)}deg) scale(${(1 - out * 0.08).toFixed(4)})`;
+    copy.style.transform = `translate3d(0, ${(out * -40).toFixed(1)}px, 0)`;
+    copy.style.opacity = (1 - easeOut(out) * 0.9).toFixed(3);
+  }
+  new IntersectionObserver((entries) => {
+    visible = entries[entries.length - 1].isIntersecting;
+    if (visible) start();
+    else stop();
+  }, { threshold: 0.05 }).observe(section);
+  G.ticker.add(render);
+  root.classList.add('hx-ready');
 
   return {
     // Entrance, run by fx.js once the curtain lifts.
     buildIntro(tl) {
-      const badge = copy.querySelector('.hx__badge');
+      const badge = copy.querySelector('.hx__kicker');
       const lines = [...copy.querySelectorAll('.hx__line')];
       const rest = [copy.querySelector('.hx__sub'), copy.querySelector('.hx__ctas'), copy.querySelector('.hx__facts')].filter(Boolean);
       const all = [badge, ...lines, ...rest];
       G.set(lines, { opacity: 0, yPercent: 55, rotationX: -80, transformOrigin: '50% 100%' });
       G.set([badge, ...rest], { opacity: 0, y: 28 });
+      G.set(scene, { opacity: 0, y: 80, rotationX: 24, transformPerspective: 1400 });
       tl.to(badge, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, 0.05);
       tl.to(lines, { opacity: 1, yPercent: 0, rotationX: 0, duration: 1.3, ease: 'expo.out', stagger: 0.1 }, 0.1);
       tl.to(rest, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.08 }, 0.35);
-      tl.to(intro, { p: 1, duration: 1.7, ease: 'expo.out' }, 0.25);
-      tl.eventCallback('onComplete', () => G.set(all, { clearProps: 'transform,opacity' }));
-      intro.p = 0;
-      last = '';
+      tl.to(scene, { opacity: 1, y: 0, rotationX: 0, duration: 1.5, ease: 'expo.out' }, 0.25);
+      tl.eventCallback('onComplete', () => G.set([...all, scene], { clearProps: 'transform,opacity' }));
     },
   };
 }

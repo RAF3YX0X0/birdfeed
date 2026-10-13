@@ -604,15 +604,6 @@
   "poster": "/work/growzium/website-walkthrough.webp",
   "kb": 1496
  },
- "/work/the-gentry-house/soft-opening-hero.mp4": {
-  "w": 360,
-  "h": 640,
-  "dur": 20.4,
-  "audio": false,
-  "poster": "/work/the-gentry-house/soft-opening-reel.webp",
-  "kb": 642,
-  "derived": "soft-opening-reel.mp4, 360px, silent (homepage hero phone)"
- },
  "/work/the-gentry-house/soft-opening-reel.mp4": {
   "w": 540,
   "h": 960,
