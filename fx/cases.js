@@ -164,17 +164,38 @@ export function setupCases({ section, gsap: G, lenis, reduced }) {
   prevBtn.addEventListener('click', () => go(cur - 1));
   nextBtn.addEventListener('click', () => go(cur + 1));
 
+  // Re-measure, keeping whatever slide is showing where it is.
+  function remeasure() {
+    const keep = pinned() ? cur : -1;
+    measure();
+    if (keep >= 0) scrollTo(top + keep * step, true);
+  }
   let resizeTimer = 0;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      const keep = pinned() ? cur : -1;
-      measure();
-      if (keep >= 0) scrollTo(top + keep * step, true);
-    }, 150);
+    resizeTimer = setTimeout(remeasure, 150);
   });
 
+  // The page can still grow or shrink after this runs: images arriving, fonts
+  // swapping, other sections pinning. That left `top` stale, and because
+  // onScroll() works out the slide from `scrollY - top`, the slider would
+  // change slide on its own while the visitor sat still. Watch the document's
+  // height and re-anchor whenever it moves.
+  let lastH = 0;
+  let heightTimer = 0;
+  function onHeight() {
+    const h = document.documentElement.scrollHeight;
+    if (h === lastH) return;
+    lastH = h;
+    clearTimeout(heightTimer);
+    heightTimer = setTimeout(remeasure, 120);
+  }
+  if (window.ResizeObserver) new ResizeObserver(onHeight).observe(document.body);
+  window.addEventListener('load', onHeight);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(onHeight).catch(() => {});
+
   measure();
+  lastH = document.documentElement.scrollHeight;
   const linked = fromUrl();
   // Start on the linked case (if any), else the first.
   slides.forEach((s) => {

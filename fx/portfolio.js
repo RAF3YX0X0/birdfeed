@@ -149,6 +149,33 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
     });
   }
 
+  // On the video formats the tiles play by themselves: muted, looping, and
+  // only while they're actually on screen, so a filter with dozens of clips
+  // doesn't pull them all down at once. The posts grid is left alone, and so
+  // is a visitor who has asked for reduced motion.
+  let playing = null;
+  const autoOn = () => (st.format === 'videos' || st.format === 'ugc') && !reduced;
+  function autoPlay() {
+    const wanted = autoOn();
+    if (!playing) {
+      playing = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          const v = e.target.querySelector('video');
+          if (!v) return;
+          if (e.isIntersecting) {
+            v.preload = 'auto';
+            const p = v.play();
+            if (p && p.catch) p.catch(() => {});
+          } else v.pause();
+        });
+      }, { rootMargin: '200px 0px' });
+    }
+    playing.disconnect();
+    if (!wanted) return;
+    // Every card in the grid, not just the ones just added by "load more".
+    grid.querySelectorAll('.pf-card').forEach((c) => { if (c.querySelector('video')) playing.observe(c); });
+  }
+
   function renderGrid(mode) {
     list = filtered();
     const from = mode === 'more' ? grid.children.length : 0;
@@ -160,6 +187,7 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
       const fresh = [...grid.children].slice(from).filter((n) => n.classList.contains('pf-card'));
       if (seen) animateIn(fresh);
       else if (!reduced) G.set(fresh, { opacity: 0 });
+      autoPlay();
     };
     if (mode === 'swap' && !reduced && grid.children.length) {
       G.to([...grid.children], { opacity: 0, y: -14, scale: 0.97, duration: 0.18, ease: 'power2.in', stagger: 0.008, overwrite: true, onComplete: put });
@@ -225,7 +253,8 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
       const m = cur.querySelector('.pf-card__media');
       m.style.removeProperty('--rx'); m.style.removeProperty('--ry');
       const v = cur.querySelector('video');
-      if (v) v.pause();
+      // On the video formats the tile is playing by itself; leave it running.
+      if (v && !autoOn()) v.pause();
       cur = null;
     };
     grid.addEventListener('pointermove', (e) => {
