@@ -22,6 +22,28 @@ const SITE = 'https://madmarketinghaseeb.vercel.app';
 const EMAIL = 'hello@madmediamarketing.com';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// ---- The site's own footer, borrowed ------------------------------------------------
+// The landing page is standalone HTML, so it can't load the fx bundle. It takes
+// the real footer's markup (fx/partials/footer.html) and the styles it needs
+// straight out of fx/chrome.css, by section, so the two never drift apart.
+const CHROME = fs.readFileSync(path.join(ROOT, 'fx', 'chrome.css'), 'utf8');
+function chromeSection(head) {
+  const i = CHROME.indexOf(`/* ---- ${head}`);
+  if (i === -1) throw new Error(`chrome.css: no "${head}" section`);
+  const j = CHROME.indexOf('\n/* ---- ', i + 1);
+  return CHROME.slice(i, j === -1 ? undefined : j);
+}
+// Buttons, the footer itself, and the footer's own media queries ("Smaller
+// screens" in chrome.css is the footer's). Plus the one button rule that lives
+// in another section's media query.
+const SITE_FOOTER_CSS = [
+  chromeSection('Buttons'),
+  chromeSection('Footer (Framer style)'),
+  chromeSection('Smaller screens'),
+  '@media (max-width: 720px){.hx-btn{height:46px;padding:0 20px;font-size:14.5px}}',
+].join('\n');
+const SITE_FOOTER = fs.readFileSync(path.join(ROOT, 'fx', 'partials', 'footer.html'), 'utf8').trim();
 const ARROW = '<svg class="lp-arrow" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const DOWN = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const CHECK = '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -135,8 +157,8 @@ const CSS = `
 @font-face{font-family:"Satoshi Fallback";src:local("Arial");ascent-override:93.3%;descent-override:22.17%;line-gap-override:9.24%;size-adjust:108.25%}
 html{scroll-behavior:smooth}
 body{margin:0;background:#fff;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallback",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-.lp,.lp-nav,.lp-bar,.lp-foot,.lp-sticky{--blue:#0066FF;--blue-d:#0052CC;--ink:#0A0A0A;--muted:#4B5563;--faint:#6B7280;--line:#E5E7EB;--soft:#F5F7FA}
-.lp *,.lp-nav *,.lp-foot *,.lp-sticky *{box-sizing:border-box}
+.lp,.lp-nav,.lp-bar,.lp-sticky{--blue:#0066FF;--blue-d:#0052CC;--ink:#0A0A0A;--muted:#4B5563;--faint:#6B7280;--line:#E5E7EB;--soft:#F5F7FA}
+.lp *,.lp-nav *,.lp-sticky *{box-sizing:border-box}
 .lp{overflow-x:clip}
 .lp section[id]{scroll-margin-top:84px}
 .lp-in{max-width:1200px;margin:0 auto;padding:0 24px}
@@ -150,6 +172,7 @@ body{margin:0;background:#fff;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallbac
 .lp-nav__links{display:flex;gap:4px}
 .lp-nav__links a{padding:10px 14px;border-radius:999px;color:#0A0A0A;font-size:14.5px;font-weight:500;text-decoration:none;transition:background .2s ease}
 .lp-nav__links a:hover{background:rgba(10,10,10,.05)}
+.lp-nav__ctas{display:flex;align-items:center;gap:8px}
 /* Buttons */
 .lp-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 28px;border:0;border-radius:999px;font:600 15.5px/1.2 Satoshi,"Satoshi Fallback",system-ui,sans-serif;text-decoration:none;text-align:center;cursor:pointer;transition:transform .3s cubic-bezier(.22,1,.36,1),background .2s ease,box-shadow .3s ease}
 .lp-btn:hover{transform:translateY(-2px)}
@@ -165,6 +188,13 @@ body{margin:0;background:#fff;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallbac
 .lp-dark .lp-k{color:#7DB2FF}.lp-dark .lp-k::before{background:linear-gradient(90deg,rgba(125,178,255,0),#7DB2FF)}
 .lp h1,.lp h2,.lp h3{margin:0;letter-spacing:-.03em;text-wrap:balance}
 .lp h1{margin-top:20px;font-size:clamp(40px,5.1vw,70px);font-weight:800;line-height:1.02}
+/* The hero is sized so the two CTAs are on screen when the page lands, without
+   the visitor scrolling: smaller headline, tighter spacing, and the $0 fee
+   panel moved below the buttons. */
+.lp-hero h1{margin-top:16px;font-size:clamp(34px,3.9vw,54px);line-height:1.06}
+.lp-hero .lp-p{margin-top:14px;max-width:580px;font-size:clamp(15.5px,1.12vw,17px);line-height:1.6}
+.lp-hero .lp-ctas{margin-top:22px}
+.lp-hero .lp-fee{margin-top:22px}
 .lp h2{margin-top:16px;font-size:clamp(32px,3.8vw,52px);font-weight:800;line-height:1.04}
 .lp h1 em,.lp h2 em{font-style:normal;color:#0066FF}
 .lp-dark h2 em{color:#4D94FF}
@@ -185,9 +215,9 @@ body{margin:0;background:#fff;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallbac
 .lp-dashes path{fill:none;stroke:#0066FF;stroke-width:4;stroke-linecap:round;stroke-dasharray:40;stroke-dashoffset:40;animation:lp-draw .5s ease-out forwards}
 .lp-dashes path:nth-child(2){animation-delay:.12s}.lp-dashes path:nth-child(3){animation-delay:.24s}
 /* Hero */
-.lp-hero{position:relative;padding:clamp(48px,6vw,84px) 0 clamp(48px,6vw,72px);overflow:hidden}
+.lp-hero{position:relative;padding:clamp(28px,3.2vw,44px) 0 clamp(48px,6vw,72px);overflow:hidden}
 .lp-hero::before{content:'';position:absolute;right:-10%;top:-20%;width:60vw;height:60vw;max-width:820px;max-height:820px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,102,255,.12),rgba(0,102,255,0));pointer-events:none}
-.lp-hero__grid{position:relative;display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);gap:clamp(32px,4vw,64px);align-items:center}
+.lp-hero__grid{position:relative;display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);gap:clamp(32px,4vw,64px);align-items:start}
 .lp-hero__title{position:relative}
 .lp-hero__title .lp-dashes{right:-8px;top:-18px;width:54px;height:48px}
 .lp-fee{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:6px 22px;max-width:560px;margin-top:28px;padding:20px 26px;border-radius:24px;background:linear-gradient(180deg,#F6FAFF,#EEF5FF);box-shadow:inset 0 0 0 1.5px #D3E3FF}
@@ -406,19 +436,9 @@ body{margin:0;background:#fff;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallbac
 .lp-final__checks li{display:flex;align-items:center;gap:8px;font-size:14px;color:rgba(255,255,255,.8)}
 .lp-final__checks i{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#0066FF;color:#fff}
 /* Footer */
-.lp-foot{margin-top:clamp(48px,6vw,80px);padding:48px 0 36px;background:#0A0A0A;color:rgba(255,255,255,.7);font-size:14px}
-.lp-foot__top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:28px}
-.lp-foot__logo img{display:block;width:180px;height:auto}
-.lp-foot__tag{margin:12px 0 0;color:#fff;font-weight:600}
-.lp-foot__svc{margin:8px 0 0;font-size:13px;color:rgba(255,255,255,.5)}
-.lp-foot a{color:rgba(255,255,255,.85);text-decoration:none}
-.lp-foot a:hover{color:#fff}
-.lp-foot__contact,.lp-foot__nav{display:grid;gap:10px;align-content:start}
-.lp-foot__h{display:block;margin-bottom:4px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45)}
-.lp-foot__contact a{display:inline-flex;align-items:center;gap:10px}
-.lp-foot__contact svg{color:#4D94FF}
-.lp-foot__links{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1)}
-.lp-foot__legal{margin:18px 0 0;font-size:12.5px;line-height:1.6;color:rgba(255,255,255,.45)}
+${SITE_FOOTER_CSS}
+.lp-foot-legal{max-width:1280px;margin:0 auto;padding:0 56px 28px;font-size:12.5px;line-height:1.6;color:#6B7280}
+@media (max-width:900px){.lp-foot-legal{padding:0 20px 24px}}
 /* Client work: one real, authorized example (figures from scripts/work-data.js) */
 .lp-proof{display:grid;grid-template-columns:230px minmax(0,1fr);gap:clamp(20px,3vw,36px);align-items:center;margin-top:clamp(40px,5vw,64px);padding:18px;border-radius:30px;background:#0A0A0A;color:#fff}
 .lp-proof img{display:block;width:100%;height:240px;object-fit:cover;object-position:top;border-radius:18px}
@@ -440,6 +460,9 @@ html[data-fx-landing] .mm-help__btn{bottom:84px}
   .lp-bar{font-size:10.5px;letter-spacing:.08em}
   .lp-nav .lp-in{height:60px}.lp-nav__logo img{width:140px}
   .lp-nav .lp-btn{min-height:38px;padding:8px 16px;font-size:13.5px}
+  /* Both buttons stay on one line beside the logo on a phone. */
+  .lp-nav__ctas .lp-btn{white-space:nowrap}
+  @media (max-width:560px){.lp-nav__logo img{width:116px}.lp-nav__ctas{gap:6px}.lp-nav .lp-btn{padding:8px 12px;font-size:12.5px}}
   .lp-trust{grid-template-columns:minmax(0,1fr)}.lp-trust div+div{border-left:0;border-top:1px solid #E5E7EB}.lp-trust div{padding:16px 20px}
   .lp-inc,.lp-who,.lp-plans,.lp-mad,.lp-steps,.lp-ben,.lp-ba,.lp-step{grid-template-columns:minmax(0,1fr)}
   .lp-mad li{min-height:240px}
@@ -452,7 +475,7 @@ html[data-fx-landing] .mm-help__btn{bottom:84px}
   .lp-fc--chart{display:none}
   .lp-sticky{display:block;transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .3s ease}
   .lp-sticky.is-hidden{transform:translateY(130%);opacity:0;pointer-events:none}
-  .lp-foot{padding-bottom:96px}
+  .ft{padding-bottom:96px}
   .lp-proof{grid-template-columns:minmax(0,1fr)}.lp-proof img{height:200px}
 }
 @media (prefers-reduced-motion:reduce){.lp *,.lp-bar i{animation:none!important;transition:none!important}.lp-brush path,.lp-dashes path{stroke-dashoffset:0}.lp-fc--chart .lp-line{stroke-dashoffset:0}}
@@ -523,7 +546,10 @@ const landing = `<!doctype html>
   <div class="lp-in">
     <a class="lp-nav__logo" href="/" aria-label="MADMarketing home"><img src="/assets/madmarketing-logo-v4.svg" alt="MADMarketing" width="172" height="25"></a>
     <nav class="lp-nav__links" aria-label="On this page"><a href="#how">How It Works</a><a href="#included">What’s Included</a><a href="#why">Why MAD</a><a href="#faqs">FAQs</a></nav>
-    <a class="lp-btn lp-btn--blue lp-btn--sm" href="#apply" data-lp-cta="nav">Apply Now</a>
+    <div class="lp-nav__ctas">
+      <a class="lp-btn lp-btn--white lp-btn--sm" href="/book-demo/" data-lp-cta="nav-demo">Book a Demo</a>
+      <a class="lp-btn lp-btn--blue lp-btn--sm" href="#apply" data-lp-cta="nav">Apply Now</a>
+    </div>
   </div>
 </header>
 <main class="lp" id="top">
@@ -535,16 +561,16 @@ const landing = `<!doctype html>
         <p class="lp-k">Local businesses deserve more visibility.</p>
         <h1 class="lp-hero__title">Your Next Customer Is Searching on Google. <em>Will They ${brush('Find You?')}</em></h1>
         <p class="lp-p">Your competitors are showing up in local searches. Your business deserves a chance to stand out, too. At MADMarketing, we help local businesses strengthen their presence on Google Search and Maps through smarter optimization, accurate listings, and data-driven strategies.</p>
+        <div class="lp-ctas">
+          <a class="lp-btn lp-btn--blue" href="#apply" data-lp-cta="hero">Apply for My Free 30-Day Trial ${ARROW}</a>
+          <a class="lp-btn lp-btn--white" href="/book-demo/" data-lp-cta="hero-demo">Book a Demo ${ARROW}</a>
+        </div>
+        <p class="lp-note">Available to eligible businesses with an existing verified Google Business Profile. Results and rankings vary.</p>
         <div class="lp-fee">
           <b>$0</b><span>Agency fee<small>for 30 days</small></span>
           <p>Try our 30-Day Local Visibility Challenge. No credit card required. No automatic subscription. No obligation to continue.</p>
           ${dashes}
         </div>
-        <div class="lp-ctas">
-          <a class="lp-btn lp-btn--blue" href="#apply" data-lp-cta="hero">Apply for My Free 30-Day Trial ${ARROW}</a>
-          <a class="lp-btn lp-btn--white" href="#included">See What’s Included ${DOWN}</a>
-        </div>
-        <p class="lp-note">Available to eligible businesses with an existing verified Google Business Profile. Results and rankings vary.</p>
       </div>
       ${heroVisual}
     </div>
@@ -747,33 +773,8 @@ const landing = `<!doctype html>
 </section>
 
 </main>
-<footer class="lp-foot">
-  <div class="lp-in">
-    <div class="lp-foot__top">
-      <div>
-        <a class="lp-foot__logo" href="/" aria-label="MADMarketing home"><img src="/assets/madmarketing-logo-white-v4.svg" alt="MADMarketing" width="180" height="26" loading="lazy"></a>
-        <p class="lp-foot__tag">Think MAD. Grow Beyond Ordinary.</p>
-        <p class="lp-foot__svc">Local SEO · Google Maps · SEO · GEO · AEO · Paid Advertising · Digital Growth</p>
-      </div>
-      <nav class="lp-foot__nav" aria-label="MADMarketing website">
-        <b class="lp-foot__h">Explore MADMarketing</b>
-        <a href="/">Main website</a>
-        <a href="/services/local-seo/">Local SEO</a>
-        <a href="/services/google-maps-seo/">Google Maps SEO</a>
-        <a href="/services/ai-search-optimization/">AI Search Optimization</a>
-        <a href="/services/google-ads/">Google Ads Management</a>
-        <a href="/services/">All services</a>
-      </nav>
-      <div class="lp-foot__contact">
-        <b class="lp-foot__h">Contact</b>
-        <a href="mailto:${EMAIL}">${ic('mail', 18)}${EMAIL}</a>
-        <a href="/">${ic('globe', 18)}madmediamarketing.com</a>
-      </div>
-    </div>
-    <nav class="lp-foot__links" aria-label="Legal"><a href="/privacy/">Privacy Policy</a><a href="/terms/">Terms of Service</a><a href="/trial-terms/">Trial Terms</a><a href="mailto:${EMAIL}">Contact</a></nav>
-    <p class="lp-foot__legal">© MADMarketing. All rights reserved. ${DISCLAIMER}</p>
-  </div>
-</footer>
+${SITE_FOOTER}
+<p class="lp-foot-legal">${DISCLAIMER}</p>
 <div class="lp-sticky"><a class="lp-btn lp-btn--blue" href="#apply" data-lp-cta="sticky">Apply for My Free 30-Day Trial ${ARROW}</a></div>
 <script>(${landingClient.toString()})(${JSON.stringify(EMAIL)});</script>
 </body>
@@ -783,6 +784,8 @@ const landing = `<!doctype html>
 // ---- The page's own behaviour (runs in the browser) ---------------------------------
 function landingClient(EMAIL) {
   var d = document;
+  var top = d.querySelector('.ft__top-btn');
+  if (top) top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
   var track = function (event, extra) {
     try {
       (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: event }, extra || {}));
