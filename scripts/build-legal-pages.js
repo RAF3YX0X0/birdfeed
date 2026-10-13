@@ -1,4 +1,5 @@
-// The Terms of Service (/terms/) and Refund & Cancellation Policy (/refund/),
+// The Privacy Policy (/privacy/), Terms of Service (/terms/) and Refund &
+// Cancellation Policy (/refund/),
 // written from what the client has stated: the commercial rules, services and
 // plans in scripts/offer-data.js (their "Services & Packages" document) and the
 // trial terms (scripts/build-landing.js builds /trial-terms/). Where the client
@@ -121,7 +122,59 @@ const REFUND = [
   ], null],
 ];
 
-const DOCS = [['/terms/', 'Terms of Service'], ['/refund/', 'Refund & Cancellation'], ['/trial-terms/', 'Trial Terms'], ['/privacy/', 'Privacy Policy']];
+// ---- Privacy Policy (from what the site actually collects: the challenge application
+// form and api/free-local-seo.js, the Calendly booking embed, email/phone/WhatsApp
+// links, a few browser-storage entries (see /cookie-policy/); no analytics or advertising tools installed) ----
+const PRIVACY = [
+  ['1. Who we are', [
+    `This policy explains how MADMarketing (“we”, “us”) collects and uses personal information through this website and when we work with your business. You can reach us at [${EMAIL}](mailto:${EMAIL}) or ${ADDRESS}.`,
+  ], 'This covers our website and our work with you.'],
+  ['2. What we collect', [
+    'When you apply for the free 30-Day Visibility Challenge: your full name, business email, business name, industry, website, Google Business Profile link, whether your profile is verified, phone number, city, state and country, the marketing challenge you describe, and your confirmation that you’re authorized to act for the business and agree to be contacted.',
+    'With your application we also record how you found us: the campaign details in the link you followed (UTM tags and the Google or Meta click identifier), the page that referred you and the page you applied from.',
+    'When you email, call or message us on WhatsApp, we receive what you send us. When you book a call, the details you enter in the booking calendar (provided by Calendly) are shared with us.',
+    'Our website host processes standard technical information, such as your IP address and browser details, to deliver pages and protect the site. Our application form also uses your IP address briefly to limit repeated submissions.',
+    'The login page doesn’t send the email address you type anywhere: online sign-in isn’t open yet.',
+  ], 'We collect what you put in the application, how you found us, and what you send us.'],
+  ['3. Cookies, storage and analytics', [
+    'We don’t use advertising or analytics cookies, and we don’t track you across other websites. The site keeps a few small entries in your browser’s storage so it works the way you’d expect, for example so the opening animation plays only once per visit. They stay on your device. Our [Cookie Policy](/cookie-policy/) lists them.',
+    'If we add analytics or advertising tools, such as Google Analytics or the Meta Pixel, to measure our ads, we’ll update this policy and the Cookie Policy before they go live.',
+  ], 'No tracking cookies today. We’ll update this page before that changes.'],
+  ['4. How we use your information', [
+    'To review your application and its eligibility, contact you about it and send you a confirmation; to answer your questions and arrange calls; to deliver the services we agree with you; to understand which of our campaigns bring in applications; and to keep the site secure and meet our legal obligations.',
+    'We contact you about your application because you asked us to. Any other follow-up messages, by email or SMS, are permission-based, and you can opt out at any time.',
+  ], 'We use it to handle your application, talk to you and do the work.'],
+  ['5. Who we share it with', [
+    'We don’t sell your personal information. We share it only with the services that help us run our business: our website host, the email delivery and CRM tools we use to receive and follow up on applications, and Calendly for booking calls. They may use it only to provide their service to us.',
+    'We may also disclose information when the law requires it, or to protect our rights and the safety of others.',
+  ], 'We never sell your information.'],
+  ['6. Your business accounts', [
+    'When we work on your Google Business Profile, advertising accounts or other tools, we do it through role-based access you grant. We use the information in those accounts only to deliver the agreed services, keep it confidential, and never ask for your passwords. You can remove our access at any time.',
+  ], 'We only use your account data to do the agreed work.'],
+  ['7. How long we keep it', [
+    'We keep application information for as long as we need it to review your application and follow up with you, and client information for as long as the engagement lasts and as needed to meet our legal and accounting obligations. You can ask us to delete your information at any time.',
+  ], 'We keep it only as long as we need it, and you can ask us to delete it.'],
+  ['8. Your choices and rights', [
+    `You can ask us to tell you what personal information we hold about you, correct it, delete it, or stop contacting you. Email [${EMAIL}](mailto:${EMAIL}) and we’ll respond in line with the law that applies to you. Depending on where you live, you may have additional rights under local privacy laws.`,
+  ], 'Ask us any time to see, correct or delete your information.'],
+  ['9. Security', [
+    'Our website uses encrypted connections (HTTPS), and access to applications and client information is limited to the people who need it. No method of sending or storing data is completely secure, but we work to protect your information.',
+  ], 'We protect your information and limit who can see it.'],
+  ['10. Where your information is processed', [
+    'We’re based in the United States, and your information is processed in the United States. If you contact us from another country, your information is transferred to and processed in the United States.',
+  ], null],
+  ['11. Children', [
+    'Our website and services are for businesses. They aren’t directed at children, and we don’t knowingly collect personal information from children under 13.',
+  ], null],
+  ['12. Other websites', [
+    'Links to Facebook, WhatsApp, Google and other services take you to their sites, where their own privacy policies apply.',
+  ], null],
+  ['13. Changes and contact', [
+    `We may update this policy from time to time. The date at the top shows when it last changed. Questions or requests? Email [${EMAIL}](mailto:${EMAIL}) or write to ${ADDRESS}.`,
+  ], null],
+];
+
+const DOCS = [['/terms/', 'Terms of Service'], ['/privacy/', 'Privacy Policy'], ['/refund/', 'Refund & Cancellation'], ['/trial-terms/', 'Trial Terms'], ['/cookie-policy/', 'Cookie Policy']];
 
 function page({ slug, title, description, eyebrow, h1, lede, sections }) {
   return `<!doctype html>
@@ -183,6 +236,15 @@ ${ps.map((p) => `    <p>${text(p)}</p>`).join('\n')}${plain ? `\n    <p class="l
 }
 
 const out = [
+  ['privacy', page({
+    slug: 'privacy',
+    title: 'Privacy Policy | MADMarketing',
+    description: 'How MADMarketing collects and uses personal information: what the 30-day challenge application collects, who we share it with, no tracking cookies, and your choices.',
+    eyebrow: 'Legal',
+    h1: 'Privacy <em>Policy.</em>',
+    lede: 'What we collect, why, and what you can ask us to do with it. We never sell your information.',
+    sections: PRIVACY,
+  })],
   ['terms', page({
     slug: 'terms',
     title: 'Terms of Service | MADMarketing',
@@ -206,4 +268,4 @@ for (const [slug, html] of out) {
   fs.mkdirSync(path.join(ROOT, slug), { recursive: true });
   fs.writeFileSync(path.join(ROOT, slug, 'index.html'), html);
 }
-console.log('legal pages: /terms/ /refund/');
+console.log('legal pages: /privacy/ /terms/ /refund/');
