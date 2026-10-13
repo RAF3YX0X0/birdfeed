@@ -9,6 +9,22 @@
 
 const PAGE = 12;
 const FORMAT_LABEL = { posts: 'post', videos: 'video', ugc: 'UGC video' };
+
+// One line icon per industry filter, drawn rather than cropped from a client's
+// post, so the list reads as navigation instead of a second row of thumbnails.
+const svg = (d) => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+const IND_ICON = {
+  Featured: svg('<path d="m12 3 2.6 5.4 5.9.8-4.3 4.2 1 5.9L12 16.5 6.8 19.3l1-5.9-4.3-4.2 5.9-.8z"/>'),
+  All: svg('<rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/>'),
+  'Beauty & Grooming': svg('<circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M8.3 7.6 20 18M8.3 16.4 20 6"/>'),
+  'Moving & Home Services': svg('<path d="M2.5 16.5V8.5h10v8"/><path d="M12.5 11h4l4 3.2v2.3h-8"/><circle cx="7" cy="18" r="1.9"/><circle cx="17" cy="18" r="1.9"/>'),
+  'IT & Tech': svg('<rect x="2.5" y="4.5" width="19" height="12" rx="2"/><path d="M8 20.5h8"/><path d="M12 16.5v4"/>'),
+  'Travel & Transport': svg('<path d="M3 13.5 12 3l2.4 2.4-4 6.4 5.6-1.3L21 15l-2 2-4.6-1.4-2.6 4.1L9.5 21l.8-5.2-4.4 1z"/>'),
+  'Food Products': svg('<path d="M6 3v8a2.5 2.5 0 0 0 5 0V3"/><path d="M8.5 11v10"/><path d="M18 3c-1.7 1.4-2.5 3.3-2.5 5.5S16.3 12.6 18 14v7"/>'),
+  Agencies: svg('<path d="M4 20.5V9l8-5.5L20 9v11.5"/><path d="M9.5 20.5v-6h5v6"/>'),
+  Other: svg('<circle cx="12" cy="12" r="8.5"/><path d="M12 8v4l2.5 2"/>'),
+};
+
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const plural = (n, w) => `${n.toLocaleString('en-US')} ${w}${n === 1 ? '' : 's'}`;
 
@@ -43,15 +59,8 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
     const piles = Object.values(byInd);
     const mixed = posts.filter((p) => p.f);
     for (let i = 0; piles.some((pl) => i < pl.length); i++) piles.forEach((pl) => i < pl.length && mixed.push(pl[i]));
-    // A picture for each industry in the sidebar: its first featured post, or its first post.
-    const thumbs = {};
-    data.industries.forEach((ind) => {
-      const p = posts.find((x) => x.ind === ind && x.f) || posts.find((x) => x.ind === ind);
-      if (p) thumbs[ind] = p.img;
-    });
     return {
       industries: data.industries,
-      thumbs,
       posts,
       featured: mixed,
       videos: data.videos.map((v) => ({ kind: 'videos', src: v.src, prev: v.prev || v.src, poster: v.poster, ind: v.ind, sub: v.sub || '', c: v.c || '', ad: !!v.ad })),
@@ -82,10 +91,8 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
     const src = st.format === 'videos' ? D.videos : D.posts;
     const n = (ind) => src.filter((p) => p.ind === ind).length;
     const rows = [];
-    // Top-level rows get a picture (Featured a star, All a swatch); sub-industries don't.
-    const pic = (key) => (key === 'Featured' ? '<span class="pf-ind__pic is-star" aria-hidden="true">★</span>'
-      : key === 'All' ? '<span class="pf-ind__pic is-all" aria-hidden="true"></span>'
-        : D.thumbs[key] ? `<img class="pf-ind__pic" src="${esc(D.thumbs[key])}" alt="" loading="lazy" decoding="async">` : '<span class="pf-ind__pic is-all" aria-hidden="true"></span>');
+    // Top-level rows get an icon; sub-industries don't.
+    const pic = (key) => `<span class="pf-ind__pic${key === 'Featured' ? ' is-star' : ''}${key === 'All' ? ' is-all' : ''}" aria-hidden="true">${IND_ICON[key] || IND_ICON.Other}</span>`;
     const row = (key, label, num, pressed, cls = '') =>
       `<button type="button" class="pf-ind${cls}" data-ind="${esc(key)}" aria-pressed="${pressed}">${cls ? '' : pic(key)}<span class="pf-ind__l">${esc(label)}</span>${num == null ? '' : `<em class="pf-n">${num}</em>`}</button>`;
     if (st.format === 'posts') rows.push(`<li>${row('Featured', 'Featured', null, st.ind === 'Featured')}</li>`);

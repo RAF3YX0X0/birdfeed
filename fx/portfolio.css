@@ -110,12 +110,14 @@
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 .pf-ind__l { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.pf-ind__pic { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.08); font-size: 13px; }
-.pf-ind__pic.is-star { background: #EBF3FF; color: #0066FF; box-shadow: none; }
-.pf-ind__pic.is-all { background: conic-gradient(#0066FF 0 25%, #0A0A0A 0 50%, #4D94FF 0 75%, #D1D5DB 0); }
+.pf-ind__pic { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #F1F4F8; color: #4B5563; box-shadow: inset 0 0 0 1px rgba(10, 10, 10, 0.06); transition: background-color 0.2s ease, color 0.2s ease; }
+.pf-ind__pic svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.pf-ind__pic.is-star { background: #EBF3FF; color: #0066FF; }
+.pf-ind__pic.is-star svg { fill: currentColor; stroke: none; }
+.pf-ind:hover .pf-ind__pic { background: #E6EDF7; color: #0A0A0A; }
 .pf-ind:hover { background: #EEF1F5; color: #0A0A0A; }
 .pf-ind[aria-pressed="true"] { background: #0A0A0A; color: #fff; font-weight: 500; }
-.pf-ind[aria-pressed="true"] .pf-ind__pic { box-shadow: 0 0 0 2px #0066FF; }
+.pf-ind[aria-pressed="true"] .pf-ind__pic { background: #0066FF; color: #fff; box-shadow: none; }
 /* Sub-industries: chips under the chosen industry. */
 .pf-subs { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 10px; padding: 0; }
 .pf-subs .pf-ind { width: auto; margin: 0; padding: 6px 12px; border-radius: 999px; background: #fff; box-shadow: 0 0 0 1px #E5E7EB; font-size: 13px; }
