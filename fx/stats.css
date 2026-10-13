@@ -2,6 +2,11 @@
    behaviour: stats.js). Tabs by service; the charts are drawn from the numbers,
    never pasted in as screenshots. */
 
+/* This section took the portfolio grid's place on the homepage, so it also
+   takes over hiding the cloned portfolio section behind it (the rule was in
+   portfolio.css, keyed on .pf, which the homepage no longer has). */
+.st3 ~ astro-island[component-export="FBHomeMain"] > div > section:nth-of-type(2) { display: none !important; }
+
 .st3 { position: relative; padding: clamp(56px, 7vw, 104px) 20px clamp(64px, 8vw, 120px); }
 .st3__in { max-width: 1180px; margin: clamp(28px, 3.5vw, 48px) auto 0; }
 

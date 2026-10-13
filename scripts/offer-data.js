@@ -100,7 +100,7 @@ const PLANS = [
     ],
   },
   {
-    key: 'growth', name: 'MAD Local Growth', price: 449, tagline: 'Ongoing local growth: the plan we recommend', recommended: true, builds: 'MAD Local',
+    key: 'growth', name: 'MAD Local Growth', price: 399, tagline: 'Ongoing local growth: the plan we recommend', recommended: true, builds: 'MAD Local',
     short: 'Ongoing Google Maps optimization, citations, website SEO improvements, and competitor monitoring.',
     items: [
       'Up to 10 citation actions per month (instead of 5)',

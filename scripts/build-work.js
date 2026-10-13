@@ -51,6 +51,15 @@ const ARROW = '<span aria-hidden="true">→</span>';
 const bySlug = Object.fromEntries(CLIENTS.map((c) => [c.slug, c]));
 const num = (n) => n.toLocaleString('en-US');
 
+// The client's own site behind the board, dimmed right down so it reads as a
+// backdrop rather than a screenshot. `alt` is empty: the board in front says
+// everything, and the picture is decoration.
+function backdrop(src, w, h) {
+  return `<img class="pj-back" src="${esc(src)}" alt="" width="${w}" height="${h}" loading="lazy" decoding="async">
+          <span class="pj-back__wash" aria-hidden="true"></span>
+          `;
+}
+
 // A results board: one of the case's charts as bars.
 function board(ch) {
   const max = Math.max(...ch.rows.map((r) => r[1]));
@@ -81,7 +90,7 @@ const CARDS = [
     lede: 'Website, Google profile, Meta ads and social for a premium barbershop rated a perfect 5.0 on Google and Booksy.',
     case: [['What we do', 'Built the website, manage the Google Business Profile, run the Meta ads and make the social content.'], ['Where it stands', '5.0 on Google from 201 reviews and 5.0 on Booksy from 79. Reviewers mention attention to detail most.']],
     stats: [['280', 'reviews across Google and Booksy'], ['5.0★', 'on Google, from 201 reviews']],
-    media: (c) => `${board(c.charts[0])}
+    media: (c) => `${backdrop('/work/the-gentry-house/site-home.webp', 1280, 684)}${board(c.charts[0])}
           <div class="pj-chip pj-chip--tl"><small>We run</small><b>Website · Google · Ads · Social</b></div>`,
   },
   {
@@ -89,7 +98,7 @@ const CARDS = [
     lede: 'A Dubai construction company’s first month on Google Ads: a 4.29% click-through rate and a 13.43% conversion rate.',
     case: [['The challenge', 'No Google Ads history and no landing page for ads, with leads wanted from Dubai’s high-end communities.'], ['What we did', 'Set up the account and conversion tracking, fixed the website and its SEO, and launched search campaigns.']],
     stats: [['4.29%', 'click-through rate, first month'], ['13.43%', 'conversion rate, first month']],
-    media: (c) => `${board(c.charts[0])}
+    media: (c) => `${backdrop('/work/smart-cities-uae/site-home.webp', 1280, 700)}${board(c.charts[0])}
           <div class="pj-chip pj-chip--tl"><small>Average cost per click</small><b>AED 4.27</b></div>`,
   },
   {
