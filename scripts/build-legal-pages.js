@@ -15,7 +15,7 @@ const path = require('path');
 const O = require('./offer-data');
 
 const ROOT = path.join(__dirname, '..');
-const SITE = 'https://madmarketinghaseeb.vercel.app';
+const SITE = 'https://madmediamarketing.com';
 const EMAIL = 'hello@madmediamarketing.com';
 const ADDRESS = 'MADMarketing, 2055 Craigshire Dr, St. Louis, MO 63146, United States';
 const UPDATED = 'October 13, 2026';

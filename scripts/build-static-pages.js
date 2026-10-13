@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const SITE = 'https://madmarketinghaseeb.vercel.app';
+const SITE = 'https://madmediamarketing.com';
 const EMAIL = 'hello@madmediamarketing.com';
 const UPDATED = 'October 6, 2026';
 

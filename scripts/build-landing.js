@@ -18,7 +18,7 @@ const path = require('path');
 const O = require('./offer-data');
 
 const ROOT = path.join(__dirname, '..');
-const SITE = 'https://madmarketinghaseeb.vercel.app';
+const SITE = 'https://madmediamarketing.com';
 const EMAIL = 'hello@madmediamarketing.com';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

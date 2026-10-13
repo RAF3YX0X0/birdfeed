@@ -16,7 +16,7 @@ const fs = require('fs');
 const path = require('path');
 
 // The live site. Change it here (and re-run) when a custom domain is added.
-const SITE = 'https://madmarketinghaseeb.vercel.app';
+const SITE = 'https://madmediamarketing.com';
 
 const ROOT = path.join(__dirname, '..');
 const TRACKERS = [
@@ -171,7 +171,14 @@ function offerText(html, file) {
   return html.replace(/(<script type="application\/ld\+json"[^>]*>)([\s\S]*?)(<\/script>)/g, (m, a, json, b) => a + clean(json) + b);
 }
 
+// Hosts the site used to be served from. A page that already carries an
+// absolute canonical or og:url keeps it, so changing SITE alone would leave the
+// old host in every tag; these are rewritten first. Add to this list rather
+// than editing pages by hand when the domain changes again.
+const PREVIOUS_SITES = ['https://madmarketinghaseeb.vercel.app'];
+
 function seo(html) {
+  for (const old of PREVIOUS_SITES) html = html.split(old).join(SITE);
   html = html.replace(/(<link rel="canonical" href=")([^"]+)(")/, (m, a, u, b) => a + abs(u) + b);
   html = html.replace(/(<meta (?:property|name)="(?:og:url|og:image|twitter:image)" content=")([^"]+)(")/g, (m, a, u, b) => a + abs(u) + b);
   if (!/name="theme-color"/.test(html)) html = html.replace('</title>', '</title><meta name="theme-color" content="#F5F7FA">');
