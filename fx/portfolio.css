@@ -169,7 +169,6 @@
   border-radius: 24px;
   background: #fff;
   box-shadow: 0 0 0 1px #E5E7EB, 0 24px 50px -40px rgba(20, 30, 70, 0.5);
-  transform-style: preserve-3d;
   transition: box-shadow 0.3s ease;
 }
 .pf-card:hover { box-shadow: 0 0 0 1px rgba(0, 102, 255, 0.3), 0 34px 60px -36px rgba(0, 102, 255, 0.4); }
@@ -184,11 +183,10 @@
   border-radius: 18px;
   background: #E7E5E1;
   cursor: pointer;
-  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
+  transform: translateY(var(--lift, 0px));
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .pf-card:hover .pf-card__media { --lift: -3px; }
-.pf-card.is-tilting .pf-card__media { transition: transform 0.12s linear; }
 .pf-card__media img,
 .pf-card__media video {
   position: absolute;
@@ -208,17 +206,6 @@
 .pf-card.is-playing .pf-card__media video { opacity: 1; }
 .pf-card__play { z-index: 3; }
 html:not(.fx) .pf-card__media video, html.fx-reduced .pf-card__media video { opacity: 1; }
-.pf-card__media::after {
-  /* Glare that follows the pointer. */
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(220px circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, 0.35), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-.pf-card:hover .pf-card__media::after { opacity: 1; }
 .pf-card__badge {
   position: absolute;
   z-index: 2;

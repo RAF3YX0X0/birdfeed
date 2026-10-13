@@ -300,36 +300,26 @@ export function setupPortfolio({ section, gsap: G, lenis, reduced, finePointer, 
     viewBtns.forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
   }));
 
-  // 3D tilt + glare, and hover-to-play for videos (desktop).
+  // Hover-to-play for videos (desktop). The tiles used to tilt in 3D under
+  // the pointer, but the rotation swung the lower half of the media box away
+  // and left the card's white backing over the Quick view button, so the
+  // button could not be clicked. The tiles stay flat now.
   if (finePointer && !reduced) {
     let cur = null;
     const leave = () => {
       if (!cur) return;
-      cur.classList.remove('is-tilting');
-      const m = cur.querySelector('.pf-card__media');
-      m.style.removeProperty('--rx'); m.style.removeProperty('--ry');
       const v = cur.querySelector('video');
       // On the video formats the tile is playing by itself; leave it running.
       if (v && !autoOn()) v.pause();
       cur = null;
     };
-    grid.addEventListener('pointermove', (e) => {
-      const card = e.target.closest('.pf-card');
-      if (card !== cur) {
-        leave();
-        cur = card;
-        if (!card) return;
-        card.classList.add('is-tilting');
-        const v = card.querySelector('video');
-        if (v) { v.preload = 'auto'; const p = v.play(); if (p && p.catch) p.catch(() => {}); }
-      }
-      const m = card.querySelector('.pf-card__media');
-      const r = m.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-      m.style.setProperty('--ry', `${((x - 0.5) * 14).toFixed(2)}deg`);
-      m.style.setProperty('--rx', `${((0.5 - y) * 12).toFixed(2)}deg`);
-      m.style.setProperty('--gx', `${(x * 100).toFixed(1)}%`);
-      m.style.setProperty('--gy', `${(y * 100).toFixed(1)}%`);
+    grid.addEventListener('pointerover', (e) => {
+      const card = e.target.closest && e.target.closest('.pf-card');
+      if (!card || card === cur) return;
+      leave();
+      cur = card;
+      const v = card.querySelector('video');
+      if (v) { v.preload = 'auto'; const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); }
     });
     grid.addEventListener('pointerleave', leave);
   }
