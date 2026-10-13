@@ -63,7 +63,12 @@
 .tr-main:focus-visible, .tr-tile:focus-visible { outline: 2px solid #4D94FF; outline-offset: 6px; border-radius: 20px; }
 
 /* ---- Review-site tiles --------------------------------------------------------------- */
-.tr-side { display: grid; gap: 10px; }
+.tr-side { display: grid; gap: 8px; }
+/* Four rated clients: compact tiles so the column stays level with the main score. */
+.tr-side .tr-tile { gap: 10px 14px; padding: 12px 16px; border-radius: 18px; }
+.tr-side .tr-tile__mark { width: 36px; height: 36px; border-radius: 12px; font-size: 16px; }
+.tr-side .tr-tile__name b { font-size: 16px; }
+.tr-side .tr-tile__score b { font-size: 32px; }
 .tr-side .tr__k { margin-bottom: 6px; }
 .tr-tile {
   position: relative;
