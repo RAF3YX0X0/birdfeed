@@ -48,6 +48,9 @@ const SITE_FOOTER_CSS = [
   '@media (max-width: 720px){.hx-btn{height:46px;padding:0 20px;font-size:14.5px}}',
 ].join('\n');
 const SITE_FOOTER = fs.readFileSync(path.join(ROOT, 'fx', 'partials', 'footer.html'), 'utf8').trim();
+const INDUSTRIES = ['Barbershop', 'Hair salon', 'Cleaning services', 'HVAC', 'Plumbing', 'Electrical',
+  'Home services', 'Auto detailing', 'Automotive services', 'Fitness studio', 'Wellness'];
+
 const ARROW = '<svg class="lp-arrow" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const DOWN = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const CHECK = '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -386,6 +389,26 @@ body{margin:0;background:#fff;color:#0A0A0A;font-family:Satoshi,"Satoshi Fallbac
 .lp-field>span small{font-weight:400;color:#6B7280}
 .lp-field input,.lp-field select,.lp-field textarea{width:100%;min-height:50px;padding:12px 16px;border:0;border-radius:14px;background:#F9FAFB;box-shadow:inset 0 0 0 1px #E2E5EA;font:inherit;font-size:15px;color:#0A0A0A;transition:box-shadow .2s ease,background .2s ease}
 .lp-field textarea{min-height:100px;resize:vertical}
+.lp-sel{position:relative}
+.lp-sel__native{position:absolute;bottom:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none}
+.lp-sel__btn{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:50px;padding:12px 16px;border:0;border-radius:14px;background:#F9FAFB;box-shadow:inset 0 0 0 1px #E2E5EA;font:inherit;font-size:15px;color:#0A0A0A;text-align:left;cursor:pointer;transition:box-shadow .2s ease,background .2s ease}
+.lp-sel__btn:hover{background:#fff}
+.lp-sel__btn.is-empty .lp-sel__v{color:#9AA1AC}
+.lp-sel__btn[aria-expanded="true"],.lp-sel__btn:focus-visible{outline:0;background:#fff;box-shadow:inset 0 0 0 1.5px #0066FF,0 0 0 4px rgba(0,102,255,.1)}
+.lp-field.is-bad .lp-sel__btn{box-shadow:inset 0 0 0 1.5px #D93A3A}
+.lp-sel__chev{flex:none;width:18px;height:18px;color:#6B7280;transition:transform .2s ease}
+.lp-sel__btn[aria-expanded="true"] .lp-sel__chev{transform:rotate(180deg)}
+.lp-sel__list{position:absolute;z-index:20;top:calc(100% + 6px);left:0;right:0;max-height:268px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#D4D9E2 transparent;margin:0;padding:6px;list-style:none;border-radius:14px;background:#fff;box-shadow:0 0 0 1px #E2E5EA,0 18px 40px -18px rgba(20,30,70,.45)}
+.lp-sel__list[hidden]{display:none}
+.lp-sel__list::-webkit-scrollbar{width:8px}
+.lp-sel__list::-webkit-scrollbar-thumb{border:2px solid #fff;border-radius:999px;background:#D4D9E2}
+.lp-sel__o{padding:10px 12px;border-radius:10px;font-size:15px;line-height:1.3;color:#0A0A0A;cursor:pointer}
+.lp-sel__o+.lp-sel__o{margin-top:2px}
+.lp-sel__o:hover,.lp-sel__o.is-at{background:#F1F5FF}
+.lp-sel__o[aria-selected="true"]{color:#0066FF;font-weight:600}
+.lp-sel__o--other{margin-top:6px;border-top:1px solid #EEF0F4;border-radius:0;padding-top:12px;color:#4B5563}
+.lp-sel__other{margin-top:8px}
+.lp-sel__other[hidden]{display:none}
 .lp-field input:focus,.lp-field select:focus,.lp-field textarea:focus{outline:0;background:#fff;box-shadow:inset 0 0 0 1.5px #0066FF,0 0 0 4px rgba(0,102,255,.1)}
 .lp-field.is-bad input,.lp-field.is-bad select{box-shadow:inset 0 0 0 1.5px #D93A3A}
 .lp-radios{display:flex;flex-wrap:wrap;gap:8px}
@@ -704,8 +727,19 @@ const landing = `<!doctype html>
           <label class="lp-field"><span>Full name</span><input name="fullName" autocomplete="name" required maxlength="100"></label>
           <label class="lp-field"><span>Business email</span><input name="email" type="email" autocomplete="email" required maxlength="200"></label>
           <label class="lp-field"><span>Business name</span><input name="business" autocomplete="organization" required maxlength="150"></label>
-          <label class="lp-field"><span>Industry</span><input name="industry" list="lp-industries" required maxlength="100" placeholder="e.g. Barbershop, HVAC"></label>
-          <datalist id="lp-industries">${['Barbershop', 'Hair salon', 'Cleaning services', 'HVAC', 'Plumbing', 'Electrical', 'Home services', 'Auto detailing', 'Automotive services', 'Fitness studio', 'Wellness'].map((v) => `<option value="${v}">`).join('')}</datalist>
+          <div class="lp-field lp-sel" data-lp-sel>
+            <span id="lp-ind-lbl">Industry</span>
+            <button type="button" class="lp-sel__btn is-empty" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lp-ind-lbl lp-ind-val">
+              <span class="lp-sel__v" id="lp-ind-val">Select your industry</span>
+              <svg class="lp-sel__chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <ul class="lp-sel__list" role="listbox" aria-labelledby="lp-ind-lbl" hidden>${INDUSTRIES.map((v) => `
+              <li class="lp-sel__o" role="option" aria-selected="false" data-v="${v}">${v}</li>`).join('')}
+              <li class="lp-sel__o lp-sel__o--other" role="option" aria-selected="false" data-v="__other">Other — type it in</li>
+            </ul>
+            <input class="lp-sel__other" type="text" placeholder="Your industry" maxlength="100" aria-label="Your industry" hidden>
+            <select name="industry" required tabindex="-1" aria-hidden="true" class="lp-sel__native"><option value="" selected></option>${INDUSTRIES.map((v) => `<option value="${v}">${v}</option>`).join('')}<option value="" data-other></option></select>
+          </div>
           <label class="lp-field lp-field--wide"><span>Website URL <small>(optional)</small></span><input name="website" type="url" inputmode="url" placeholder="https://" maxlength="300"></label>
           <div class="lp-form__foot"><span class="lp-note" style="margin:0">Takes about two minutes.</span><button class="lp-btn lp-btn--blue" type="button" data-lp-next>Continue ${ARROW}</button></div>
         </div>
@@ -855,15 +889,137 @@ function landingClient(EMAIL) {
   attribution.referrer = (d.referrer || '').slice(0, 300);
 
   function say(text, ok) { msg.hidden = !text; msg.className = 'lp-msg ' + (ok ? 'lp-msg--ok' : 'lp-msg--err'); msg.textContent = text || ''; }
+
+  // The industry picker. A native datalist is drawn by the operating
+  // system, so it could not be themed and had no way to say "none of
+  // these". This drives a hidden <select> underneath, which is what
+  // FormData and checkValidity() read — so nothing else has to know.
+  //
+  // Choosing Other reveals a text box, and what gets typed becomes the
+  // value of a spare <option>. An empty one leaves the select on its
+  // placeholder, so "Other" with nothing typed still fails the required
+  // check rather than submitting the word "Other".
+  (function () {
+    var sel = d.querySelector('[data-lp-sel]');
+    if (!sel) return;
+    var btn = sel.querySelector('.lp-sel__btn');
+    var shown = sel.querySelector('.lp-sel__v');
+    var list = sel.querySelector('.lp-sel__list');
+    var other = sel.querySelector('.lp-sel__other');
+    var native = sel.querySelector('.lp-sel__native');
+    var spare = native.querySelector('option[data-other]');
+    var opts = [].slice.call(list.querySelectorAll('.lp-sel__o'));
+    var at = -1;
+
+    function mark(i) {
+      at = i;
+      opts.forEach(function (o, j) { o.classList.toggle('is-at', j === i); });
+      if (opts[i] && opts[i].scrollIntoView) opts[i].scrollIntoView({ block: 'nearest' });
+    }
+    function open() {
+      list.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
+      var i = 0;
+      opts.forEach(function (o, j) { if (o.getAttribute('aria-selected') === 'true') i = j; });
+      mark(i);
+    }
+    function close() {
+      list.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+    }
+    function syncOther() {
+      spare.value = other.value.trim();
+      native.value = spare.value;
+    }
+    function choose(o) {
+      opts.forEach(function (x) { x.setAttribute('aria-selected', x === o ? 'true' : 'false'); });
+      btn.classList.remove('is-empty');
+      if (o.getAttribute('data-v') === '__other') {
+        shown.textContent = 'Other';
+        other.hidden = false;
+        syncOther();
+        close();
+        other.focus();
+        return;
+      }
+      other.hidden = true;
+      other.value = '';
+      spare.value = '';
+      shown.textContent = o.getAttribute('data-v');
+      native.value = o.getAttribute('data-v');
+      sel.classList.remove('is-bad');
+      close();
+      btn.focus();
+    }
+
+    btn.addEventListener('click', function () { if (list.hidden) { open(); } else { close(); } });
+    btn.addEventListener('keydown', function (e) {
+      // Only the arrows open it here. Enter and Space on a button already
+      // produce a click, and handling them twice opened then closed it.
+      // Only when closed: while it is open the list's own handler moves the
+      // highlight, and re-opening here would reset it on every press.
+      if (list.hidden && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) { e.preventDefault(); open(); }
+    });
+    list.addEventListener('click', function (e) {
+      var o = e.target.closest('.lp-sel__o');
+      if (o) choose(o);
+    });
+    list.addEventListener('mousemove', function (e) {
+      var o = e.target.closest('.lp-sel__o');
+      if (o) mark(opts.indexOf(o));
+    });
+    sel.addEventListener('keydown', function (e) {
+      if (list.hidden) return;
+      if (e.key === 'Escape') { close(); btn.focus(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); mark(Math.min(opts.length - 1, at + 1)); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); mark(Math.max(0, at - 1)); }
+      else if (e.key === 'Home') { e.preventDefault(); mark(0); }
+      else if (e.key === 'End') { e.preventDefault(); mark(opts.length - 1); }
+      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (opts[at]) choose(opts[at]); }
+    });
+    other.addEventListener('input', function () {
+      syncOther();
+      if (other.value.trim()) sel.classList.remove('is-bad');
+    });
+    d.addEventListener('click', function (e) { if (!sel.contains(e.target)) close(); });
+  })();
+  var worst = null;
   function valid(step) {
     var ok = true;
     step.querySelectorAll('input, select, textarea').forEach(function (el) {
       var good = el.checkValidity();
       var field = el.closest('.lp-field');
       if (field) field.classList.toggle('is-bad', !good);
-      if (!good) ok = false;
+      if (!good) { ok = false; if (!worst) worst = el; }
     });
     return ok;
+  }
+
+  // Nobody types the scheme. A type=url input calls "www.example.com"
+  // invalid, which made the optional website field block Continue while
+  // the message blamed the required fields.
+  function tidyUrls(step) {
+    step.querySelectorAll('input[type="url"]').forEach(function (el) {
+      var v = el.value.trim();
+      if (!v) { el.value = ''; return; }
+      if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(v)) v = 'https://' + v.replace(/^\/+/, '');
+      el.value = v;
+    });
+  }
+  function labelOf(el) {
+    var f = el.closest('.lp-field');
+    var s = f && f.querySelector('span');
+    return s ? s.textContent.replace(/\(optional\)/i, '').trim().toLowerCase() : 'that field';
+  }
+  // '' when the step is fine, otherwise a message naming the field and
+  // saying whether it is missing or malformed.
+  function complain(step, fallback) {
+    worst = null;
+    tidyUrls(step);
+    if (valid(step)) return '';
+    if (!worst || worst.type === 'checkbox' || worst.type === 'radio') return fallback;
+    if (!String(worst.value).trim()) return 'Please fill in your ' + labelOf(worst) + '.';
+    return 'That ' + labelOf(worst) + ' doesn\u2019t look right.';
   }
   function show(n) {
     steps.forEach(function (s) { s.hidden = s.getAttribute('data-step') !== String(n); });
@@ -873,7 +1029,8 @@ function landingClient(EMAIL) {
   }
   form.addEventListener('focusin', function () { if (!started) { started = true; track('application_start'); } });
   form.querySelector('[data-lp-next]').addEventListener('click', function () {
-    if (!valid(steps[0])) return say('Please fill in the required fields.', false);
+    var gap = complain(steps[0], 'Please fill in the required fields.');
+    if (gap) return say(gap, false);
     say('');
     track('application_step', { step: 2 });
     show(2);
@@ -886,8 +1043,10 @@ function landingClient(EMAIL) {
   }
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    if (!valid(steps[0])) { show(1); return say('Please fill in the required fields.', false); }
-    if (!valid(steps[1])) return say('Please answer the required questions and tick both boxes.', false);
+    var gap1 = complain(steps[0], 'Please fill in the required fields.');
+    if (gap1) { show(1); return say(gap1, false); }
+    var gap2 = complain(steps[1], 'Please answer the required questions and tick both boxes.');
+    if (gap2) return say(gap2, false);
     var data = {};
     new FormData(form).forEach(function (v, k) { data[k] = String(v).trim(); });
     if (data.company_url) return;
