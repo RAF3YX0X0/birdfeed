@@ -2,6 +2,15 @@
    motion in fx/ind.js). They sit in the rebuilt sections' frame (.nx,
    nx.css): same tokens, tones and headings. */
 
+/* ---- The cloned industry page, emptied ------------------------------------------
+   Every section inside the old IndustryPage island is already hidden; the
+   sections above replace them. But the island's root div carries an inline
+   min-height: 100vh, so it still painted one full screen of empty grey between
+   the platforms section and Pricing, on all ten industry pages. Nothing inside
+   it shows, so it goes entirely. (Other pages' islands hold real content and
+   are untouched: this is scoped to IndustryPage.) */
+astro-island[component-export="IndustryPage"] { display: none !important; }
+
 /* ---- The hard part: three numbered columns ------------------------------------- */
 .ind-pains__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: clamp(40px, 5vw, 64px) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--nx-line); }
 .ind-pains__list li { padding: 34px 34px 6px; border-left: 1px solid var(--nx-line); }
