@@ -128,7 +128,8 @@ const cookies = page({
   <p>Cookies are small text files a website saves in your browser. Websites can also keep small pieces of information in your browser’s own storage (called local storage and session storage). Both let a site remember something between pages or visits.</p>
 
   <h2>What this website uses</h2>
-  <p>We use cookies for three things: to measure how the site is used, to measure the ads we run, and to run our live chat. Two of those — Google Analytics and the Meta Pixel — involve companies that can also recognise your browser on other websites. We don’t sell your information. The site additionally keeps a few small entries in your browser’s own storage so it works the way you’d expect; those stay on your device and aren’t sent to us.</p>
+  <p>We use cookies for three things: to measure how the site is used, to measure the ads we run, and to run our live chat. <strong>None of them are set until you agree.</strong> The first time you visit, you can accept or refuse each group, and if you refuse, those cookies are never set and the scripts behind them are never loaded. We don’t sell your information.</p>
+  <p>The site additionally keeps a few small entries in your browser’s own storage so it works the way you’d expect. Those are needed to make the site work, they stay on your device, and they aren’t sent to us.</p>
   <table class="st-table">
     <thead><tr><th>Name</th><th>Type</th><th>What it’s for</th><th>How long</th></tr></thead>
     <tbody>
@@ -141,24 +142,29 @@ const cookies = page({
     </tbody>
   </table>
 
+  <h2>Your choice</h2>
+  <p>On your first visit you’ll see a banner with <strong>Accept all</strong> and <strong>Reject all</strong> side by side, and a <strong>Manage</strong> option for choosing group by group. Refusing is exactly as easy as accepting, and closing the banner without choosing is not treated as agreement — the cookies simply stay off.</p>
+  <p>To change or withdraw your choice later, use the <strong>Cookie settings</strong> link in the footer of any page. If you turn something off that was previously on, we delete the cookies we can identify and reload the page so the scripts behind them stop running.</p>
+  <p>Your choice is remembered in your browser, with the date you made it. It applies to that browser on that device, so you’ll be asked again on a different one, or if you clear your site data.</p>
+
   <h2>Measuring how the site is used</h2>
-  <p>We use <strong>Google Analytics 4</strong>. It sets cookies (names beginning <code>_ga</code>) that last up to two years and give each browser a random identifier, so we can tell a returning visit from a new one. It records the pages you view, roughly where in the world you are, the device and browser you use, and the site or advertisement that sent you here.</p>
+  <p>With your agreement, we use <strong>Google Analytics 4</strong>. It sets cookies (names beginning <code>_ga</code>) that last up to two years and give each browser a random identifier, so we can tell a returning visit from a new one. It records the pages you view, roughly where in the world you are, the device and browser you use, and the site or advertisement that sent you here.</p>
   <p>We use it to see which pages are useful and which of our campaigns bring people to the site. We don’t use it to identify you, and we don’t sell or share this information for advertising. Google processes it on our behalf and shortens your IP address.</p>
   <p>You can opt out for every site you visit with <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google’s browser add-on</a>, or block cookies for this site using the browser settings described below. Nothing on the site stops working if you do.</p>
 
   <h2>Measuring the ads we run</h2>
-  <p>We advertise on Facebook and Instagram, and we use the <strong>Meta Pixel</strong> to see which of those ads lead to an application. It sets cookies — <code>_fbp</code>, which lasts about three months, and <code>_fbc</code> when you arrive here from one of our ads — and it tells Meta which pages of this site you looked at and whether you started or sent an application. If you’re signed in to Facebook or Instagram, Meta can connect that to your account.</p>
+  <p>With your agreement, and only then, we advertise on Facebook and Instagram using the <strong>Meta Pixel</strong> to see which of those ads lead to an application. It sets cookies — <code>_fbp</code>, which lasts about three months, and <code>_fbc</code> when you arrive here from one of our ads — and it tells Meta which pages of this site you looked at and whether you started or sent an application. If you’re signed in to Facebook or Instagram, Meta can connect that to your account.</p>
   <p>This is advertising technology: Meta can recognise your browser on other websites that use its tools, and it uses what it learns to decide who sees our ads. We don’t send Meta your name, email address or phone number, and we don’t sell your information.</p>
   <p>You can change what Meta uses in your <a href="https://www.facebook.com/adpreferences" target="_blank" rel="noopener">Facebook ad preferences</a>, or block cookies for this site using the browser settings described below. Nothing on the site stops working if you do.</p>
 
   <h2>Third-party services</h2>
 
-  <p>Our live chat is provided by <strong>Chatway</strong>. When the chat loads it sets cookies and keeps entries in your browser’s storage so a conversation stays open as you move between pages and is still there if you come back. Anything you type in the chat, and the name and email address you give there, is sent to Chatway and to us so we can reply. If you never open the chat we still load it, so its cookies may be set on any page. These are covered by Chatway’s own cookie and privacy policies.</p>
+  <p>Our live chat is provided by <strong>Chatway</strong>. When the chat loads it sets cookies and keeps entries in your browser’s storage so a conversation stays open as you move between pages and is still there if you come back. Anything you type in the chat, and the name and email address you give there, is sent to Chatway and to us so we can reply. We only load it if you’ve agreed to it; if you have, it loads on every page, and its cookies are set whether or not you open the chat. These are covered by Chatway’s own cookie and privacy policies.</p>
 
   <p>When you book a call on our <a href="/book-demo/">demo page</a>, the booking calendar is provided by Calendly. Calendly may set its own cookies to make the calendar work; these are covered by Calendly’s own cookie and privacy policies. Links to our Facebook page or to WhatsApp take you to those services, whose own policies then apply.</p>
 
   <h2>Controlling cookies and storage</h2>
-  <p>You can block or delete cookies and site storage in your browser’s settings at any time. Clearing this site’s data resets the entries above; the site will still work, and the intro and prompts may simply show again.</p>
+  <p>The <strong>Cookie settings</strong> link in the footer is the quickest way to change what this site uses. You can also block or delete cookies and site storage in your browser’s settings at any time. Clearing this site’s data resets the entries above; the site will still work, and the intro and prompts may simply show again.</p>
 
   <h2>Changes to this policy</h2>
   <p>If we add tools that use cookies, such as payments, we’ll update this page and the date above first.</p>

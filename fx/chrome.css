@@ -1212,43 +1212,135 @@ html.fx-hold .mm-help__btn:not(.is-open) { opacity: 0; transform: scale(0.8); po
 @keyframes fx-cal-shimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
 @keyframes fx-cal-spin { to { transform: rotate(360deg); } }
 
-/* ---- Cookie notice (fx/notice.js) -----------------------------------------------
-   Bottom-left, because Chatway's bubble owns the bottom-right corner. It states
-   what is set rather than gating anything: analytics load either way. */
-.mm-note {
+/* ---- Cookie consent (fx/consent.js) ---------------------------------------------
+   Bottom-left. Nothing is set until someone chooses here, so the banner has to
+   carry real weight: Accept all and Reject all are the same size, the same
+   colour and the same prominence, because under the EU and UK rules refusing
+   must be exactly as easy as accepting. */
+.mm-cb {
   position: fixed;
-  z-index: 60;
+  z-index: 70;
   left: 20px;
   bottom: 20px;
-  width: min(380px, calc(100vw - 40px));
+  width: min(420px, calc(100vw - 40px));
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.94);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.08), 0 20px 44px -24px rgba(20, 30, 70, 0.55);
+  padding: 18px 20px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.96);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.08), 0 24px 50px -26px rgba(20, 30, 70, 0.6);
   opacity: 0;
 }
-.mm-note__t { margin: 0; font: 400 13px/1.5 Satoshi, Satoshi Fallback, system-ui, sans-serif; color: #4B5563; }
-.mm-note__t a { color: #0066FF; text-decoration: underline; text-underline-offset: 2px; }
-.mm-note__x {
-  flex: none;
-  padding: 9px 16px;
-  border: 0;
+.mm-cb__t { margin: 0 0 14px; font: 400 13px/1.55 Satoshi, Satoshi Fallback, system-ui, sans-serif; color: #4B5563; }
+.mm-cb__t a { color: #0066FF; text-decoration: underline; text-underline-offset: 2px; }
+.mm-cb__acts { display: flex; align-items: center; gap: 8px; }
+.mm-cb__btn {
+  flex: 1 1 0;
+  padding: 10px 14px;
+  border: 1px solid #0A0A0A;
   border-radius: 999px;
   background: #0A0A0A;
   color: #fff;
   font: 600 13px/1 Satoshi, Satoshi Fallback, system-ui, sans-serif;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
-.mm-note__x:hover { background: #0066FF; }
-.mm-note__x:focus-visible { outline: 2px solid #0066FF; outline-offset: 3px; }
+.mm-cb__btn:hover { background: #0066FF; border-color: #0066FF; }
+.mm-cb__link {
+  flex: none;
+  padding: 10px 6px;
+  border: 0;
+  background: none;
+  color: #4B5563;
+  font: 500 13px/1 Satoshi, Satoshi Fallback, system-ui, sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.mm-cb__link:hover { color: #0A0A0A; }
+.mm-cb__btn:focus-visible, .mm-cb__link:focus-visible { outline: 2px solid #0066FF; outline-offset: 3px; }
 @media (max-width: 720px) {
-  .mm-note { left: 12px; right: 12px; bottom: 12px; width: auto; flex-wrap: wrap; gap: 10px; }
-  .mm-note__x { width: 100%; padding: 11px 16px; }
+  .mm-cb { left: 12px; right: 12px; bottom: 12px; width: auto; }
+  .mm-cb__acts { flex-wrap: wrap; }
+  .mm-cb__btn { flex: 1 1 140px; padding: 12px 14px; }
+  .mm-cb__link { width: 100%; padding: 4px 0 0; }
 }
+
+/* ---- The preferences panel ---------------------------------------------------- */
+.mm-cc-wrap { position: fixed; z-index: 90; inset: 0; display: grid; place-items: center; padding: 20px; }
+.mm-cc__scrim { position: absolute; inset: 0; background: rgba(10, 10, 10, 0.45); }
+html.mm-cc-open { overflow: hidden; }
+.mm-cc {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: min(680px, calc(100vh - 40px));
+  /* Only the list scrolls, so the buttons never fall below the fold. */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 24px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 30px 70px -30px rgba(10, 20, 50, 0.6);
+  opacity: 0;
+}
+.mm-cc__head { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.mm-cc__head h2 { margin: 0; font: 600 20px/1.2 Satoshi, Satoshi Fallback, system-ui, sans-serif; letter-spacing: -0.02em; color: #0A0A0A; }
+.mm-cc__close {
+  flex: none; width: 32px; height: 32px; border: 0; border-radius: 50%;
+  background: #F5F7FA; color: #4B5563; font-size: 20px; line-height: 1; cursor: pointer;
+}
+.mm-cc__close:hover { background: #E9EDF3; color: #0A0A0A; }
+.mm-cc__intro { flex: none; margin: 10px 0 14px; font: 400 13.5px/1.6 Satoshi, Satoshi Fallback, system-ui, sans-serif; color: #4B5563; }
+.mm-cc__intro a { color: #0066FF; text-decoration: underline; text-underline-offset: 2px; }
+.mm-cc__rows { display: block; flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.mm-cc__row { padding: 14px 0; border-top: 1px solid #E5E7EB; }
+.mm-cc__row-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.mm-cc__row-n { font: 600 14.5px/1.2 Satoshi, Satoshi Fallback, system-ui, sans-serif; color: #0A0A0A; }
+.mm-cc__row-d { margin: 8px 0 0 52px; font: 400 13px/1.6 Satoshi, Satoshi Fallback, system-ui, sans-serif; color: #6B7280; }
+.mm-cc__always { font: 600 11px/1 Satoshi, Satoshi Fallback, system-ui, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: #858C99; }
+
+/* The switch: a real checkbox, visually hidden but still the thing you tab to. */
+.mm-cc__sw { display: flex; align-items: center; gap: 14px; cursor: pointer; }
+.mm-cc__sw.is-locked { cursor: default; }
+.mm-cc__sw input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.mm-cc__sw-t {
+  flex: none; position: relative; width: 38px; height: 22px; border-radius: 999px;
+  background: #D4D9E2; transition: background-color 0.2s ease;
+}
+.mm-cc__sw-t::after {
+  content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+  border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(10, 10, 10, 0.25);
+  transition: transform 0.2s ease;
+}
+.mm-cc__sw input:checked + .mm-cc__sw-t { background: #0066FF; }
+.mm-cc__sw input:checked + .mm-cc__sw-t::after { transform: translateX(16px); }
+.mm-cc__sw input:disabled + .mm-cc__sw-t { background: #AEB6C4; }
+.mm-cc__sw input:focus-visible + .mm-cc__sw-t { outline: 2px solid #0066FF; outline-offset: 3px; }
+
+.mm-cc__acts { flex: none; display: flex; gap: 8px; margin-top: 18px; padding-top: 18px; border-top: 1px solid #E5E7EB; }
+.mm-cc__btn {
+  flex: 1 1 0; padding: 11px 14px; border-radius: 999px; cursor: pointer;
+  font: 600 13px/1 Satoshi, Satoshi Fallback, system-ui, sans-serif;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.mm-cc__btn--ghost { border: 1px solid #D4D9E2; background: #fff; color: #0A0A0A; }
+.mm-cc__btn--ghost:hover { border-color: #0A0A0A; }
+.mm-cc__btn--solid { border: 1px solid #0A0A0A; background: #0A0A0A; color: #fff; }
+.mm-cc__btn--solid:hover { background: #0066FF; border-color: #0066FF; }
+.mm-cc__btn:focus-visible, .mm-cc__close:focus-visible { outline: 2px solid #0066FF; outline-offset: 3px; }
+@media (max-width: 560px) {
+  .mm-cc { padding: 20px 18px; }
+  .mm-cc__row-d { margin-left: 0; }
+  .mm-cc__acts { flex-wrap: wrap; }
+  .mm-cc__btn { flex: 1 1 100%; padding: 12px 14px; }
+}
+
+/* The way back in: a footer link, so withdrawing is as easy as giving. */
+.mm-cc-open-btn {
+  padding: 0; border: 0; background: none; cursor: pointer;
+  color: inherit; font: inherit; text-decoration: none;
+}
+.mm-cc-open-btn:hover { text-decoration: underline; }

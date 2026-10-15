@@ -26,7 +26,7 @@ import { setupSkin } from './skin.js';
 import { swapSharedSections } from './shared.js';
 import { setupPageHero } from './ph.js';
 import { setupHelp } from './help.js';
-import { setupNotice } from './notice.js';
+import { setupConsent } from './consent.js';
 import { setupSections } from './sections.js';
 import { setupIndustry, wireBlocks } from './ind.js';
 import { startCal } from './cal.js';
@@ -223,8 +223,10 @@ function init() {
   // real conversation in the same corner, and two bubbles there looks broken.
   // fx/help.js is kept for now in case the client drops the chat tool.
   void setupHelp;
-  // The cookie notice, once the page is idle so it never delays first paint.
-  idle(() => setupNotice({ gsap: G, reduced }), { timeout: 3000 });
+  // The consent gate. Not deferred to idle like the old notice was: until
+  // someone chooses, analytics and advertising are held back, so the sooner
+  // the choice is in front of them the sooner anything can be measured.
+  setupConsent({ gsap: G, reduced });
   if ('ResizeObserver' in window) new ResizeObserver(scheduleRefresh).observe(document.body);
 
   ST.sort();

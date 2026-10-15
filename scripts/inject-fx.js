@@ -165,45 +165,46 @@ function industryFor(file) {
   return slug && fs.existsSync(f('top')) ? { top: fs.readFileSync(f('top'), 'utf8').trim(), bottom: fs.readFileSync(f('bottom'), 'utf8').trim() } : null;
 }
 
-// Google Analytics 4. One place to change the property: set GA4_ID to '' and
-// the tag stops being emitted everywhere. gtag.js loads async so it never
-// blocks first paint. The landing page's own events (cta_click,
-// application_start/step/submit in scripts/build-landing.js) are forwarded
-// through gtag, so they arrive as GA4 events once this is present.
+// ---- Consent, and the three things that hang off it ---------------------
 //
-// It loads for everyone: the cookie notice (fx/notice.js) says what is set
-// rather than gating it, which is what the policies now describe. If the
-// client ever advertises into the EU or UK this has to become real consent —
-// GA4 held back until someone accepts — and the policies have to change too.
+// Nothing non-essential loads until someone has chosen. That is what makes
+// the site safe to advertise into the EU and UK: analytics and advertising
+// cookies need prior consent there, Accept and Reject have to be equally
+// easy, and withdrawing has to be as easy as giving. fx/consent.js is the
+// banner and the preferences panel; this is the part that must run in the
+// head, because by the time a deferred bundle executes a tag would already
+// have set its cookies.
+//
+// GA4 uses Google Consent Mode v2 and loads either way, with every storage
+// type denied until consent. Denied means no cookies and no identifiers:
+// Google receives a cookieless ping it uses for modelling, and running
+// Google Ads in the EEA requires exactly that signal. The Meta Pixel has no
+// equivalent, so it is not loaded at all without marketing consent - and
+// nor is the live chat, which sets cookies on every page whether or not
+// anyone opens it.
+//
+// The pixel's <noscript> fallback is deliberately gone: an <img> beacon
+// cannot be held back, so it would have fired before anyone chose.
 const GA4_ID = 'G-HMM8SZ7256';
+
+// Meta Pixel. Set PIXEL_ID to '' and it is never emitted. Advanced Matching
+// is deliberately not set up: it would send hashed applicant emails and
+// phone numbers to Meta, which is the client's call, not a default.
+const PIXEL_ID = '';
+
+// Chatway: the client's live chat, behind the functional category.
+const CHAT_ID = '8bh1V9f8M3a7';
+
+const PIXEL_LOAD = !PIXEL_ID ? '' : `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${PIXEL_ID}');fbq('track','PageView');`;
+const CHAT_LOAD = !CHAT_ID ? '' : `var c=document.createElement('script');c.id='chatway';c.async=true;c.src='https://cdn.chatway.app/widget.js?id=${CHAT_ID}';document.head.appendChild(c);`;
+
+const CONSENT = `<script>(function(){var K='mm-consent-v1',C={analytics:false,marketing:false,functional:false,set:false};try{var r=localStorage.getItem(K);if(r){var p=JSON.parse(r);if(p&&p.v===1){C.analytics=!!p.analytics;C.marketing=!!p.marketing;C.functional=!!p.functional;C.ts=p.ts;C.set=true}}}catch(e){}window.__mmConsent=C;window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;var g=function(b){return b?'granted':'denied'};gtag('consent','default',{ad_storage:g(C.marketing),ad_user_data:g(C.marketing),ad_personalization:g(C.marketing),analytics_storage:g(C.analytics),functionality_storage:g(C.functional),personalization_storage:'denied',security_storage:'granted',wait_for_update:500});var done={};window.__mmLoad=function(k){if(done[k])return;done[k]=1;try{if(k==='marketing'){${PIXEL_LOAD}}else if(k==='functional'){${CHAT_LOAD}}}catch(e){}};if(C.marketing)window.__mmLoad('marketing');if(C.functional)window.__mmLoad('functional');})();</script>`;
+
 const GA4 = !GA4_ID ? '' : [
   `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>`,
-  `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${GA4_ID}');</script>`,
+  // gtag and the consent defaults are already set up by CONSENT above.
+  `<script>gtag('js',new Date());gtag('config','${GA4_ID}');</script>`,
 ].join('');
-
-// Meta Pixel. Same shape as GA4: one constant, and setting PIXEL_ID to ''
-// stops it being emitted everywhere. This one is an advertising tracker,
-// not analytics - it follows people across sites. That is the point of it,
-// and the reason both policies had to change before it went live.
-//
-// PageView comes from the base code below. The landing page's own events
-// reach it through scripts/build-landing.js: application_submit becomes
-// Meta's standard Lead, and the rest go as custom events, which is the
-// upper-funnel signal a low-volume lead campaign needs to optimise on.
-//
-// Advanced Matching is deliberately not set up: it would send hashed
-// applicant emails and phone numbers to Meta, which is the client's call,
-// not something to switch on by default.
-const PIXEL_ID = '';
-const PIXEL = !PIXEL_ID ? '' : [
-  `<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${PIXEL_ID}');fbq('track','PageView');</script>`,
-  `<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1"></noscript>`,
-].join('');
-
-// Chatway: the client's live chat. It replaces the help launcher we used to
-// add (fx/help.js), which was only a menu of links with nobody behind it. The
-// script is public by design — it is on every page of the site.
-const CHAT = '<script id="chatway" async="true" src="https://cdn.chatway.app/widget.js?id=8bh1V9f8M3a7"></script>';
 
 function block(home, shared, hero, nx, ind) {
   const css = [
@@ -233,9 +234,8 @@ function block(home, shared, hero, nx, ind) {
       ...manifest.eager.map((c) => `<link rel="modulepreload" href="${c}">`),
       `<script type="module" src="${manifest.js}"></script>`,
       SPECULATION,
+      CONSENT,
       GA4,
-      PIXEL,
-      CHAT,
       END,
     ].join('\n');
   }
@@ -248,9 +248,8 @@ function block(home, shared, hero, nx, ind) {
     '<script src="/fx/vendor/ScrollTrigger.min.js" defer></script>',
     '<script src="/fx/vendor/lenis.min.js" defer></script>',
     '<script type="module" src="/fx/fx.js"></script>',
+    CONSENT,
     GA4,
-    PIXEL,
-    CHAT,
     END,
   ].join('\n');
 }
