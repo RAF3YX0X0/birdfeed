@@ -12,7 +12,10 @@
 //     because the exports cover windows of different lengths.
 //   - Totals from separate screenshots are never added together: they may be
 //     the same account over overlapping windows.
-//   - Currencies are kept as the export shows them (AED/dh, USD, GBP, PKR).
+//   - Currencies are kept as the export shows them (AED, USD, GBP, PKR). The
+//     AED exports print the symbol as 'dh'; we label it AED, because 'dh' is
+//     the conventional abbreviation for the Moroccan dirham and this is a UAE
+//     account. Only the label changed, never a figure.
 //   - Accounts the client hasn't cleared by name stay anonymous; the named
 //     ones (Smart Cities UAE, The Gentry House) are published case studies.
 //
@@ -30,7 +33,7 @@ const ADS = {
   lede: 'Search campaigns rebuilt around intent: themed ad groups, negative keywords, tested ad copy and landing pages that can actually convert the clicks.',
   // Account A: the Google Ads case study. The "before" window covers years of
   // earlier spend and the "after" two months, so only the two rate metrics are
-  // compared. Conversions (836 vs 141.50) and spend (dh67.2K vs dh3.14K) are
+  // compared. Conversions (836 vs 141.50) and spend (AED 67.2K vs AED 3.14K) are
   // deliberately left out: those windows aren't the same length.
   charts: [
     {
@@ -48,7 +51,7 @@ const ADS = {
       kind: 'delta',
       title: 'Cost per conversion, same account',
       note: 'Before, then after two months',
-      unit: 'dh',
+      unit: 'AED',
       fmt: 'money',
       better: 'down',
       rows: [['Before', 78.05], ['After', 22.21]],
@@ -59,11 +62,11 @@ const ADS = {
       kind: 'delta',
       title: 'Cost per conversion, a second account',
       note: 'Sep 12 – Dec 12 2024, then Dec 13 2024 – Feb 13 2025',
-      unit: 'dh',
+      unit: 'AED',
       fmt: 'money',
       better: 'down',
       rows: [['Before', 522], ['After', 51.45]],
-      caption: 'Conversions went from 22 to 256 across the two windows, on dh11.5K then dh13.2K of spend.',
+      caption: 'Conversions went from 22 to 256 across the two windows, on AED 11.5K then AED 13.2K of spend.',
       source: `${SOURCE_ADS} (AED account)`,
     },
   ],

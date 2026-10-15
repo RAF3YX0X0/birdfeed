@@ -10,7 +10,9 @@ function show(v, fmt, unit) {
   if (fmt === 'pct') return `${v % 1 ? v.toFixed(2) : v.toFixed(1)}%`;
   if (fmt === 'money') {
     const n = v >= 1000 ? fmtNum(Math.round(v)) : v.toFixed(2).replace(/\.00$/, '');
-    return unit === 'Rs' ? `Rs ${n}` : `${unit}${n}`;
+    // A unit spelled with letters is a word and needs a space (AED 78.05,
+    // Rs 134,143); a symbol does not (14.45%).
+    return /^[A-Za-z]/.test(unit) ? `${unit} ${n}` : `${unit}${n}`;
   }
   return fmtNum(Math.round(v));
 }
