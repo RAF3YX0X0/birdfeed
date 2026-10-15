@@ -337,7 +337,7 @@
   align-items: start;
   max-width: 1232px;
   margin: 0 auto;
-  padding: 40px 24px 120px;
+  padding: 84px 24px 120px;
 }
 .fq__side { position: sticky; top: 110px; }
 .fq__sub { margin: 16px 0 0; max-width: 380px; font-size: 17px; line-height: 1.55; color: #4B5563; }
@@ -485,7 +485,11 @@ html:not(.fx) .rv-vid { position: relative; left: auto; margin: 0; flex: none; }
 .ct ~ astro-island[component-export="FBHomeBottom"] > div > section { display: none !important; }
 
 /* ---- Client roster (in place of the reviews reel; scripts/build-work.js) ---------------- */
-.rv-cl { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; max-width: 1240px; margin: 44px auto 0; padding: 0 24px; list-style: none; box-sizing: border-box; }
+/* The bottom padding is room for the cards' shadow, not spacing: .rv clips its
+   overflow, and the last row sat flush on that edge, so its shadow was cut off
+   (homepage and /about/). 56px covers the hover state too, which lifts the
+   card 4px and throws a 30px/60px shadow. */
+.rv-cl { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; max-width: 1240px; margin: 44px auto 0; padding: 0 24px 56px; list-style: none; box-sizing: border-box; }
 .rv-cl li { display: flex; }
 .rv-cl__card { display: flex; flex-direction: column; gap: 6px; width: 100%; padding: 22px 22px 18px; box-sizing: border-box; border-radius: 24px; background: #fff; box-shadow: 0 0 0 1px #E5E7EB, 0 24px 48px -36px rgba(16, 24, 40, 0.45); color: #0A0A0A; text-decoration: none; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease; }
 .rv-cl__card:hover { transform: translateY(-4px); box-shadow: 0 0 0 1px #0066FF, 0 30px 60px -36px rgba(0, 102, 255, 0.45); }
@@ -504,4 +508,4 @@ html:not(.fx) .rv-vid { position: relative; left: auto; margin: 0; flex: none; }
 .rv-cl__card.is-featured .rv-cl__go { color: #fff; }
 .rv-cl__go i { display: inline-block; font-style: normal; transition: transform 0.3s ease; }
 .rv-cl__card:hover .rv-cl__go i { transform: translateX(4px); }
-@media (max-width: 720px) { .rv-cl { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; padding: 0 16px; } .rv-cl__card { padding: 16px 14px 14px; border-radius: 18px; } .rv-cl__name { font-size: 17px; } .rv-cl__fig b { font-size: 22px; } .rv-cl__svc { display: none; } }
+@media (max-width: 720px) { .rv-cl { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; padding: 0 16px 56px; } .rv-cl__card { padding: 16px 14px 14px; border-radius: 18px; } .rv-cl__name { font-size: 17px; } .rv-cl__fig b { font-size: 22px; } .rv-cl__svc { display: none; } }
