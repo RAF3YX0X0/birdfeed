@@ -202,7 +202,7 @@ function seo(html) {
         o.email = 'hello@madmediamarketing.com';
         o.telephone = '+1-636-369-2742';
         o.address = { '@type': 'PostalAddress', streetAddress: '2055 Craigshire Dr', addressLocality: 'St. Louis', addressRegion: 'MO', postalCode: '63146', addressCountry: 'US' };
-        o.sameAs = ['https://www.facebook.com/getmadmarketing/'];
+        o.sameAs = ['https://www.facebook.com/getmadmarketing/', 'https://www.instagram.com/getmad_marketing/'];
         o.contactPoint = { '@type': 'ContactPoint', contactType: 'customer service', email: 'hello@madmediamarketing.com', telephone: '+1-636-369-2742', availableLanguage: 'English', hoursAvailable: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], opens: '00:00', closes: '23:59' } };
       }
       Object.values(o).forEach(fix);
