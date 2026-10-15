@@ -787,8 +787,9 @@ function landingClient(EMAIL) {
   d.addEventListener('click', function (e) {
     var a = e.target.closest('a[data-lp-cta], a[href^="#"]');
     if (!a) return;
-    // Track first: the Book a Demo buttons leave the page, and the hit has to
-    // be away before the browser navigates.
+    // Off-page CTAs report too. GA4 queues events after the first one and
+    // flushes the queue as the page hides, with a keepalive fetch that
+    // outlives the navigation. Verified against the live site.
     if (a.dataset.lpCta) track('cta_click', { cta: a.dataset.lpCta });
     var href = a.getAttribute('href') || '';
     if (href.charAt(0) !== '#') return; // Off-page CTA: let the browser follow it.
