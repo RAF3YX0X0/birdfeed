@@ -983,13 +983,17 @@ html[data-fx-landing] .mm-help__btn{bottom:84px}
 
   // In-page links: the site's smooth scroll if it's running, else the browser's.
   d.addEventListener('click', function (e) {
-    var a = e.target.closest('a[href^="#"]');
+    var a = e.target.closest('a[data-lp-cta], a[href^="#"]');
     if (!a) return;
-    var id = a.getAttribute('href').slice(1);
+    // Track first: the Book a Demo buttons leave the page, and the hit has to
+    // be away before the browser navigates.
+    if (a.dataset.lpCta) track('cta_click', { cta: a.dataset.lpCta });
+    var href = a.getAttribute('href') || '';
+    if (href.charAt(0) !== '#') return; // Off-page CTA: let the browser follow it.
+    var id = href.slice(1);
     var el = id ? d.getElementById(id) : null;
     if (!el) return;
     e.preventDefault();
-    if (a.dataset.lpCta) track('cta_click', { cta: a.dataset.lpCta });
     var y = el.getBoundingClientRect().top + window.scrollY - (id === 'top' ? 9999 : 76);
     if (window.__fxLenis) window.__fxLenis.scrollTo(Math.max(0, y));
     else window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
