@@ -165,6 +165,21 @@ function industryFor(file) {
   return slug && fs.existsSync(f('top')) ? { top: fs.readFileSync(f('top'), 'utf8').trim(), bottom: fs.readFileSync(f('bottom'), 'utf8').trim() } : null;
 }
 
+// Google Analytics 4. One place to change the property: set GA4_ID to '' and
+// the tag stops being emitted everywhere. gtag.js loads async so it never
+// blocks first paint, and the landing page's existing dataLayer events
+// (scripts/build-landing.js) start reporting the moment this is present.
+//
+// It loads for everyone: the cookie notice (fx/notice.js) says what is set
+// rather than gating it, which is what the policies now describe. If the
+// client ever advertises into the EU or UK this has to become real consent —
+// GA4 held back until someone accepts — and the policies have to change too.
+const GA4_ID = 'G-HMM8SZ7256';
+const GA4 = !GA4_ID ? '' : [
+  `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>`,
+  `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${GA4_ID}');</script>`,
+].join('');
+
 // Chatway: the client's live chat. It replaces the help launcher we used to
 // add (fx/help.js), which was only a menu of links with nobody behind it. The
 // script is public by design — it is on every page of the site.
@@ -198,6 +213,7 @@ function block(home, shared, hero, nx, ind) {
       ...manifest.eager.map((c) => `<link rel="modulepreload" href="${c}">`),
       `<script type="module" src="${manifest.js}"></script>`,
       SPECULATION,
+      GA4,
       CHAT,
       END,
     ].join('\n');
@@ -211,6 +227,7 @@ function block(home, shared, hero, nx, ind) {
     '<script src="/fx/vendor/ScrollTrigger.min.js" defer></script>',
     '<script src="/fx/vendor/lenis.min.js" defer></script>',
     '<script type="module" src="/fx/fx.js"></script>',
+    GA4,
     CHAT,
     END,
   ].join('\n');

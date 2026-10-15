@@ -127,7 +127,7 @@ const cookies = page({
   <p>Cookies are small text files a website saves in your browser. Websites can also keep small pieces of information in your browser’s own storage (called local storage and session storage). Both let a site remember something between pages or visits.</p>
 
   <h2>What this website uses</h2>
-  <p>We don’t use advertising or analytics cookies, and we don’t track you across other websites. The site keeps a few small entries in your browser’s storage so it works the way you’d expect. They stay on your device and aren’t sent to us. The one exception is our live chat, described below, which sets cookies of its own.</p>
+  <p>We use cookies for two things: to measure how the site is used, and to run our live chat. We don’t use advertising cookies and we don’t track you across other websites. The site also keeps a few small entries in your browser’s own storage so it works the way you’d expect; those stay on your device and aren’t sent to us.</p>
   <table class="st-table">
     <thead><tr><th>Name</th><th>Type</th><th>What it’s for</th><th>How long</th></tr></thead>
     <tbody>
@@ -138,6 +138,11 @@ const cookies = page({
   </table>
 
   <h2>Third-party services</h2>
+  <h2>Measuring how the site is used</h2>
+  <p>We use <strong>Google Analytics 4</strong>. It sets cookies (names beginning <code>_ga</code>) that last up to two years and give each browser a random identifier, so we can tell a returning visit from a new one. It records the pages you view, roughly where in the world you are, the device and browser you use, and the site or advertisement that sent you here.</p>
+  <p>We use it to see which pages are useful and which of our campaigns bring people to the site. We don’t use it to identify you, and we don’t sell or share this information for advertising. Google processes it on our behalf and shortens your IP address.</p>
+  <p>You can opt out for every site you visit with <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google’s browser add-on</a>, or block cookies for this site using the browser settings described below. Nothing on the site stops working if you do.</p>
+
   <p>Our live chat is provided by <strong>Chatway</strong>. When the chat loads it sets cookies and keeps entries in your browser’s storage so a conversation stays open as you move between pages and is still there if you come back. Anything you type in the chat, and the name and email address you give there, is sent to Chatway and to us so we can reply. If you never open the chat we still load it, so its cookies may be set on any page. These are covered by Chatway’s own cookie and privacy policies.</p>
 
   <p>When you book a call on our <a href="/book-demo/">demo page</a>, the booking calendar is provided by Calendly. Calendly may set its own cookies to make the calendar work; these are covered by Calendly’s own cookie and privacy policies. Links to our Facebook page or to WhatsApp take you to those services, whose own policies then apply.</p>

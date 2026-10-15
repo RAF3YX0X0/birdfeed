@@ -1211,3 +1211,44 @@ html.fx-hold .mm-help__btn:not(.is-open) { opacity: 0; transform: scale(0.8); po
 }
 @keyframes fx-cal-shimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
 @keyframes fx-cal-spin { to { transform: rotate(360deg); } }
+
+/* ---- Cookie notice (fx/notice.js) -----------------------------------------------
+   Bottom-left, because Chatway's bubble owns the bottom-right corner. It states
+   what is set rather than gating anything: analytics load either way. */
+.mm-note {
+  position: fixed;
+  z-index: 60;
+  left: 20px;
+  bottom: 20px;
+  width: min(380px, calc(100vw - 40px));
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 0 1px rgba(10, 10, 10, 0.08), 0 20px 44px -24px rgba(20, 30, 70, 0.55);
+  opacity: 0;
+}
+.mm-note__t { margin: 0; font: 400 13px/1.5 Satoshi, Satoshi Fallback, system-ui, sans-serif; color: #4B5563; }
+.mm-note__t a { color: #0066FF; text-decoration: underline; text-underline-offset: 2px; }
+.mm-note__x {
+  flex: none;
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #0A0A0A;
+  color: #fff;
+  font: 600 13px/1 Satoshi, Satoshi Fallback, system-ui, sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.mm-note__x:hover { background: #0066FF; }
+.mm-note__x:focus-visible { outline: 2px solid #0066FF; outline-offset: 3px; }
+@media (max-width: 720px) {
+  .mm-note { left: 12px; right: 12px; bottom: 12px; width: auto; flex-wrap: wrap; gap: 10px; }
+  .mm-note__x { width: 100%; padding: 11px 16px; }
+}
