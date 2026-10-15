@@ -62,9 +62,10 @@ body { margin: 0; background: #F5F7FA; color: #0A0A0A; font-family: Satoshi, Sat
 <script>(function(){var e=document.documentElement,t=!1;try{t=window.matchMedia("(prefers-reduced-motion: reduce)").matches}catch(n){}if(e.classList.add("fx"),setTimeout(function(){document.getElementById("fx-nx")&&!document.querySelector("section.nx")&&e.classList.add("fx-nx-off")},12e3),t){e.classList.add("fx-reduced");return}var s=!1;try{s=sessionStorage.getItem("fx-seen")==="1",sessionStorage.setItem("fx-seen","1"),sessionStorage.removeItem("fx-nav")}catch(n){}s||e.hasAttribute("data-fx-landing")||(e.classList.add("fx-cover","fx-from-load"),setTimeout(function(){e.classList.remove("fx-cover")},4e3))})();</script>
 <script src="/fx/dist/vendor-08d55cd6d3.js" defer></script>
 <link rel="modulepreload" href="/fx/dist/c-VHNSBD2M.js">
-<script type="module" src="/fx/dist/fx-A42TTQTC.js"></script>
+<script type="module" src="/fx/dist/fx-5OZFXE7F.js"></script>
 <script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/login/*"}},{"not":{"selector_matches":"[target=_blank], [download]"}}]},"eagerness":"moderate"}]}</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HMM8SZ7256"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-HMM8SZ7256');</script>
+
 <script id="chatway" async="true" src="https://cdn.chatway.app/widget.js?id=8bh1V9f8M3a7"></script>
 <!-- fx:end -->
 </head>
@@ -144,21 +145,30 @@ body { margin: 0; background: #F5F7FA; color: #0A0A0A; font-family: Satoshi, Sat
   <p>Cookies are small text files a website saves in your browser. Websites can also keep small pieces of information in your browser’s own storage (called local storage and session storage). Both let a site remember something between pages or visits.</p>
 
   <h2>What this website uses</h2>
-  <p>We use cookies for two things: to measure how the site is used, and to run our live chat. We don’t use advertising cookies and we don’t track you across other websites. The site also keeps a few small entries in your browser’s own storage so it works the way you’d expect; those stay on your device and aren’t sent to us.</p>
+  <p>We use cookies for three things: to measure how the site is used, to measure the ads we run, and to run our live chat. Two of those — Google Analytics and the Meta Pixel — involve companies that can also recognise your browser on other websites. We don’t sell your information. The site additionally keeps a few small entries in your browser’s own storage so it works the way you’d expect; those stay on your device and aren’t sent to us.</p>
   <table class="st-table">
     <thead><tr><th>Name</th><th>Type</th><th>What it’s for</th><th>How long</th></tr></thead>
     <tbody>
+      <tr><td><code>_ga</code>, <code>_ga_HMM8SZ7256</code></td><td>Cookie (Google Analytics)</td><td>Give your browser a random identifier so we can tell a returning visit from a new one, and count visits per page.</td><td>Up to 2 years</td></tr>
+      <tr><td><code>_fbp</code></td><td>Cookie (Meta Pixel)</td><td>Lets Meta recognise your browser, so we can see which of our Facebook and Instagram ads lead to an application.</td><td>About 3 months</td></tr>
+      <tr><td><code>_fbc</code></td><td>Cookie (Meta Pixel)</td><td>Records which of our ads you clicked, when you arrive here from one. Only set in that case.</td><td>About 3 months</td></tr>
       <tr><td><code>fx-seen</code></td><td>Session storage</td><td>Remembers that you’ve already seen the short intro animation, so it only plays on the first page of your visit.</td><td>Until you close the tab</td></tr>
       <tr><td><code>fb_demo_popup</code></td><td>Local storage</td><td>Remembers that you closed the “book a demo” prompt, so it doesn’t keep coming back.</td><td>Until you clear it</td></tr>
       <tr><td><code>fb_price_email</code>, <code>fb_exit_quote</code></td><td>Local storage</td><td>Remember whether you’ve already seen or used the offer to email you your plan’s price, so it isn’t shown again.</td><td>Until you clear it</td></tr>
     </tbody>
   </table>
 
-  <h2>Third-party services</h2>
   <h2>Measuring how the site is used</h2>
   <p>We use <strong>Google Analytics 4</strong>. It sets cookies (names beginning <code>_ga</code>) that last up to two years and give each browser a random identifier, so we can tell a returning visit from a new one. It records the pages you view, roughly where in the world you are, the device and browser you use, and the site or advertisement that sent you here.</p>
   <p>We use it to see which pages are useful and which of our campaigns bring people to the site. We don’t use it to identify you, and we don’t sell or share this information for advertising. Google processes it on our behalf and shortens your IP address.</p>
   <p>You can opt out for every site you visit with <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google’s browser add-on</a>, or block cookies for this site using the browser settings described below. Nothing on the site stops working if you do.</p>
+
+  <h2>Measuring the ads we run</h2>
+  <p>We advertise on Facebook and Instagram, and we use the <strong>Meta Pixel</strong> to see which of those ads lead to an application. It sets cookies — <code>_fbp</code>, which lasts about three months, and <code>_fbc</code> when you arrive here from one of our ads — and it tells Meta which pages of this site you looked at and whether you started or sent an application. If you’re signed in to Facebook or Instagram, Meta can connect that to your account.</p>
+  <p>This is advertising technology: Meta can recognise your browser on other websites that use its tools, and it uses what it learns to decide who sees our ads. We don’t send Meta your name, email address or phone number, and we don’t sell your information.</p>
+  <p>You can change what Meta uses in your <a href="https://www.facebook.com/adpreferences" target="_blank" rel="noopener">Facebook ad preferences</a>, or block cookies for this site using the browser settings described below. Nothing on the site stops working if you do.</p>
+
+  <h2>Third-party services</h2>
 
   <p>Our live chat is provided by <strong>Chatway</strong>. When the chat loads it sets cookies and keeps entries in your browser’s storage so a conversation stays open as you move between pages and is still there if you come back. Anything you type in the chat, and the name and email address you give there, is sent to Chatway and to us so we can reply. If you never open the chat we still load it, so its cookies may be set on any page. These are covered by Chatway’s own cookie and privacy policies.</p>
 
@@ -168,7 +178,7 @@ body { margin: 0; background: #F5F7FA; color: #0A0A0A; font-family: Satoshi, Sat
   <p>You can block or delete cookies and site storage in your browser’s settings at any time. Clearing this site’s data resets the entries above; the site will still work, and the intro and prompts may simply show again.</p>
 
   <h2>Changes to this policy</h2>
-  <p>If we add tools that use cookies, such as analytics or payments, we’ll update this page and the date above first.</p>
+  <p>If we add tools that use cookies, such as payments, we’ll update this page and the date above first.</p>
 
   <h2>Contact us</h2>
   <p>Questions about this policy? Email <a href="mailto:hello@madmediamarketing.com">hello@madmediamarketing.com</a>, or write to MadMarketing, 2055 Craigshire Dr, St. Louis, MO 63146, United States.</p>

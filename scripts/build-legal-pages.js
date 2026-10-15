@@ -124,7 +124,7 @@ const REFUND = [
 
 // ---- Privacy Policy (from what the site actually collects: the challenge application
 // form and api/free-local-seo.js, the Calendly booking embed, email/phone/WhatsApp
-// links, a few browser-storage entries (see /cookie-policy/); no analytics or advertising tools installed) ----
+// links, a few browser-storage entries (see /cookie-policy/), Google Analytics and the Meta Pixel) ----
 const PRIVACY = [
   ['1. Who we are', [
     `This policy explains how MADMarketing (“we”, “us”) collects and uses personal information through this website and when we work with your business. You can reach us at [${EMAIL}](mailto:${EMAIL}) or ${ADDRESS}.`,
@@ -136,16 +136,16 @@ const PRIVACY = [
     'Our website host processes standard technical information, such as your IP address and browser details, to deliver pages and protect the site. Our application form also uses your IP address briefly to limit repeated submissions.',
     'The login page doesn’t send the email address you type anywhere: online sign-in isn’t open yet.',
   ], 'We collect what you put in the application, how you found us, and what you send us.'],
-  ['3. Cookies, analytics and storage', [
+  ['3. Cookies, analytics and advertising', [
     'We use Google Analytics to understand how this site is used — which pages people read, how they arrived, and which devices they use. It sets cookies and gives Google a record of your visit, including a shortened form of your IP address. We use it to improve the site and to see which of our campaigns bring people here; we don’t use it to identify you personally. Our live chat, provided by Chatway, sets its own cookies so a conversation continues between pages, and it keeps whatever you type in it. The site also keeps a few small entries in your browser’s own storage so it works the way you’d expect, for example so the opening animation plays only once per visit; those stay on your device. Our [Cookie Policy](/cookie-policy/) lists all of them, and explains how to turn them off.',
-    'If we add advertising tools such as the Meta Pixel to measure our ads, we’ll update this policy and the Cookie Policy before they go live.',
-  ], 'We measure how the site is used with Google Analytics. We don’t sell or share it for advertising.'],
+    'We also use the Meta Pixel, because we advertise on Facebook and Instagram and need to know which of those ads lead to an application. It sets its own cookies and tells Meta which pages you looked at here and whether you started or sent an application. If you’re signed in to Facebook or Instagram, Meta can connect that to your account, and it uses what it learns to decide who sees our ads. We don’t send Meta your name, email address or phone number, and we don’t sell your information. Our [Cookie Policy](/cookie-policy/) explains how to turn it off.',
+  ], 'Google Analytics tells us how the site is used, and the Meta Pixel tells us which of our ads work. We don’t sell your information.'],
   ['4. How we use your information', [
     'To review your application and its eligibility, contact you about it and send you a confirmation; to answer your questions and arrange calls; to deliver the services we agree with you; to understand which of our campaigns bring in applications; and to keep the site secure and meet our legal obligations.',
     'We contact you about your application because you asked us to. Any other follow-up messages, by email or SMS, are permission-based, and you can opt out at any time.',
   ], 'We use it to handle your application, talk to you and do the work.'],
   ['5. Who we share it with', [
-    'We don’t sell your personal information. We share it only with the services that help us run our business: our website host, the email delivery and CRM tools we use to receive and follow up on applications, Calendly for booking calls, Chatway for the live chat, and Google Analytics for the site measurement described above. They may use it only to provide their service to us.',
+    'We don’t sell your personal information. We share it only with the services that help us run our business: our website host, the email delivery and CRM tools we use to receive and follow up on applications, Calendly for booking calls, Chatway for the live chat, Google Analytics for the site measurement described above, and Meta for the advertising measurement described above. They may use it only to provide their service to us.',
     'We may also disclose information when the law requires it, or to protect our rights and the safety of others.',
   ], 'We never sell your information.'],
   ['6. Your business accounts', [

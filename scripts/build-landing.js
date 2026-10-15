@@ -779,7 +779,14 @@ function landingClient(EMAIL) {
         // key event in the property without a custom definition.
         if (event === 'application_submit') window.gtag('event', 'generate_lead');
       }
-      if (event === 'application_submit' && typeof window.fbq === 'function') window.fbq('track', 'Lead');
+      if (typeof window.fbq === 'function') {
+        // Lead is one of Meta's standard events, so campaigns can optimise
+        // for it directly. The rest are custom: lower in value but higher
+        // in volume, which is what Meta needs to learn from a small
+        // number of applications a month.
+        if (event === 'application_submit') window.fbq('track', 'Lead', extra || {});
+        else window.fbq('trackCustom', event, extra || {});
+      }
     } catch (e) {}
   };
 

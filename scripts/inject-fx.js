@@ -181,6 +181,25 @@ const GA4 = !GA4_ID ? '' : [
   `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${GA4_ID}');</script>`,
 ].join('');
 
+// Meta Pixel. Same shape as GA4: one constant, and setting PIXEL_ID to ''
+// stops it being emitted everywhere. This one is an advertising tracker,
+// not analytics - it follows people across sites. That is the point of it,
+// and the reason both policies had to change before it went live.
+//
+// PageView comes from the base code below. The landing page's own events
+// reach it through scripts/build-landing.js: application_submit becomes
+// Meta's standard Lead, and the rest go as custom events, which is the
+// upper-funnel signal a low-volume lead campaign needs to optimise on.
+//
+// Advanced Matching is deliberately not set up: it would send hashed
+// applicant emails and phone numbers to Meta, which is the client's call,
+// not something to switch on by default.
+const PIXEL_ID = '';
+const PIXEL = !PIXEL_ID ? '' : [
+  `<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${PIXEL_ID}');fbq('track','PageView');</script>`,
+  `<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1"></noscript>`,
+].join('');
+
 // Chatway: the client's live chat. It replaces the help launcher we used to
 // add (fx/help.js), which was only a menu of links with nobody behind it. The
 // script is public by design — it is on every page of the site.
@@ -215,6 +234,7 @@ function block(home, shared, hero, nx, ind) {
       `<script type="module" src="${manifest.js}"></script>`,
       SPECULATION,
       GA4,
+      PIXEL,
       CHAT,
       END,
     ].join('\n');
@@ -229,6 +249,7 @@ function block(home, shared, hero, nx, ind) {
     '<script src="/fx/vendor/lenis.min.js" defer></script>',
     '<script type="module" src="/fx/fx.js"></script>',
     GA4,
+    PIXEL,
     CHAT,
     END,
   ].join('\n');

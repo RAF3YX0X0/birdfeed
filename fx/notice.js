@@ -34,7 +34,7 @@ export function setupNotice({ gsap: G, reduced }) {
   el.setAttribute('role', 'region');
   el.setAttribute('aria-label', 'Cookie notice');
   el.innerHTML = `
-    <p class="mm-note__t">We use cookies to understand how this site is used, and our live chat sets its own. See our <a href="/cookie-policy/">Cookie Policy</a>.</p>
+    <p class="mm-note__t">We use cookies to see how this site is used and to measure our ads, and our live chat sets its own. See our <a href="/cookie-policy/">Cookie Policy</a>.</p>
     <button class="mm-note__x" type="button">Got it</button>`;
   document.body.appendChild(el);
 
