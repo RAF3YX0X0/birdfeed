@@ -165,6 +165,11 @@ function industryFor(file) {
   return slug && fs.existsSync(f('top')) ? { top: fs.readFileSync(f('top'), 'utf8').trim(), bottom: fs.readFileSync(f('bottom'), 'utf8').trim() } : null;
 }
 
+// Chatway: the client's live chat. It replaces the help launcher we used to
+// add (fx/help.js), which was only a menu of links with nobody behind it. The
+// script is public by design — it is on every page of the site.
+const CHAT = '<script id="chatway" async="true" src="https://cdn.chatway.app/widget.js?id=8bh1V9f8M3a7"></script>';
+
 function block(home, shared, hero, nx, ind) {
   const css = [
     'fx.css',
@@ -193,6 +198,7 @@ function block(home, shared, hero, nx, ind) {
       ...manifest.eager.map((c) => `<link rel="modulepreload" href="${c}">`),
       `<script type="module" src="${manifest.js}"></script>`,
       SPECULATION,
+      CHAT,
       END,
     ].join('\n');
   }
@@ -205,6 +211,7 @@ function block(home, shared, hero, nx, ind) {
     '<script src="/fx/vendor/ScrollTrigger.min.js" defer></script>',
     '<script src="/fx/vendor/lenis.min.js" defer></script>',
     '<script type="module" src="/fx/fx.js"></script>',
+    CHAT,
     END,
   ].join('\n');
 }

@@ -9,3 +9,9 @@ Thumbs.db
 # references. Local only — the figures and the optimized copies under /work/
 # are what gets published.
 /_client/
+
+# Vercel CLI project link (account/project ids) — local only.
+.vercel/
+
+.vercel
+.env*

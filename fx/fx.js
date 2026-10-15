@@ -218,7 +218,10 @@ function init() {
   setupSkin(islands);
   lazyPosters();
   // Help launcher, once the page is idle (the case studies page is the slider alone).
-  if (!location.pathname.startsWith('/case-studies')) idle(() => setupHelp({ gsap: G, reduced }), { timeout: 3000 });
+  // The help launcher is retired: Chatway (added in scripts/inject-fx.js) is a
+  // real conversation in the same corner, and two bubbles there looks broken.
+  // fx/help.js is kept for now in case the client drops the chat tool.
+  void setupHelp;
   if ('ResizeObserver' in window) new ResizeObserver(scheduleRefresh).observe(document.body);
 
   ST.sort();

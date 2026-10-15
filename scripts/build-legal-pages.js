@@ -137,7 +137,7 @@ const PRIVACY = [
     'The login page doesn’t send the email address you type anywhere: online sign-in isn’t open yet.',
   ], 'We collect what you put in the application, how you found us, and what you send us.'],
   ['3. Cookies, storage and analytics', [
-    'We don’t use advertising or analytics cookies, and we don’t track you across other websites. The site keeps a few small entries in your browser’s storage so it works the way you’d expect, for example so the opening animation plays only once per visit. They stay on your device. Our [Cookie Policy](/cookie-policy/) lists them.',
+    'We don’t use advertising or analytics cookies, and we don’t track you across other websites. The site keeps a few small entries in your browser’s storage so it works the way you’d expect, for example so the opening animation plays only once per visit. They stay on your device. Our live chat, provided by Chatway, sets its own cookies so a conversation continues between pages, and it keeps whatever you type in it. Our [Cookie Policy](/cookie-policy/) lists them.',
     'If we add analytics or advertising tools, such as Google Analytics or the Meta Pixel, to measure our ads, we’ll update this policy and the Cookie Policy before they go live.',
   ], 'No tracking cookies today. We’ll update this page before that changes.'],
   ['4. How we use your information', [
