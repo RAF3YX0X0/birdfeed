@@ -190,7 +190,7 @@ const GA4_ID = 'G-HMM8SZ7256';
 // Meta Pixel. Set PIXEL_ID to '' and it is never emitted. Advanced Matching
 // is deliberately not set up: it would send hashed applicant emails and
 // phone numbers to Meta, which is the client's call, not a default.
-const PIXEL_ID = '';
+const PIXEL_ID = '1089594903850327';
 
 // Chatway: the client's live chat, behind the functional category.
 const CHAT_ID = '8bh1V9f8M3a7';
