@@ -12,7 +12,12 @@
 // With neither set it answers 503, and the page falls back to opening a
 // pre-filled email, so no application is lost.
 
+const { applicationReceived } = require('./email-template');
+
 const TO = process.env.APPLY_TO || 'hello@madmediamarketing.com';
+// Absolute origin for the images and links in the email: every URL in a mail
+// client has to be absolute, and the images must load without a login.
+const SITE = process.env.SITE_ORIGIN || 'https://madmediamarketing.com';
 const FROM = process.env.APPLY_FROM || 'MADMarketing <onboarding@resend.dev>';
 
 // name: [label, max length, required]
@@ -105,16 +110,20 @@ async function deliver(d, tracking, notes) {
 <table style="font-family:Arial,sans-serif;font-size:14px;border-collapse:collapse">${rows.map(([l, v]) => `<tr><td style="padding:6px 14px 6px 0;color:#6B7280;vertical-align:top">${esc(l)}</td><td style="padding:6px 0">${esc(v)}</td></tr>`).join('')}</table>
 <p style="font-family:Arial,sans-serif;font-size:14px">${notes.length ? '<b>To check:</b> ' + notes.map(esc).join(' ') : 'No qualification flags.'}</p>`;
     await resend({ from: FROM, to: [TO], reply_to: d.email, subject: `Challenge application: ${d.business}`, text, html });
-    // The applicant's confirmation (the client's template).
-    const hi = `Hi ${firstName(d.fullName)},`;
-    const body = 'Thanks for applying for the MAD 30-Day Visibility Challenge! Our team will review your business, Google presence and eligibility. If your business qualifies, we’ll contact you with next steps.';
+    // The applicant's confirmation: the branded template in api/email-template.js.
+    const mail = applicationReceived({
+      firstName: firstName(d.fullName),
+      business: d.business,
+      site: SITE,
+      email: TO,
+    });
     await resend({
       from: FROM,
       to: [d.email],
       reply_to: TO,
-      subject: 'We received your MAD Visibility Challenge application',
-      text: `${hi}\n\n${body}\n\nThink MAD. Grow Beyond Ordinary.\nThe MADMarketing Team\n${TO}`,
-      html: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#0A0A0A"><p>${esc(hi)}</p><p>${esc(body)}</p><p><b>Think MAD. Grow Beyond Ordinary.</b><br>The MADMarketing Team<br><a href="mailto:${TO}">${TO}</a></p></div>`,
+      subject: 'We have your 30-Day Visibility Challenge application',
+      text: mail.text,
+      html: mail.html,
     }).catch((e) => console.error('confirmation not sent', e));
   }
 }
