@@ -769,11 +769,17 @@ function landingClient(EMAIL) {
   if (top) top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
   var track = function (event, extra) {
     try {
+      // Kept for GTM, if the client ever puts a container on the page: gtag.js
+      // ignores plain objects pushed this way, so the gtag call below is what
+      // actually reaches GA4.
       (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: event }, extra || {}));
-      if (event === 'application_submit') {
-        if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
-        if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead');
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', event, extra || {});
+        // generate_lead is GA4's own name for this, so it can be marked as a
+        // key event in the property without a custom definition.
+        if (event === 'application_submit') window.gtag('event', 'generate_lead');
       }
+      if (event === 'application_submit' && typeof window.fbq === 'function') window.fbq('track', 'Lead');
     } catch (e) {}
   };
 

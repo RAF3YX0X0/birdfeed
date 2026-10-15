@@ -167,8 +167,9 @@ function industryFor(file) {
 
 // Google Analytics 4. One place to change the property: set GA4_ID to '' and
 // the tag stops being emitted everywhere. gtag.js loads async so it never
-// blocks first paint, and the landing page's existing dataLayer events
-// (scripts/build-landing.js) start reporting the moment this is present.
+// blocks first paint. The landing page's own events (cta_click,
+// application_start/step/submit in scripts/build-landing.js) are forwarded
+// through gtag, so they arrive as GA4 events once this is present.
 //
 // It loads for everyone: the cookie notice (fx/notice.js) says what is set
 // rather than gating it, which is what the policies now describe. If the
